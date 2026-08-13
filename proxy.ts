@@ -98,5 +98,3 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|widget.js|chat/|api/chat|api/lead|api/widget/|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
-
-export { DEFAULT_LOCALE, LOCALE_HEADER };
