@@ -1,0 +1,52 @@
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+import { getDictionary } from '@/lib/i18n';
+import { getRequestLocale } from '@/lib/i18n/server';
+import { DashboardShell } from '@/components/dashboard/shell';
+
+/** "marie.dupont@exemple.fr" -> "MD" */
+function initialsFromEmail(email: string): string {
+  const local = email.split('@')[0] ?? '';
+  const parts = local.split(/[._-]+/).filter(Boolean);
+  const letters = parts.length >= 2 ? `${parts[0]?.[0]}${parts[1]?.[0]}` : local.slice(0, 2);
+  return letters.toUpperCase();
+}
+
+export default async function DashboardLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Le proxy protege deja /dashboard ; ce garde-fou couvre le cas ou la
+  // session expire entre le passage du proxy et le rendu.
+  if (!user) redirect('/login');
+
+  // Le RLS restreint la lecture aux bots de l'utilisateur : la somme obtenue
+  // est donc bien sa consommation, sans filtre supplementaire.
+  const { data: bots } = await supabase.from('bots').select('messages_used, messages_quota');
+
+  const usage = (bots ?? []).reduce(
+    (total, bot) => ({
+      used: total.used + (bot.messages_used ?? 0),
+      quota: total.quota + (bot.messages_quota ?? 0),
+    }),
+    { used: 0, quota: 0 },
+  );
+
+  const locale = await getRequestLocale();
+
+  return (
+    <DashboardShell
+      user={{ email: user.email ?? '', initials: initialsFromEmail(user.email ?? '?') }}
+      botCount={bots?.length ?? 0}
+      usage={usage}
+      locale={locale}
+      dict={getDictionary(locale)}
+    >
+      {children}
+    </DashboardShell>
+  );
+}

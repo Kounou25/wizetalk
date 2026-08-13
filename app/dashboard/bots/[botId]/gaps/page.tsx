@@ -1,0 +1,161 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { ArrowLeft, RefreshCw, Sparkles } from 'lucide-react';
+
+import { createClient } from '@/lib/supabase/server';
+import { getDictionary } from '@/lib/i18n';
+import { getRequestLocale } from '@/lib/i18n/server';
+import { EmptyState } from '@/components/dashboard/empty-state';
+
+interface MessageRow {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  refused: boolean;
+  created_at: string;
+}
+
+interface Gap {
+  question: string;
+  count: number;
+  lastAsked: string;
+}
+
+const COMBINING_MARKS = new RegExp('[\\u0300-\\u036f]', 'g');
+
+/** Regroupe « Vous livrez en Belgique ? » et « vous livrez en belgique ». */
+function normalize(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(COMBINING_MARKS, '')
+    .replace(/[^\p{L}\p{N} ]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export default async function GapsPage({
+  params,
+}: {
+  params: Promise<{ botId: string }>;
+}) {
+  const { botId } = await params;
+  const supabase = await createClient();
+  const dict = getDictionary(await getRequestLocale());
+  const t = dict.dashboard.gaps;
+
+  const { data: bot } = await supabase
+    .from('bots')
+    .select('id, name')
+    .eq('id', botId)
+    .maybeSingle();
+
+  if (!bot) notFound();
+
+  const { data: conversations } = await supabase
+    .from('conversations')
+    .select('id, messages(id, role, content, refused, created_at)')
+    .eq('bot_id', botId)
+    .order('created_at', { ascending: false })
+    .limit(200);
+
+  /*
+   * Un refus est porte par la reponse de l'assistant, mais l'information utile
+   * est la question qui l'a precede. On reconstitue donc la paire en parcourant
+   * chaque conversation dans l'ordre.
+   */
+  const grouped = new Map<string, Gap>();
+
+  for (const conversation of conversations ?? []) {
+    const messages = ((conversation.messages ?? []) as MessageRow[])
+      .slice()
+      .sort((a, b) => a.created_at.localeCompare(b.created_at));
+
+    messages.forEach((message, index) => {
+      if (message.role !== 'assistant' || !message.refused) return;
+
+      const question = messages[index - 1];
+      if (!question || question.role !== 'user') return;
+
+      const key = normalize(question.content);
+      if (!key) return;
+
+      const existing = grouped.get(key);
+      if (existing) {
+        existing.count += 1;
+        if (message.created_at > existing.lastAsked) existing.lastAsked = message.created_at;
+      } else {
+        grouped.set(key, {
+          question: question.content,
+          count: 1,
+          lastAsked: message.created_at,
+        });
+      }
+    });
+  }
+
+  const gaps = [...grouped.values()].sort(
+    (a, b) => b.count - a.count || b.lastAsked.localeCompare(a.lastAsked),
+  );
+
+  return (
+    <div className="flex flex-col gap-8">
+      <div>
+        <Link
+          href={`/dashboard/bots/${botId}`}
+          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
+        >
+          <ArrowLeft className="size-3.5" />
+          {bot.name}
+        </Link>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight">{t.title}</h1>
+        <p className="text-muted-foreground mt-1 max-w-2xl text-sm text-pretty">
+          {t.lead}
+        </p>
+      </div>
+
+      {gaps.length === 0 ? (
+        <EmptyState icon={Sparkles} title={t.emptyTitle} description={t.emptyBody} />
+      ) : (
+        <>
+          <div className="flex flex-col gap-3">
+            {gaps.map((gap) => (
+              <article
+                key={gap.question}
+                className="bg-background flex items-start justify-between gap-4 rounded-xl p-5 shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium text-pretty">« {gap.question} »</p>
+                  <p className="text-muted-foreground mt-1.5 text-xs">
+                    {t.lastTime} {new Date(gap.lastAsked).toLocaleDateString()}
+                  </p>
+                </div>
+
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold tabular-nums ${
+                    gap.count > 1
+                      ? 'bg-amber-500/15 text-amber-700'
+                      : 'bg-muted text-muted-foreground'
+                  }`}
+                >
+                  {gap.count}×
+                </span>
+              </article>
+            ))}
+          </div>
+
+          <div className="bg-brand-soft flex flex-wrap items-center justify-between gap-4 rounded-xl p-5">
+            <p className="text-sm text-pretty">{t.cta}</p>
+            <Link
+              href={`/dashboard/bots/${botId}`}
+              className="text-brand inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold hover:underline"
+            >
+              <RefreshCw className="size-3.5" />
+              {t.ctaAction}
+            </Link>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
