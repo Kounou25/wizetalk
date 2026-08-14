@@ -1,13 +1,46 @@
-/** Bulle de conversation avec une étincelle : conversation + automatisation. */
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+
+/**
+ * Marque Wizetalk.
+ *
+ * Le fichier porte deja son fond bleu et ses coins arrondis : on ne l'enveloppe
+ * donc dans aucun conteneur colore. `next/image` se charge du redimensionnement
+ * et du format — la source fait 1254 px pour un affichage a 28 px, la servir
+ * telle quelle couterait pres d'un mega-octet a chaque page.
+ */
 export function Logo({ className = 'size-7' }: { className?: string }) {
   return (
+    <Image
+      src="/logo.png"
+      alt=""
+      width={64}
+      height={64}
+      className={cn('object-contain', className)}
+      aria-hidden
+    />
+  );
+}
+
+/**
+ * Bulle de discussion blanche, pour les en-tetes de widget sur fond colore.
+ *
+ * Ce n'est volontairement PAS la marque Wizetalk : cet en-tete represente
+ * l'assistant du client, sur son site a lui. Y placer notre logo serait a la
+ * fois hors sujet et illisible — du bleu sur du bleu.
+ */
+export function ChatGlyph({ className = 'size-7' }: { className?: string }) {
+  return (
     <span
-      className={`bg-brand text-brand-foreground flex items-center justify-center rounded-lg ${className}`}
+      className={cn(
+        'flex items-center justify-center rounded-lg bg-white/20 text-white',
+        className,
+      )}
       aria-hidden
     >
       <svg
-        width="16"
-        height="16"
+        width="60%"
+        height="60%"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"

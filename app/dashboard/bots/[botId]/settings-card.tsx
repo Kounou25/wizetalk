@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { Logo } from '@/components/landing/logo';
+import { ChatGlyph } from '@/components/landing/logo';
 import type { Dictionary } from '@/lib/i18n';
 import {
   deleteBot,
@@ -369,7 +369,7 @@ function WidgetPreview({
               className="flex items-center gap-2 px-3 py-2.5"
               style={{ backgroundColor: color }}
             >
-              <Logo className="size-5 bg-white/20" />
+              <ChatGlyph className="size-5" />
               <span className="truncate text-xs font-semibold text-white">
                 {name || 'Assistant'}
               </span>

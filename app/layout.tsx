@@ -25,6 +25,12 @@ export const metadata: Metadata = {
   title: 'Wizetalk — le chatbot IA qui connaît votre site par cœur',
   description:
     "Wizetalk lit votre site web et répond à vos visiteurs 24 h/24 avec vos vraies informations. Une ligne de code à coller, aucune FAQ à rédiger.",
+  icons: {
+    icon: '/favicon.ico',
+    // Redimensionnee a 180 px : l'original fait 1254 px pour presque 1 Mo,
+    // que les appareils Apple telechargeraient integralement.
+    apple: '/apple-icon.png',
+  },
 };
 
 export default async function RootLayout({

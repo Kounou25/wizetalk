@@ -1,5 +1,5 @@
 import type { Dictionary } from '@/lib/i18n';
-import { Logo } from './logo';
+import { ChatGlyph } from './logo';
 
 /**
  * Maquette du widget, telle qu'elle apparait sur le site d'un client.
@@ -13,7 +13,7 @@ export function WidgetMockup({ dict }: { dict: Dictionary }) {
   return (
     <div className="bg-card overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/5">
       <div className="bg-brand text-brand-foreground flex items-center gap-2.5 px-4 py-3.5">
-        <Logo className="size-7 bg-white/20" />
+        <ChatGlyph className="size-7" />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold">{t.title}</p>
           <p className="flex items-center gap-1.5 text-[11px] text-white/70">
