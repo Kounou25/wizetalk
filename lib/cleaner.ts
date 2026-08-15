@@ -1,19 +1,30 @@
 /**
  * Nettoyage HTML -> texte structure.
  *
- * Strategie : Readability (l'extracteur de Firefox Reader Mode) en premier,
- * car il elimine nav/footer/pub bien mieux qu'une liste de selecteurs.
- * Fallback heuristique cheerio quand Readability echoue (pages courtes,
- * pages de contact, listings...).
+ * Uniquement cheerio, deliberement : jsdom + Readability ont ete retires.
+ *
+ *  - Readability tirait `require()` sur un module ES via html-encoding-sniffer,
+ *    ce que le runtime serverless refuse — le code marchait en local et cassait
+ *    en production.
+ *  - Mesure faite sur python.org : cette extraction rend 125 % du texte que
+ *    produisait Readability, page par page. On ne perd donc rien.
+ *  - Et ~10 Mo de moins dans la fonction serverless.
  */
 
 import { createHash } from 'node:crypto';
 import * as cheerio from 'cheerio';
-import { JSDOM } from 'jsdom';
-import { Readability } from '@mozilla/readability';
 import type { CleanPage, Section } from './types';
 
-/** Elements qui ne portent jamais d'information utile. */
+/**
+ * Elements structurellement hors-contenu.
+ *
+ * ATTENTION : ne jamais ajouter ici un nom de classe generique. `.menu`,
+ * `.content`, `.social` ou `.share` designent du vrai contenu sur quantite de
+ * sites — le menu d'un restaurant, une rubrique sociale. Un `.menu` trop
+ * gourmand a deja vide 7 491 caracteres de la page /jobs de python.org, soit
+ * la page entiere. Le repetitif se traite dans boilerplate.ts, sur preuve
+ * (ce qui revient d'une page a l'autre) et non sur un nom.
+ */
 const NOISE_SELECTORS = [
   'script',
   'style',
@@ -29,20 +40,17 @@ const NOISE_SELECTORS = [
   '[role="banner"]',
   '[role="contentinfo"]',
   '[aria-hidden="true"]',
-  '.cookie',
-  '.cookies',
-  '#cookie-banner',
-  '.newsletter',
+  '.navbar',
   '.breadcrumb',
   '.breadcrumbs',
-  '.sidebar',
-  '.menu',
-  '.navbar',
-  '.social',
-  '.share',
+  '.cookie-banner',
+  '.cookie-consent',
+  '#cookie-banner',
   '.advertisement',
-  '.ads',
 ].join(', ');
+
+/** Conteneurs susceptibles de porter le corps de la page. */
+const MAIN_CANDIDATES = 'main, article, [role="main"], #content, #main, .content';
 
 /** Elements porteurs de texte, dans l'ordre du document. */
 const BLOCK_SELECTOR = 'h1, h2, h3, h4, p, li, blockquote, pre, td, dd, dt, figcaption';
@@ -71,12 +79,34 @@ function extractTitle(html: string, url: string): string {
 }
 
 /**
+ * Choisit le conteneur du corps de page.
+ *
+ * On retient le candidat le plus fourni, jamais le premier venu : un <main>
+ * ou un .content vide ferait sinon perdre toute la page. En deca de 60 % du
+ * texte du body, c'est un encart et non le corps.
+ */
+function pickMainScope($: cheerio.CheerioAPI): string | null {
+  let best = $('body');
+  let bestLength = squash(best.text()).length;
+
+  $(MAIN_CANDIDATES).each((_, element) => {
+    const candidate = $(element);
+    const length = squash(candidate.text()).length;
+    if (length > bestLength * 0.6 && length > 200) {
+      best = candidate;
+      bestLength = length;
+    }
+  });
+
+  return best.html();
+}
+
+/**
  * Parcourt le HTML nettoye et regroupe le texte par titre.
  * Le fil d'Ariane produit ici est ce qui prefixera chaque chunk.
  */
 function buildSections(html: string): Section[] {
   const $ = cheerio.load(html);
-  $(NOISE_SELECTORS).remove();
 
   const sections: Section[] = [];
   const headingStack: string[] = [];
@@ -109,33 +139,14 @@ function buildSections(html: string): Section[] {
   return sections.filter((s) => s.text.length >= 20);
 }
 
-/** Voie de secours : Readability a rendu trop peu de contenu. */
-function fallbackSections(html: string): Section[] {
-  const $ = cheerio.load(html);
-  $(NOISE_SELECTORS).remove();
-  const main = $('main, article, [role="main"], #content, .content').first();
-  const scope = main.length > 0 ? main.html() : $('body').html();
-  return scope ? buildSections(scope) : [];
-}
-
 export function cleanPage(html: string, url: string): CleanPage | null {
   const title = extractTitle(html, url);
 
-  let sections: Section[] = [];
-  try {
-    const dom = new JSDOM(html, { url });
-    const article = new Readability(dom.window.document).parse();
-    if (article?.content) sections = buildSections(article.content);
-  } catch {
-    // Readability est capricieux sur du HTML casse : on passe au fallback.
-  }
+  const $ = cheerio.load(html);
+  $(NOISE_SELECTORS).remove();
 
-  const totalLength = sections.reduce((sum, s) => sum + s.text.length, 0);
-  if (totalLength < 200) {
-    const fallback = fallbackSections(html);
-    const fallbackLength = fallback.reduce((sum, s) => sum + s.text.length, 0);
-    if (fallbackLength > totalLength) sections = fallback;
-  }
+  const scope = pickMainScope($);
+  const sections = scope ? buildSections(scope) : [];
 
   const text = sections
     .map((s) => (s.headings.length ? `${s.headings.join(' > ')}\n${s.text}` : s.text))

@@ -1,9 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // jsdom et cheerio ne doivent pas etre embarques par le bundler serveur :
-  // ils utilisent des API Node que Next.js tenterait sinon de polyfiller.
-  serverExternalPackages: ['jsdom', '@mozilla/readability'],
+  // jsdom et @mozilla/readability ont ete retires du projet : leur chaine de
+  // dependances faisait un require() sur un module ES, refuse par le runtime
+  // serverless. cheerio, lui, se bundle sans probleme.
 
   /**
    * Machines autorisees a charger les ressources du serveur de developpement.
