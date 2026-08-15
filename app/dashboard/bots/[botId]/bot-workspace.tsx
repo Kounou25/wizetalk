@@ -59,7 +59,20 @@ export function BotWorkspace({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ jobId: started.jobId }),
         });
-        const result = (await tickResponse.json()) as TickResult;
+
+        // Une coupure de la plateforme (502, 504, delai depasse) ne renvoie pas
+        // de JSON : sans ce garde-fou, l'analyse s'arreterait sur une erreur
+        // d'analyse syntaxique au lieu de dire ce qui s'est reellement passe.
+        const raw = await tickResponse.text();
+        let result: TickResult;
+        try {
+          result = JSON.parse(raw) as TickResult;
+        } catch {
+          throw new Error(
+            `Le serveur a répondu ${tickResponse.status} : ${raw.slice(0, 200) || 'réponse vide'}`,
+          );
+        }
+
         setProgress(result);
         if (result.error) return;
         done = result.done;

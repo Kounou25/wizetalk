@@ -311,20 +311,21 @@ async function embedTick(db: Db, job: CrawlJob): Promise<TickResult> {
  * simplement la ou l'etat en base s'etait arrete.
  */
 export async function runIndexTick(db: Db, jobId: string): Promise<TickResult> {
+  // Le chargement du job doit rester en dehors du filet : sans job, on ne peut
+  // pas enregistrer l'echec quelque part. L'appelant traduit cette erreur.
   const job = await loadJob(db, jobId);
-
   if (job.status === 'done' || job.status === 'error') return toResult(job);
 
-  const { data: bot } = await db
-    .from('bots')
-    .select('website_url')
-    .eq('id', job.bot_id)
-    .single();
-
-  if (!bot) throw new Error('Bot introuvable.');
-  const websiteUrl = bot.website_url as string;
-
   try {
+    const { data: bot } = await db
+      .from('bots')
+      .select('website_url')
+      .eq('id', job.bot_id)
+      .maybeSingle();
+
+    if (!bot) throw new Error('Assistant introuvable.');
+    const websiteUrl = bot.website_url as string;
+
     if (job.status === 'pending') return await startCrawl(db, job, websiteUrl);
     if (job.status === 'crawling') return await crawlTick(db, job, websiteUrl);
     return await embedTick(db, job);

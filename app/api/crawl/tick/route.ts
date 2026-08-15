@@ -43,6 +43,29 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Analyse introuvable.' }, { status: 404 });
   }
 
-  const result = await runIndexTick(createAdminClient(), jobId);
-  return NextResponse.json(result);
+  /*
+   * Un 500 nu ne dit rien au client, et les journaux d'une fonction serverless
+   * ne sont pas toujours a portee de main. On renvoie donc le message reel :
+   * l'analyse tourne pour le compte de l'utilisateur, il a le droit de savoir
+   * pourquoi elle a echoue.
+   */
+  try {
+    const result = await runIndexTick(createAdminClient(), jobId);
+    return NextResponse.json(result);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('[crawl/tick]', message, error);
+
+    return NextResponse.json(
+      {
+        status: 'error',
+        pagesFound: 0,
+        pagesDone: 0,
+        chunksDone: 0,
+        done: true,
+        error: message,
+      },
+      { status: 500 },
+    );
+  }
 }

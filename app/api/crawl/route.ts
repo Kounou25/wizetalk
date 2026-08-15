@@ -39,32 +39,38 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Assistant introuvable.' }, { status: 404 });
   }
 
-  const admin = createAdminClient();
+  try {
+    const admin = createAdminClient();
 
-  // Un seul job actif a la fois : sinon deux crawls concurrents se marchent
-  // dessus sur les memes pages.
-  const { data: running } = await admin
-    .from('crawl_jobs')
-    .select('id')
-    .eq('bot_id', botId)
-    .in('status', ['pending', 'crawling', 'embedding'])
-    .maybeSingle();
+    // Un seul job actif a la fois : sinon deux crawls concurrents se marchent
+    // dessus sur les memes pages.
+    const { data: running } = await admin
+      .from('crawl_jobs')
+      .select('id')
+      .eq('bot_id', botId)
+      .in('status', ['pending', 'crawling', 'embedding'])
+      .maybeSingle();
 
-  if (running) {
-    return NextResponse.json({ jobId: running.id, resumed: true });
+    if (running) {
+      return NextResponse.json({ jobId: running.id, resumed: true });
+    }
+
+    const { data: job, error } = await admin
+      .from('crawl_jobs')
+      .insert({ bot_id: botId, status: 'pending' })
+      .select('id')
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    await admin.from('bots').update({ status: 'crawling' }).eq('id', botId);
+
+    return NextResponse.json({ jobId: job.id, resumed: false });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('[crawl/start]', message, error);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  const { data: job, error } = await admin
-    .from('crawl_jobs')
-    .insert({ bot_id: botId, status: 'pending' })
-    .select('id')
-    .single();
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  await admin.from('bots').update({ status: 'crawling' }).eq('id', botId);
-
-  return NextResponse.json({ jobId: job.id, resumed: false });
 }
