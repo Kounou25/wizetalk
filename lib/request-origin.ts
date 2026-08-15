@@ -1,6 +1,22 @@
 import { headers } from 'next/headers';
 
 /**
+ * Hote public de l'application, lu sur la requete elle-meme.
+ *
+ * A preferer systematiquement a NEXT_PUBLIC_APP_URL pour repondre a la
+ * question « suis-je moi-meme ? ». Une variable d'environnement peut etre
+ * oubliee au deploiement ; l'en-tete Host, non. Ce meme oubli a deja casse la
+ * redirection OAuth, les balises canoniques, puis le controle d'origine du
+ * widget — chaque fois en production uniquement, jamais en local.
+ */
+export function appHostFromRequest(request: Request): string {
+  const forwarded = request.headers.get('x-forwarded-host');
+  const host = forwarded ?? request.headers.get('host') ?? '';
+  // L'en-tete peut porter un port ; on ne compare que le nom d'hote.
+  return host.split(':')[0]?.replace(/^www\./, '') ?? '';
+}
+
+/**
  * Origine reelle de la requete en cours.
  *
  * En production derriere un proxy (Vercel), l'en-tete `host` est celui de

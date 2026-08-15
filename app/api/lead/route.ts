@@ -8,6 +8,7 @@
 
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { appHostFromRequest } from '@/lib/request-origin';
 
 export const maxDuration = 30;
 
@@ -38,7 +39,7 @@ function isPrivateHost(host: string): boolean {
   return /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(host);
 }
 
-function originAllowed(origin: string | null, bot: BotRow): boolean {
+function originAllowed(origin: string | null, bot: BotRow, appHost: string): boolean {
   if (!origin) return true;
 
   let host: string;
@@ -47,14 +48,6 @@ function originAllowed(origin: string | null, bot: BotRow): boolean {
   } catch {
     return false;
   }
-
-  const appHost = (() => {
-    try {
-      return new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').hostname;
-    } catch {
-      return 'localhost';
-    }
-  })();
 
   if (host === appHost) return true;
   if (process.env.NODE_ENV !== 'production' && isPrivateHost(host)) return true;
@@ -99,7 +92,7 @@ export async function POST(request: Request) {
   if (!typedBot.is_active || !typedBot.lead_capture) {
     return Response.json({ error: 'Collecte désactivée.' }, { status: 403, headers });
   }
-  if (!originAllowed(origin, typedBot)) {
+  if (!originAllowed(origin, typedBot, appHostFromRequest(request))) {
     return Response.json({ error: 'Origine non autorisée.' }, { status: 403, headers });
   }
 

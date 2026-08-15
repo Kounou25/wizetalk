@@ -16,6 +16,7 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createPgRetriever } from '@/lib/database';
 import { answerQuestionStream } from '@/lib/rag';
+import { appHostFromRequest } from '@/lib/request-origin';
 
 export const maxDuration = 60;
 
@@ -65,7 +66,7 @@ function isPrivateHost(host: string): boolean {
  * passer. Origin present : il doit correspondre a un domaine declare, ou a
  * l'application elle-meme (test depuis le dashboard).
  */
-function originAllowed(origin: string | null, bot: BotRow): boolean {
+function originAllowed(origin: string | null, bot: BotRow, appHost: string): boolean {
   if (!origin) return true;
 
   let host: string;
@@ -75,14 +76,8 @@ function originAllowed(origin: string | null, bot: BotRow): boolean {
     return false;
   }
 
-  const appHost = (() => {
-    try {
-      return new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').hostname;
-    } catch {
-      return 'localhost';
-    }
-  })();
-
+  // L'application se reconnait elle-meme : c'est ce qui autorise le chat de
+  // test du dashboard, quel que soit le domaine de deploiement.
   if (host === appHost) return true;
 
   // En developpement, l'application est souvent consultee depuis une autre
@@ -132,7 +127,7 @@ export async function POST(request: Request) {
 
   const typedBot = bot as unknown as BotRow;
   if (!typedBot.is_active) return errorResponse('Assistant désactivé.', 403, origin);
-  if (!originAllowed(origin, typedBot)) {
+  if (!originAllowed(origin, typedBot, appHostFromRequest(request))) {
     return errorResponse('Origine non autorisée.', 403, origin);
   }
   if (typedBot.messages_used >= typedBot.messages_quota) {

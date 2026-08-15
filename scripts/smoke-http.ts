@@ -18,7 +18,11 @@ const KO = '\x1b[31m✗\x1b[0m';
 const DIM = '\x1b[2m';
 const RESET = '\x1b[0m';
 
-const BASE = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+/** Surchargeable : `npm run smoke -- http://localhost:3100`. */
+const BASE =
+  process.argv.find((arg) => arg.startsWith('http')) ??
+  process.env.NEXT_PUBLIC_APP_URL ??
+  'http://localhost:3000';
 
 let failures = 0;
 
@@ -107,6 +111,25 @@ async function main() {
       body: JSON.stringify({ botId: bot.id, sessionId: 'smoke', message: 'test' }),
     });
     check(forbidden.status === 403, 'origine non déclarée rejetée', `${forbidden.status}`);
+
+    /*
+     * L'application interrogee depuis sa PROPRE origine.
+     *
+     * C'est le chat de test du dashboard : l'origine n'est pas un domaine
+     * declare du bot, mais celui de l'application. Ce cas echouait en
+     * production quand NEXT_PUBLIC_APP_URL n'etait pas definie — l'appli ne se
+     * reconnaissait plus elle-meme et se repondait 403.
+     */
+    const ownOrigin = await fetch(`${BASE}/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Origin: BASE },
+      body: JSON.stringify({
+        botId: bot.id,
+        sessionId: 'smoke-self',
+        message: 'What is Python?',
+      }),
+    });
+    check(ownOrigin.ok, "l'application accepte sa propre origine", `${ownOrigin.status}`);
 
     // --- Origine autorisee + flux SSE --------------------------------------
     const chatResponse = await fetch(`${BASE}/api/chat`, {
