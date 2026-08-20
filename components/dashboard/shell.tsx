@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { useFormStatus } from 'react-dom';
+import Link, { useLinkStatus } from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Bot,
@@ -18,6 +19,7 @@ import { cn } from '@/lib/utils';
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { Logo } from '@/components/landing/logo';
 import { logout } from '@/app/(auth)/actions';
+import { Spinner } from '@/components/ui/spinner';
 import { LocaleSwitch } from './locale-switch';
 
 export interface ShellUser {
@@ -39,6 +41,36 @@ interface DashboardShellProps {
   /** Affiche l'entree vers le back-office. Le droit reel est verifie cote serveur. */
   isAdmin: boolean;
   children: React.ReactNode;
+}
+
+/**
+ * Icone d'un lien de navigation, remplacee par un anneau pendant la
+ * transition. useLinkStatus ne renseigne que les descendants du <Link> qu'il
+ * observe : ce composant doit donc rester a l'interieur.
+ *
+ * C'est ce qui evite l'impression de page figee : le clic produit un retour
+ * visuel immediat, avant meme que le serveur ait commence a repondre.
+ */
+function NavIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
+  const { pending } = useLinkStatus();
+  return pending ? <Spinner className="size-4" /> : <Icon className="size-4" />;
+}
+
+/** Bouton de deconnexion : l'appel reseau merite un retour visuel. */
+function LogoutButton({ label }: { label: string }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="text-muted-foreground hover:bg-accent hover:text-foreground flex size-7 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-60"
+      aria-label={label}
+      title={label}
+    >
+      {pending ? <Spinner className="size-4" /> : <LogOut className="size-4" />}
+    </button>
+  );
 }
 
 function isActive(pathname: string, href: string, exact: boolean) {
@@ -99,7 +131,7 @@ function SidebarContent({
           onClick={onNavigate}
           className="bg-brand text-brand-foreground hover:bg-brand/90 flex h-9 w-full items-center justify-center gap-1.5 rounded-lg text-sm font-medium shadow-sm transition-colors"
         >
-          <Plus className="size-4" />
+          <NavIcon icon={Plus} />
           {t.newBot}
         </Link>
       </div>
@@ -123,7 +155,7 @@ function SidebarContent({
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                 )}
               >
-                <item.icon className="size-4" />
+                <NavIcon icon={item.icon} />
                 <span className="flex-1">{item.label}</span>
                 {typeof item.badge === 'number' && item.badge > 0 && (
                   <span
@@ -173,7 +205,7 @@ function SidebarContent({
             onClick={onNavigate}
             className="mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-500/10"
           >
-            <ShieldCheck className="size-4" />
+            <NavIcon icon={ShieldCheck} />
             Administration
           </Link>
         )}
@@ -183,7 +215,7 @@ function SidebarContent({
           onClick={onNavigate}
           className="text-muted-foreground hover:bg-accent hover:text-foreground mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
         >
-          <LifeBuoy className="size-4" />
+          <NavIcon icon={LifeBuoy} />
           {t.help}
         </Link>
 
@@ -197,14 +229,7 @@ function SidebarContent({
           </span>
           <p className="text-muted-foreground min-w-0 flex-1 truncate text-xs">{user.email}</p>
           <form action={logout}>
-            <button
-              type="submit"
-              className="text-muted-foreground hover:bg-accent hover:text-foreground flex size-7 shrink-0 items-center justify-center rounded-lg transition-colors"
-              aria-label={t.logout}
-              title={t.logout}
-            >
-              <LogOut className="size-4" />
-            </button>
+            <LogoutButton label={t.logout} />
           </form>
         </div>
       </div>

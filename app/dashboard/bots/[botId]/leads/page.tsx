@@ -5,7 +5,7 @@ import { ArrowLeft, Check, Mail, RotateCcw, Trash2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getDictionary } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
-import { Button } from '@/components/ui/button';
+import { SubmitButton } from '@/components/ui/submit-button';
 import { EmptyState } from '@/components/dashboard/empty-state';
 import { deleteLead, setLeadStatus } from '@/app/dashboard/actions';
 
@@ -99,30 +99,26 @@ export default async function LeadsPage({
                 <div className="flex items-center gap-2">
                   {lead.status === 'new' ? (
                     <form action={setLeadStatus.bind(null, botId, lead.id, 'handled')}>
-                      <Button type="submit" variant="outline" size="sm">
-                        <Check />
+                      <SubmitButton variant="outline" size="sm" icon={<Check />}>
                         {t.handled}
-                      </Button>
+                      </SubmitButton>
                     </form>
                   ) : (
                     <form action={setLeadStatus.bind(null, botId, lead.id, 'new')}>
-                      <Button type="submit" variant="ghost" size="sm">
-                        <RotateCcw />
+                      <SubmitButton variant="ghost" size="sm" icon={<RotateCcw />}>
                         {t.reopen}
-                      </Button>
+                      </SubmitButton>
                     </form>
                   )}
 
                   <form action={deleteLead.bind(null, botId, lead.id)}>
-                    <Button
-                      type="submit"
+                    <SubmitButton
                       variant="ghost"
                       size="icon"
                       aria-label={t.remove}
                       className="text-muted-foreground hover:text-red-600"
-                    >
-                      <Trash2 />
-                    </Button>
+                      icon={<Trash2 />}
+                    />
                   </form>
                 </div>
               </div>

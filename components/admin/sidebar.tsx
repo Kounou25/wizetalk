@@ -1,9 +1,10 @@
 'use client';
 
-import Link from 'next/link';
+import Link, { useLinkStatus } from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ArrowLeft, Bot, Gauge, ScrollText, ShieldCheck, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Spinner } from '@/components/ui/spinner';
 
 const ITEMS = [
   { href: '/admin', label: "Vue d'ensemble", icon: Gauge, exact: true },
@@ -11,6 +12,12 @@ const ITEMS = [
   { href: '/admin/bots', label: 'Assistants', icon: Bot, exact: false },
   { href: '/admin/audit', label: 'Journal', icon: ScrollText, exact: false },
 ];
+
+/** Voir le commentaire de NavIcon dans components/dashboard/shell.tsx. */
+function NavIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
+  const { pending } = useLinkStatus();
+  return pending ? <Spinner className="size-4" /> : <Icon className="size-4" />;
+}
 
 export function AdminSidebar({ email }: { email: string }) {
   const pathname = usePathname();
@@ -39,7 +46,7 @@ export function AdminSidebar({ email }: { email: string }) {
                   : 'text-muted-foreground hover:bg-accent hover:text-foreground',
               )}
             >
-              <item.icon className="size-4" />
+              <NavIcon icon={item.icon} />
               {item.label}
             </Link>
           );
@@ -51,7 +58,7 @@ export function AdminSidebar({ email }: { email: string }) {
           href="/dashboard"
           className="text-muted-foreground hover:bg-accent hover:text-foreground flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
         >
-          <ArrowLeft className="size-4" />
+          <NavIcon icon={ArrowLeft} />
           Retour au tableau de bord
         </Link>
         <p className="text-muted-foreground truncate px-3 pt-2 text-xs">{email}</p>
