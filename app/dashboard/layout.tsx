@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getDictionary } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
+import { isAdmin } from '@/lib/admin/guard';
 import { DashboardShell } from '@/components/dashboard/shell';
 
 /** "marie.dupont@exemple.fr" -> "MD" */
@@ -36,7 +37,7 @@ export default async function DashboardLayout({
     { used: 0, quota: 0 },
   );
 
-  const locale = await getRequestLocale();
+  const [locale, admin] = await Promise.all([getRequestLocale(), isAdmin()]);
 
   return (
     <DashboardShell
@@ -45,6 +46,7 @@ export default async function DashboardLayout({
       usage={usage}
       locale={locale}
       dict={getDictionary(locale)}
+      isAdmin={admin}
     >
       {children}
     </DashboardShell>

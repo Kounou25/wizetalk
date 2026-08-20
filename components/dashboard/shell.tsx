@@ -3,7 +3,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bot, LayoutDashboard, LifeBuoy, LogOut, Menu, Plus, X } from 'lucide-react';
+import {
+  Bot,
+  LayoutDashboard,
+  LifeBuoy,
+  LogOut,
+  Menu,
+  Plus,
+  ShieldCheck,
+  X,
+} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import type { Dictionary, Locale } from '@/lib/i18n';
@@ -27,6 +36,8 @@ interface DashboardShellProps {
   usage: ShellUsage;
   locale: Locale;
   dict: Dictionary;
+  /** Affiche l'entree vers le back-office. Le droit reel est verifie cote serveur. */
+  isAdmin: boolean;
   children: React.ReactNode;
 }
 
@@ -41,6 +52,7 @@ function SidebarContent({
   usage,
   locale,
   dict,
+  isAdmin,
   onNavigate,
 }: {
   pathname: string;
@@ -49,6 +61,7 @@ function SidebarContent({
   usage: ShellUsage;
   locale: Locale;
   dict: Dictionary;
+  isAdmin: boolean;
   onNavigate?: () => void;
 }) {
   const t = dict.dashboard.nav;
@@ -152,6 +165,19 @@ function SidebarContent({
       )}
 
       <div className="shrink-0 border-t p-3">
+        {/* « Administration » s'ecrit pareil dans les deux langues : pas de
+            cle de dictionnaire pour un mot identique. */}
+        {isAdmin && (
+          <Link
+            href="/admin"
+            onClick={onNavigate}
+            className="mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-500/10"
+          >
+            <ShieldCheck className="size-4" />
+            Administration
+          </Link>
+        )}
+
         <Link
           href={`/${locale}#faq`}
           onClick={onNavigate}
@@ -192,6 +218,7 @@ export function DashboardShell({
   usage,
   locale,
   dict,
+  isAdmin,
   children,
 }: DashboardShellProps) {
   const pathname = usePathname();
@@ -207,6 +234,7 @@ export function DashboardShell({
           usage={usage}
           locale={locale}
           dict={dict}
+          isAdmin={isAdmin}
         />
       </aside>
 
@@ -225,6 +253,7 @@ export function DashboardShell({
               usage={usage}
               locale={locale}
               dict={dict}
+              isAdmin={isAdmin}
               onNavigate={() => setMobileOpen(false)}
             />
           </aside>

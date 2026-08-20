@@ -15,7 +15,18 @@ const KO = '\x1b[31m✗\x1b[0m';
 const DIM = '\x1b[2m';
 const RESET = '\x1b[0m';
 
-const TABLES = ['bots', 'pages', 'chunks', 'crawl_jobs', 'conversations', 'messages', 'leads'];
+/** Table -> migration qui la cree, pour nommer le fichier manquant. */
+const TABLES: [table: string, migration: string][] = [
+  ['bots', '0001'],
+  ['pages', '0001'],
+  ['chunks', '0001'],
+  ['crawl_jobs', '0001'],
+  ['conversations', '0001'],
+  ['messages', '0001'],
+  ['leads', '0003'],
+  ['admins', '0004'],
+  ['admin_audit', '0004'],
+];
 
 /** Colonnes ajoutees par migration : leur absence indique un fichier non joue. */
 const COLUMNS: [table: string, column: string, migration: string][] = [
@@ -53,10 +64,10 @@ async function main() {
   // Lecture reelle, et non requete HEAD : PostgREST ne renvoie pas d'erreur
   // exploitable sur un HEAD vers une table inexistante — le controle passait
   // au vert pour une table absente.
-  for (const table of TABLES) {
+  for (const [table, migration] of TABLES) {
     const { error } = await admin.from(table).select('*').limit(1);
     if (error) {
-      console.log(`${KO} table ${table} : ${error.message}`);
+      console.log(`${KO} table ${table} manquante — migration ${migration} non appliquée`);
       failed = true;
     } else {
       console.log(`${OK} table ${table}`);
@@ -101,6 +112,18 @@ async function main() {
       console.log(`${OK} RLS actif sur bots ${DIM}(anon ne voit aucune ligne)${RESET}`);
     } else {
       console.log(`${KO} RLS INACTIF : la clé anon lit ${data.length} bot(s) sans session`);
+      failed = true;
+    }
+  }
+
+  // --- Tables d'administration verrouillees -------------------------------
+  // RLS activee sans aucune politique : la cle anon ne doit rien pouvoir lire.
+  for (const table of ['admins', 'admin_audit']) {
+    const { data, error } = await anon.from(table).select('*').limit(1);
+    if (error || (data ?? []).length === 0) {
+      console.log(`${OK} ${table} inaccessible à la clé anon`);
+    } else {
+      console.log(`${KO} FUITE : la clé anon lit ${table} sans session`);
       failed = true;
     }
   }
