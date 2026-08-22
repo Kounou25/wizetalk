@@ -24,6 +24,21 @@ const credentials = z.object({
   password: z.string().min(8, 'Le mot de passe doit faire au moins 8 caractères.'),
 });
 
+/**
+ * L'inscription par e-mail demande en plus le nom.
+ *
+ * Google le transmet deja ; sur ce chemin-la, personne d'autre ne peut nous le
+ * donner. Il sert des le message de bienvenue, qui se contentait jusqu'ici de
+ * deviner un prenom a partir de l'adresse.
+ */
+const registration = credentials.extend({
+  fullName: z
+    .string()
+    .trim()
+    .min(2, 'Indiquez votre nom et prénom.')
+    .max(80, 'Ce nom est trop long.'),
+});
+
 export interface AuthState {
   error?: string;
   message?: string;
@@ -76,13 +91,24 @@ export async function signInWithGoogle(formData: FormData): Promise<void> {
 }
 
 export async function signup(_prev: AuthState, formData: FormData): Promise<AuthState> {
-  const parsed = readCredentials(formData);
+  const parsed = registration.safeParse({
+    email: String(formData.get('email') ?? ''),
+    password: String(formData.get('password') ?? ''),
+    fullName: String(formData.get('fullName') ?? ''),
+  });
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Identifiants invalides.' };
   }
 
+  const { fullName, ...credentialsOnly } = parsed.data;
+
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signUp(parsed.data);
+  const { data, error } = await supabase.auth.signUp({
+    ...credentialsOnly,
+    // Range dans user_metadata.full_name — la meme cle que renseigne Google,
+    // donc le message de bienvenue n'a rien de particulier a savoir.
+    options: { data: { full_name: fullName } },
+  });
 
   if (error) return { error: error.message };
 

@@ -26,6 +26,7 @@ const TABLES: [table: string, migration: string][] = [
   ['leads', '0003'],
   ['admins', '0004'],
   ['admin_audit', '0004'],
+  ['profiles', '0006'],
 ];
 
 /** Colonnes ajoutees par migration : leur absence indique un fichier non joue. */

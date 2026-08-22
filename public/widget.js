@@ -1,7 +1,7 @@
 /**
  * Widget Deezy — script d'integration.
  *
- *   <script src="https://votre-app.com/widget.js" data-bot="BOT_ID"></script>
+ *   <script src="https://www.deezy.chat/widget.js" data-bot="BOT_ID"></script>
  *
  * Volontairement en JavaScript nu, sans dependance ni etape de build : ce
  * fichier est charge sur le site d'un client, il doit rester minuscule.

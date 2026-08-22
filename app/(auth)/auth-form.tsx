@@ -64,6 +64,24 @@ export function AuthForm({ mode, action, locale, dict }: AuthFormProps) {
         <form action={formAction} className="flex flex-col gap-4">
           <input type="hidden" name="next" value={next} />
 
+          {/* Google fournit deja le nom ; par e-mail, personne d'autre ne
+              peut nous le donner. D'ou ce champ, absent a la connexion. */}
+          {!isLogin && (
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="fullName">{t.fullName}</Label>
+              <Input
+                id="fullName"
+                name="fullName"
+                type="text"
+                autoComplete="name"
+                placeholder={t.fullNamePlaceholder}
+                minLength={2}
+                maxLength={80}
+                required
+              />
+            </div>
+          )}
+
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">{t.email}</Label>
             <Input

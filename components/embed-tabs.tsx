@@ -3,6 +3,7 @@
 import { useState, useSyncExternalStore } from 'react';
 import { Check, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PUBLIC_APP_URL } from '@/lib/public-url';
 
 /** L'origine ne change jamais pendant la vie de la page : rien a souscrire. */
 const noopSubscribe = () => () => {};
@@ -120,29 +121,33 @@ onMounted(() => {
 
 export function EmbedTabs({
   botId,
-  fallbackOrigin,
   className,
   copyLabel = 'Copier',
   copiedLabel = 'Copié',
 }: {
   botId: string;
-  /** Origine de repli pour le rendu serveur, avant hydratation. */
-  fallbackOrigin: string;
   className?: string;
   copyLabel?: string;
   copiedLabel?: string;
 }) {
   /**
-   * L'origine reelle du navigateur fait autorite : le script pointe donc
-   * toujours vers le domaine depuis lequel la page est consultee. Sans cela,
-   * un NEXT_PUBLIC_APP_URL oublie en production livrerait a vos clients un
-   * script pointant vers http://localhost:3000.
+   * En developpement, l'origine reelle du navigateur : c'est elle qui permet
+   * de copier le script et de l'essayer aussitot sur une page locale, ou
+   * depuis un telephone du meme reseau via `npm run dev:lan`.
    */
-  const origin = useSyncExternalStore(
+  const browserOrigin = useSyncExternalStore(
     noopSubscribe,
     () => window.location.origin,
-    () => fallbackOrigin,
+    () => PUBLIC_APP_URL,
   );
+
+  /**
+   * En production, le domaine public fait autorite — jamais l'onglet courant.
+   * Vous pouvez consulter le tableau de bord depuis l'apex ou un apercu de
+   * deploiement ; le script que vos clients collent chez eux, lui, doit
+   * toujours designer le meme domaine.
+   */
+  const origin = process.env.NODE_ENV === 'production' ? PUBLIC_APP_URL : browserOrigin;
 
   const snippets = buildSnippets(origin, botId);
   const [activeId, setActiveId] = useState(snippets[0]?.id ?? 'html');

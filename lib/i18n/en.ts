@@ -420,6 +420,8 @@ export const en: Dictionary = {
     googleSignup: 'Sign up with Google',
     redirecting: 'Redirecting…',
     or: 'or',
+    fullName: 'Full name',
+    fullNamePlaceholder: 'Jane Miller',
     email: 'Email',
     emailPlaceholder: 'you@company.com',
     password: 'Password',

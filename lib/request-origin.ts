@@ -1,5 +1,7 @@
 import { headers } from 'next/headers';
 
+import { PUBLIC_APP_URL } from './public-url';
+
 /**
  * Hote public de l'application, lu sur la requete elle-meme.
  *
@@ -41,5 +43,5 @@ export async function requestOrigin(): Promise<string> {
     return `${host.startsWith('localhost') ? 'http' : 'https'}://${host}`;
   }
 
-  return process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+  return PUBLIC_APP_URL;
 }

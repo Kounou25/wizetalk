@@ -419,6 +419,8 @@ export const fr = {
     googleSignup: "S'inscrire avec Google",
     redirecting: 'Redirection…',
     or: 'ou',
+    fullName: 'Nom et prénom',
+    fullNamePlaceholder: 'Marie Dupont',
     email: 'E-mail',
     emailPlaceholder: 'vous@entreprise.com',
     password: 'Mot de passe',

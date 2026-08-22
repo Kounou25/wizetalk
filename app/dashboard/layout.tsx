@@ -1,8 +1,11 @@
+import { after } from 'next/server';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getDictionary } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
 import { isAdmin } from '@/lib/admin/guard';
+import { requestOrigin } from '@/lib/request-origin';
+import { sendWelcomeEmailOnce } from '@/lib/email/send-welcome';
 import { DashboardShell } from '@/components/dashboard/shell';
 
 /** "marie.dupont@exemple.fr" -> "MD" */
@@ -38,6 +41,30 @@ export default async function DashboardLayout({
   );
 
   const [locale, admin] = await Promise.all([getRequestLocale(), isAdmin()]);
+
+  /*
+   * Message de bienvenue, envoye une seule fois.
+   *
+   * Ici plutot que dans l'inscription : c'est le seul endroit par lequel
+   * passent les deux chemins d'inscription (mot de passe et Google OAuth).
+   * L'idempotence vient du marqueur en base, pas de l'endroit d'appel.
+   *
+   * after() differe l'envoi apres l'envoi de la reponse : le tableau de bord
+   * s'affiche sans attendre l'API de messagerie.
+   */
+  const appUrl = await requestOrigin();
+  after(async () => {
+    await sendWelcomeEmailOnce({
+      id: user.id,
+      email: user.email ?? '',
+      fullName:
+        (user.user_metadata?.full_name as string | undefined) ??
+        (user.user_metadata?.name as string | undefined) ??
+        null,
+      locale,
+      appUrl,
+    });
+  });
 
   return (
     <DashboardShell
