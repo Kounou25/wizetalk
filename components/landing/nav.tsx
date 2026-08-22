@@ -20,9 +20,8 @@ export function LandingNav({
   return (
     <header className="bg-background/80 sticky top-0 z-50 border-b backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link href={`/${locale}`} className="flex items-center gap-2">
+        <Link href={`/${locale}`} aria-label="Deezy">
           <Logo />
-          <span className="font-semibold tracking-tight">Deezy</span>
         </Link>
 
         <div className="text-muted-foreground hidden items-center gap-8 text-sm md:flex">

@@ -230,8 +230,31 @@
   animation: slide-up-fade 0.35s ease-out;
 }
 
+/* Changement de prix : assez rapide pour ne pas retarder la lecture, assez
+   visible pour qu'on comprenne que le montant vient de changer. */
+.animate-price {
+  animation: slide-up-fade 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Lueur derriere la carte mise en avant. */
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.animate-glow {
+  animation: glow-pulse 5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-slide-up-fade,
+  .animate-price,
+  .animate-glow,
   .animate-marquee,
   .animate-float,
   .animate-float-delayed,

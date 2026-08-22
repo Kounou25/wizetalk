@@ -1,7 +1,6 @@
 import { Check } from 'lucide-react';
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Logo } from './logo';
 
 /**
  * Rangees alternees texte / visuel.
@@ -188,7 +187,9 @@ function GapsVisual({ t }: { t: Visuals }) {
   return (
     <Frame>
       <div className="flex items-center gap-2">
-        <Logo className="size-5" />
+        <span className="bg-brand-soft text-brand flex size-6 items-center justify-center rounded-md">
+          <Check className="size-3.5" aria-hidden />
+        </span>
         <p className="text-sm font-semibold">{t.gapsTitle}</p>
       </div>
 

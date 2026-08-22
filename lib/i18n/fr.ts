@@ -1,9 +1,9 @@
 /** Dictionnaire de reference. Toute nouvelle chaine part d'ici. */
 export const fr = {
   meta: {
-    title: 'Deezy — vos clients obtiennent une réponse, tout de suite',
+    title: 'Deezy — le chatbot IA qui répond à vos clients 24 h/24',
     description:
-      "Deezy répond aux questions de vos visiteurs 24 h/24, à partir de votre site et de vos documents. Et quand il ne sait pas, il récupère leur e-mail au lieu de les laisser partir.",
+      "Créez votre propre assistant chatbot IA en quelques minutes. Il apprend votre site et vos documents, répond à vos visiteurs 24 h/24, et récupère leur e-mail quand il ne sait pas.",
   },
 
   nav: {
@@ -12,7 +12,7 @@ export const fr = {
     pricing: 'Tarifs',
     faq: 'Questions',
     login: 'Se connecter',
-    signup: 'Commencer gratuitement',
+    signup: 'Créer mon assistant',
     dashboard: 'Mon espace',
   },
 
@@ -20,15 +20,15 @@ export const fr = {
     badge: 'Il ne répond jamais au hasard',
     titleStart: 'Ne perdez plus un client',
     titleHighlight: 'faute de réponse',
-    subtitleStart: 'Deezy répond à vos visiteurs 24 h/24, à partir de ',
-    subtitleStrong: 'votre site et de vos documents',
+    subtitleStart: 'Créez ',
+    subtitleStrong: 'votre propre assistant chatbot IA',
     subtitleEnd:
-      ". Et quand il ne sait pas, il récupère leur e-mail au lieu de les laisser partir.",
-    ctaPrimary: 'Commencer gratuitement',
+      " en quelques minutes. Il apprend votre site et vos documents, répond à vos visiteurs 24 h/24, et récupère leur e-mail quand il ne sait pas.",
+    ctaPrimary: 'Créer mon assistant IA',
     ctaSecondary: 'Voir ce que ça change',
-    reassurance: 'Prêt en 2 minutes — Sans carte bancaire — Rien à rédiger',
+    reassurance: '7 jours d’essai gratuit — Prêt en 2 minutes — Résiliable en un clic',
     installNote: 'Une seule ligne à coller sur votre site. Rien d’autre à faire.',
-    proofs: ['Rien à rédiger', 'Aucune installation', 'Gratuit pour commencer'],
+    proofs: ['Rien à rédiger', 'Aucune installation', '7 jours pour juger'],
     liveBadge: 'Réponse tirée de votre site',
     mockup: {
       title: 'Assistant',
@@ -72,7 +72,7 @@ export const fr = {
   showcase: {
     eyebrow: 'Ce que Deezy change',
     title: 'Un vendeur qui connaît votre entreprise, disponible en permanence.',
-    lead: "Pas un robot à scénarios. Un assistant nourri par ce que vous savez déjà — votre site, vos documents — et qui répond à votre place.",
+    lead: "Pas un robot à scénarios. Un chatbot IA nourri par ce que vous savez déjà — votre site, vos documents — et qui répond à votre place.",
     rows: [
       {
         eyebrow: 'Ce qu’il sait',
@@ -175,7 +175,7 @@ export const fr = {
 
   solution: {
     eyebrow: 'Mise en route',
-    title: 'Deux minutes, et c’est en ligne.',
+    title: 'Votre assistant est prêt en deux minutes.',
     lead: 'Rien à préparer, rien à configurer, aucune compétence technique.',
     steps: [
       {
@@ -262,67 +262,97 @@ export const fr = {
 
   pricing: {
     eyebrow: 'Tarifs',
-    title: 'Commencez gratuitement. Payez quand ça vous rapporte.',
-    lead: 'Sans engagement, résiliable en un clic.',
+    title: 'Un prix, trois tailles.',
+    lead: 'Essayez pendant 7 jours. Résiliez en un clic, sans justification.',
+    trialBadge: '7 jours d’essai gratuit sur tous les plans',
     popular: 'Le plus choisi',
+    notIncluded: 'Non inclus',
     perMonth: '/mois',
+    billing: {
+      monthly: 'Mensuel',
+      annual: 'Annuel',
+      save: '2 mois offerts',
+      annualNote: 'soit {total} $ par an',
+    },
     plans: [
       {
-        name: 'Découverte',
-        price: '0 €',
-        description: 'Pour essayer sur votre site.',
+        name: 'Essentiel',
+        monthly: 12,
+        annual: 10,
+        annualTotal: 120,
+        description: 'Pour un site, une activité.',
+        inherits: '',
         features: [
           '1 assistant',
-          'Jusqu’à 50 pages de votre site',
-          '100 réponses par mois',
-          'Personnalisation aux couleurs de votre marque',
+          'Jusqu’à 100 pages de votre site',
+          '20 documents',
+          '500 réponses par mois',
+          'Récupération des e-mails de vos visiteurs',
+          'Aux couleurs de votre marque',
         ],
-        cta: 'Commencer gratuitement',
+        excluded: [
+          'Plusieurs assistants',
+          'Rapport des questions sans réponse',
+          'Retrait de la mention Deezy',
+          'Support prioritaire',
+        ],
+        cta: 'Essayer 7 jours',
       },
       {
-        name: 'Pro',
-        price: '29 €',
-        description: 'Pour un site qui reçoit des visiteurs tous les jours.',
+        name: 'Croissance',
+        monthly: 24,
+        annual: 20,
+        annualTotal: 240,
+        description: 'Pour un site qui reçoit du monde tous les jours.',
+        inherits: 'Tout de l’Essentiel, plus :',
         features: [
           '3 assistants',
-          'Jusqu’à 300 pages',
-          'Vos documents internes',
-          '2 000 réponses par mois',
-          'Récupération des e-mails et suivi des questions',
+          'Jusqu’à 500 pages et 100 documents',
+          '3 000 réponses par mois',
+          'Rapport des questions sans réponse',
+          'Réponse du support sous 24 h',
         ],
-        cta: 'Choisir Pro',
+        excluded: ['Retrait de la mention Deezy', 'Support prioritaire'],
+        cta: 'Essayer 7 jours',
       },
       {
-        name: 'Business',
-        price: '79 €',
+        name: 'Entreprise',
+        monthly: 48,
+        annual: 40,
+        annualTotal: 480,
         description: 'Pour plusieurs sites ou plusieurs marques.',
+        inherits: 'Tout de Croissance, plus :',
         features: [
           '10 assistants',
-          'Jusqu’à 1 000 pages',
-          '10 000 réponses par mois',
+          'Jusqu’à 2 000 pages, documents illimités',
+          '15 000 réponses par mois',
           'Sans mention Deezy',
           'Support prioritaire',
         ],
-        cta: 'Choisir Business',
-      },
-      {
-        name: 'Sur mesure',
-        price: 'Nous consulter',
-        description: 'Gros volumes ou besoins particuliers.',
-        features: [
-          'Assistants illimités',
-          'Volume négocié',
-          'Accompagnement à la mise en place',
-        ],
-        cta: 'Nous écrire',
+        // Rien a exclure : c'est precisement l'argument de ce palier.
+        excluded: [] as string[],
+        cta: 'Essayer 7 jours',
       },
     ],
+    custom: {
+      label: 'Au-delà ?',
+      description:
+        'Gros volumes, plusieurs équipes, besoins particuliers : on construit l’offre avec vous.',
+      cta: 'Nous écrire',
+    },
+    footnote:
+      'Changement de palier à tout moment. Une réponse, c’est un message envoyé par l’assistant à un visiteur.',
   },
 
   faq: {
     eyebrow: 'Questions fréquentes',
     title: 'Ce qu’on nous demande le plus',
     items: [
+      {
+        question: 'Concrètement, Deezy c’est quoi ?',
+        answer:
+          "Un assistant chatbot IA que vous créez vous-même, pour votre site. Vous lui donnez votre adresse et vos documents, vous choisissez son nom et ses couleurs — il répond ensuite à vos visiteurs à votre place, jour et nuit, avec vos informations et jamais des généralités.",
+      },
       {
         question: 'Dois-je préparer des questions-réponses ?',
         answer:
@@ -365,7 +395,7 @@ export const fr = {
     titleStart: 'Combien de clients sont partis',
     titleHighlight: 'sans poser leur question ?',
     lead: 'Vous ne le saurez jamais pour ceux d’hier. À partir de maintenant, vous pouvez leur répondre.',
-    primary: 'Commencer gratuitement',
+    primary: 'Créer mon assistant IA',
     secondary: 'J’ai déjà un compte',
   },
 
@@ -384,7 +414,7 @@ export const fr = {
     loginTitle: 'Content de vous revoir',
     loginLead: 'Connectez-vous pour retrouver vos assistants.',
     signupTitle: 'Créez votre assistant',
-    signupLead: 'Gratuit pour commencer, aucune carte bancaire.',
+    signupLead: '7 jours d’essai gratuit, résiliable en un clic.',
     googleLogin: 'Se connecter avec Google',
     googleSignup: "S'inscrire avec Google",
     redirecting: 'Redirection…',

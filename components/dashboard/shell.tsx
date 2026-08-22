@@ -109,9 +109,8 @@ function SidebarContent({
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 shrink-0 items-center justify-between border-b px-5">
-        <Link href="/dashboard" className="flex items-center gap-2" onClick={onNavigate}>
+        <Link href="/dashboard" aria-label="Deezy" onClick={onNavigate}>
           <Logo />
-          <span className="font-bold tracking-tight">Deezy</span>
         </Link>
         {onNavigate && (
           <button
@@ -295,9 +294,8 @@ export function DashboardShell({
           >
             <Menu className="size-5" />
           </button>
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href="/dashboard" aria-label="Deezy">
             <Logo />
-            <span className="font-bold tracking-tight">Deezy</span>
           </Link>
         </div>
 

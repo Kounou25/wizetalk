@@ -3,9 +3,9 @@ import type { Dictionary } from './fr';
 /** Typee contre le francais : une cle oubliee ne compile pas. */
 export const en: Dictionary = {
   meta: {
-    title: 'Deezy — your customers get an answer, right away',
+    title: 'Deezy — the AI chatbot that answers your customers 24/7',
     description:
-      'Deezy answers your visitors around the clock, from your website and your documents. And when it does not know, it collects their email instead of letting them leave.',
+      'Build your own AI chatbot assistant in minutes. It learns your website and your documents, answers your visitors around the clock, and collects their email when it does not know.',
   },
 
   nav: {
@@ -14,7 +14,7 @@ export const en: Dictionary = {
     pricing: 'Pricing',
     faq: 'Questions',
     login: 'Log in',
-    signup: 'Start free',
+    signup: 'Create my assistant',
     dashboard: 'My account',
   },
 
@@ -22,15 +22,15 @@ export const en: Dictionary = {
     badge: 'It never answers at random',
     titleStart: 'Stop losing customers',
     titleHighlight: 'for lack of an answer',
-    subtitleStart: 'Deezy answers your visitors around the clock, from ',
-    subtitleStrong: 'your website and your documents',
+    subtitleStart: 'Build ',
+    subtitleStrong: 'your own AI chatbot assistant',
     subtitleEnd:
-      '. And when it does not know, it collects their email instead of letting them leave.',
-    ctaPrimary: 'Start free',
+      ' in minutes. It learns your site and your documents, answers your visitors around the clock, and collects their email when it does not know.',
+    ctaPrimary: 'Create my AI assistant',
     ctaSecondary: 'See what changes',
-    reassurance: 'Live in 2 minutes — No credit card — Nothing to write',
+    reassurance: '7-day free trial — Live in 2 minutes — Cancel in one click',
     installNote: 'One line to paste on your site. Nothing else to do.',
-    proofs: ['Nothing to write', 'No installation', 'Free to start'],
+    proofs: ['Nothing to write', 'No installation', '7 days to judge'],
     liveBadge: 'Answer taken from your site',
     mockup: {
       title: 'Assistant',
@@ -74,7 +74,7 @@ export const en: Dictionary = {
   showcase: {
     eyebrow: 'What Deezy changes',
     title: 'A salesperson who knows your business, available at all times.',
-    lead: 'Not a scripted robot. An assistant fed by what you already know — your site, your documents — answering in your place.',
+    lead: 'Not a scripted robot. An AI chatbot fed by what you already know — your site, your documents — answering in your place.',
     rows: [
       {
         eyebrow: 'What it knows',
@@ -177,7 +177,7 @@ export const en: Dictionary = {
 
   solution: {
     eyebrow: 'Getting started',
-    title: 'Two minutes, and it is live.',
+    title: 'Your assistant is live in two minutes.',
     lead: 'Nothing to prepare, nothing to configure, no technical skills.',
     steps: [
       {
@@ -264,63 +264,96 @@ export const en: Dictionary = {
 
   pricing: {
     eyebrow: 'Pricing',
-    title: 'Start free. Pay when it pays off.',
-    lead: 'No commitment, cancel in one click.',
+    title: 'One price, three sizes.',
+    lead: 'Try it for 7 days. Cancel in one click, no questions asked.',
+    trialBadge: '7-day free trial on every plan',
     popular: 'Most popular',
+    notIncluded: 'Not included',
     perMonth: '/month',
+    billing: {
+      monthly: 'Monthly',
+      annual: 'Yearly',
+      save: '2 months free',
+      annualNote: 'billed {total} $ a year',
+    },
     plans: [
       {
-        name: 'Starter',
-        price: 'EUR 0',
-        description: 'To try it on your site.',
+        name: 'Essential',
+        monthly: 12,
+        annual: 10,
+        annualTotal: 120,
+        description: 'For one site, one business.',
+        inherits: '',
         features: [
           '1 assistant',
-          'Up to 50 pages of your site',
-          '100 answers per month',
+          'Up to 100 pages of your site',
+          '20 documents',
+          '500 answers per month',
+          'Collect your visitors’ emails',
           'Styled to match your brand',
         ],
-        cta: 'Start free',
+        excluded: [
+          'Multiple assistants',
+          'Unanswered questions report',
+          'Deezy branding removal',
+          'Priority support',
+        ],
+        cta: 'Try for 7 days',
       },
       {
-        name: 'Pro',
-        price: 'EUR 29',
+        name: 'Growth',
+        monthly: 24,
+        annual: 20,
+        annualTotal: 240,
         description: 'For a site with visitors every day.',
+        inherits: 'Everything in Essential, plus:',
         features: [
           '3 assistants',
-          'Up to 300 pages',
-          'Your internal documents',
-          '2,000 answers per month',
-          'Email capture and question tracking',
+          'Up to 500 pages and 100 documents',
+          '3,000 answers per month',
+          'Unanswered questions report',
+          'Support reply within 24 h',
         ],
-        cta: 'Choose Pro',
+        excluded: ['Deezy branding removal', 'Priority support'],
+        cta: 'Try for 7 days',
       },
       {
         name: 'Business',
-        price: 'EUR 79',
-        description: 'For several sites or brands.',
+        monthly: 48,
+        annual: 40,
+        annualTotal: 480,
+        description: 'For several sites or several brands.',
+        inherits: 'Everything in Growth, plus:',
         features: [
           '10 assistants',
-          'Up to 1,000 pages',
-          '10,000 answers per month',
+          'Up to 2,000 pages, unlimited documents',
+          '15,000 answers per month',
           'Deezy branding removed',
           'Priority support',
         ],
-        cta: 'Choose Business',
-      },
-      {
-        name: 'Custom',
-        price: 'Talk to us',
-        description: 'High volume or specific needs.',
-        features: ['Unlimited assistants', 'Negotiated volume', 'Hands-on onboarding'],
-        cta: 'Get in touch',
+        excluded: [],
+        cta: 'Try for 7 days',
       },
     ],
+    custom: {
+      label: 'Need more?',
+      description:
+        'High volume, several teams, specific needs: we build the offer with you.',
+      cta: 'Get in touch',
+    },
+    footnote:
+      'Change plan at any time. One answer means one message sent by the assistant to a visitor.',
   },
 
   faq: {
     eyebrow: 'Frequently asked',
     title: 'What people ask us most',
     items: [
+      {
+        question: 'What exactly is Deezy?',
+        answer:
+          'An AI chatbot assistant you build yourself, for your site. You give it your address and your documents, you pick its name and colours — it then answers your visitors in your place, day and night, with your information and never generalities.',
+      },
       {
         question: 'Do I have to prepare questions and answers?',
         answer:
@@ -363,7 +396,7 @@ export const en: Dictionary = {
     titleStart: 'How many customers left',
     titleHighlight: 'without asking their question?',
     lead: 'You will never know about yesterday’s. From now on, you can answer them.',
-    primary: 'Start free',
+    primary: 'Create my AI assistant',
     secondary: 'I already have an account',
   },
 
@@ -382,7 +415,7 @@ export const en: Dictionary = {
     loginTitle: 'Welcome back',
     loginLead: 'Log in to find your assistants.',
     signupTitle: 'Create your assistant',
-    signupLead: 'Free to start, no credit card.',
+    signupLead: '7-day free trial, cancel in one click.',
     googleLogin: 'Log in with Google',
     googleSignup: 'Sign up with Google',
     redirecting: 'Redirecting…',

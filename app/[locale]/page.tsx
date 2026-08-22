@@ -86,7 +86,7 @@ export default async function LandingPage({
 
         <Platforms dict={dict} />
         <Features dict={dict} />
-        <Pricing locale={locale as Locale} dict={dict} />
+        <Pricing locale={locale as Locale} pricing={dict.pricing} />
         <Faq dict={dict} />
         <FinalCta locale={locale as Locale} dict={dict} />
       </main>

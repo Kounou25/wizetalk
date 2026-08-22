@@ -2,22 +2,25 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 /**
- * Marque Deezy.
+ * Logo Deezy.
  *
- * Le fichier porte deja son fond bleu et ses coins arrondis : on ne l'enveloppe
- * donc dans aucun conteneur colore. `next/image` se charge du redimensionnement
- * et du format — la source fait 1254 px pour un affichage a 28 px, la servir
- * telle quelle couterait pres d'un mega-octet a chaque page.
+ * Logotype : le nom fait partie de l'image. On ne lui accole donc JAMAIS un
+ * texte « Deezy » — il apparaitrait deux fois.
+ *
+ * Rapport 3:1. La hauteur pilote l'affichage (`h-7 w-auto`) : c'est elle qui
+ * doit s'aligner sur le texte voisin, pas la largeur. `next/image` se charge
+ * du redimensionnement — la source fait 2172 px de large pour un affichage a
+ * une centaine de pixels.
  */
-export function Logo({ className = 'size-7' }: { className?: string }) {
+export function Logo({ className = 'h-7' }: { className?: string }) {
   return (
     <Image
-      src="/logo.png"
-      alt=""
-      width={64}
-      height={64}
-      className={cn('object-contain', className)}
-      aria-hidden
+      src="/new-logo.png"
+      alt="Deezy"
+      width={2172}
+      height={724}
+      priority
+      className={cn('w-auto object-contain', className)}
     />
   );
 }
@@ -27,7 +30,7 @@ export function Logo({ className = 'size-7' }: { className?: string }) {
  *
  * Ce n'est volontairement PAS la marque Deezy : cet en-tete represente
  * l'assistant du client, sur son site a lui. Y placer notre logo serait a la
- * fois hors sujet et illisible — du bleu sur du bleu.
+ * fois hors sujet et illisible.
  */
 export function ChatGlyph({ className = 'size-7' }: { className?: string }) {
   return (
