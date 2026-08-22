@@ -101,13 +101,33 @@ export async function signup(_prev: AuthState, formData: FormData): Promise<Auth
   }
 
   const { fullName, ...credentialsOnly } = parsed.data;
+  const origin = await requestOrigin();
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
     ...credentialsOnly,
-    // Range dans user_metadata.full_name — la meme cle que renseigne Google,
-    // donc le message de bienvenue n'a rien de particulier a savoir.
-    options: { data: { full_name: fullName } },
+    options: {
+      // Range dans user_metadata.full_name — la meme cle que renseigne
+      // Google, donc le message de bienvenue n'a rien de particulier a savoir.
+      data: { full_name: fullName },
+
+      /*
+       * Ou aboutit le lien de confirmation.
+       *
+       * Sans cette adresse, Supabase renvoie le visiteur vers la « Site URL »
+       * du projet — la page d'accueil. Il y arrive deconnecte, puisque rien,
+       * la-bas, n'echange le code contre une session : l'inscription semble
+       * n'avoir servi a rien. Le passage par /auth/callback est ce qui ouvre
+       * la session, exactement comme apres une connexion Google.
+       *
+       * L'adresse doit figurer dans les « Redirect URLs » du projet Supabase.
+       * Toute URL absente de cette liste est silencieusement remplacee par la
+       * Site URL — meme symptome, sans le moindre message d'erreur.
+       */
+      emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(
+        safeNext(formData.get('next')),
+      )}`,
+    },
   });
 
   if (error) return { error: error.message };
