@@ -134,6 +134,11 @@ export async function replaceChunks(
 /**
  * Supprime les pages disparues du site depuis la derniere analyse.
  * Les chunks partent en cascade.
+ *
+ * RESTREINT AUX PAGES DU SITE, et ce n'est pas un detail : les documents
+ * importes vivent dans la meme table mais n'apparaissent dans aucune liste
+ * d'URL de crawl. Sans ce filtre, la moindre resynchronisation effacerait
+ * silencieusement tous les fichiers televerses par le client.
  */
 export async function deleteStalePages(
   db: Db,
@@ -143,7 +148,8 @@ export async function deleteStalePages(
   const { data, error } = await db
     .from('pages')
     .select('id, url')
-    .eq('bot_id', botId);
+    .eq('bot_id', botId)
+    .eq('source', 'website');
 
   if (error) throw new Error(`Lecture des pages impossible : ${error.message}`);
 

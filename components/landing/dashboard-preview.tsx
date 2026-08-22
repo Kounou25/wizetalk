@@ -17,7 +17,7 @@ export function DashboardPreview({ dict }: { dict: Dictionary }) {
           <span className="size-2.5 rounded-full bg-amber-400/70" />
           <span className="size-2.5 rounded-full bg-emerald-400/70" />
           <div className="bg-background text-muted-foreground ml-3 flex-1 truncate rounded-md border px-3 py-1 text-xs">
-            app.wizetalk.com/dashboard
+            app.deezy.com/dashboard
           </div>
         </div>
 

@@ -22,14 +22,14 @@ export function LandingNav({
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href={`/${locale}`} className="flex items-center gap-2">
           <Logo />
-          <span className="font-semibold tracking-tight">Wizetalk</span>
+          <span className="font-semibold tracking-tight">Deezy</span>
         </Link>
 
         <div className="text-muted-foreground hidden items-center gap-8 text-sm md:flex">
           <a href="#probleme" className="hover:text-foreground transition-colors">
             {dict.nav.problem}
           </a>
-          <a href="#solution" className="hover:text-foreground transition-colors">
+          <a href="#fonctionnement" className="hover:text-foreground transition-colors">
             {dict.nav.solution}
           </a>
           <a href="#tarifs" className="hover:text-foreground transition-colors">

@@ -22,7 +22,7 @@ function useSessionId(botId: string) {
   const [sessionId, setSessionId] = useState('');
 
   useEffect(() => {
-    const key = `wizetalk:${botId}`;
+    const key = `deezy:${botId}`;
     let existing = sessionStorage.getItem(key);
     if (!existing) {
       existing = crypto.randomUUID();
@@ -54,7 +54,7 @@ export function WidgetChat({
   }, [messages, leadCaptured]);
 
   const close = useCallback(() => {
-    window.parent.postMessage({ type: 'wizetalk:close' }, '*');
+    window.parent.postMessage({ type: 'deezy:close' }, '*');
   }, []);
 
   const send = useCallback(

@@ -50,7 +50,7 @@ async function main() {
   check(widgetSource.length < 8000, 'widget.js reste léger', `${widgetSource.length} octets`);
 
   // --- Bot jetable indexe --------------------------------------------------
-  const email = `smoke-${Date.now()}@wizetalk.test`;
+  const email = `smoke-${Date.now()}@deezy.test`;
   const { data: created } = await db.auth.admin.createUser({
     email,
     password: `smoke-${Math.random().toString(36).slice(2)}!A1`,

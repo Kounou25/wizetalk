@@ -1,4 +1,3 @@
-import { EmbedTabs } from '@/components/embed-tabs';
 import { Reveal } from '@/components/reveal';
 import { Spotlight } from '@/components/spotlight';
 import { TechLogo } from '@/components/tech-logos';
@@ -23,7 +22,7 @@ const PLATFORMS = [
   'HTML',
 ];
 
-export function Platforms({ dict, appUrl }: { dict: Dictionary; appUrl: string }) {
+export function Platforms({ dict }: { dict: Dictionary }) {
   return (
     <section id="compatibilite" className="bg-muted/40 border-t">
       <div className="mx-auto max-w-6xl px-6 py-24 md:py-28">
@@ -34,12 +33,8 @@ export function Platforms({ dict, appUrl }: { dict: Dictionary; appUrl: string }
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-balance md:text-4xl">
             {dict.platforms.title}
           </h2>
-          <p className="text-muted-foreground mt-4 text-pretty">
-            {dict.platforms.leadStart}
-            <code className="bg-background rounded px-1.5 py-0.5 font-mono text-[0.9em]">
-              &lt;/body&gt;
-            </code>
-            {dict.platforms.leadEnd}
+          <p className="text-muted-foreground mt-4 text-lg text-pretty">
+            {dict.platforms.lead}
           </p>
         </Reveal>
 
@@ -60,12 +55,6 @@ export function Platforms({ dict, appUrl }: { dict: Dictionary; appUrl: string }
             </Reveal>
           ))}
         </div>
-
-        {/* Les exemples concrets repondent a la question que la grille laisse
-            ouverte : « concretement, ca donne quoi chez moi ? » */}
-        <Reveal className="mx-auto mt-12 max-w-3xl">
-          <EmbedTabs botId="VOTRE_ID" fallbackOrigin={appUrl} className="shadow-2xl" />
-        </Reveal>
 
         <Reveal>
           <p className="text-muted-foreground mt-8 text-center text-sm">

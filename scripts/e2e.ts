@@ -37,7 +37,7 @@ async function main() {
     { auth: { persistSession: false, autoRefreshToken: false } },
   );
 
-  const email = `e2e-${Date.now()}@wizetalk.test`;
+  const email = `e2e-${Date.now()}@deezy.test`;
   let userId: string | null = null;
 
   try {

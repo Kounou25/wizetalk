@@ -22,9 +22,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Wizetalk — le chatbot IA qui connaît votre site par cœur',
+  title: 'Deezy — le chatbot IA qui connaît votre site par cœur',
   description:
-    "Wizetalk lit votre site web et répond à vos visiteurs 24 h/24 avec vos vraies informations. Une ligne de code à coller, aucune FAQ à rédiger.",
+    "Deezy lit votre site web et répond à vos visiteurs 24 h/24 avec vos vraies informations. Une ligne de code à coller, aucune FAQ à rédiger.",
   icons: {
     icon: '/favicon.ico',
     // Redimensionnee a 180 px : l'original fait 1254 px pour presque 1 Mo,
@@ -38,7 +38,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   // La langue est resolue par le proxy et transmise en en-tete : c'est le seul
   // moyen pour un layout racine unique de poser le bon attribut lang.
-  const resolved = (await headers()).get('x-wizetalk-locale');
+  const resolved = (await headers()).get('x-deezy-locale');
   const lang = isLocale(resolved) ? resolved : DEFAULT_LOCALE;
 
   return (

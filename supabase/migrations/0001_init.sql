@@ -1,4 +1,4 @@
--- Schema initial Wizetalk.
+-- Schema initial Deezy.
 -- A executer dans Supabase : SQL Editor -> coller -> Run.
 
 create extension if not exists vector;

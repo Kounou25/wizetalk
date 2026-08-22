@@ -1,4 +1,4 @@
-# Wizetalk
+# Deezy
 
 Créez un assistant IA à partir de l'adresse d'un site web, et intégrez-le
 n'importe où avec une ligne de code.

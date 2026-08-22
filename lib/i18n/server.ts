@@ -6,7 +6,7 @@ import { DEFAULT_LOCALE, isLocale, negotiateLocale, type Locale } from './config
  * un composant client.
  */
 
-export const LOCALE_COOKIE = 'wizetalk-locale';
+export const LOCALE_COOKIE = 'deezy-locale';
 
 /**
  * Langue a servir hors des routes /fr et /en.

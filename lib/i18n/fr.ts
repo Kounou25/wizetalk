@@ -1,31 +1,34 @@
 /** Dictionnaire de reference. Toute nouvelle chaine part d'ici. */
 export const fr = {
   meta: {
-    title: 'Wizetalk — le chatbot IA qui connaît votre site par cœur',
+    title: 'Deezy — vos clients obtiennent une réponse, tout de suite',
     description:
-      "Wizetalk lit votre site web et répond à vos visiteurs 24 h/24 avec vos vraies informations. Une ligne de code à coller, aucune FAQ à rédiger.",
+      "Deezy répond aux questions de vos visiteurs 24 h/24, à partir de votre site et de vos documents. Et quand il ne sait pas, il récupère leur e-mail au lieu de les laisser partir.",
   },
 
   nav: {
-    problem: 'Le problème',
-    solution: 'La solution',
+    problem: 'Pourquoi Deezy',
+    solution: 'Ce que ça change',
     pricing: 'Tarifs',
-    faq: 'FAQ',
+    faq: 'Questions',
     login: 'Se connecter',
     signup: 'Commencer gratuitement',
-    dashboard: 'Tableau de bord',
+    dashboard: 'Mon espace',
   },
 
   hero: {
-    badge: 'Il ne répond que ce que dit votre site',
-    titleStart: 'Le chatbot IA qui connaît',
-    titleHighlight: 'votre site par cœur',
-    subtitleStart: 'Wizetalk lit vos pages et répond à vos visiteurs 24 h/24, avec ',
-    subtitleStrong: 'vos vraies informations',
-    subtitleEnd: ". Vous collez une ligne de code, c'est tout.",
-    ctaPrimary: 'Créer mon assistant',
-    ctaSecondary: 'Voir comment ça marche',
-    proofs: ['Aucune FAQ à rédiger', 'Aucun scénario', 'Gratuit pour commencer'],
+    badge: 'Il ne répond jamais au hasard',
+    titleStart: 'Ne perdez plus un client',
+    titleHighlight: 'faute de réponse',
+    subtitleStart: 'Deezy répond à vos visiteurs 24 h/24, à partir de ',
+    subtitleStrong: 'votre site et de vos documents',
+    subtitleEnd:
+      ". Et quand il ne sait pas, il récupère leur e-mail au lieu de les laisser partir.",
+    ctaPrimary: 'Commencer gratuitement',
+    ctaSecondary: 'Voir ce que ça change',
+    reassurance: 'Prêt en 2 minutes — Sans carte bancaire — Rien à rédiger',
+    installNote: 'Une seule ligne à coller sur votre site. Rien d’autre à faire.',
+    proofs: ['Rien à rédiger', 'Aucune installation', 'Gratuit pour commencer'],
     liveBadge: 'Réponse tirée de votre site',
     mockup: {
       title: 'Assistant',
@@ -43,187 +46,261 @@ export const fr = {
   },
 
   problem: {
-    eyebrow: 'Le problème',
+    eyebrow: 'Le vrai coût',
     title: 'Ça vous parle ?',
-    lead: "Votre site est en ligne, il est soigné, il contient tout ce qu'il faut. Et pourtant les mêmes questions continuent d'arriver dans votre boîte mail.",
+    lead: "Votre site contient déjà les réponses. Vos visiteurs, eux, ne les trouvent pas — et personne ne vous prévient quand ils s'en vont.",
     items: [
       {
-        title: 'On ne trouve pas la réponse',
-        body: 'Vos horaires, vos délais, votre zone de livraison : tout est écrit quelque part sur votre site. Encore faut-il tomber sur la bonne page.',
+        title: 'Ils partent sans acheter',
+        body: "Une question sans réponse, et l'onglet se ferme. Vous ne saurez jamais qu'ils étaient là, ni ce qu'ils cherchaient.",
       },
       {
-        title: 'Le formulaire reste vide',
-        body: "Remplir trois champs et attendre une réponse le lendemain demande un effort. Fermer l'onglet n'en demande aucun.",
+        title: 'Vous répétez les mêmes réponses',
+        body: 'Les horaires, la livraison, les tarifs. Plusieurs fois par jour. Du temps que vous ne passez pas à vendre.',
       },
       {
-        title: 'Vous répondez aux mêmes questions',
-        body: '« Vous livrez en Belgique ? » pour la quinzième fois cette semaine. Du temps que vous ne passez pas à vendre.',
+        title: 'Votre formulaire arrive trop tard',
+        body: 'Vous répondez le lendemain matin. Le client, lui, a commandé ailleurs le soir même.',
       },
       {
-        title: 'Le chatbot devient un second métier',
-        body: 'Rédiger des scénarios, maintenir une FAQ, tout reprendre à chaque changement de tarif. Le chantier ne finit jamais.',
+        title: 'Le soir et le week-end, personne ne répond',
+        body: "C'est pourtant là que vos visiteurs comparent, hésitent et décident.",
       },
     ],
   },
 
-  frustration: {
-    eyebrow: 'La frustration',
-    title: 'Le visiteur, lui, ne repasse pas.',
-    lead: "Vous avez déjà essayé de régler le problème. Voilà ce qui se passe vraiment à chaque fois.",
-    attempts: [
+  showcase: {
+    eyebrow: 'Ce que Deezy change',
+    title: 'Un vendeur qui connaît votre entreprise, disponible en permanence.',
+    lead: "Pas un robot à scénarios. Un assistant nourri par ce que vous savez déjà — votre site, vos documents — et qui répond à votre place.",
+    rows: [
       {
-        label: 'Le formulaire de contact',
-        reality: 'Vous répondez le lendemain. Il a commandé ailleurs le soir même.',
+        eyebrow: 'Ce qu’il sait',
+        title: 'Il connaît votre entreprise, pas des généralités',
+        body: "Donnez l'adresse de votre site : Deezy le lit en entier. Ajoutez vos documents — tarifs, catalogue, conditions — et il les connaît aussi. Vous n'écrivez aucune question-réponse.",
+        points: [
+          'Votre site entier, lu automatiquement',
+          'Vos documents internes, ajoutés en quelques clics',
+          'Aucune question-réponse à rédiger',
+        ],
       },
       {
-        label: 'Le chatbot à scénarios',
-        reality:
-          "Il ne comprend que ce que vous aviez prévu. La première question inattendue le bloque.",
+        eyebrow: 'La confiance',
+        title: 'Il ne raconte jamais n’importe quoi',
+        body: "Un assistant qui invente un prix ou un délai vous engage auprès de votre client. Deezy ne dit que ce qu'il a lu chez vous, et montre d'où vient sa réponse. Quand il ne sait pas, il le dit.",
+        points: [
+          'Chaque réponse renvoie à sa source',
+          'Aucun prix ni délai improvisé',
+          'Il préfère se taire plutôt que se tromper',
+        ],
       },
       {
-        label: 'La page FAQ',
-        reality:
-          'Elle vieillit dès que vous changez un tarif. Et personne ne la lit jusqu’au bout.',
+        eyebrow: 'Les clients récupérés',
+        title: 'Un visiteur sans réponse n’est plus un visiteur perdu',
+        body: "Quand Deezy ne trouve pas, il ne le laisse pas partir : il lui propose de laisser son e-mail. Vous recevez le contact avec sa question, prêt à être rappelé.",
+        points: [
+          'Le contact arrive avec sa question',
+          'Au moment où l’envie d’acheter est la plus forte',
+          'Vous rappelez, vous concluez',
+        ],
       },
       {
-        label: 'Un chatbot IA générique',
-        reality:
-          "Il invente un délai, un prix, une garantie. Et c'est vous qui devrez l'assumer.",
+        eyebrow: 'Ce que vous apprenez',
+        title: 'Vous découvrez ce que vos clients veulent savoir',
+        body: "Les questions restées sans réponse sont regroupées, les plus fréquentes en tête. C'est la liste exacte de ce qui manque à votre site — et de ce qui vous coûte des ventes.",
+        points: [
+          'Classées par fréquence',
+          'Toutes les conversations consultables',
+          'Vous complétez, Deezy suit',
+        ],
       },
     ],
-    pivotStart: "Le problème n'est pas le manque d'information.",
-    pivotEnd: "C'est qu'elle n'arrive jamais au bon moment.",
+    visuals: {
+      crawlTitle: 'Votre entreprise, apprise en quelques minutes',
+      crawlLines: ['Votre site est lu', 'Vos documents sont ajoutés', 'Votre assistant est prêt'],
+      confidenceQuestion: 'Vous livrez en Belgique ?',
+      confidenceAnswer:
+        "Oui, nous livrons en Belgique sous 48 h. La livraison est offerte dès 60 € d'achat.",
+      verifiedLabel: 'Réponse vérifiée',
+      sourceLabel: 'D’après votre page',
+      sourceName: 'Livraison et retours',
+      leadQuestion: 'Quel est le tarif du pack Pro ?',
+      leadRefusal:
+        "Je ne trouve pas cette information. Laissez-moi votre e-mail, nous vous répondons.",
+      leadPlaceholder: 'vous@exemple.com',
+      leadSend: 'Envoyer',
+      gapsTitle: 'Ce que vos clients demandent',
+      gaps: [
+        { question: 'Quel est le tarif du pack Pro ?', count: '7×' },
+        { question: 'Livrez-vous le samedi ?', count: '4×' },
+        { question: 'Reprenez-vous l’ancien matériel ?', count: '2×' },
+      ],
+    },
+  },
+
+  comparison: {
+    eyebrow: 'Comparaison',
+    title: 'Ce que font les autres solutions.',
+    lead: "Vous en avez sans doute déjà essayé une. Voilà où chacune s'arrête.",
+    columns: ['Répond tout de suite', 'Toujours à jour', 'N’invente rien'],
+    rows: [
+      {
+        label: 'Le formulaire de contact',
+        values: [false, true, true],
+        note: 'Vous répondez demain. Il a acheté ce soir.',
+      },
+      {
+        label: 'La page questions-réponses',
+        values: [true, false, true],
+        note: 'Périmée dès votre premier changement de tarif.',
+      },
+      {
+        label: 'Le robot à scénarios',
+        values: [true, false, true],
+        note: 'Bloqué à la première question imprévue.',
+      },
+      {
+        label: 'Un assistant IA générique',
+        values: [true, false, false],
+        note: 'Invente un prix, et c’est vous qui l’assumez.',
+      },
+      {
+        label: 'Deezy',
+        values: [true, true, true],
+        note: 'Connaît votre entreprise, montre ses sources, se tait quand il ne sait pas.',
+      },
+    ],
+    highlightRow: 4,
   },
 
   solution: {
-    eyebrow: 'La solution',
-    title: 'Une ligne. Deux minutes. Terminé.',
-    lead: 'Vous ne rédigez rien, vous ne configurez rien. Vous donnez une adresse, nous faisons le reste.',
+    eyebrow: 'Mise en route',
+    title: 'Deux minutes, et c’est en ligne.',
+    lead: 'Rien à préparer, rien à configurer, aucune compétence technique.',
     steps: [
       {
-        title: 'Donnez votre adresse',
-        body: 'Le nom de votre site suffit. Aucun fichier à téléverser, aucun contenu à préparer.',
+        title: 'Donnez l’adresse de votre site',
+        body: 'Deezy le parcourt et retient ce qui compte pour vos clients.',
       },
       {
-        title: 'Nous lisons votre site',
-        body: 'Nous parcourons vos pages, gardons le contenu utile et écartons menus, bandeaux et pieds de page.',
+        title: 'Ajoutez vos documents',
+        body: 'Tarifs, catalogue, conditions : tout ce que votre site ne dit pas encore.',
       },
       {
-        title: 'Vous collez une ligne',
-        body: "Le script se glisse avant la fermeture du corps de page. L'assistant apparaît immédiatement.",
+        title: 'Collez une ligne sur votre site',
+        body: 'L’assistant apparaît. Vos visiteurs peuvent lui parler.',
       },
     ],
-    analysis: ['24 pages trouvées', '18 pages pertinentes', '342 sections extraites'],
+    analysis: ['Votre site est lu', 'Vos documents sont ajoutés', 'Votre assistant est prêt'],
     dashboard: {
-      status: 'Prêt',
+      status: 'En ligne',
       botName: 'Assistant de mon entreprise',
       stats: [
-        { value: '18', label: 'pages indexées' },
-        { value: '342', label: 'sections' },
+        { value: '18', label: 'pages lues' },
+        { value: '6', label: 'documents' },
         { value: '57', label: 'conversations' },
       ],
-      recentTitle: 'Dernières questions de vos visiteurs',
+      recentTitle: 'Ce que vos clients ont demandé',
       recent: [
         'Vous livrez en Belgique ?',
         'Quels sont vos horaires le samedi ?',
         'Proposez-vous une garantie ?',
       ],
       answered: 'répondu',
-      caption: 'Vous découvrez ce que vos visiteurs cherchent vraiment.',
+      caption: 'Vous savez enfin ce que vos clients cherchent.',
     },
   },
 
   platforms: {
     eyebrow: 'Compatibilité',
-    title: 'Code ou no-code, ça marche pareil.',
-    leadStart: 'Si vous pouvez coller une ligne avant la balise ',
-    leadEnd: ", Wizetalk fonctionne. Aucune extension à installer, aucun accès à votre code source.",
+    title: 'Ça marche sur votre site, quel qu’il soit.',
+    lead: "WordPress, Shopify, Wix, Squarespace ou un site sur mesure : si vous pouvez ajouter une ligne de code, Deezy fonctionne. Aucune extension à installer, aucun développeur à mobiliser.",
     hints: {
       WordPress: 'Thème ou extension',
-      Shopify: 'theme.liquid',
+      Shopify: 'Éditeur de thème',
       Wix: 'Code personnalisé',
       Squarespace: 'Injection de code',
       Webflow: 'Paramètres du projet',
-      Framer: 'Balise personnalisée',
-      'Next.js': 'Composant Script',
-      HTML: 'Avant </body>',
+      Framer: 'Code personnalisé',
+      'Next.js': 'Balise script',
+      HTML: 'Site sur mesure',
     } as Record<string, string>,
     fallback:
-      "Votre plateforme n'est pas listée ? Elle fonctionne probablement quand même — le script est du HTML standard.",
+      'Votre plateforme n’est pas listée ? Elle fonctionne probablement quand même — et on vous aide à vérifier.',
   },
 
   features: {
-    eyebrow: 'Ce qui compte vraiment',
+    eyebrow: 'Ce que vous y gagnez',
     title: 'Un assistant à qui vous pouvez confier vos clients.',
     items: [
       {
-        title: 'Il ne raconte rien',
-        body: "Si la réponse n'est pas sur votre site, l'assistant le dit et renvoie vers vous. Il n'improvise jamais un prix ni un délai.",
+        title: 'Il travaille quand vous dormez',
+        body: 'Vos visiteurs du soir, du week-end et des jours fériés obtiennent une réponse. Sans vous réveiller.',
       },
       {
-        title: 'Chaque réponse est sourcée',
-        body: 'La page qui a servi à répondre est citée. Vos visiteurs peuvent vérifier — vous aussi.',
+        title: 'Il parle la langue de votre client',
+        body: 'Une question posée en anglais reçoit une réponse en anglais. Sans réglage de votre part.',
       },
       {
-        title: 'Il suit votre site',
-        body: 'Une synchronisation relit vos pages. Seules celles qui ont changé sont retraitées.',
+        title: 'Il ressemble à votre marque',
+        body: 'Son nom, son message d’accueil, sa couleur, sa position sur la page : vous choisissez tout.',
       },
       {
-        title: 'Il respecte votre design',
-        body: "L'assistant vit dans un cadre isolé : aucun style ne fuit dans un sens ni dans l'autre.",
+        title: 'Il n’abîme pas votre site',
+        body: 'Il s’ajoute par-dessus sans toucher à votre design, et disparaît en un clic si vous le souhaitez.',
       },
       {
-        title: 'Vous lisez les conversations',
-        body: 'Chaque échange est consultable. Vous découvrez ce que vos visiteurs cherchent vraiment.',
+        title: 'Vous lisez toutes les conversations',
+        body: 'Vous savez ce qu’on vous demande, ce qu’on vous répond, et ce qui reste sans réponse.',
       },
       {
         title: 'Vos données restent les vôtres',
-        body: "Chaque assistant est cloisonné. Le contenu d'un site ne peut jamais alimenter celui d'un autre.",
+        body: 'Le contenu de votre entreprise ne sert jamais à répondre pour une autre.',
       },
     ],
   },
 
   pricing: {
     eyebrow: 'Tarifs',
-    title: 'Commencez gratuitement, payez quand ça marche.',
-    lead: "Pas d'engagement, résiliable à tout moment.",
+    title: 'Commencez gratuitement. Payez quand ça vous rapporte.',
+    lead: 'Sans engagement, résiliable en un clic.',
     popular: 'Le plus choisi',
     perMonth: '/mois',
     plans: [
       {
         name: 'Découverte',
         price: '0 €',
-        description: 'Pour essayer sur un premier site.',
+        description: 'Pour essayer sur votre site.',
         features: [
           '1 assistant',
-          '50 pages analysées',
-          '100 messages par mois',
-          'Widget personnalisable',
+          'Jusqu’à 50 pages de votre site',
+          '100 réponses par mois',
+          'Personnalisation aux couleurs de votre marque',
         ],
         cta: 'Commencer gratuitement',
       },
       {
         name: 'Pro',
         price: '29 €',
-        description: 'Pour un site d’entreprise actif.',
+        description: 'Pour un site qui reçoit des visiteurs tous les jours.',
         features: [
           '3 assistants',
-          '300 pages analysées',
-          '2 000 messages par mois',
-          'Historique des conversations',
-          'Synchronisation illimitée',
+          'Jusqu’à 300 pages',
+          'Vos documents internes',
+          '2 000 réponses par mois',
+          'Récupération des e-mails et suivi des questions',
         ],
         cta: 'Choisir Pro',
       },
       {
         name: 'Business',
         price: '79 €',
-        description: 'Pour plusieurs sites ou marques.',
+        description: 'Pour plusieurs sites ou plusieurs marques.',
         features: [
           '10 assistants',
-          '1 000 pages analysées',
-          '10 000 messages par mois',
-          'Retrait de la mention Wizetalk',
+          'Jusqu’à 1 000 pages',
+          '10 000 réponses par mois',
+          'Sans mention Deezy',
           'Support prioritaire',
         ],
         cta: 'Choisir Business',
@@ -231,7 +308,7 @@ export const fr = {
       {
         name: 'Sur mesure',
         price: 'Nous consulter',
-        description: 'Volumes importants, besoins spécifiques.',
+        description: 'Gros volumes ou besoins particuliers.',
         features: [
           'Assistants illimités',
           'Volume négocié',
@@ -243,59 +320,60 @@ export const fr = {
   },
 
   faq: {
-    eyebrow: 'FAQ',
-    title: 'Questions fréquentes',
+    eyebrow: 'Questions fréquentes',
+    title: 'Ce qu’on nous demande le plus',
     items: [
       {
-        question: 'Faut-il préparer une FAQ ou des documents ?',
+        question: 'Dois-je préparer des questions-réponses ?',
         answer:
-          "Non. L'adresse de votre site suffit. Nous lisons vos pages et en tirons directement les réponses.",
+          "Non, et c'est tout l'intérêt. L'adresse de votre site suffit : Deezy le lit et en tire les réponses. Vous pouvez ensuite ajouter vos documents pour ce que votre site ne dit pas encore.",
       },
       {
-        question: "Que se passe-t-il si l'assistant ne connaît pas la réponse ?",
+        question: 'Que se passe-t-il quand il ne connaît pas la réponse ?',
         answer:
-          "Il le dit et invite le visiteur à vous contacter. Nous préférons une réponse prudente à une réponse inventée : un prix ou un délai imaginé vous engagerait auprès de votre client.",
+          "Il le dit franchement, et propose au visiteur de laisser son e-mail pour que vous le rappeliez. Nous préférons une réponse prudente à une réponse inventée : un prix imaginé vous engagerait auprès de votre client.",
       },
       {
-        question: 'Combien de temps prend la mise en place ?',
+        question: 'Combien de temps pour le mettre en place ?',
         answer:
-          "L'analyse d'un site vitrine prend quelques minutes. L'installation elle-même se résume à coller une ligne de code sur votre site.",
+          'Quelques minutes. Vous donnez votre adresse, vous attendez que votre site soit lu, vous collez une ligne. C’est en ligne.',
       },
       {
-        question: 'Faut-il des compétences techniques ?',
+        question: 'Faut-il un développeur ?',
         answer:
-          "Savoir coller une ligne avant la balise </body> suffit. C'est possible depuis WordPress, Shopify, Webflow, Wix, Squarespace ou n'importe quel site sur mesure.",
+          'Non. Si vous savez ajouter un code de suivi ou une ligne dans les réglages de votre site, vous savez installer Deezy. WordPress, Shopify, Wix, Squarespace et les autres sont couverts.',
       },
       {
-        question: 'Et quand mon site change ?',
+        question: 'Et quand je change mes tarifs ou mes horaires ?',
         answer:
-          "Vous lancez une synchronisation depuis votre tableau de bord. Seules les pages modifiées sont retraitées, le reste est conservé.",
+          'Vous mettez votre site à jour comme d’habitude, puis vous lancez une mise à jour depuis votre espace. Deezy relit ce qui a changé.',
       },
       {
-        question: 'Le widget va-t-il abîmer le design de mon site ?',
+        question: 'Est-ce que ça va abîmer mon site ?',
         answer:
-          "Non. L'assistant vit dans un cadre isolé : aucun de vos styles ne l'atteint, et aucun des siens ne s'échappe.",
+          'Non. L’assistant s’ajoute par-dessus votre site sans toucher à votre design, et vous pouvez le désactiver en un clic sans rien retirer.',
       },
       {
-        question: 'Mes données peuvent-elles servir à un autre client ?',
+        question: 'Mes informations peuvent-elles servir à un concurrent ?',
         answer:
-          "Non. Chaque assistant est cloisonné et ne peut interroger que le contenu du site auquel il est rattaché.",
+          'Jamais. Le contenu de votre entreprise ne répond qu’à vos visiteurs, sur votre site. Il ne sert à aucun autre compte.',
       },
     ],
   },
 
   finalCta: {
-    titleStart: 'Votre site sait déjà répondre.',
-    titleHighlight: 'Faites-le parler.',
-    lead: 'Créez votre assistant en quelques minutes. Aucune carte bancaire, aucune FAQ à rédiger.',
-    primary: 'Créer mon assistant',
-    secondary: "J'ai déjà un compte",
+    titleStart: 'Combien de clients sont partis',
+    titleHighlight: 'sans poser leur question ?',
+    lead: 'Vous ne le saurez jamais pour ceux d’hier. À partir de maintenant, vous pouvez leur répondre.',
+    primary: 'Commencer gratuitement',
+    secondary: 'J’ai déjà un compte',
   },
 
   footer: {
-    tagline: 'Donnez-nous votre site, nous créons votre assistant IA. Une ligne de code.',
+    tagline:
+      'Vos clients obtiennent une réponse tout de suite. Vous récupérez ceux qui seraient partis.',
     productTitle: 'Produit',
-    howItWorks: 'Fonctionnement',
+    howItWorks: 'Ce que ça change',
     accountTitle: 'Compte',
     login: 'Se connecter',
     signup: 'Créer un compte',
@@ -416,6 +494,22 @@ export const fr = {
       gapsTitle: 'Questions sans réponse',
       gapsDesc: 'Ce qui manque sur votre site',
       conversationsDesc: 'Historique des échanges',
+    },
+
+    documents: {
+      title: 'Vos documents',
+      lead: "Tout ce que votre site ne dit pas : tarifs, catalogue, conditions. L'assistant s'en servira pour répondre.",
+      drop: 'Glissez vos fichiers ici',
+      browse: 'ou parcourez votre ordinateur',
+      accepted: 'PDF, Word ou texte — 10 Mo maximum par fichier',
+      uploading: 'Envoi…',
+      reading: 'Lecture du document…',
+      empty: 'Aucun document pour l’instant.',
+      remove: 'Retirer ce document',
+      truncated: 'Document très long : seul le début a été retenu.',
+      addedOn: 'Ajouté le',
+      errorTooLarge: 'Fichier trop volumineux (10 Mo maximum).',
+      errorFormat: 'Format non pris en charge. PDF, Word ou texte uniquement.',
     },
 
     knowledge: {

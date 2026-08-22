@@ -10,7 +10,7 @@ export function LandingFooter({ locale, dict }: { locale: Locale; dict: Dictiona
         <div className="max-w-xs">
           <div className="flex items-center gap-2">
             <Logo />
-            <span className="font-semibold tracking-tight">Wizetalk</span>
+            <span className="font-semibold tracking-tight">Deezy</span>
           </div>
           <p className="text-muted-foreground mt-3 text-sm text-pretty">
             {dict.footer.tagline}
@@ -54,7 +54,7 @@ export function LandingFooter({ locale, dict }: { locale: Locale; dict: Dictiona
 
       <div className="border-t">
         <p className="text-muted-foreground mx-auto max-w-6xl px-6 py-6 text-xs">
-          © {new Date().getFullYear()} Wizetalk. {dict.footer.rights}
+          © {new Date().getFullYear()} Deezy. {dict.footer.rights}
         </p>
       </div>
     </footer>

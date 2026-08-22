@@ -9,7 +9,8 @@ import { LandingNav } from '@/components/landing/nav';
 import { Hero } from '@/components/landing/hero';
 import { LogoMarquee } from '@/components/landing/logo-marquee';
 import { Problem } from '@/components/landing/problem';
-import { Frustration } from '@/components/landing/frustration';
+import { Showcase } from '@/components/landing/showcase';
+import { Comparison } from '@/components/landing/comparison';
 import { Solution } from '@/components/landing/solution';
 import { Platforms } from '@/components/landing/platforms';
 import { Features } from '@/components/landing/features';
@@ -61,7 +62,6 @@ export default async function LandingPage({
   const dict = getDictionary(locale);
   // Page publique : la session ne sert qu'a adapter les boutons de la barre.
   const user = await getUser();
-  const appUrl = await requestOrigin();
 
   return (
     <>
@@ -69,16 +69,22 @@ export default async function LandingPage({
       <LandingNav locale={locale as Locale} dict={dict} authenticated={Boolean(user)} />
 
       <main>
-        <Hero locale={locale as Locale} dict={dict} appUrl={appUrl} />
+        <Hero locale={locale as Locale} dict={dict} />
         <LogoMarquee dict={dict} />
 
-        {/* Probleme -> frustration -> solution : la bande sombre de Frustration
-            marque le creux du recit, le retour au clair fait le soulagement. */}
+        {/*
+          Probleme -> demonstration -> comparaison -> mise en oeuvre.
+          Showcase porte l'essentiel : quatre rangees alternees ou chaque
+          benefice est montre autant qu'affirme. Comparison est la seule bande
+          sombre — elle marque le creux du recit, le retour au clair fait le
+          soulagement.
+        */}
         <Problem dict={dict} />
-        <Frustration dict={dict} />
+        <Showcase dict={dict} />
+        <Comparison dict={dict} />
         <Solution dict={dict} />
 
-        <Platforms dict={dict} appUrl={appUrl} />
+        <Platforms dict={dict} />
         <Features dict={dict} />
         <Pricing locale={locale as Locale} dict={dict} />
         <Faq dict={dict} />

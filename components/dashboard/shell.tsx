@@ -111,7 +111,7 @@ function SidebarContent({
       <div className="flex h-16 shrink-0 items-center justify-between border-b px-5">
         <Link href="/dashboard" className="flex items-center gap-2" onClick={onNavigate}>
           <Logo />
-          <span className="font-bold tracking-tight">Wizetalk</span>
+          <span className="font-bold tracking-tight">Deezy</span>
         </Link>
         {onNavigate && (
           <button
@@ -297,7 +297,7 @@ export function DashboardShell({
           </button>
           <Link href="/dashboard" className="flex items-center gap-2">
             <Logo />
-            <span className="font-bold tracking-tight">Wizetalk</span>
+            <span className="font-bold tracking-tight">Deezy</span>
           </Link>
         </div>
 

@@ -164,6 +164,7 @@ async function crawlTick(
         content: cleaned.text,
         sections: cleaned.sections,
         content_hash: cleaned.contentHash,
+        source: 'website',
       },
       { onConflict: 'bot_id,url' },
     );
@@ -207,10 +208,19 @@ async function crawlTick(
  * (bandeaux, slogans, encarts). Retourne les identifiants a embedder.
  */
 async function stripBoilerplate(db: Db, botId: string): Promise<string[]> {
+  /*
+   * Uniquement les pages du site.
+   *
+   * removeBoilerplate supprime ce qui se repete sur la moitie des pages. Avec
+   * quelques documents importes face a un petit site, un paragraphe legitime
+   * de conditions generales franchirait ce seuil et disparaitrait. Les
+   * documents n'ont de toute facon pas de bandeaux a nettoyer.
+   */
   const { data, error } = await db
     .from('pages')
     .select('id, url, title, content, sections, content_hash')
-    .eq('bot_id', botId);
+    .eq('bot_id', botId)
+    .eq('source', 'website');
 
   if (error) throw new Error(`Lecture des pages impossible : ${error.message}`);
 

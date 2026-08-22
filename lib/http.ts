@@ -1,7 +1,7 @@
 /** Utilitaires reseau : fetch avec timeout, robots.txt, concurrence bornee. */
 
 export const USER_AGENT =
-  'Mozilla/5.0 (compatible; WizetalkBot/0.1; +https://wizetalk.app/bot)';
+  'Mozilla/5.0 (compatible; DeezyBot/0.1; +https://deezy.app/bot)';
 
 const MAX_BYTES = 2_000_000; // 2 Mo : au-dela, ce n'est pas une page de contenu
 
@@ -73,7 +73,7 @@ export async function fetchRobots(origin: string): Promise<Robots> {
     const value = line.slice(sep + 1).trim();
 
     if (field === 'user-agent') {
-      applies = value === '*' || value.toLowerCase().includes('wizetalk');
+      applies = value === '*' || value.toLowerCase().includes('deezy');
     } else if (field === 'disallow' && applies && value) {
       robots.disallow.push(value);
     } else if (field === 'sitemap' && value) {

@@ -13,8 +13,8 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { DEFAULT_LOCALE, isLocale, negotiateLocale } from '@/lib/i18n/config';
 
 /** En-tete lu par le layout racine pour poser l'attribut lang du document. */
-const LOCALE_HEADER = 'x-wizetalk-locale';
-const LOCALE_COOKIE = 'wizetalk-locale';
+const LOCALE_HEADER = 'x-deezy-locale';
+const LOCALE_COOKIE = 'deezy-locale';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

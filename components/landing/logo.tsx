@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 /**
- * Marque Wizetalk.
+ * Marque Deezy.
  *
  * Le fichier porte deja son fond bleu et ses coins arrondis : on ne l'enveloppe
  * donc dans aucun conteneur colore. `next/image` se charge du redimensionnement
@@ -25,7 +25,7 @@ export function Logo({ className = 'size-7' }: { className?: string }) {
 /**
  * Bulle de discussion blanche, pour les en-tetes de widget sur fond colore.
  *
- * Ce n'est volontairement PAS la marque Wizetalk : cet en-tete represente
+ * Ce n'est volontairement PAS la marque Deezy : cet en-tete represente
  * l'assistant du client, sur son site a lui. Y placer notre logo serait a la
  * fois hors sujet et illisible — du bleu sur du bleu.
  */

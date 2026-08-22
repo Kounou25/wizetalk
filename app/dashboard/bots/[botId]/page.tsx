@@ -9,6 +9,7 @@ import { getRequestLocale } from '@/lib/i18n/server';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { BotWorkspace } from './bot-workspace';
+import { DocumentsCard, type DocumentRow } from './documents-card';
 import { InstallCard } from './install-card';
 import { SettingsCard } from './settings-card';
 
@@ -33,7 +34,22 @@ export default async function BotPage({
 
   if (!bot) notFound();
 
-  const stats = await getBotStats(supabase, botId);
+  const [stats, { data: documentRows }] = await Promise.all([
+    getBotStats(supabase, botId),
+    supabase
+      .from('pages')
+      .select('id, file_name, file_size, created_at')
+      .eq('bot_id', botId)
+      .eq('source', 'document')
+      .order('created_at', { ascending: false }),
+  ]);
+
+  const documents: DocumentRow[] = (documentRows ?? []).map((row) => ({
+    id: row.id as string,
+    fileName: (row.file_name as string) ?? '—',
+    fileSize: (row.file_size as number) ?? 0,
+    createdAt: row.created_at as string,
+  }));
 
   return (
     <div className="flex flex-col gap-8">
@@ -109,6 +125,8 @@ export default async function BotPage({
         chunkCount={stats.chunks}
         dict={dict}
       />
+
+      <DocumentsCard botId={bot.id} documents={documents} dict={dict} />
 
       <InstallCard botId={bot.id} dict={dict} />
 

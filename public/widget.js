@@ -1,5 +1,5 @@
 /**
- * Widget Wizetalk — script d'integration.
+ * Widget Deezy — script d'integration.
  *
  *   <script src="https://votre-app.com/widget.js" data-bot="BOT_ID"></script>
  *
@@ -20,13 +20,13 @@
 
   var botId = script.getAttribute('data-bot');
   if (!botId) {
-    console.error('[Wizetalk] attribut data-bot manquant.');
+    console.error('[Deezy] attribut data-bot manquant.');
     return;
   }
 
   // Un seul widget par page, meme si le script est inclus deux fois.
-  if (window.__wizetalkLoaded) return;
-  window.__wizetalkLoaded = true;
+  if (window.__deezyLoaded) return;
+  window.__deezyLoaded = true;
 
   var origin = new URL(script.src).origin;
 
@@ -37,7 +37,7 @@
     })
     .then(mount)
     .catch(function (error) {
-      console.error('[Wizetalk]', error.message);
+      console.error('[Deezy]', error.message);
     });
 
   function mount(config) {
@@ -139,7 +139,7 @@
         requestAnimationFrame(function () {
           frame.style.opacity = '1';
         });
-        frame.contentWindow.postMessage({ type: 'wizetalk:opened' }, origin);
+        frame.contentWindow.postMessage({ type: 'deezy:opened' }, origin);
       } else {
         frame.style.opacity = '0';
         setTimeout(function () {
@@ -155,7 +155,7 @@
     // Fermeture demandee depuis l'interieur de l'iframe.
     window.addEventListener('message', function (event) {
       if (event.origin !== origin) return;
-      if (event.data && event.data.type === 'wizetalk:close') toggle(false);
+      if (event.data && event.data.type === 'deezy:close') toggle(false);
     });
 
     document.body.appendChild(launcher);

@@ -6,15 +6,7 @@ import { TiltCard } from '@/components/tilt-card';
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { WidgetMockup } from './widget-preview';
 
-export function Hero({
-  locale,
-  dict,
-  appUrl,
-}: {
-  locale: Locale;
-  dict: Dictionary;
-  appUrl: string;
-}) {
+export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section className="relative overflow-hidden">
       {/* Lavis colore en haut de page, quadrillage estompe, puis deux masses
@@ -70,11 +62,26 @@ export function Hero({
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-12 px-6 text-base">
-              <a href="#solution">{dict.hero.ctaSecondary}</a>
+              <a href="#fonctionnement">{dict.hero.ctaSecondary}</a>
             </Button>
           </div>
 
-          <InlineSnippet appUrl={appUrl} />
+          {/* Leve les freins juste sous l'appel a l'action, la ou l'hesitation
+              se produit — pas plus bas dans la page. */}
+          <p className="text-muted-foreground mt-4 text-sm">{dict.hero.reassurance}</p>
+
+          {/*
+            L'extrait de code a ete retire d'ici : il rassure un developpeur et
+            fait fuir un commercant. La promesse « une seule ligne » se dit
+            aussi bien en francais ; le code reste visible plus bas, dans la
+            section compatibilite, pour ceux que ca interesse.
+          */}
+          <p className="mt-6 flex items-center gap-2 text-sm font-medium">
+            <span className="bg-brand-soft text-brand flex size-6 shrink-0 items-center justify-center rounded-full">
+              <Check className="size-3.5" aria-hidden />
+            </span>
+            {dict.hero.installNote}
+          </p>
 
           <ul className="text-muted-foreground mt-6 flex flex-col gap-2.5 text-sm sm:flex-row sm:gap-6">
             {dict.hero.proofs.map((proof) => (
@@ -102,31 +109,5 @@ export function Hero({
         </Reveal>
       </div>
     </section>
-  );
-}
-
-/** Le script d'integration en une ligne : la promesse doit être lisible d'un coup. */
-function InlineSnippet({ appUrl }: { appUrl: string }) {
-  return (
-    <div className="mt-8 max-w-lg">
-      <div className="flex items-center gap-3 overflow-x-auto rounded-xl bg-slate-950 px-4 py-3 shadow-lg ring-1 ring-white/10">
-        <span className="hidden shrink-0 font-mono text-[10px] tracking-widest text-slate-500 sm:block">
-          HTML
-        </span>
-        <code className="font-mono text-[12.5px] whitespace-nowrap">
-          <span className="text-slate-500">&lt;</span>
-          <span className="text-sky-400">script</span>{' '}
-          <span className="text-violet-300">src</span>
-          <span className="text-slate-500">=</span>
-          <span className="text-emerald-300">&quot;{appUrl}/widget.js&quot;</span>{' '}
-          <span className="text-violet-300">data-bot</span>
-          <span className="text-slate-500">=</span>
-          <span className="text-emerald-300">&quot;VOTRE_ID&quot;</span>
-          <span className="text-slate-500">&gt;&lt;/</span>
-          <span className="text-sky-400">script</span>
-          <span className="text-slate-500">&gt;</span>
-        </code>
-      </div>
-    </div>
   );
 }
