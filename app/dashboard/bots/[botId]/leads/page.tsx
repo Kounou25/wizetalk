@@ -75,7 +75,7 @@ export default async function LeadsPage({
           {leads.map((lead) => (
             <article
               key={lead.id}
-              className={`bg-background rounded-xl p-5 shadow-sm ring-1 ring-black/5 transition-opacity dark:ring-white/10 ${
+              className={`panel p-5 transition-opacity ${
                 lead.status === 'handled' ? 'opacity-60' : ''
               }`}
             >

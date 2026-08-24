@@ -64,7 +64,7 @@ function LogoutButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="text-muted-foreground hover:bg-accent hover:text-foreground flex size-7 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-60"
+      className="text-muted-foreground hover:bg-accent hover:text-foreground flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg transition-colors disabled:opacity-60"
       aria-label={label}
       title={label}
     >
@@ -75,6 +75,58 @@ function LogoutButton({ label }: { label: string }) {
 
 function isActive(pathname: string, href: string, exact: boolean) {
   return exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/** Lien de navigation principal, avec son repere d'etat actif. */
+function NavLink({
+  href,
+  label,
+  icon,
+  active,
+  badge,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  active: boolean;
+  badge?: number;
+  onNavigate?: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      aria-current={active ? 'page' : undefined}
+      className={cn(
+        'relative flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors',
+        active
+          ? 'bg-brand-soft text-brand'
+          : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+      )}
+    >
+      {/* Barre verticale a gauche : l'etat actif ne repose pas seulement sur
+          une teinte de fond, discrete sur certains ecrans. */}
+      {active && (
+        <span
+          className="bg-brand absolute top-1/2 -left-3 h-5 w-1 -translate-y-1/2 rounded-r-full"
+          aria-hidden
+        />
+      )}
+      <NavIcon icon={icon} />
+      <span className="flex-1">{label}</span>
+      {typeof badge === 'number' && badge > 0 && (
+        <span
+          className={cn(
+            'rounded-full px-1.5 py-0.5 text-[11px] font-semibold tabular-nums',
+            active ? 'bg-brand/15 text-brand' : 'bg-muted text-muted-foreground',
+          )}
+        >
+          {badge}
+        </span>
+      )}
+    </Link>
+  );
 }
 
 function SidebarContent({
@@ -104,6 +156,10 @@ function SidebarContent({
   ];
 
   const ratio = usage.quota > 0 ? Math.min(1, usage.used / usage.quota) : 0;
+  const percent = Math.round(ratio * 100);
+  // Au-dela de 80 %, la barre change de couleur : c'est le moment ou le client
+  // doit envisager un plan superieur, pas quand le quota est deja atteint.
+  const nearLimit = ratio >= 0.8;
   const numberLocale = locale === 'fr' ? 'fr-FR' : 'en-US';
 
   return (
@@ -116,7 +172,7 @@ function SidebarContent({
           <button
             type="button"
             onClick={onNavigate}
-            className="hover:bg-accent flex size-8 items-center justify-center rounded-lg"
+            className="hover:bg-accent flex size-8 cursor-pointer items-center justify-center rounded-lg"
             aria-label={t.closeMenu}
           >
             <X className="size-4" />
@@ -124,85 +180,85 @@ function SidebarContent({
         )}
       </div>
 
-      <div className="px-3 pt-4">
+      <div className="px-4 pt-4">
         <Link
           href="/dashboard/bots/new"
           onClick={onNavigate}
-          className="bg-brand text-brand-foreground hover:bg-brand/90 flex h-9 w-full items-center justify-center gap-1.5 rounded-lg text-sm font-medium shadow-sm transition-colors"
+          className="bg-brand text-brand-foreground hover:bg-brand/90 flex h-10 w-full items-center justify-center gap-1.5 rounded-xl text-sm font-semibold shadow-sm transition-colors"
         >
           <NavIcon icon={Plus} />
           {t.newBot}
         </Link>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <p className="text-muted-foreground px-3 pb-1.5 text-[11px] font-semibold tracking-wider uppercase">
+      <nav className="flex-1 overflow-y-auto px-4 py-5">
+        <p className="text-muted-foreground px-3 pb-2 text-[11px] font-semibold tracking-wider uppercase">
           {t.section}
         </p>
-        <div className="space-y-0.5">
-          {items.map((item) => {
-            const active = isActive(pathname, item.href, item.exact);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onNavigate}
-                className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                  active
-                    ? 'bg-brand-soft text-brand'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground',
-                )}
-              >
-                <NavIcon icon={item.icon} />
-                <span className="flex-1">{item.label}</span>
-                {typeof item.badge === 'number' && item.badge > 0 && (
-                  <span
-                    className={cn(
-                      'rounded-full px-1.5 py-0.5 text-[11px] font-semibold tabular-nums',
-                      active ? 'bg-brand/15 text-brand' : 'bg-muted text-muted-foreground',
-                    )}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
+        <div className="space-y-1">
+          {items.map((item) => (
+            <NavLink
+              key={item.href}
+              href={item.href}
+              label={item.label}
+              icon={item.icon}
+              active={isActive(pathname, item.href, item.exact)}
+              badge={item.badge}
+              onNavigate={onNavigate}
+            />
+          ))}
         </div>
       </nav>
 
       {/* Consommation cumulee de tous les assistants : le premier signal
           qu'un client approche de sa limite. */}
       {usage.quota > 0 && (
-        <div className="bg-muted/60 mx-3 mb-3 rounded-xl p-3 ring-1 ring-black/5 dark:ring-white/10">
-          <div className="flex items-center justify-between">
+        <div className="bg-muted/60 mx-4 mb-3 rounded-xl p-3.5 ring-1 ring-black/5 dark:ring-white/10">
+          <div className="flex items-center justify-between gap-2">
             <span className="text-xs font-semibold">{t.usageTitle}</span>
-            <Link href={`/${locale}#tarifs`} className="text-brand text-xs font-semibold hover:underline">
+            <Link
+              href={`/${locale}#tarifs`}
+              className="text-brand text-xs font-semibold hover:underline"
+            >
               {t.usageAction}
             </Link>
           </div>
+
+          <div className="mt-2.5 flex items-baseline justify-between gap-2">
+            <p className="text-muted-foreground text-[11px] tabular-nums">
+              {usage.used.toLocaleString(numberLocale)} {t.usageOf}{' '}
+              {usage.quota.toLocaleString(numberLocale)}
+            </p>
+            <p
+              className={cn(
+                'text-xs font-bold tabular-nums',
+                nearLimit ? 'text-amber-600 dark:text-amber-400' : 'text-muted-foreground',
+              )}
+            >
+              {percent} %
+            </p>
+          </div>
+
           <div className="bg-muted mt-2 h-1.5 overflow-hidden rounded-full">
             <div
-              className="bg-brand h-full rounded-full transition-all duration-300"
+              className={cn(
+                'h-full rounded-full transition-all duration-300',
+                nearLimit ? 'bg-amber-500' : 'bg-brand',
+              )}
               style={{ width: `${ratio * 100}%` }}
             />
           </div>
-          <p className="text-muted-foreground mt-1.5 text-[11px] tabular-nums">
-            {usage.used.toLocaleString(numberLocale)} {t.usageOf}{' '}
-            {usage.quota.toLocaleString(numberLocale)}
-          </p>
         </div>
       )}
 
-      <div className="shrink-0 border-t p-3">
+      <div className="shrink-0 border-t p-4">
         {/* « Administration » s'ecrit pareil dans les deux langues : pas de
             cle de dictionnaire pour un mot identique. */}
         {isAdmin && (
           <Link
             href="/admin"
             onClick={onNavigate}
-            className="mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-500/10"
+            className="mb-0.5 flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-500/10"
           >
             <NavIcon icon={ShieldCheck} />
             Administration
@@ -212,7 +268,7 @@ function SidebarContent({
         <Link
           href={`/${locale}#faq`}
           onClick={onNavigate}
-          className="text-muted-foreground hover:bg-accent hover:text-foreground mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
+          className="text-muted-foreground hover:bg-accent hover:text-foreground mb-0.5 flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors"
         >
           <NavIcon icon={LifeBuoy} />
           {t.help}
@@ -222,8 +278,8 @@ function SidebarContent({
           <LocaleSwitch locale={locale} />
         </div>
 
-        <div className="flex items-center gap-3 rounded-lg px-3 py-2">
-          <span className="bg-foreground text-background flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-bold">
+        <div className="bg-muted/50 mt-1 flex items-center gap-3 rounded-xl px-3 py-2.5">
+          <span className="bg-brand text-brand-foreground flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-bold">
             {user.initials}
           </span>
           <p className="text-muted-foreground min-w-0 flex-1 truncate text-xs">{user.email}</p>
@@ -265,7 +321,7 @@ export function DashboardShell({
       {mobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
             aria-hidden
           />
@@ -285,11 +341,13 @@ export function DashboardShell({
       )}
 
       <div className="lg:pl-64">
-        <div className="bg-background flex h-16 items-center gap-3 border-b px-4 lg:hidden">
+        {/* Barre mobile collante : la navigation reste atteignable une fois
+            la page defilee, sans occuper de place sur grand ecran. */}
+        <div className="bg-background/85 supports-[backdrop-filter]:bg-background/70 sticky top-0 z-20 flex h-16 items-center gap-3 border-b px-4 backdrop-blur lg:hidden">
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className="hover:bg-accent flex size-9 items-center justify-center rounded-lg"
+            className="hover:bg-accent flex size-9 cursor-pointer items-center justify-center rounded-lg"
             aria-label={dict.dashboard.nav.openMenu}
           >
             <Menu className="size-5" />
@@ -299,7 +357,7 @@ export function DashboardShell({
           </Link>
         </div>
 
-        <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
+        <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">{children}</main>
       </div>
     </div>
   );

@@ -97,7 +97,7 @@ export function BotWorkspace({
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="bg-background rounded-xl p-6 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+      <section className="panel p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 className="font-semibold">{t.title}</h2>
@@ -250,7 +250,7 @@ function TestChat({ botId, dict }: { botId: string; dict: Dictionary }) {
   );
 
   return (
-    <section className="bg-background rounded-xl p-6 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+    <section className="panel p-6">
       <h2 className="font-semibold">{t.title}</h2>
       <p className="text-muted-foreground mt-1 text-sm">{t.lead}</p>
 

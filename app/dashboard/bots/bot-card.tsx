@@ -30,23 +30,39 @@ export function BotCard({
     }
   })();
 
+  // Initiale plutot qu'un favicon distant : pas de requete vers un tiers, et
+  // la carte s'affiche complete des le premier rendu.
+  const initial = (bot.name.trim()[0] ?? '?').toUpperCase();
+
   return (
     <Link
       href={`/dashboard/bots/${bot.id}`}
-      className="group bg-background hover:ring-brand/30 flex flex-col rounded-xl p-5 shadow-sm ring-1 ring-black/5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:ring-white/10"
+      className="panel panel-hover group flex flex-col p-5"
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="truncate font-semibold">{bot.name}</p>
-          <p className="text-muted-foreground mt-1 flex items-center gap-1.5 text-sm">
+      <div className="flex items-start gap-3">
+        <span
+          className="bg-brand-soft text-brand flex size-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold"
+          aria-hidden
+        >
+          {initial}
+        </span>
+
+        <div className="min-w-0 flex-1">
+          <p className="group-hover:text-brand truncate font-semibold transition-colors">
+            {bot.name}
+          </p>
+          <p className="text-muted-foreground mt-0.5 flex items-center gap-1.5 text-sm">
             <Globe className="size-3.5 shrink-0" aria-hidden />
             <span className="truncate">{host}</span>
           </p>
         </div>
-        <ArrowRight className="text-muted-foreground size-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
+
+        <ArrowRight className="text-muted-foreground group-hover:text-brand mt-1 size-4 shrink-0 transition-all group-hover:translate-x-0.5" />
       </div>
 
-      <div className="mt-5 flex items-center justify-between gap-3">
+      {/* Trait de separation : l'etat et la date sont des metadonnees, pas la
+          suite du titre. */}
+      <div className="border-border mt-4 flex items-center justify-between gap-3 border-t pt-3">
         <BotStatusBadge status={bot.status} dict={dict} />
         <span className="text-muted-foreground text-xs">
           {bot.last_synced_at

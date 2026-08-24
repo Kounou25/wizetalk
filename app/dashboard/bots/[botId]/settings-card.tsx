@@ -68,7 +68,7 @@ export function SettingsCard({
     <div className="flex flex-col gap-6">
       <ActivationRow botId={botId} initialActive={initialActive} t={t} />
 
-      <section className="bg-background rounded-xl p-6 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+      <section className="panel p-6">
         <h2 className="font-semibold">{t.title}</h2>
         <p className="text-muted-foreground mt-1 text-sm">{t.lead}</p>
 
@@ -250,7 +250,7 @@ function ActivationRow({
   useEffect(() => setActive(initialActive), [initialActive]);
 
   return (
-    <section className="bg-background flex flex-wrap items-center justify-between gap-4 rounded-xl p-6 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+    <section className="panel flex flex-wrap items-center justify-between gap-4 p-6">
       <div className="flex items-start gap-3">
         <span
           className={`flex size-9 shrink-0 items-center justify-center rounded-lg ${

@@ -19,24 +19,41 @@ export default async function BotsPage() {
     .select('id, name, website_url, status, last_synced_at')
     .order('created_at', { ascending: false });
 
-  return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{t.title}</h1>
-          <p className="text-muted-foreground mt-1 text-sm">{t.lead}</p>
-        </div>
-        <Button asChild className="bg-brand hover:bg-brand/90 text-brand-foreground">
-          <Link href="/dashboard/bots/new">
-            <Plus />
-            {dict.dashboard.nav.newBot}
-          </Link>
-        </Button>
-      </div>
+  const list = bots ?? [];
 
-      {bots && bots.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2">
-          {bots.map((bot) => (
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Meme bandeau que la vue d'ensemble : les deux pages principales du
+          tableau de bord s'ouvrent de la meme facon. */}
+      <header className="panel hero-sheen animate-rise relative overflow-hidden p-6 sm:p-8">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title}</h1>
+              {list.length > 0 && (
+                <span className="bg-brand-soft text-brand rounded-full px-2 py-0.5 text-xs font-bold tabular-nums">
+                  {list.length}
+                </span>
+              )}
+            </div>
+            <p className="text-muted-foreground mt-1.5 text-sm text-pretty">{t.lead}</p>
+          </div>
+
+          <Button asChild className="bg-brand hover:bg-brand/90 text-brand-foreground">
+            <Link href="/dashboard/bots/new">
+              <Plus />
+              {dict.dashboard.nav.newBot}
+            </Link>
+          </Button>
+        </div>
+      </header>
+
+      {list.length > 0 ? (
+        <div
+          className="animate-rise grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+          style={{ animationDelay: '60ms' }}
+        >
+          {list.map((bot) => (
             <BotCard key={bot.id} bot={bot} locale={locale} dict={dict} />
           ))}
         </div>

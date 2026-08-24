@@ -66,7 +66,7 @@ export default async function ConversationsPage({
             return (
               <article
                 key={conversation.id}
-                className="bg-background rounded-xl p-5 shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+                className="panel p-5"
               >
                 <p className="text-muted-foreground text-xs">
                   {new Date(conversation.created_at).toLocaleString()} · {messages.length}{' '}

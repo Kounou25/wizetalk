@@ -87,9 +87,14 @@ export default async function BotPage({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label={t.pages} value={stats.pages} icon={FileText} />
-        <StatCard label={t.sections} value={stats.chunks} icon={Layers} />
-        <StatCard label={t.conversations} value={stats.conversations} icon={MessageSquare} />
+        <StatCard label={t.pages} value={stats.pages} icon={FileText} tone="violet" />
+        <StatCard label={t.sections} value={stats.chunks} icon={Layers} tone="brand" />
+        <StatCard
+          label={t.conversations}
+          value={stats.conversations}
+          icon={MessageSquare}
+          tone="emerald"
+        />
       </div>
 
       {/* La boucle, placee haut car c'est elle qui dit quoi faire ensuite :
@@ -160,7 +165,7 @@ function ReportLink({
   return (
     <Link
       href={href}
-      className="bg-background hover:ring-brand/30 flex items-start justify-between gap-3 rounded-xl p-5 shadow-sm ring-1 ring-black/5 transition-all hover:-translate-y-0.5 hover:shadow-md dark:ring-white/10"
+      className="panel panel-hover flex items-start justify-between gap-3 p-5"
     >
       <div className="min-w-0">
         <p className="font-semibold">{title}</p>

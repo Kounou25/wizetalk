@@ -16,7 +16,7 @@ export default function BotLoading() {
         {Array.from({ length: 3 }, (_, index) => (
           <div
             key={index}
-            className="bg-background flex items-start justify-between gap-3 rounded-xl p-5 shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+            className="panel flex items-start justify-between gap-3 p-5"
           >
             <div className="flex flex-col gap-2">
               <Skeleton className="h-4 w-28" />

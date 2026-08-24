@@ -3,6 +3,8 @@
 import { useId, useMemo, useState } from 'react';
 import { Table2 } from 'lucide-react';
 import type { Dictionary, Locale } from '@/lib/i18n';
+import { cn } from '@/lib/utils';
+import { Panel, PanelHeader } from './panel';
 
 export interface ActivityPoint {
   /** Jour au format ISO (AAAA-MM-JJ). */
@@ -57,10 +59,13 @@ export function ActivityChart({
   data,
   locale,
   dict,
+  className,
 }: {
   data: ActivityPoint[];
   locale: Locale;
   dict: Dictionary;
+  /** Placement dans la grille de la vue d'ensemble. */
+  className?: string;
 }) {
   const t = dict.dashboard.chart;
   const formatDay = makeFormatDay(locale);
@@ -71,8 +76,12 @@ export function ActivityChart({
   const [hovered, setHovered] = useState<number | null>(null);
   const [showTable, setShowTable] = useState(false);
   const tableId = useId();
+  /* Le degrade est reference par url(#...) : on retire les caracteres que
+     useId ajoute autour du compteur, qui n'ont pas leur place dans un
+     identifiant de fragment. */
+  const areaId = `activity-area${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
 
-  const { max, positions, paths, total } = useMemo(() => {
+  const { max, positions, paths, area, total } = useMemo(() => {
     const peak = data.reduce(
       (best, point) => Math.max(best, point.conversations, point.messages),
       0,
@@ -90,10 +99,18 @@ export function ActivityChart({
     const build = (key: SeriesKey) =>
       data.map((point, index) => `${index === 0 ? 'M' : 'L'}${x(index)},${y(point[key])}`).join(' ');
 
+    const line = build('conversations');
+
     return {
       max: maxValue,
       positions: { x, y, step },
-      paths: { conversations: build('conversations'), messages: build('messages') },
+      paths: { conversations: line, messages: build('messages') },
+      /* Aire degradee sous la seule serie principale : deux aires superposees
+         se melangeraient et rendraient les deux illisibles. */
+      area:
+        data.length > 1
+          ? `${line} L${x(data.length - 1)},${PLOT_HEIGHT} L${x(0)},${PLOT_HEIGHT} Z`
+          : '',
       total: data.reduce((sum, point) => sum + point.conversations, 0),
     };
   }, [data]);
@@ -122,45 +139,43 @@ export function ActivityChart({
   const dayTickEvery = Math.max(1, Math.ceil(data.length / 6));
 
   return (
-    <section className="viz-root bg-background rounded-xl p-6 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 className="font-semibold">{t.title}</h2>
-          <p className="text-muted-foreground mt-1 text-sm">
-            {total === 0
-              ? t.empty
-              : `${total} ${total > 1 ? t.totalMany : t.totalOne}`}
-          </p>
-        </div>
+    <Panel className={cn('viz-root flex flex-col p-5 sm:p-6', className)}>
+      <PanelHeader
+        title={t.title}
+        description={total === 0 ? t.empty : `${total} ${total > 1 ? t.totalMany : t.totalOne}`}
+        action={
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Légende toujours présente dès deux séries : l'identité ne doit
+                jamais reposer sur la couleur seule. */}
+            <ul className="flex items-center gap-3">
+              {SERIES.map((series) => (
+                <li
+                  key={series.key}
+                  className="text-muted-foreground flex items-center gap-1.5 text-xs"
+                >
+                  <span
+                    className="size-2.5 rounded-full"
+                    style={{ backgroundColor: series.color }}
+                    aria-hidden
+                  />
+                  {labels[series.key]}
+                </li>
+              ))}
+            </ul>
 
-        <div className="flex items-center gap-4">
-          {/* Légende toujours présente dès deux séries : l'identité ne doit
-              jamais reposer sur la couleur seule. */}
-          <ul className="flex items-center gap-4">
-            {SERIES.map((series) => (
-              <li key={series.key} className="text-muted-foreground flex items-center gap-1.5 text-xs">
-                <span
-                  className="size-2.5 rounded-full"
-                  style={{ backgroundColor: series.color }}
-                  aria-hidden
-                />
-                {labels[series.key]}
-              </li>
-            ))}
-          </ul>
-
-          <button
-            type="button"
-            onClick={() => setShowTable((current) => !current)}
-            aria-expanded={showTable}
-            aria-controls={tableId}
-            className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-1.5 text-xs"
-          >
-            <Table2 className="size-3.5" aria-hidden />
-            {showTable ? t.hideTable : t.showTable}
-          </button>
-        </div>
-      </div>
+            <button
+              type="button"
+              onClick={() => setShowTable((current) => !current)}
+              aria-expanded={showTable}
+              aria-controls={tableId}
+              className="border-border text-muted-foreground hover:bg-accent hover:text-foreground flex cursor-pointer items-center gap-1.5 rounded-lg border px-2 py-1 text-xs font-medium transition-colors"
+            >
+              <Table2 className="size-3.5" aria-hidden />
+              {showTable ? t.hideTable : t.showTable}
+            </button>
+          </div>
+        }
+      />
 
       <div
         className="relative mt-6"
@@ -180,6 +195,13 @@ export function ActivityChart({
           role="img"
           aria-label={`${t.aria} — ${data.length}`}
         >
+          <defs>
+            <linearGradient id={areaId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="var(--series-1)" stopOpacity={0.22} />
+              <stop offset="100%" stopColor="var(--series-1)" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+
           {/* Grille en traits pleins d'un cran sur le fond — jamais pointillée. */}
           {ticks.map((tick) => (
             <g key={tick}>
@@ -215,6 +237,8 @@ export function ActivityChart({
               </text>
             ) : null,
           )}
+
+          {area && <path d={area} fill={`url(#${areaId})`} />}
 
           {hovered !== null && (
             <line
@@ -322,6 +346,6 @@ export function ActivityChart({
           </table>
         </div>
       )}
-    </section>
+    </Panel>
   );
 }

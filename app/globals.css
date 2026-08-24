@@ -263,3 +263,92 @@
     animation: none;
   }
 }
+
+/* ===========================================================================
+   Tableau de bord
+   ---------------------------------------------------------------------------
+   Le chrome des cartes (fond, anneau, ombre, rayon) etait recopie a la main
+   sur chaque bloc et divergeait doucement d'une page a l'autre. Il est defini
+   ici une seule fois : les composants ne portent plus que leur contenu.
+   ========================================================================= */
+
+.panel {
+  background-color: var(--background);
+  border-radius: 1rem;
+  /* L'anneau passe par l'ombre plutot que par une bordure : il ne participe
+     pas au calcul de taille, donc deux panneaux voisins restent alignes. */
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.055),
+    0 1px 2px 0 rgb(0 0 0 / 0.04),
+    0 14px 30px -22px rgb(0 0 0 / 0.22);
+}
+
+.dark .panel {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.09),
+    0 1px 2px 0 rgb(0 0 0 / 0.35);
+}
+
+/* Panneau cliquable : le survol souleve la carte et teinte l'anneau. */
+.panel-hover {
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s ease;
+}
+
+.panel-hover:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--brand) 35%, transparent),
+    0 1px 2px 0 rgb(0 0 0 / 0.04),
+    0 20px 40px -26px rgb(0 0 0 / 0.4);
+}
+
+.dark .panel-hover:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--brand) 55%, transparent),
+    0 1px 2px 0 rgb(0 0 0 / 0.35);
+}
+
+/* Voile de marque en haut a droite de l'en-tete : donne un point d'entree
+   visuel a la page sans image ni bloc de couleur pleine. */
+.hero-sheen {
+  background-image:
+    radial-gradient(
+      110% 150% at 100% 0%,
+      color-mix(in oklch, var(--brand) 13%, transparent) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      80% 120% at 0% 100%,
+      color-mix(in oklch, var(--brand) 6%, transparent) 0%,
+      transparent 55%
+    );
+}
+
+/* Apparition des sections a l'arrivee sur la page, decalee bloc par bloc :
+   l'oeil suit l'ordre de lecture au lieu de recevoir tout d'un coup. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sans l'animation, `both` ne s'applique pas : le contenu reste visible. */
+  .animate-rise {
+    animation: none;
+  }
+  .panel-hover:hover {
+    transform: none;
+  }
+}
