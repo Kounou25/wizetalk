@@ -6,6 +6,7 @@ import { getDictionary } from '@/lib/i18n';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { EmptyState } from '@/components/dashboard/empty-state';
 import { BotActions } from '@/components/admin/bot-actions';
+import { PageHeader } from '@/components/dashboard/panel';
 
 export default async function AdminBotsPage() {
   const { db } = await requireAdmin();
@@ -13,13 +14,11 @@ export default async function AdminBotsPage() {
   const dict = getDictionary('fr');
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Assistants</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          {bots.length} assistant{bots.length > 1 ? 's' : ''}, tous comptes confondus.
-        </p>
-      </div>
+    <div className="flex flex-col gap-5">
+      <PageHeader
+        title="Assistants"
+        description={`${bots.length} assistant${bots.length > 1 ? 's' : ''}, tous comptes confondus.`}
+      />
 
       {bots.length === 0 ? (
         <EmptyState
@@ -28,9 +27,9 @@ export default async function AdminBotsPage() {
           description="Les assistants créés par vos utilisateurs apparaîtront ici."
         />
       ) : (
-        <div className="bg-background overflow-x-auto rounded-xl shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+        <div className="panel overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-muted-foreground border-b text-left text-xs">
+            <thead className="text-muted-foreground border-border border-b text-left text-xs">
               <tr>
                 <th scope="col" className="px-4 py-3 font-medium">Assistant</th>
                 <th scope="col" className="px-4 py-3 font-medium">Compte</th>

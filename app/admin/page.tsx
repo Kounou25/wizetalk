@@ -1,19 +1,11 @@
 import Link from 'next/link';
-import {
-  Bot,
-  FileText,
-  Layers,
-  Mail,
-  MessageSquare,
-  ShieldCheck,
-  TriangleAlert,
-  Users,
-} from 'lucide-react';
+import { ChevronRight, ShieldCheck } from 'lucide-react';
 
 import { requireAdmin } from '@/lib/admin/guard';
 import { getPlatformStats, listBots } from '@/lib/admin/queries';
-import { StatCard } from '@/components/dashboard/stat-card';
+import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
+import { PageHeader, panelLinkClass } from '@/components/dashboard/panel';
 import { getDictionary } from '@/lib/i18n';
 
 export default async function AdminOverviewPage() {
@@ -28,47 +20,39 @@ export default async function AdminOverviewPage() {
     stats.messages > 0 ? ((stats.unanswered / stats.messages) * 100).toFixed(1) : '0';
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Vue d&apos;ensemble</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          L&apos;état de la plateforme, tous comptes confondus.
-        </p>
-      </div>
+    <div className="flex flex-col gap-5">
+      <PageHeader
+        title="Vue d'ensemble"
+        description="L'état de la plateforme, tous comptes confondus."
+      />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Comptes" value={stats.users} icon={Users} />
-        <StatCard
-          label="Assistants"
-          value={stats.bots}
-          hint={`${stats.activeBots} actifs`}
-          icon={Bot}
-        />
-        <StatCard label="Conversations" value={stats.conversations} icon={MessageSquare} />
-        <StatCard label="Prospects" value={stats.leads} icon={Mail} />
-      </div>
+      <StatGroup columns={4}>
+        <StatCell label="Comptes" value={stats.users} />
+        <StatCell label="Assistants" value={stats.bots} hint={`${stats.activeBots} actifs`} />
+        <StatCell label="Conversations" value={stats.conversations} />
+        <StatCell label="Prospects" value={stats.leads} />
+      </StatGroup>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Pages indexées" value={stats.pages} icon={FileText} />
-        <StatCard label="Sections" value={stats.chunks} icon={Layers} />
-        <StatCard label="Messages" value={stats.messages} icon={MessageSquare} />
-        <StatCard
+      <StatGroup columns={4}>
+        <StatCell label="Pages indexées" value={stats.pages} />
+        <StatCell label="Sections" value={stats.chunks} />
+        <StatCell label="Messages" value={stats.messages} />
+        <StatCell
           label="Sans réponse"
           value={stats.unanswered}
           hint={`${refusalRate} % des messages`}
-          icon={TriangleAlert}
         />
-      </div>
+      </StatGroup>
 
       {/*
         Le taux de refus est l'indicateur de sante du produit : s'il grimpe,
         soit le seuil de similarite est trop haut, soit les sites indexes sont
         trop pauvres. C'est le premier chiffre a surveiller.
       */}
-      <section className="bg-background rounded-xl p-6 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+      <section className="panel p-4">
         <div className="flex items-center gap-2">
           <ShieldCheck className="text-brand size-4" aria-hidden />
-          <h2 className="font-semibold">Santé des réponses</h2>
+          <h2 className="text-sm font-semibold">Santé des réponses</h2>
         </div>
         <p className="text-muted-foreground mt-2 text-sm text-pretty">
           {stats.unanswered} message{stats.unanswered > 1 ? 's' : ''} sur {stats.messages}{' '}
@@ -79,20 +63,18 @@ export default async function AdminOverviewPage() {
         </p>
       </section>
 
-      <section className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <h2 className="font-semibold">Derniers assistants créés</h2>
-          <Link
-            href="/admin/bots"
-            className="text-muted-foreground hover:text-foreground text-sm"
-          >
-            Tout voir →
+      <section className="panel flex flex-col">
+        <div className="border-border flex items-center justify-between border-b px-4 py-3.5">
+          <h2 className="text-sm font-semibold">Derniers assistants créés</h2>
+          <Link href="/admin/bots" className={panelLinkClass}>
+            Tout voir
+            <ChevronRight className="size-3.5" aria-hidden />
           </Link>
         </div>
 
-        <div className="bg-background overflow-x-auto rounded-xl shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+        <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-muted-foreground border-b text-left text-xs">
+            <thead className="text-muted-foreground border-border border-b text-left text-xs">
               <tr>
                 <th scope="col" className="px-4 py-3 font-medium">Assistant</th>
                 <th scope="col" className="px-4 py-3 font-medium">Compte</th>
@@ -102,7 +84,7 @@ export default async function AdminOverviewPage() {
             </thead>
             <tbody>
               {bots.map((bot) => (
-                <tr key={bot.id} className="border-b last:border-0">
+                <tr key={bot.id} className="border-border border-b last:border-0">
                   <td className="px-4 py-3">
                     <p className="font-medium">{bot.name}</p>
                     <p className="text-muted-foreground text-xs">{bot.websiteUrl}</p>

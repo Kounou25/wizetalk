@@ -23,10 +23,10 @@ export function AdminSidebar({ email }: { email: string }) {
   const pathname = usePathname();
 
   return (
-    <aside className="bg-background w-full shrink-0 border-b lg:h-screen lg:w-60 lg:border-r lg:border-b-0">
-      <div className="flex h-16 items-center gap-2 border-b px-5">
+    <aside className="bg-surface border-border w-full shrink-0 border-b lg:h-screen lg:w-60 lg:border-r lg:border-b-0">
+      <div className="border-border flex h-14 items-center gap-2 border-b px-4">
         <ShieldCheck className="size-5 text-red-600" aria-hidden />
-        <span className="font-bold tracking-tight">Administration</span>
+        <span className="text-sm font-semibold tracking-tight">Administration</span>
       </div>
 
       <nav className="flex gap-1 overflow-x-auto p-3 lg:flex-col lg:overflow-visible">
@@ -40,10 +40,10 @@ export function AdminSidebar({ email }: { email: string }) {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex shrink-0 items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                'focus-ring flex shrink-0 items-center gap-2.5 rounded-lg border px-2.5 py-2 text-sm font-medium transition-colors',
                 active
-                  ? 'bg-brand-soft text-brand'
-                  : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                  ? 'bg-surface-subtle text-foreground border-border'
+                  : 'text-muted-foreground hover:bg-surface-subtle hover:text-foreground border-transparent',
               )}
             >
               <NavIcon icon={item.icon} />
@@ -53,10 +53,10 @@ export function AdminSidebar({ email }: { email: string }) {
         })}
       </nav>
 
-      <div className="hidden border-t p-3 lg:block">
+      <div className="border-border hidden border-t p-3 lg:block">
         <Link
           href="/dashboard"
-          className="text-muted-foreground hover:bg-accent hover:text-foreground flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
+          className="focus-ring text-muted-foreground hover:bg-surface-subtle hover:text-foreground flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors"
         >
           <NavIcon icon={ArrowLeft} />
           Retour au tableau de bord

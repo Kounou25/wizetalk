@@ -448,6 +448,8 @@ export const en: Dictionary = {
       usageTitle: 'Messages this month',
       usageAction: 'Upgrade',
       usageOf: 'of',
+      account: 'Account',
+      signedInAs: 'Signed in as',
     },
 
     status: {
@@ -479,7 +481,11 @@ export const en: Dictionary = {
     },
 
     chart: {
-      title: 'Activity over the last 30 days',
+      title: 'Activity',
+      rangeLabel: 'Time range',
+      range7: '7d',
+      range30: '30d',
+      range90: '90d',
       empty: 'No conversations in this period.',
       totalOne: 'conversation in total.',
       totalMany: 'conversations in total.',

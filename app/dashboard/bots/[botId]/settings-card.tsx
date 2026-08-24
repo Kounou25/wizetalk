@@ -68,8 +68,8 @@ export function SettingsCard({
     <div className="flex flex-col gap-6">
       <ActivationRow botId={botId} initialActive={initialActive} t={t} />
 
-      <section className="panel p-6">
-        <h2 className="font-semibold">{t.title}</h2>
+      <section className="panel p-5">
+        <h2 className="text-sm font-semibold">{t.title}</h2>
         <p className="text-muted-foreground mt-1 text-sm">{t.lead}</p>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_18rem]">
@@ -250,7 +250,7 @@ function ActivationRow({
   useEffect(() => setActive(initialActive), [initialActive]);
 
   return (
-    <section className="panel flex flex-wrap items-center justify-between gap-4 p-6">
+    <section className="panel flex flex-wrap items-center justify-between gap-4 p-5">
       <div className="flex items-start gap-3">
         <span
           className={`flex size-9 shrink-0 items-center justify-center rounded-lg ${
@@ -260,7 +260,7 @@ function ActivationRow({
           <Power className="size-4" aria-hidden />
         </span>
         <div>
-          <p id={labelId} className="font-semibold">
+          <p id={labelId} className="text-sm font-semibold">
             {active ? t.activeTitle : t.inactiveTitle}
           </p>
           <p className="text-muted-foreground mt-0.5 max-w-md text-sm text-pretty">
@@ -295,7 +295,7 @@ function DangerZone({
 
   return (
     <section className="rounded-xl p-6 ring-1 ring-red-500/20">
-      <h2 className="font-semibold text-red-600">{t.dangerTitle}</h2>
+      <h2 className="text-sm font-semibold text-red-600">{t.dangerTitle}</h2>
       <p className="text-muted-foreground mt-1 max-w-lg text-sm text-pretty">
         {t.dangerBody}
       </p>

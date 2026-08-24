@@ -1,14 +1,15 @@
 import {
   PageHeaderSkeleton,
-  StatCardsSkeleton,
+  StatGroupSkeleton,
   TableSkeleton,
 } from '@/components/dashboard/skeleton';
 
 export default function AdminLoading() {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-5">
       <PageHeaderSkeleton />
-      <StatCardsSkeleton count={3} />
+      <StatGroupSkeleton count={4} />
+      <StatGroupSkeleton count={4} />
       <TableSkeleton rows={6} />
     </div>
   );

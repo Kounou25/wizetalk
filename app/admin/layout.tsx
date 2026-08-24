@@ -22,13 +22,13 @@ export default async function AdminLayout({
   if (!admin) notFound();
 
   return (
-    <div className="bg-muted/40 min-h-screen lg:flex">
+    <div className="bg-surface-page min-h-screen lg:flex">
       <AdminSidebar email={admin.email} />
 
       {/* min-w-0 : sans lui, un tableau large pousse la colonne et fait
           defiler la page entiere horizontalement. */}
       <main className="min-w-0 flex-1 lg:h-screen lg:overflow-y-auto">
-        <div className="mx-auto max-w-6xl px-6 py-8">{children}</div>
+        <div className="mx-auto max-w-[1280px] px-4 py-6 sm:px-6">{children}</div>
       </main>
     </div>
   );

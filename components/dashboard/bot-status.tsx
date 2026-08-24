@@ -1,29 +1,23 @@
-import { cn } from '@/lib/utils';
 import type { Dictionary } from '@/lib/i18n';
+import { Badge, type BadgeVariant } from '@/components/ui/badge';
 
-/** Pastille d'etat, cohérente partout où un assistant est affiché. */
-const STYLES = {
-  draft: { dot: 'bg-muted-foreground/50', text: 'text-muted-foreground' },
-  crawling: { dot: 'bg-amber-500 animate-pulse', text: 'text-amber-600' },
-  ready: { dot: 'bg-emerald-500', text: 'text-emerald-600' },
-  error: { dot: 'bg-red-500', text: 'text-red-600' },
-} as const;
+/** Etat d'un assistant, rendu a l'identique partout ou il apparait. */
+const STATUS: Record<string, { variant: BadgeVariant; pulse?: boolean }> = {
+  draft: { variant: 'neutral' },
+  crawling: { variant: 'warning', pulse: true },
+  ready: { variant: 'success' },
+  error: { variant: 'danger' },
+};
 
-export type BotStatus = keyof typeof STYLES;
+export type BotStatus = 'draft' | 'crawling' | 'ready' | 'error';
 
 export function BotStatusBadge({ status, dict }: { status: string; dict: Dictionary }) {
-  const key: BotStatus = status in STYLES ? (status as BotStatus) : 'draft';
-  const style = STYLES[key];
+  const key: BotStatus = status in STATUS ? (status as BotStatus) : 'draft';
+  const { variant, pulse } = STATUS[key]!;
 
   return (
-    <span
-      className={cn(
-        'bg-muted/70 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium',
-        style.text,
-      )}
-    >
-      <span className={cn('size-1.5 rounded-full', style.dot)} aria-hidden />
+    <Badge variant={variant} dot pulse={pulse}>
       {dict.dashboard.status[key]}
-    </span>
+    </Badge>
   );
 }

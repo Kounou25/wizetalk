@@ -10,7 +10,7 @@ export function LocaleSwitch({ locale }: { locale: Locale }) {
   const [pending, startTransition] = useTransition();
 
   return (
-    <div className="flex items-center rounded-lg border p-0.5" role="group">
+    <div className="bg-surface-subtle border-border flex items-center rounded-lg border p-0.5" role="group">
       {LOCALES.map((target) => (
         <button
           key={target}
@@ -19,10 +19,10 @@ export function LocaleSwitch({ locale }: { locale: Locale }) {
           aria-current={target === locale ? 'true' : undefined}
           onClick={() => startTransition(() => setLocale(target))}
           className={cn(
-            'cursor-pointer rounded-md px-2 py-0.5 text-xs font-semibold uppercase transition-colors disabled:cursor-default',
+            'focus-ring cursor-pointer rounded-md px-1.5 py-0.5 text-[11px] font-semibold uppercase transition-colors disabled:cursor-default',
             target === locale
-              ? 'bg-muted text-foreground'
-              : 'text-muted-foreground hover:text-foreground',
+              ? 'bg-surface text-foreground border-border border shadow-[var(--elevation-flat)]'
+              : 'text-muted-foreground hover:text-foreground border border-transparent',
           )}
         >
           {target}

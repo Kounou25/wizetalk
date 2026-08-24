@@ -48,7 +48,7 @@ export function AuthForm({ mode, action, locale, dict }: AuthFormProps) {
         </p>
       </div>
 
-      <div className="bg-background mt-8 rounded-xl p-6 shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+      <div className="panel mt-8 p-6">
         <GoogleButton
           next={next}
           label={isLogin ? t.googleLogin : t.googleSignup}

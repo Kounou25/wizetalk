@@ -447,6 +447,8 @@ export const fr = {
       usageTitle: 'Messages ce mois-ci',
       usageAction: 'Augmenter',
       usageOf: 'sur',
+      account: 'Compte',
+      signedInAs: 'Connecté en tant que',
     },
 
     status: {
@@ -478,7 +480,11 @@ export const fr = {
     },
 
     chart: {
-      title: 'Activité des 30 derniers jours',
+      title: 'Activité',
+      rangeLabel: 'Période affichée',
+      range7: '7 j',
+      range30: '30 j',
+      range90: '90 j',
       empty: 'Aucune conversation sur la période.',
       totalOne: 'conversation au total.',
       totalMany: 'conversations au total.',

@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, RefreshCw, Sparkles } from 'lucide-react';
+import { RefreshCw, Sparkles } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { getDictionary } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
 import { EmptyState } from '@/components/dashboard/empty-state';
+import { PageHeader, BackLink } from '@/components/dashboard/panel';
 
 interface MessageRow {
   id: string;
@@ -99,19 +100,10 @@ export default async function GapsPage({
   );
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <Link
-          href={`/dashboard/bots/${botId}`}
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
-        >
-          <ArrowLeft className="size-3.5" />
-          {bot.name}
-        </Link>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight">{t.title}</h1>
-        <p className="text-muted-foreground mt-1 max-w-2xl text-sm text-pretty">
-          {t.lead}
-        </p>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
+        <BackLink href={`/dashboard/bots/${botId}`}>{bot.name}</BackLink>
+        <PageHeader title={t.title} description={t.lead} />
       </div>
 
       {gaps.length === 0 ? (

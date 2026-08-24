@@ -1,17 +1,22 @@
 import Link from 'next/link';
-import { Bot, FileText, Mail, MessageSquare, Plus } from 'lucide-react';
+import { Bot, Plus } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { getActivitySeries } from '@/lib/database';
 import { getDictionary } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
 import { Button } from '@/components/ui/button';
-import { StatCard, type StatDelta } from '@/components/dashboard/stat-card';
+import { StatCell, StatGroup, type StatDelta } from '@/components/dashboard/stat-card';
 import { ActivityChart, type ActivityPoint } from '@/components/dashboard/activity-chart';
+import { BotList } from '@/components/dashboard/bot-list';
+import type { BotSummary } from '@/components/dashboard/bot-summary';
 import { EmptyState } from '@/components/dashboard/empty-state';
-import { panelLinkClass } from '@/components/dashboard/panel';
+import { PageHeader } from '@/components/dashboard/panel';
 import { RecentLeads, type RecentLead } from '@/components/dashboard/recent-leads';
-import { BotCard } from './bots/bot-card';
+
+/** Profondeur de la serie chargee. Le selecteur de periode du graphique
+ *  decoupe dedans sans repasser par le serveur. */
+const HISTORY_DAYS = 90;
 
 /** Ligne de `leads` jointe au nom de son assistant. */
 interface RecentLeadRow {
@@ -63,7 +68,7 @@ export default async function DashboardPage() {
       .from('bots')
       .select('id, name, website_url, status, last_synced_at')
       .order('created_at', { ascending: false })
-      .limit(4),
+      .limit(5),
     supabase.from('pages').select('id', { count: 'exact', head: true }),
     supabase.from('conversations').select('id', { count: 'exact', head: true }),
     supabase.from('leads').select('id', { count: 'exact', head: true }),
@@ -72,12 +77,11 @@ export default async function DashboardPage() {
       .from('leads')
       .select('id, email, question, status, created_at, bot_id, bots(name)')
       .order('created_at', { ascending: false })
-      .limit(4),
-    getActivitySeries(supabase),
+      .limit(5),
+    getActivitySeries(supabase, HISTORY_DAYS),
   ]);
 
-  const bots = botsResult.data ?? [];
-  const hasBots = bots.length > 0;
+  const bots = (botsResult.data ?? []) as BotSummary[];
   const pendingLeads = pendingLeadsResult.count ?? 0;
 
   const recentLeads: RecentLead[] = ((recentLeadsResult.data ?? []) as RecentLeadRow[]).map(
@@ -92,80 +96,43 @@ export default async function DashboardPage() {
     }),
   );
 
-  // Date du jour en en-tete : elle situe la lecture des chiffres qui suivent.
-  const today = new Date().toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  });
-
   return (
-    <div className="flex flex-col gap-6">
-      <header className="panel hero-sheen animate-rise relative overflow-hidden p-6 sm:p-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
-              {today}
-            </p>
-            <h1 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">{t.title}</h1>
-            <p className="text-muted-foreground mt-1.5 max-w-md text-sm text-pretty">
-              {t.lead}
-            </p>
-          </div>
+    <div className="flex flex-col gap-5">
+      <PageHeader
+        title={t.title}
+        description={t.lead}
+        action={
+          bots.length > 0 && (
+            <Button asChild className="bg-brand hover:bg-brand/90 text-brand-foreground">
+              <Link href="/dashboard/bots/new">
+                <Plus />
+                {dict.dashboard.nav.newBot}
+              </Link>
+            </Button>
+          )
+        }
+      />
 
-          {hasBots && (
-            <div className="flex flex-wrap items-center gap-2">
-              <Button variant="outline" asChild>
-                <Link href="/dashboard/bots">{t.yourBots}</Link>
-              </Button>
-              <Button asChild className="bg-brand hover:bg-brand/90 text-brand-foreground">
-                <Link href="/dashboard/bots/new">
-                  <Plus />
-                  {dict.dashboard.nav.newBot}
-                </Link>
-              </Button>
-            </div>
-          )}
-        </div>
-      </header>
-
-      {hasBots ? (
+      {bots.length > 0 ? (
         <>
-          {/* Les quatre chiffres qui resument le compte. Ils tiennent sur une
-              ligne des le format tablette : c'est la premiere chose lue. */}
-          <div
-            className="animate-rise grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
-            style={{ animationDelay: '60ms' }}
-          >
-            <StatCard label={t.assistants} value={bots.length} icon={Bot} tone="brand" />
-            <StatCard
-              label={t.pages}
-              value={pagesResult.count ?? 0}
-              icon={FileText}
-              tone="violet"
-            />
-            <StatCard
+          <StatGroup columns={4}>
+            <StatCell label={t.assistants} value={bots.length} />
+            <StatCell label={t.pages} value={pagesResult.count ?? 0} />
+            <StatCell
               label={t.conversations}
               value={conversationsResult.count ?? 0}
-              icon={MessageSquare}
-              tone="emerald"
               delta={weeklyDelta(activity, t.vsPrevious)}
             />
-            <StatCard
+            <StatCell
               label={t.leads}
               value={leadsResult.count ?? 0}
-              icon={Mail}
-              tone="amber"
               hint={pendingLeads > 0 ? `${pendingLeads} ${t.leadsPending}` : undefined}
             />
-          </div>
+          </StatGroup>
 
-          {/* Le graphique occupe les deux tiers, les prospects le dernier :
-              on lit la tendance a gauche, ce qui reste a faire a droite. */}
-          <div
-            className="animate-rise grid gap-4 lg:grid-cols-3"
-            style={{ animationDelay: '120ms' }}
-          >
+          {/* Le graphique occupe les deux tiers, les prospects le dernier : on
+              lit la tendance a gauche, ce qui reste a faire a droite. */}
+          <div className="grid gap-5 lg:grid-cols-3">
             <ActivityChart
               data={activity}
               locale={locale}
@@ -175,23 +142,7 @@ export default async function DashboardPage() {
             <RecentLeads leads={recentLeads} locale={locale} dict={dict} />
           </div>
 
-          <section
-            className="animate-rise flex flex-col gap-4"
-            style={{ animationDelay: '180ms' }}
-          >
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="font-semibold">{t.yourBots}</h2>
-              <Link href="/dashboard/bots" className={panelLinkClass}>
-                {t.seeAll} →
-              </Link>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {bots.map((bot) => (
-                <BotCard key={bot.id} bot={bot} locale={locale} dict={dict} />
-              ))}
-            </div>
-          </section>
+          <BotList bots={bots} locale={locale} dict={dict} />
         </>
       ) : (
         /* Compte neuf : des compteurs a zero n'apprennent rien. On ne montre

@@ -18,7 +18,7 @@ export default async function LoginPage({
   if (!isLocale(locale)) notFound();
 
   return (
-    <main className="bg-muted/40 flex min-h-screen items-center justify-center p-6">
+    <main className="bg-surface-page flex min-h-screen items-center justify-center p-6">
       <Suspense>
         <AuthForm
           mode="login"

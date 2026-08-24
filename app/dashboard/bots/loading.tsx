@@ -1,9 +1,9 @@
-import { BotCardsSkeleton, HeroHeaderSkeleton } from '@/components/dashboard/skeleton';
+import { BotCardsSkeleton, PageHeaderSkeleton } from '@/components/dashboard/skeleton';
 
 export default function BotsLoading() {
   return (
-    <div className="flex flex-col gap-6">
-      <HeroHeaderSkeleton />
+    <div className="flex flex-col gap-5">
+      <PageHeaderSkeleton />
       <BotCardsSkeleton count={6} />
     </div>
   );

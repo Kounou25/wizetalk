@@ -4,6 +4,7 @@ import { requireAdmin } from '@/lib/admin/guard';
 import { listUsers } from '@/lib/admin/queries';
 import { EmptyState } from '@/components/dashboard/empty-state';
 import { UserActions } from '@/components/admin/user-actions';
+import { PageHeader } from '@/components/dashboard/panel';
 
 export default async function AdminUsersPage() {
   // requireAdmin() est ce qui rend le client privilegie : impossible de lire
@@ -12,13 +13,11 @@ export default async function AdminUsersPage() {
   const users = await listUsers(db);
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Comptes</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          {users.length} compte{users.length > 1 ? 's' : ''} sur la plateforme.
-        </p>
-      </div>
+    <div className="flex flex-col gap-5">
+      <PageHeader
+        title="Comptes"
+        description={`${users.length} compte${users.length > 1 ? 's' : ''} sur la plateforme.`}
+      />
 
       {users.length === 0 ? (
         <EmptyState
@@ -27,9 +26,9 @@ export default async function AdminUsersPage() {
           description="Les inscriptions apparaîtront ici."
         />
       ) : (
-        <div className="bg-background overflow-x-auto rounded-xl shadow-sm ring-1 ring-black/5 dark:ring-white/10">
+        <div className="panel overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-muted-foreground border-b text-left text-xs">
+            <thead className="text-muted-foreground border-border border-b text-left text-xs">
               <tr>
                 <th scope="col" className="px-4 py-3 font-medium">Adresse</th>
                 <th scope="col" className="px-4 py-3 font-medium">Inscrit le</th>
@@ -41,7 +40,7 @@ export default async function AdminUsersPage() {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.id} className="border-b last:border-0">
+                <tr key={user.id} className="border-border border-b last:border-0">
                   <td className="px-4 py-3">
                     <span className="font-medium">{user.email}</span>
                     {user.isAdmin && (

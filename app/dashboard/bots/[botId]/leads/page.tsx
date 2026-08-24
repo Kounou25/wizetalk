@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, Check, Mail, RotateCcw, Trash2 } from 'lucide-react';
+import { Check, Mail, RotateCcw, Trash2 } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { getDictionary } from '@/lib/i18n';
@@ -8,6 +7,8 @@ import { getRequestLocale } from '@/lib/i18n/server';
 import { SubmitButton } from '@/components/ui/submit-button';
 import { EmptyState } from '@/components/dashboard/empty-state';
 import { deleteLead, setLeadStatus } from '@/app/dashboard/actions';
+import { Badge } from '@/components/ui/badge';
+import { PageHeader, BackLink } from '@/components/dashboard/panel';
 
 interface LeadRow {
   id: string;
@@ -46,20 +47,20 @@ export default async function LeadsPage({
   const pending = leads.filter((lead) => lead.status === 'new');
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <Link
-          href={`/dashboard/bots/${botId}`}
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
-        >
-          <ArrowLeft className="size-3.5" />
-          {bot.name}
-        </Link>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight">{t.title}</h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          {t.lead}
-          {pending.length > 0 && ` ${pending.length} ${t.pending}`}
-        </p>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
+        <BackLink href={`/dashboard/bots/${botId}`}>{bot.name}</BackLink>
+        <PageHeader
+          title={t.title}
+          description={t.lead}
+          meta={
+            pending.length > 0 ? (
+              <Badge variant="brand">
+                {pending.length} {t.pending}
+              </Badge>
+            ) : undefined
+          }
+        />
       </div>
 
       {!bot.lead_capture && (

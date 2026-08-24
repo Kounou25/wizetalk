@@ -1,13 +1,15 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ExternalLink, FileText, Layers, MessageSquare } from 'lucide-react';
+import { ChevronRight, ExternalLink } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { getBotStats } from '@/lib/database';
 import { getDictionary } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
-import { StatCard } from '@/components/dashboard/stat-card';
+import { Badge } from '@/components/ui/badge';
+import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
+import { BackLink, PageHeader } from '@/components/dashboard/panel';
 import { BotWorkspace } from './bot-workspace';
 import { DocumentsCard, type DocumentRow } from './documents-card';
 import { InstallCard } from './install-card';
@@ -52,50 +54,37 @@ export default async function BotPage({
   }));
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <Link
-          href="/dashboard/bots"
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
-        >
-          <ArrowLeft className="size-3.5" />
-          {t.back}
-        </Link>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
+        <BackLink href="/dashboard/bots">{t.back}</BackLink>
 
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-4">
-          <div className="min-w-0">
-            <h1 className="truncate text-2xl font-bold tracking-tight">{bot.name}</h1>
+        <PageHeader
+          title={bot.name}
+          meta={
+            <>
+              {!bot.is_active && <Badge>{t.deactivated}</Badge>}
+              <BotStatusBadge status={bot.status} dict={dict} />
+            </>
+          }
+          action={
             <a
               href={bot.website_url}
               target="_blank"
               rel="noreferrer"
-              className="text-muted-foreground hover:text-foreground mt-1 inline-flex items-center gap-1.5 text-sm"
+              className="focus-ring text-muted-foreground hover:text-foreground border-border hover:border-border-strong inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors"
             >
-              {bot.website_url}
-              <ExternalLink className="size-3.5" aria-hidden />
+              <span className="max-w-56 truncate">{bot.website_url}</span>
+              <ExternalLink className="size-3.5 shrink-0" aria-hidden />
             </a>
-          </div>
-          <div className="flex items-center gap-2">
-            {!bot.is_active && (
-              <span className="bg-muted text-muted-foreground rounded-full px-2.5 py-1 text-xs font-medium">
-                {t.deactivated}
-              </span>
-            )}
-            <BotStatusBadge status={bot.status} dict={dict} />
-          </div>
-        </div>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label={t.pages} value={stats.pages} icon={FileText} tone="violet" />
-        <StatCard label={t.sections} value={stats.chunks} icon={Layers} tone="brand" />
-        <StatCard
-          label={t.conversations}
-          value={stats.conversations}
-          icon={MessageSquare}
-          tone="emerald"
+          }
         />
       </div>
+
+      <StatGroup columns={3}>
+        <StatCell label={t.pages} value={stats.pages} />
+        <StatCell label={t.sections} value={stats.chunks} />
+        <StatCell label={t.conversations} value={stats.conversations} />
+      </StatGroup>
 
       {/* La boucle, placee haut car c'est elle qui dit quoi faire ensuite :
           le visiteur laisse son adresse, vous voyez le trou dans votre
@@ -149,6 +138,7 @@ export default async function BotPage({
   );
 }
 
+/** Raccourci vers un rapport, avec le nombre d'elements qui l'attendent. */
 function ReportLink({
   href,
   title,
@@ -165,19 +155,21 @@ function ReportLink({
   return (
     <Link
       href={href}
-      className="panel panel-hover flex items-start justify-between gap-3 p-5"
+      className="panel panel-interactive focus-ring group flex items-start justify-between gap-3 p-4"
     >
       <div className="min-w-0">
-        <p className="font-semibold">{title}</p>
-        <p className="text-muted-foreground mt-0.5 text-sm text-pretty">{description}</p>
+        <p className="flex items-center gap-1 text-sm font-semibold">
+          {title}
+          <ChevronRight
+            className="text-muted-foreground group-hover:text-foreground size-3.5 transition-colors"
+            aria-hidden
+          />
+        </p>
+        <p className="text-muted-foreground mt-0.5 text-xs text-pretty">{description}</p>
       </div>
-      <span
-        className={`shrink-0 rounded-full px-2.5 py-1 text-sm font-semibold tabular-nums ${
-          highlight ? 'bg-brand-soft text-brand' : 'bg-muted text-muted-foreground'
-        }`}
-      >
+      <Badge variant={highlight ? 'brand' : 'neutral'} className="text-sm tabular-nums">
         {value}
-      </span>
+      </Badge>
     </Link>
   );
 }

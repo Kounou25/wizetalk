@@ -123,8 +123,8 @@ export function DocumentsCard({
   }
 
   return (
-    <section className="panel p-6">
-      <h2 className="font-semibold">{t.title}</h2>
+    <section className="panel p-5">
+      <h2 className="text-sm font-semibold">{t.title}</h2>
       <p className="text-muted-foreground mt-1 max-w-xl text-sm text-pretty">{t.lead}</p>
 
       <div

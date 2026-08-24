@@ -19,7 +19,7 @@ export function CreateBotForm({ dict }: { dict: Dictionary }) {
   return (
     <form
       action={formAction}
-      className="panel flex flex-col gap-5 p-6"
+      className="panel flex flex-col gap-5 p-5"
     >
       <div className="flex flex-col gap-2">
         <Label htmlFor="name">{t.nameLabel}</Label>

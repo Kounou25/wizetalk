@@ -30,6 +30,36 @@
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
+
+  /*
+   * Surfaces du produit.
+   *
+   * Le tableau de bord empile trois plans : le fond de page, la surface des
+   * panneaux posee dessus, et les remplissages discrets a l'interieur d'un
+   * panneau. Les nommer evite de choisir un gris au juge a chaque bloc, et
+   * garantit que deux panneaux voisins sont exactement du meme ton.
+   */
+  --surface: oklch(1 0 0);
+  --surface-page: oklch(0.985 0.003 247.858);
+  --surface-subtle: oklch(0.973 0.006 247.896);
+  /* Bordure appuyee : separateurs de tableaux, contours au survol. */
+  --border-strong: oklch(0.885 0.017 255.508);
+
+  /*
+   * Elevation. Trois niveaux, pas plus : un panneau pose, un element souleve
+   * au survol, un calque flottant. Une ombre choisie au cas par cas est ce qui
+   * fait qu'une interface parait bricolee.
+   */
+  --elevation-flat: 0 1px 2px 0 rgb(16 24 40 / 0.04);
+  --elevation-raised:
+    0 2px 4px -2px rgb(16 24 40 / 0.06), 0 4px 12px -2px rgb(16 24 40 / 0.08);
+  --elevation-overlay:
+    0 4px 8px -4px rgb(16 24 40 / 0.08), 0 16px 32px -8px rgb(16 24 40 / 0.16);
+
+  /* Mouvement : une duree, une courbe. Tout le produit s'anime pareil. */
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
 }
 
 .dark {
@@ -56,6 +86,17 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.551 0.027 264.364);
+
+  /* En sombre la hierarchie s'inverse : plus un plan est haut, plus il est
+     clair. Les ombres, elles, ne portent presque plus rien. */
+  --surface: oklch(0.208 0.042 265.755);
+  --surface-page: oklch(0.129 0.042 264.695);
+  --surface-subtle: oklch(0.246 0.041 262);
+  --border-strong: oklch(1 0 0 / 18%);
+
+  --elevation-flat: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --elevation-raised: 0 4px 12px -2px rgb(0 0 0 / 0.45);
+  --elevation-overlay: 0 16px 32px -8px rgb(0 0 0 / 0.6);
 }
 
 @theme inline {
@@ -83,8 +124,13 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  --color-surface: var(--surface);
+  --color-surface-page: var(--surface-page);
+  --color-surface-subtle: var(--surface-subtle);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -265,73 +311,76 @@
 }
 
 /* ===========================================================================
-   Tableau de bord
+   Couche applicative (tableau de bord et back-office)
    ---------------------------------------------------------------------------
-   Le chrome des cartes (fond, anneau, ombre, rayon) etait recopie a la main
-   sur chaque bloc et divergeait doucement d'une page a l'autre. Il est defini
-   ici une seule fois : les composants ne portent plus que leur contenu.
+   Le produit connecte n'a pas les memes regles que la page de vente : pas de
+   degrade decoratif, pas d'animation d'arrivee, pas d'ombre portee marquee.
+   La hierarchie tient a la bordure, a la densite et a la typographie. C'est ce
+   qui distingue une interface de travail d'une page de presentation.
    ========================================================================= */
 
-.panel {
-  background-color: var(--background);
-  border-radius: 1rem;
-  /* L'anneau passe par l'ombre plutot que par une bordure : il ne participe
-     pas au calcul de taille, donc deux panneaux voisins restent alignes. */
-  box-shadow:
-    0 0 0 1px rgb(0 0 0 / 0.055),
-    0 1px 2px 0 rgb(0 0 0 / 0.04),
-    0 14px 30px -22px rgb(0 0 0 / 0.22);
+@layer components {
+  /*
+   * Ces classes vivent dans la couche `components` — jamais hors couche.
+   *
+   * Tailwind ordonne ses couches theme < base < components < utilities. Une
+   * regle ecrite hors couche l'emporterait sur TOUS les utilitaires, et
+   * `border-red-500` ou `rounded-none` poses sur un `.panel` n'auraient plus
+   * aucun effet. En la placant ici, la classe donne le defaut et l'utilitaire
+   * garde le dernier mot.
+   */
+
+  /* Panneau : l'unite de composition. Bordure d'abord, ombre a peine posee. */
+  .panel {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: var(--elevation-flat);
+  }
+
+  /* Panneau cliquable : la bordure se renforce, l'ombre monte d'un cran. Aucun
+     deplacement — une ligne de liste qui bouge au survol fatigue vite. */
+  .panel-interactive {
+    transition:
+      border-color var(--motion-fast) var(--ease-out),
+      box-shadow var(--motion-fast) var(--ease-out),
+      background-color var(--motion-fast) var(--ease-out);
+  }
+
+  .panel-interactive:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--elevation-raised);
+  }
+
+  /* Calque flottant : menus, popovers, infobulles du graphique. */
+  .overlay {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: var(--elevation-overlay);
+  }
+
+  /*
+   * Anneau de focus unique pour tout le produit.
+   *
+   * Il double la bordure d'un halo de la couleur de marque plutot que de
+   * remplacer le contour : l'element garde sa forme, et le repere reste
+   * visible sur un fond clair comme sur un remplissage teinte.
+   */
+  .focus-ring:focus-visible {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow:
+      0 0 0 2px var(--surface),
+      0 0 0 4px color-mix(in oklch, var(--brand) 55%, transparent);
+  }
 }
 
-.dark .panel {
-  box-shadow:
-    0 0 0 1px rgb(255 255 255 / 0.09),
-    0 1px 2px 0 rgb(0 0 0 / 0.35);
-}
-
-/* Panneau cliquable : le survol souleve la carte et teinte l'anneau. */
-.panel-hover {
-  transition:
-    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.2s ease;
-}
-
-.panel-hover:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 0 1px color-mix(in oklch, var(--brand) 35%, transparent),
-    0 1px 2px 0 rgb(0 0 0 / 0.04),
-    0 20px 40px -26px rgb(0 0 0 / 0.4);
-}
-
-.dark .panel-hover:hover {
-  box-shadow:
-    0 0 0 1px color-mix(in oklch, var(--brand) 55%, transparent),
-    0 1px 2px 0 rgb(0 0 0 / 0.35);
-}
-
-/* Voile de marque en haut a droite de l'en-tete : donne un point d'entree
-   visuel a la page sans image ni bloc de couleur pleine. */
-.hero-sheen {
-  background-image:
-    radial-gradient(
-      110% 150% at 100% 0%,
-      color-mix(in oklch, var(--brand) 13%, transparent) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      80% 120% at 0% 100%,
-      color-mix(in oklch, var(--brand) 6%, transparent) 0%,
-      transparent 55%
-    );
-}
-
-/* Apparition des sections a l'arrivee sur la page, decalee bloc par bloc :
-   l'oeil suit l'ordre de lecture au lieu de recevoir tout d'un coup. */
-@keyframes rise {
+/* Apparition d'un menu : court, sans rebond, sans deplacement lateral. */
+@keyframes overlay-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(-4px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -339,16 +388,13 @@
   }
 }
 
-.animate-rise {
-  animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+.animate-overlay-in {
+  animation: overlay-in var(--motion-base) var(--ease-out);
+  transform-origin: top;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Sans l'animation, `both` ne s'applique pas : le contenu reste visible. */
-  .animate-rise {
+  .animate-overlay-in {
     animation: none;
-  }
-  .panel-hover:hover {
-    transform: none;
   }
 }
