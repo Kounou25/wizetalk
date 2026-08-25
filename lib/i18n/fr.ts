@@ -627,6 +627,42 @@ export const fr = {
       settings: 'Paramètres',
     },
 
+    billing: {
+      title: 'Abonnement',
+      lead: 'Votre plan, sa facturation et vos factures.',
+      noPlan: 'Vous utilisez vos crédits de départ. Choisissez un plan pour continuer.',
+      currentPlan: 'Plan actuel',
+      monthly: 'Mensuel',
+      annual: 'Annuel',
+      perMonth: '/mois',
+      perYear: '/an',
+      annualSave: '2 mois offerts',
+      renewsOn: 'Prochaine facturation le',
+      endsOn: 'Votre accès prend fin le',
+      /* Le client a paye sa periode : le dire explicitement evite le message
+         de support « j'ai resilie, pourquoi ca marche encore ? ». */
+      cancelNotice:
+        'Résiliation prise en compte. Vous gardez l’accès jusqu’à la fin de la période payée.',
+      manage: 'Gérer mon abonnement',
+      manageHint: 'Annulation, moyen de paiement et factures.',
+      choose: 'Choisir ce plan',
+      switchTo: 'Passer à ce plan',
+      current: 'Votre plan',
+      statusLabels: {
+        pending: 'Paiement en attente',
+        active: 'Actif',
+        on_hold: 'Paiement en échec',
+        paused: 'En pause',
+        cancelled: 'Résilié',
+        failed: 'Échec',
+        expired: 'Terminé',
+      },
+      checkoutError: 'Le paiement n’a pas pu être ouvert. Réessayez dans un instant.',
+      checkoutDone: 'Paiement enregistré. Votre plan s’active dès confirmation du prestataire.',
+      portalAbsent: 'Aucun abonnement à gérer pour l’instant.',
+      portalError: 'Le portail est momentanément indisponible. Réessayez.',
+    },
+
     credits: {
       title: 'Crédits',
       action: 'Choisir un plan',

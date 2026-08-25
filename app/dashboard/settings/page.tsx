@@ -10,6 +10,7 @@ import { PageHeader, Panel, PanelHeader } from '@/components/dashboard/panel';
 import { PasswordForm, ProfileForm } from './settings-forms';
 import { isExhausted, isNearLimit, remaining } from '@/lib/credits';
 import { getCreditBalance } from '@/lib/credits-db';
+import { BillingPanel } from './billing-panel';
 
 /** Date du prochain rechargement : un mois apres le debut de la periode. */
 function nextRenewal(periodStartedAt: string): Date {
@@ -37,7 +38,20 @@ function hasPasswordIdentity(user: {
   return user.app_metadata?.provider === 'email';
 }
 
-export default async function SettingsPage() {
+/** Traduit les parametres de retour en un message unique pour le panneau. */
+function noticeFrom(params: Record<string, string | string[] | undefined>) {
+  if (params.checkout === 'done') return 'done' as const;
+  if (params.checkout === 'error' || params.checkout === 'invalid') return 'error' as const;
+  if (params.portal === 'absent') return 'portal-absent' as const;
+  if (params.portal === 'error') return 'portal-error' as const;
+  return null;
+}
+
+export default async function SettingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const supabase = await createClient();
   const locale = await getRequestLocale();
   const dict = getDictionary(locale);
@@ -52,7 +66,18 @@ export default async function SettingsPage() {
   // session entre le passage du proxy et le rendu.
   if (!user) redirect('/login');
 
-  const balance = await getCreditBalance(supabase, user.id);
+  const [balance, { data: profile }, params] = await Promise.all([
+    getCreditBalance(supabase, user.id),
+    supabase
+      .from('profiles')
+      .select(
+        'dodo_customer_id, subscription_status, billing_period, current_period_end, cancel_at_period_end',
+      )
+      .eq('user_id', user.id)
+      .maybeSingle(),
+    searchParams,
+  ]);
+
   const withPassword = hasPasswordIdentity(user);
   const numberLocale = locale === 'fr' ? 'fr-FR' : 'en-US';
 
@@ -93,6 +118,18 @@ export default async function SettingsPage() {
           <p className="text-muted-foreground p-4 text-sm text-pretty">{t.googleOnly}</p>
         )}
       </Panel>
+
+      <BillingPanel
+        balance={balance}
+        subscriptionStatus={(profile?.subscription_status as string | null) ?? null}
+        billingPeriod={(profile?.billing_period as 'monthly' | 'annual' | null) ?? null}
+        currentPeriodEnd={(profile?.current_period_end as string | null) ?? null}
+        cancelAtPeriodEnd={Boolean(profile?.cancel_at_period_end)}
+        hasCustomer={Boolean(profile?.dodo_customer_id)}
+        locale={locale}
+        dict={dict}
+        notice={noticeFrom(params)}
+      />
 
       <Panel>
         <PanelHeader title={t.usageTitle} description={t.usageLead} />

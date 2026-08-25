@@ -112,8 +112,10 @@ function CreditMeter({
           </p>
         )}
 
+        {/* Vers les reglages, et non vers la page de tarifs publique : le
+            client est deja connecte, l'achat se fait depuis son compte. */}
         <Link
-          href={`/${locale}#tarifs`}
+          href="/dashboard/settings#abonnement"
           className="focus-ring text-brand mt-2 inline-block rounded text-[11px] font-semibold hover:underline"
         >
           {t.action}
