@@ -1,8 +1,9 @@
 'use client';
 
 import { useTransition } from 'react';
-import { LOCALES, type Locale } from '@/lib/i18n/config';
+import { LOCALE_NAMES, LOCALES, type Locale } from '@/lib/i18n/config';
 import { cn } from '@/lib/utils';
+import { Flag } from '@/components/ui/flag';
 import { setLocale } from '@/app/dashboard/locale-actions';
 
 /** Bascule de langue du dashboard : ecrit la preference, puis rafraichit. */
@@ -18,14 +19,19 @@ export function LocaleSwitch({ locale }: { locale: Locale }) {
           disabled={pending || target === locale}
           aria-current={target === locale ? 'true' : undefined}
           onClick={() => startTransition(() => setLocale(target))}
+          aria-label={LOCALE_NAMES[target]}
+          title={LOCALE_NAMES[target]}
           className={cn(
-            'focus-ring cursor-pointer rounded-md px-1.5 py-0.5 text-[11px] font-semibold uppercase transition-colors disabled:cursor-default',
+            'focus-ring flex cursor-pointer items-center rounded-md px-1.5 py-1 transition-colors disabled:cursor-default',
             target === locale
-              ? 'bg-surface text-foreground border-border border shadow-[var(--elevation-flat)]'
-              : 'text-muted-foreground hover:text-foreground border border-transparent',
+              ? 'bg-surface border-border border shadow-[var(--elevation-flat)]'
+              : 'border border-transparent opacity-55 hover:opacity-100',
           )}
         >
-          {target}
+          {/* Le drapeau porte seul l'information : d'ou `aria-label`, sans
+              lequel le bouton n'aurait aucun libelle, et l'opacite qui
+              distingue la langue active — la couleur ne suffirait pas. */}
+          <Flag locale={target} />
         </button>
       ))}
     </div>

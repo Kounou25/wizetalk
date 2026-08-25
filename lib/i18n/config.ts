@@ -3,6 +3,20 @@ export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = 'fr';
 
+/**
+ * Nom de chaque langue, ecrit dans cette langue.
+ *
+ * « English » et non « Anglais » : celui qui cherche sa langue la reconnait
+ * telle qu'il l'ecrit, pas traduite dans une langue qu'il ne lit pas.
+ *
+ * Sert de nom accessible aux bascules de langue, qui n'affichent qu'un
+ * drapeau : sans lui, le bouton n'a aucun libelle pour un lecteur d'ecran.
+ */
+export const LOCALE_NAMES: Record<Locale, string> = {
+  fr: 'Français',
+  en: 'English',
+};
+
 export function isLocale(value: string | undefined | null): value is Locale {
   return LOCALES.includes(value as Locale);
 }

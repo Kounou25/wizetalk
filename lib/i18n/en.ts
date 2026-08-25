@@ -780,6 +780,11 @@ export const en: Dictionary = {
       gapsTitle: 'Unanswered questions',
       gapsDesc: 'What your site is missing',
       conversationsDesc: 'Chat history',
+      tabOverview: 'Overview',
+      tabKnowledge: 'Knowledge',
+      tabInstall: 'Install',
+      tabSettings: 'Settings',
+      tabsLabel: 'Sections of this assistant',
     },
 
     documents: {

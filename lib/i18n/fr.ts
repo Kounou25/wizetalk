@@ -832,6 +832,11 @@ export const fr = {
       gapsTitle: 'Questions sans réponse',
       gapsDesc: 'Ce qui manque sur votre site',
       conversationsDesc: 'Historique des échanges',
+      tabOverview: 'Vue d’ensemble',
+      tabKnowledge: 'Connaissances',
+      tabInstall: 'Installation',
+      tabSettings: 'Paramètres',
+      tabsLabel: 'Sections de cet assistant',
     },
 
     documents: {
