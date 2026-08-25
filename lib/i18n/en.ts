@@ -5,7 +5,7 @@ export const en: Dictionary = {
   meta: {
     title: 'Deezy — AI Chatbot for Your Website That Answers Customers 24/7',
     description:
-      'Turn your website into an AI assistant that answers customers 24/7, captures leads and learns from unanswered questions. Start free for 7 days.',
+      'Turn your website into an AI assistant that answers customers 24/7, captures leads and learns from unanswered questions. Start with 300 free credits.',
   },
 
   nav: {
@@ -26,7 +26,7 @@ export const en: Dictionary = {
       'Deezy turns your website and documents into an AI assistant that answers visitors 24/7 — and captures their contact when it doesn’t know the answer.',
     ctaPrimary: 'Try Deezy free',
     ctaSecondary: 'See how it works',
-    microcopy: '7-day free trial · Live in 2 minutes · Cancel anytime',
+    microcopy: '300 free credits · Live in 2 minutes · No commitment',
     installNote: 'One line to paste on your site. Nothing else to do.',
     liveBadge: 'Answer from your website',
     mockup: {
@@ -356,12 +356,19 @@ export const en: Dictionary = {
   pricing: {
     eyebrow: 'Pricing',
     title: 'One price, three sizes.',
-    lead: 'Try it for 7 days. Cancel anytime, no questions asked.',
+    lead: 'Each plan gives you a number of credits per month. No commitment, cancel anytime.',
     roi: 'If Deezy recovers a single customer, it has already paid for itself.',
-    trialBadge: '7-day free trial on every plan',
+    creditTitle: 'What a credit is',
+    creditItems: [
+      '1 credit per answer sent to a visitor',
+      '1 credit per page of your site analysed',
+      '2 credits per document processed',
+    ],
+    startingCredits: '300 free credits when you create your account, no commitment',
     popular: 'Most popular',
     notIncluded: 'Not included',
     perMonth: '/month',
+    creditsSuffix: 'credits per month',
     billing: {
       monthly: 'Monthly',
       annual: 'Annual',
@@ -371,16 +378,16 @@ export const en: Dictionary = {
     plans: [
       {
         name: 'Essential',
-        monthly: 12,
-        annual: 10,
-        annualTotal: 120,
+        monthly: 19,
+        annual: 16,
+        annualTotal: 190,
+        credits: 1000,
         description: 'For one site, one business.',
         inherits: '',
         features: [
+          '1,000 credits per month',
           '1 assistant',
           'Up to 100 pages from your site',
-          '20 documents',
-          '500 answers per month',
           'Visitor email capture',
           'In your brand’s colours',
         ],
@@ -390,41 +397,43 @@ export const en: Dictionary = {
           'Remove the Deezy mention',
           'Priority support',
         ],
-        cta: 'Try 7 days free',
+        cta: 'Get started',
       },
       {
         name: 'Growth',
-        monthly: 24,
-        annual: 20,
-        annualTotal: 240,
+        monthly: 39,
+        annual: 33,
+        annualTotal: 390,
+        credits: 5000,
         description: 'For a site with daily traffic.',
         inherits: 'Everything in Essential, plus:',
         features: [
+          '5,000 credits per month',
           '3 assistants',
           'Up to 500 pages and 100 documents',
-          '3,000 answers per month',
           'Unanswered questions report',
           'Support reply within 24 h',
         ],
         excluded: ['Remove the Deezy mention', 'Priority support'],
-        cta: 'Try 7 days free',
+        cta: 'Get started',
       },
       {
         name: 'Business',
-        monthly: 48,
-        annual: 40,
-        annualTotal: 480,
+        monthly: 79,
+        annual: 66,
+        annualTotal: 790,
+        credits: 20000,
         description: 'For several sites or several brands.',
         inherits: 'Everything in Growth, plus:',
         features: [
+          '20,000 credits per month',
           '10 assistants',
           'Up to 2,000 pages, unlimited documents',
-          '15,000 answers per month',
           'No Deezy mention',
           'Priority support',
         ],
         excluded: [] as string[],
-        cta: 'Try 7 days free',
+        cta: 'Get started',
       },
     ],
     custom: {
@@ -434,7 +443,7 @@ export const en: Dictionary = {
       cta: 'Email us',
     },
     footnote:
-      'No long-term commitment, cancel anytime. One answer is one message sent by the assistant to a visitor.',
+      'Credits renew every month and do not roll over. When you run out, your assistant keeps collecting your visitors’ emails.',
   },
 
   faq: {
@@ -460,6 +469,16 @@ export const en: Dictionary = {
         question: 'Can Deezy invent information?',
         answer:
           'It is built not to: when nothing in your content answers, it declines rather than guessing. An imagined price or delivery time would commit you to your customer — we prefer a cautious answer.',
+      },
+      {
+        question: 'How do credits work?',
+        answer:
+          'Each plan gives you a number of credits per month. An answer sent to a visitor costs 1 credit, a page of your site analysed 1 credit, a document processed 2 credits. Credits renew every month and do not roll over.',
+      },
+      {
+        question: 'What happens when I run out of credits?',
+        answer:
+          'Your assistant stops answering, but it doesn’t disappear from your site: it keeps offering visitors the chance to leave their email. You keep recovering leads, and you can see in your account what you could have answered.',
       },
       {
         question: 'Do I need a developer?',
@@ -507,8 +526,8 @@ export const en: Dictionary = {
   finalCta: {
     title: 'How many customers left your website without getting an answer?',
     lead: 'You can’t recover yesterday’s visitors. But you can answer the next one.',
-    cta: 'Start my free trial',
-    microcopy: '7 days free · Live in minutes · Cancel anytime',
+    cta: 'Create my account',
+    microcopy: '300 free credits · Live in minutes · No commitment',
   },
 
   footer: {
@@ -526,7 +545,7 @@ export const en: Dictionary = {
     loginTitle: 'Welcome back',
     loginLead: 'Log in to find your assistants.',
     signupTitle: 'Create your assistant',
-    signupLead: '7-day free trial, cancel in one click.',
+    signupLead: '300 free credits to try it out. No commitment.',
     googleLogin: 'Log in with Google',
     googleSignup: 'Sign up with Google',
     redirecting: 'Redirecting…',
@@ -556,12 +575,33 @@ export const en: Dictionary = {
       logout: 'Log out',
       openMenu: 'Open menu',
       closeMenu: 'Close menu',
-      usageTitle: 'Messages this month',
-      usageAction: 'Upgrade',
-      usageOf: 'of',
       account: 'Account',
       signedInAs: 'Signed in as',
       settings: 'Settings',
+    },
+
+    credits: {
+      title: 'Credits',
+      action: 'Choose a plan',
+      of: 'of',
+      remaining: 'left',
+      renews: 'Renews on',
+      trialNote: 'Starting credits, not renewed.',
+      exhausted: 'Credits exhausted',
+      exhaustedHint:
+        'Your assistant no longer answers, but it keeps collecting your visitors’ emails.',
+      costTitle: 'What uses a credit',
+      costs: [
+        '1 credit per answer sent to a visitor',
+        '1 credit per page of your site analysed',
+        '2 credits per document processed',
+      ],
+      plans: {
+        trial: 'Trial',
+        essential: 'Essential',
+        growth: 'Growth',
+        business: 'Business',
+      },
     },
 
     status: {
@@ -604,8 +644,7 @@ export const en: Dictionary = {
         'Your account signs in with Google. The password is changed from your Google account, not here.',
 
       usageTitle: 'Usage',
-      usageLead: 'Messages handled by your assistants this month.',
-      usageEmpty: 'No assistants yet.',
+      usageLead: 'Your credits, and what uses them.',
 
       errorName: 'Enter your full name.',
       errorPassword: 'The password must be at least 8 characters.',

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { PlanId } from '@/lib/credits';
 
 /**
  * Lectures du back-office.
@@ -74,50 +75,64 @@ export interface AdminUserRow {
   lastSignInAt: string | null;
   isAdmin: boolean;
   botCount: number;
-  messagesUsed: number;
-  messagesQuota: number;
+  plan: PlanId;
+  creditsIncluded: number;
+  creditsUsed: number;
 }
 
 /**
- * Tous les comptes, avec leur usage.
+ * Tous les comptes, avec leur portefeuille.
  *
  * Les utilisateurs vivent dans auth.users, hors de portee de PostgREST : on
- * passe par l'API d'administration, puis on rattache les compteurs par une
- * seule lecture de `bots` plutot qu'une requete par compte.
+ * passe par l'API d'administration, puis on rattache les compteurs par trois
+ * lectures a plat plutot qu'une requete par compte.
+ *
+ * Les credits viennent de `profiles` et non de `bots` : depuis 0007_credits le
+ * portefeuille est unique et porte par le compte. `bots` ne sert plus qu'a
+ * compter les assistants.
  */
 export async function listUsers(db: Db, limit = 200): Promise<AdminUserRow[]> {
   const { data } = await db.auth.admin.listUsers({ page: 1, perPage: limit });
   const users = data?.users ?? [];
 
-  const [{ data: bots }, { data: admins }] = await Promise.all([
-    db.from('bots').select('user_id, messages_used, messages_quota'),
+  const [{ data: bots }, { data: admins }, { data: profiles }] = await Promise.all([
+    db.from('bots').select('user_id'),
     db.from('admins').select('user_id'),
+    db.from('profiles').select('user_id, plan, credits_included, credits_used'),
   ]);
 
   const adminIds = new Set((admins ?? []).map((row) => row.user_id as string));
-  const perUser = new Map<string, { count: number; used: number; quota: number }>();
 
+  const botCounts = new Map<string, number>();
   for (const bot of bots ?? []) {
     const key = bot.user_id as string;
-    const entry = perUser.get(key) ?? { count: 0, used: 0, quota: 0 };
-    entry.count += 1;
-    entry.used += (bot.messages_used as number) ?? 0;
-    entry.quota += (bot.messages_quota as number) ?? 0;
-    perUser.set(key, entry);
+    botCounts.set(key, (botCounts.get(key) ?? 0) + 1);
   }
+
+  const wallets = new Map(
+    (profiles ?? []).map((row) => [
+      row.user_id as string,
+      {
+        plan: (row.plan as PlanId) ?? 'trial',
+        included: (row.credits_included as number) ?? 0,
+        used: (row.credits_used as number) ?? 0,
+      },
+    ]),
+  );
 
   return users
     .map((user) => {
-      const usage = perUser.get(user.id) ?? { count: 0, used: 0, quota: 0 };
+      const wallet = wallets.get(user.id);
       return {
         id: user.id,
         email: user.email ?? '—',
         createdAt: user.created_at,
         lastSignInAt: user.last_sign_in_at ?? null,
         isAdmin: adminIds.has(user.id),
-        botCount: usage.count,
-        messagesUsed: usage.used,
-        messagesQuota: usage.quota,
+        botCount: botCounts.get(user.id) ?? 0,
+        plan: wallet?.plan ?? ('trial' as PlanId),
+        creditsIncluded: wallet?.included ?? 0,
+        creditsUsed: wallet?.used ?? 0,
       };
     })
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
@@ -132,8 +147,6 @@ export interface AdminBotRow {
   ownerEmail: string;
   lastSyncedAt: string | null;
   createdAt: string;
-  messagesUsed: number;
-  messagesQuota: number;
   pages: number;
   conversations: number;
 }
@@ -142,7 +155,7 @@ export async function listBots(db: Db, limit = 200): Promise<AdminBotRow[]> {
   const { data: bots } = await db
     .from('bots')
     .select(
-      'id, user_id, name, website_url, status, is_active, last_synced_at, created_at, messages_used, messages_quota',
+      'id, user_id, name, website_url, status, is_active, last_synced_at, created_at',
     )
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -179,8 +192,6 @@ export async function listBots(db: Db, limit = 200): Promise<AdminBotRow[]> {
     ownerEmail: emailById.get(bot.user_id as string) ?? '—',
     lastSyncedAt: (bot.last_synced_at as string | null) ?? null,
     createdAt: bot.created_at as string,
-    messagesUsed: (bot.messages_used as number) ?? 0,
-    messagesQuota: (bot.messages_quota as number) ?? 0,
     pages: pageCounts.get(bot.id as string) ?? 0,
     conversations: conversationCounts.get(bot.id as string) ?? 0,
   }));

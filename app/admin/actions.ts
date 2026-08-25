@@ -59,33 +59,43 @@ export async function setBotActive(botId: string, name: string, isActive: boolea
   revalidatePath('/admin/bots');
 }
 
-/** Ajuste le quota mensuel de messages d'un assistant. */
-export async function setBotQuota(botId: string, name: string, quota: number) {
+/**
+ * Ajuste l'allocation de credits d'un compte.
+ *
+ * Porte par le compte et non par l'assistant : depuis 0007_credits, le
+ * portefeuille est unique. Ajuster ici permet de traiter un cas particulier
+ * — un geste commercial, un depassement conteste — sans creer un palier sur
+ * mesure dans la grille tarifaire.
+ */
+export async function setAccountCredits(userId: string, email: string, credits: number) {
   const { db, admin } = await requireAdmin();
 
-  const value = Math.max(0, Math.min(1_000_000, Math.round(quota)));
-  await db.from('bots').update({ messages_quota: value }).eq('id', botId);
+  const value = Math.max(0, Math.min(1_000_000, Math.round(credits)));
+  await db.from('profiles').update({ credits_included: value }).eq('user_id', userId);
 
-  await logAdminAction(admin, 'bot.quota', {
-    type: 'bot',
-    id: botId,
-    detail: { name, quota: value },
+  await logAdminAction(admin, 'account.credits', {
+    type: 'user',
+    id: userId,
+    detail: { email, credits: value },
   });
 
-  revalidatePath('/admin/bots');
+  revalidatePath('/admin/users');
 }
 
-/** Remet a zero le compteur de messages consommes. */
-export async function resetBotUsage(botId: string, name: string) {
+/** Remet a zero les credits consommes du compte, sans toucher a l'allocation. */
+export async function resetAccountUsage(userId: string, email: string) {
   const { db, admin } = await requireAdmin();
 
-  await db.from('bots').update({ messages_used: 0 }).eq('id', botId);
+  await db
+    .from('profiles')
+    .update({ credits_used: 0, period_started_at: new Date().toISOString() })
+    .eq('user_id', userId);
 
-  await logAdminAction(admin, 'bot.reset_usage', {
-    type: 'bot',
-    id: botId,
-    detail: { name },
+  await logAdminAction(admin, 'account.reset_credits', {
+    type: 'user',
+    id: userId,
+    detail: { email },
   });
 
-  revalidatePath('/admin/bots');
+  revalidatePath('/admin/users');
 }

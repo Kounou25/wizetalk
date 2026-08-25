@@ -7,6 +7,7 @@ import { isAdmin } from '@/lib/admin/guard';
 import { requestOrigin } from '@/lib/request-origin';
 import { sendWelcomeEmailOnce } from '@/lib/email/send-welcome';
 import { DashboardShell } from '@/components/dashboard/shell';
+import { getCreditBalance } from '@/lib/credits-db';
 
 /** "marie.dupont@exemple.fr" -> "MD" */
 function initialsFromEmail(email: string): string {
@@ -28,19 +29,15 @@ export default async function DashboardLayout({
   // session expire entre le passage du proxy et le rendu.
   if (!user) redirect('/login');
 
-  // Le RLS restreint la lecture aux bots de l'utilisateur : la somme obtenue
-  // est donc bien sa consommation, sans filtre supplementaire.
-  const { data: bots } = await supabase.from('bots').select('messages_used, messages_quota');
-
-  const usage = (bots ?? []).reduce(
-    (total, bot) => ({
-      used: total.used + (bot.messages_used ?? 0),
-      quota: total.quota + (bot.messages_quota ?? 0),
-    }),
-    { used: 0, quota: 0 },
-  );
-
-  const [locale, admin] = await Promise.all([getRequestLocale(), isAdmin()]);
+  // Le portefeuille est unique et porte par le compte : une seule lecture, au
+  // lieu d'une somme sur les assistants qui donnait autant de quotas que de
+  // bots. `bots` ne sert plus qu'a alimenter le compteur de la navigation.
+  const [{ count: botCount }, balance, locale, admin] = await Promise.all([
+    supabase.from('bots').select('id', { count: 'exact', head: true }),
+    getCreditBalance(supabase, user.id),
+    getRequestLocale(),
+    isAdmin(),
+  ]);
 
   /*
    * Message de bienvenue, envoye une seule fois.
@@ -69,8 +66,8 @@ export default async function DashboardLayout({
   return (
     <DashboardShell
       user={{ email: user.email ?? '', initials: initialsFromEmail(user.email ?? '?') }}
-      botCount={bots?.length ?? 0}
-      usage={usage}
+      botCount={botCount ?? 0}
+      balance={balance}
       locale={locale}
       dict={getDictionary(locale)}
       isAdmin={admin}

@@ -6,10 +6,11 @@ import { Plus, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { Logo } from '@/components/landing/logo';
+import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Spinner } from '@/components/ui/spinner';
 import { isNavActive, navItems, secondaryNavItems, type NavItem } from './nav-items';
-import type { ShellUsage } from './types';
+import { isExhausted, isNearLimit, remaining, type CreditBalance } from '@/lib/credits';
 
 /**
  * Icone d'un lien de navigation, remplacee par un anneau pendant la
@@ -58,58 +59,65 @@ function NavLink({
   );
 }
 
-/** Jauge de consommation : le premier signal qu'un client approche sa limite. */
-function UsageMeter({
-  usage,
+/**
+ * Jauge de credits.
+ *
+ * A zero, elle ne se contente pas d'afficher un compteur vide : elle dit ce
+ * que l'assistant fait encore. Un client qui voit « epuise » sans autre
+ * precision suppose que son widget est mort sur son site — alors qu'il
+ * continue de recuperer des adresses.
+ */
+function CreditMeter({
+  balance,
   locale,
   dict,
 }: {
-  usage: ShellUsage;
+  balance: CreditBalance;
   locale: Locale;
   dict: Dictionary;
 }) {
-  const t = dict.dashboard.nav;
-  const ratio = usage.quota > 0 ? Math.min(1, usage.used / usage.quota) : 0;
-  // Au-dela de 80 %, la jauge change de ton : c'est la que le client doit
-  // envisager un plan superieur, pas quand le quota est deja atteint.
-  const nearLimit = ratio >= 0.8;
+  const t = dict.dashboard.credits;
   const numberLocale = locale === 'fr' ? 'fr-FR' : 'en-US';
+
+  const left = remaining(balance);
+  const exhausted = isExhausted(balance);
+  const nearLimit = isNearLimit(balance);
 
   return (
     <div className="px-3 pb-3">
       <div className="border-border bg-surface-subtle/60 rounded-lg border p-3">
         <div className="flex items-center justify-between gap-2">
-          <p className="text-xs font-medium">{t.usageTitle}</p>
-          <p
-            className={cn(
-              'text-xs font-semibold tabular-nums',
-              nearLimit ? 'text-amber-600 dark:text-amber-400' : 'text-muted-foreground',
-            )}
-          >
-            {Math.round(ratio * 100)} %
-          </p>
+          <p className="text-xs font-medium">{t.title}</p>
+          <Badge variant={balance.plan === 'trial' ? 'neutral' : 'brand'}>
+            {t.plans[balance.plan]}
+          </Badge>
         </div>
 
         <Progress
-          value={usage.used}
-          max={usage.quota}
-          label={t.usageTitle}
-          tone={nearLimit ? 'warning' : 'brand'}
+          value={balance.used}
+          max={Math.max(1, balance.included)}
+          label={t.title}
+          tone={exhausted ? 'danger' : nearLimit ? 'warning' : 'brand'}
           className="mt-2.5"
         />
 
-        <div className="mt-2 flex items-center justify-between gap-2">
-          <p className="text-muted-foreground text-[11px] tabular-nums">
-            {usage.used.toLocaleString(numberLocale)} {t.usageOf}{' '}
-            {usage.quota.toLocaleString(numberLocale)}
+        <p className="text-muted-foreground mt-2 text-[11px] tabular-nums">
+          {left.toLocaleString(numberLocale)} {t.remaining} {t.of}{' '}
+          {balance.included.toLocaleString(numberLocale)}
+        </p>
+
+        {exhausted && (
+          <p className="mt-2 rounded-md bg-amber-500/10 px-2 py-1.5 text-[11px] leading-snug text-amber-700 dark:text-amber-400">
+            {t.exhaustedHint}
           </p>
-          <Link
-            href={`/${locale}#tarifs`}
-            className="focus-ring text-brand rounded text-[11px] font-semibold hover:underline"
-          >
-            {t.usageAction}
-          </Link>
-        </div>
+        )}
+
+        <Link
+          href={`/${locale}#tarifs`}
+          className="focus-ring text-brand mt-2 inline-block rounded text-[11px] font-semibold hover:underline"
+        >
+          {t.action}
+        </Link>
       </div>
     </div>
   );
@@ -118,14 +126,14 @@ function UsageMeter({
 export function SidebarContent({
   pathname,
   botCount,
-  usage,
+  balance,
   locale,
   dict,
   onNavigate,
 }: {
   pathname: string;
   botCount: number;
-  usage: ShellUsage;
+  balance: CreditBalance | null;
   locale: Locale;
   dict: Dictionary;
   /** Fourni uniquement dans le tiroir mobile : ferme apres navigation. */
@@ -194,7 +202,7 @@ export function SidebarContent({
         ))}
       </div>
 
-      {usage.quota > 0 && <UsageMeter usage={usage} locale={locale} dict={dict} />}
+      {balance && <CreditMeter balance={balance} locale={locale} dict={dict} />}
     </div>
   );
 }

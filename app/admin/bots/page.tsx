@@ -36,7 +36,6 @@ export default async function AdminBotsPage() {
                 <th scope="col" className="px-4 py-3 font-medium">État</th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">Pages</th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">Échanges</th>
-                <th scope="col" className="px-4 py-3 text-right font-medium">Messages</th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">Actions</th>
               </tr>
             </thead>
@@ -71,18 +70,8 @@ export default async function AdminBotsPage() {
                   </td>
                   <td className="px-4 py-3 text-right tabular-nums">{bot.pages}</td>
                   <td className="px-4 py-3 text-right tabular-nums">{bot.conversations}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">
-                    {bot.messagesUsed}
-                    <span className="text-muted-foreground">{' / '}{bot.messagesQuota}</span>
-                  </td>
                   <td className="px-4 py-3 text-right">
-                    <BotActions
-                      botId={bot.id}
-                      name={bot.name}
-                      isActive={bot.isActive}
-                      quota={bot.messagesQuota}
-                      used={bot.messagesUsed}
-                    />
+                    <BotActions botId={bot.id} name={bot.name} isActive={bot.isActive} />
                   </td>
                 </tr>
               ))}

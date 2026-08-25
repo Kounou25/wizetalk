@@ -7,16 +7,27 @@
  *
  *   1. le bot doit etre actif ;
  *   2. l'en-tete Origin doit correspondre a un domaine declare ;
- *   3. le quota mensuel de messages ne doit pas etre epuise.
+ *   3. le compte doit avoir un credit disponible.
  *
- * Le quota est verifie AVANT l'appel au modele et incremente juste apres :
- * un abus coute au pire quelques requetes, pas un mois de facturation.
+ * Le credit est debite AVANT l'appel au modele : un abus coute au pire une
+ * requete, pas un mois de facturation.
+ *
+ * A ZERO CREDIT, ON NE COUPE PAS.
+ *
+ * Renvoyer une erreur ferait apparaitre un assistant casse sur le site en
+ * production du client, et arreterait la capture de prospects — la seule
+ * chose qui pourrait encore lui rapporter, et le meilleur argument pour qu'il
+ * recharge. L'assistant se replie donc sur le formulaire de contact : il
+ * n'appelle plus le modele, mais il recupere toujours les adresses.
  */
 
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createPgRetriever } from '@/lib/database';
 import { answerQuestionStream } from '@/lib/rag';
 import { appHostFromRequest } from '@/lib/request-origin';
+import { CREDIT_COST } from '@/lib/credits';
+import { consumeCredits } from '@/lib/credits-db';
+import { negotiateLocale, type Locale } from '@/lib/i18n/config';
 
 export const maxDuration = 60;
 
@@ -30,10 +41,20 @@ interface BotRow {
   id: string;
   is_active: boolean;
   allowed_domains: string[];
-  messages_used: number;
-  messages_quota: number;
   lead_capture: boolean;
 }
+
+/**
+ * Message de repli, quand le compte n'a plus de credit.
+ *
+ * Ecrit en dur plutot que genere : le produire par le modele couterait
+ * precisement ce qu'on n'a plus. La langue vient de l'en-tete du navigateur du
+ * visiteur, seul indice disponible sans appel facturable.
+ */
+const OUT_OF_CREDITS: Record<Locale, string> = {
+  fr: "Je ne peux pas répondre pour le moment. Laissez-moi votre adresse e-mail : l'équipe vous répondra directement.",
+  en: 'I can’t answer right now. Leave your email address and the team will get back to you directly.',
+};
 
 function corsHeaders(origin: string | null): Record<string, string> {
   return {
@@ -119,7 +140,7 @@ export async function POST(request: Request) {
 
   const { data: bot } = await db
     .from('bots')
-    .select('id, is_active, allowed_domains, messages_used, messages_quota, lead_capture')
+    .select('id, is_active, allowed_domains, lead_capture')
     .eq('id', botId)
     .maybeSingle();
 
@@ -130,9 +151,9 @@ export async function POST(request: Request) {
   if (!originAllowed(origin, typedBot, appHostFromRequest(request))) {
     return errorResponse('Origine non autorisée.', 403, origin);
   }
-  if (typedBot.messages_used >= typedBot.messages_quota) {
-    return errorResponse('Quota de messages atteint.', 429, origin);
-  }
+  // Debite avant tout appel au modele. `allowed` a false ne coupe pas le
+  // service : il bascule la reponse en mode capture de prospect.
+  const { allowed: hasCredits } = await consumeCredits(db, botId, CREDIT_COST.answer);
 
   // Une conversation par session de visiteur.
   const { data: existing } = await db
@@ -169,6 +190,36 @@ export async function POST(request: Request) {
       };
 
       try {
+        /*
+         * Repli sans credit : on renvoie le message d'invitation par le meme
+         * canal que le modele, mot par mot, pour que le widget n'ait rien de
+         * particulier a savoir. `refused: true` est ce qui declenche le
+         * formulaire cote widget, et ce qui fait remonter la question dans le
+         * rapport des questions sans reponse — le client voit donc ce qu'il
+         * rate pendant qu'il est a sec.
+         */
+        if (!hasCredits) {
+          const visitorLocale = negotiateLocale(request.headers.get('accept-language'));
+          const fallback = OUT_OF_CREDITS[visitorLocale];
+
+          send({ type: 'delta', text: fallback });
+          send({
+            type: 'done',
+            sources: [],
+            refused: true,
+            leadCapture: typedBot.lead_capture,
+          });
+
+          await db.from('messages').insert({
+            conversation_id: conversationId,
+            role: 'assistant',
+            content: fallback,
+            sources: [],
+            refused: true,
+          });
+          return;
+        }
+
         const generator = answerQuestionStream(message, retriever);
 
         let step = await generator.next();
@@ -196,10 +247,6 @@ export async function POST(request: Request) {
           sources: final.sources,
           refused: final.refused,
         });
-        await db
-          .from('bots')
-          .update({ messages_used: typedBot.messages_used + 1 })
-          .eq('id', botId);
       } catch (error) {
         send({
           type: 'error',

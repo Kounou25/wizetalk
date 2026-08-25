@@ -23,6 +23,8 @@ import {
   parseDocument,
 } from '@/lib/documents';
 import type { EmbeddedChunk } from '@/lib/types';
+import { CREDIT_COST } from '@/lib/credits';
+import { consumeCredits } from '@/lib/credits-db';
 
 export const maxDuration = 60;
 
@@ -86,6 +88,27 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: 'Le contenu du fichier ne correspond pas à son format.' },
         { status: 400 },
+      );
+    }
+
+    /*
+     * Debit avant traitement.
+     *
+     * L'ordre compte : c'est l'analyse puis la vectorisation qui coutent, pas
+     * le televersement. On debite donc une fois le fichier valide mais avant
+     * de l'envoyer au modele — un compte a sec ne declenche aucun appel
+     * facturable.
+     */
+    const debit = await consumeCredits(admin, botId, CREDIT_COST.document);
+    if (!debit.allowed) {
+      await admin.storage.from('documents').remove([path]);
+      return NextResponse.json(
+        {
+          error:
+            'Crédits épuisés : ce document ne peut pas être traité. Rechargez votre compte pour continuer.',
+          code: 'credits_exhausted',
+        },
+        { status: 402 },
       );
     }
 

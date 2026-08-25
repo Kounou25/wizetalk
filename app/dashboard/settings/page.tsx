@@ -8,12 +8,14 @@ import { Progress } from '@/components/ui/progress';
 import { LocaleSwitch } from '@/components/dashboard/locale-switch';
 import { PageHeader, Panel, PanelHeader } from '@/components/dashboard/panel';
 import { PasswordForm, ProfileForm } from './settings-forms';
+import { isExhausted, isNearLimit, remaining } from '@/lib/credits';
+import { getCreditBalance } from '@/lib/credits-db';
 
-interface BotUsageRow {
-  id: string;
-  name: string;
-  messages_used: number | null;
-  messages_quota: number | null;
+/** Date du prochain rechargement : un mois apres le debut de la periode. */
+function nextRenewal(periodStartedAt: string): Date {
+  const next = new Date(periodStartedAt);
+  next.setMonth(next.getMonth() + 1);
+  return next;
 }
 
 /**
@@ -40,6 +42,7 @@ export default async function SettingsPage() {
   const locale = await getRequestLocale();
   const dict = getDictionary(locale);
   const t = dict.dashboard.account;
+  const tc = dict.dashboard.credits;
 
   const {
     data: { user },
@@ -49,12 +52,7 @@ export default async function SettingsPage() {
   // session entre le passage du proxy et le rendu.
   if (!user) redirect('/login');
 
-  const { data } = await supabase
-    .from('bots')
-    .select('id, name, messages_used, messages_quota')
-    .order('created_at', { ascending: false });
-
-  const bots = (data ?? []) as BotUsageRow[];
+  const balance = await getCreditBalance(supabase, user.id);
   const withPassword = hasPasswordIdentity(user);
   const numberLocale = locale === 'fr' ? 'fr-FR' : 'en-US';
 
@@ -98,34 +96,61 @@ export default async function SettingsPage() {
 
       <Panel>
         <PanelHeader title={t.usageTitle} description={t.usageLead} />
-        {bots.length === 0 ? (
-          <p className="text-muted-foreground p-4 text-sm">{t.usageEmpty}</p>
-        ) : (
-          <ul className="divide-border divide-y">
-            {bots.map((bot) => {
-              const used = bot.messages_used ?? 0;
-              const quota = bot.messages_quota ?? 0;
-              const ratio = quota > 0 ? Math.min(1, used / quota) : 0;
 
-              return (
-                <li key={bot.id} className="flex flex-col gap-2 px-4 py-3">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <span className="truncate text-sm font-medium">{bot.name}</span>
-                    <span className="text-muted-foreground shrink-0 text-xs tabular-nums">
-                      {used.toLocaleString(numberLocale)} {dict.dashboard.nav.usageOf}{' '}
-                      {quota.toLocaleString(numberLocale)}
-                    </span>
-                  </div>
-                  <Progress
-                    value={used}
-                    max={Math.max(1, quota)}
-                    label={bot.name}
-                    tone={ratio >= 0.8 ? 'warning' : 'brand'}
-                  />
-                </li>
-              );
-            })}
-          </ul>
+        {balance ? (
+          <div className="flex flex-col gap-4 p-4">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <p className="text-2xl font-semibold tabular-nums">
+                {remaining(balance).toLocaleString(numberLocale)}{' '}
+                <span className="text-muted-foreground text-sm font-normal">
+                  {tc.remaining} {tc.of} {balance.included.toLocaleString(numberLocale)}
+                </span>
+              </p>
+              <Badge variant={balance.plan === 'trial' ? 'neutral' : 'brand'}>
+                {tc.plans[balance.plan]}
+              </Badge>
+            </div>
+
+            <Progress
+              value={balance.used}
+              max={Math.max(1, balance.included)}
+              label={tc.title}
+              tone={
+                isExhausted(balance) ? 'danger' : isNearLimit(balance) ? 'warning' : 'brand'
+              }
+            />
+
+            {/* L'essai ne se recharge jamais : le dire ici evite au client
+                d'attendre un renouvellement qui n'arrivera pas. */}
+            <p className="text-muted-foreground text-xs">
+              {balance.plan === 'trial'
+                ? tc.trialNote
+                : `${tc.renews} ${nextRenewal(balance.periodStartedAt).toLocaleDateString(numberLocale)}`}
+            </p>
+
+            {isExhausted(balance) && (
+              <p className="rounded-lg bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-400">
+                {tc.exhaustedHint}
+              </p>
+            )}
+
+            <div className="border-border border-t pt-4">
+              <p className="text-sm font-medium">{tc.costTitle}</p>
+              <ul className="text-muted-foreground mt-2 flex flex-col gap-1.5 text-sm">
+                {tc.costs.map((cost) => (
+                  <li key={cost} className="flex items-start gap-2">
+                    <span
+                      className="bg-brand mt-2 size-1.5 shrink-0 rounded-full"
+                      aria-hidden
+                    />
+                    {cost}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <p className="text-muted-foreground p-4 text-sm">{tc.exhausted}</p>
         )}
       </Panel>
     </div>

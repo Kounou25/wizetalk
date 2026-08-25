@@ -3,7 +3,17 @@ import { Users } from 'lucide-react';
 import { requireAdmin } from '@/lib/admin/guard';
 import { listUsers } from '@/lib/admin/queries';
 import { EmptyState } from '@/components/dashboard/empty-state';
-import { UserActions } from '@/components/admin/user-actions';
+import { CreditActions, UserActions } from '@/components/admin/user-actions';
+import { Badge } from '@/components/ui/badge';
+import type { PlanId } from '@/lib/credits';
+
+/** Le back-office reste en francais : il ne s'adresse qu'a l'equipe. */
+const PLAN_LABELS: Record<PlanId, string> = {
+  trial: 'Essai',
+  essential: 'Essentiel',
+  growth: 'Croissance',
+  business: 'Entreprise',
+};
 import { PageHeader } from '@/components/dashboard/panel';
 
 export default async function AdminUsersPage() {
@@ -33,8 +43,10 @@ export default async function AdminUsersPage() {
                 <th scope="col" className="px-4 py-3 font-medium">Adresse</th>
                 <th scope="col" className="px-4 py-3 font-medium">Inscrit le</th>
                 <th scope="col" className="px-4 py-3 font-medium">Dernière visite</th>
+                <th scope="col" className="px-4 py-3 font-medium">Plan</th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">Assistants</th>
-                <th scope="col" className="px-4 py-3 text-right font-medium">Messages</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Crédits</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Portefeuille</th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">Droits</th>
               </tr>
             </thead>
@@ -60,13 +72,26 @@ export default async function AdminUsersPage() {
                       ? new Date(user.lastSignInAt).toLocaleDateString('fr-FR')
                       : '—'}
                   </td>
+                  <td className="px-4 py-3">
+                    <Badge variant={user.plan === 'trial' ? 'neutral' : 'brand'}>
+                      {PLAN_LABELS[user.plan]}
+                    </Badge>
+                  </td>
                   <td className="px-4 py-3 text-right tabular-nums">{user.botCount}</td>
                   <td className="px-4 py-3 text-right tabular-nums">
-                    {user.messagesUsed.toLocaleString('fr-FR')}
+                    {user.creditsUsed.toLocaleString('fr-FR')}
                     <span className="text-muted-foreground">
                       {' / '}
-                      {user.messagesQuota.toLocaleString('fr-FR')}
+                      {user.creditsIncluded.toLocaleString('fr-FR')}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <CreditActions
+                      userId={user.id}
+                      email={user.email}
+                      credits={user.creditsIncluded}
+                      used={user.creditsUsed}
+                    />
                   </td>
                   <td className="px-4 py-3 text-right">
                     <UserActions

@@ -28,6 +28,8 @@ import { embedDocuments } from './embeddings';
 import { fetchRobots, fetchText, isAllowed, mapLimit } from './http';
 import { replaceChunks, upsertPage, type Db } from './database';
 import type { CleanPage, EmbeddedChunk, Section } from './types';
+import { CREDIT_COST } from './credits';
+import { consumeCredits } from './credits-db';
 
 /** Pages recuperees par tick. Compromis duree d'invocation / nombre d'allers-retours. */
 export const CRAWL_PAGES_PER_TICK = 5;
@@ -176,7 +178,26 @@ async function crawlTick(
     }
   }
 
-  const crawlFinished = queue.length === 0 || pagesDone >= job.max_pages;
+  /*
+   * Debit de l'exploration.
+   *
+   * Une seule ecriture pour toute la tranche, plutot qu'une par page : cinq
+   * allers-retours supplementaires par tick pour un compteur ne se justifient
+   * pas. La contrepartie est qu'un compte a court de credits peut recevoir une
+   * derniere tranche gratuite — cinq pages au maximum, ce qui est un cout
+   * accepte en echange de la simplicite.
+   */
+  const stored = pagesDone - job.pages_done;
+  let creditsLeft = true;
+
+  if (stored > 0) {
+    const debit = await consumeCredits(db, job.bot_id, stored * CREDIT_COST.page);
+    creditsLeft = debit.allowed;
+  }
+
+  // Credits epuises : on arrete l'exploration ici. Les pages deja lues restent
+  // exploitables, l'assistant repond avec ce qu'il a.
+  const crawlFinished = !creditsLeft || queue.length === 0 || pagesDone >= job.max_pages;
 
   if (!crawlFinished) {
     await saveJob(db, job.id, {

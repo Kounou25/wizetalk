@@ -11,8 +11,8 @@ const ACTION_LABELS: Record<string, string> = {
   'admin.revoke': 'a retiré le droit d’administration à',
   'bot.enable': 'a activé',
   'bot.disable': 'a désactivé',
-  'bot.quota': 'a modifié le quota de',
-  'bot.reset_usage': 'a remis à zéro le compteur de',
+  'account.credits': 'a modifié l’allocation de crédits de',
+  'account.reset_credits': 'a remis à zéro les crédits consommés de',
 };
 
 function describeTarget(detail: Record<string, unknown>, targetId: string | null): string {
