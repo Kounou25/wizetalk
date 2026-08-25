@@ -100,7 +100,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
   --color-brand: var(--brand);
@@ -146,13 +146,14 @@
     @apply bg-background text-foreground font-sans;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
-  /* Les titres serres gagnent en densite ; les chiffres alignes evitent
-     que les compteurs sautent d'un pixel a l'autre. */
+  /* Sora est une geometrique large : sans resserrement, un titre s'etale et
+     perd sa force. L'ancien reglage appelait `ss01`, un jeu stylistique propre
+     a Plus Jakarta Sans que Sora n'expose pas — il est retire plutot que laisse
+     sans effet. */
   h1,
   h2,
   h3 {
-    font-feature-settings: 'ss01' 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
 }
 

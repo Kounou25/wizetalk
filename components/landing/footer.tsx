@@ -8,7 +8,7 @@ export function LandingFooter({ locale, dict }: { locale: Locale; dict: Dictiona
     <footer className="border-t">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 md:flex-row md:items-start md:justify-between">
         <div className="max-w-xs">
-          <Logo className="h-8" />
+          <Logo className="h-8" variant="full" priority={false} />
           <p className="text-muted-foreground mt-3 text-sm text-pretty">
             {dict.footer.tagline}
           </p>

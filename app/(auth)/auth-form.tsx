@@ -37,7 +37,7 @@ export function AuthForm({ mode, action, locale, dict }: AuthFormProps) {
     <div className="w-full max-w-sm">
       <div className="flex flex-col items-center text-center">
         <Link href={`/${locale}`} aria-label="Deezy">
-          <Logo className="h-8" />
+          <Logo className="h-8" variant="full" />
         </Link>
 
         <h1 className="mt-6 text-2xl font-bold tracking-tight">

@@ -1,17 +1,22 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
-import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { JetBrains_Mono, Sora } from 'next/font/google';
 import { DEFAULT_LOCALE, isLocale } from '@/lib/i18n/config';
 import './globals.css';
 
 /**
- * Plus Jakarta Sans : geometrique, chaleureuse, avec de vrais poids lourds
- * (800) pour les titres. Elle donne un caractere que la pile systeme n'a pas.
+ * Sora : geometrique, un peu technique, avec des terminaisons franches. Elle
+ * accompagne le logotype sans lui repondre en echo, et tient aussi bien un
+ * titre de landing qu'un libelle de tableau de bord.
+ *
+ * Chargee en fonte variable (100-800) : un seul fichier couvre tous les poids
+ * utilises, au lieu d'une requete par graisse.
+ *
  * JetBrains Mono pour les extraits de code, qui sont un argument de vente ici.
  */
-const sans = Plus_Jakarta_Sans({
+const sans = Sora({
   subsets: ['latin'],
-  variable: '--font-jakarta',
+  variable: '--font-sora',
   display: 'swap',
 });
 

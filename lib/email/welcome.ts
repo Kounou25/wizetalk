@@ -19,14 +19,19 @@ export const FROM = 'Deezy <hello@deezy.chat>';
 /**
  * Logo du message.
  *
- * Une copie calibree pour la messagerie : l'original fait 2172 px de large et
- * 438 Ko, telecharges a chaque ouverture. Celle-ci en fait 440 — deux fois la
- * taille d'affichage, pour rester net sur ecran haute densite — et 29 Ko.
+ * La version « full » du logotype, la meme que sur la page de connexion : un
+ * message de bienvenue ne doit pas presenter une marque que le destinataire ne
+ * retrouvera pas en arrivant. Elle fait 648 px pour 28 Ko — largement au-dessus
+ * de la taille d'affichage, donc nette sur ecran haute densite, et assez legere
+ * pour etre telechargee a chaque ouverture.
+ *
+ * `height` suit le rapport reel de l'image (3,13:1). Une hauteur approximative
+ * ecrase le logo chez les clients qui respectent les attributs a la lettre.
  */
 const LOGO = {
-  src: `${PUBLIC_ASSET_URL}/email-logo.png`,
+  src: `${PUBLIC_ASSET_URL}/deezy-logo.png`,
   width: 150,
-  height: 50,
+  height: 48,
 };
 
 /**

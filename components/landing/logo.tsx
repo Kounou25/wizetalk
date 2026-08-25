@@ -1,5 +1,22 @@
 import Image from 'next/image';
+
 import { cn } from '@/lib/utils';
+
+/**
+ * Deux gravures du meme logotype.
+ *
+ * `navbar` porte un peu plus de marge autour du dessin : posee dans une barre
+ * de 56 px, elle respire au lieu de toucher les filets. `full` est recadree au
+ * plus pres, pour les usages ou le logo est seul et doit occuper sa place.
+ * A hauteur egale, le dessin de `navbar` parait donc legerement plus petit —
+ * c'est voulu, pas un defaut de calage.
+ */
+const VARIANTS = {
+  navbar: { src: '/dezzy-navbar.png', width: 778, height: 249 },
+  full: { src: '/deezy-logo.png', width: 648, height: 207 },
+} as const;
+
+export type LogoVariant = keyof typeof VARIANTS;
 
 /**
  * Logo Deezy.
@@ -7,19 +24,29 @@ import { cn } from '@/lib/utils';
  * Logotype : le nom fait partie de l'image. On ne lui accole donc JAMAIS un
  * texte « Deezy » — il apparaitrait deux fois.
  *
- * Rapport 3:1. La hauteur pilote l'affichage (`h-7 w-auto`) : c'est elle qui
- * doit s'aligner sur le texte voisin, pas la largeur. `next/image` se charge
- * du redimensionnement — la source fait 2172 px de large pour un affichage a
- * une centaine de pixels.
+ * Rapport ~3:1. La hauteur pilote l'affichage (`h-7 w-auto`) : c'est elle qui
+ * doit s'aligner sur le texte voisin, pas la largeur.
  */
-export function Logo({ className = 'h-7' }: { className?: string }) {
+export function Logo({
+  className = 'h-7',
+  variant = 'navbar',
+  priority = true,
+}: {
+  className?: string;
+  variant?: LogoVariant;
+  /** A couper quand le logo est sous la ligne de flottaison (pied de page) :
+   *  il disputerait sinon la bande passante au contenu visible. */
+  priority?: boolean;
+}) {
+  const { src, width, height } = VARIANTS[variant];
+
   return (
     <Image
-      src="/new-logo.png"
+      src={src}
       alt="Deezy"
-      width={2172}
-      height={724}
-      priority
+      width={width}
+      height={height}
+      priority={priority}
       className={cn('w-auto object-contain', className)}
     />
   );

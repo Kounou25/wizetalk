@@ -7,6 +7,7 @@ import { LifeBuoy, LogOut, Menu, ShieldCheck } from 'lucide-react';
 
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { logout } from '@/app/(auth)/actions';
+import { Logo } from '@/components/landing/logo';
 import { Avatar } from '@/components/ui/avatar';
 import {
   DropdownItem,
@@ -77,15 +78,21 @@ export function TopBar({
         <Menu className="size-5" />
       </button>
 
+      {/* Sous `lg`, la barre laterale est masquee : c'est ici que la marque
+          doit apparaitre. Au-dela, elle y serait en double. */}
+      <Link href="/dashboard" aria-label="Deezy" className="focus-ring rounded lg:hidden">
+        <Logo className="h-6" />
+      </Link>
+
       {/* Sur la racine d'une section, le libelle est un simple reperage ; plus
           bas dans l'arborescence il devient le chemin du retour. */}
       {section &&
         (pathname === section.href ? (
-          <p className="truncate text-sm font-semibold">{section.label}</p>
+          <p className="hidden truncate text-sm font-semibold lg:block">{section.label}</p>
         ) : (
           <Link
             href={section.href}
-            className="focus-ring text-muted-foreground hover:text-foreground truncate rounded text-sm font-medium transition-colors"
+            className="focus-ring text-muted-foreground hover:text-foreground hidden truncate rounded text-sm font-medium transition-colors lg:block"
           >
             {section.label}
           </Link>

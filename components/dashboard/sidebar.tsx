@@ -152,7 +152,7 @@ export function SidebarContent({
         )}
       </div>
 
-      <div className="px-3 pt-3">
+      {/* <div className="px-3 pt-3">
         <Link
           href="/dashboard/bots/new"
           onClick={onNavigate}
@@ -161,7 +161,7 @@ export function SidebarContent({
           <NavIcon icon={Plus} />
           {t.newBot}
         </Link>
-      </div>
+      </div> */}
 
       <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label={t.section}>
         <p className="text-muted-foreground px-2.5 pb-1.5 text-[11px] font-semibold tracking-wider uppercase">
