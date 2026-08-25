@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { ArrowRight, Globe } from 'lucide-react';
 
 import type { Dictionary, Locale } from '@/lib/i18n';
-import { Avatar } from '@/components/ui/avatar';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
+import { SiteFavicon } from '@/components/dashboard/site-favicon';
 import {
   hostOf,
   initialOf,
@@ -34,7 +34,12 @@ export function BotCard({
       className="panel panel-interactive focus-ring group flex flex-col p-4"
     >
       <div className="flex items-start gap-3">
-        <Avatar initials={initialOf(bot.name)} size="lg" />
+        <SiteFavicon
+          faviconUrl={bot.favicon_url}
+          websiteUrl={bot.website_url}
+          initial={initialOf(bot.name)}
+          size="lg"
+        />
 
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold">{bot.name}</p>

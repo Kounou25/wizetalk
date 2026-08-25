@@ -19,7 +19,7 @@ export default async function BotsPage() {
 
   const { data } = await supabase
     .from('bots')
-    .select('id, name, website_url, status, last_synced_at')
+    .select('id, name, website_url, status, last_synced_at, favicon_url')
     .order('created_at', { ascending: false });
 
   const bots = (data ?? []) as BotSummary[];

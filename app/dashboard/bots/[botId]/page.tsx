@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { BackLink, PageHeader } from '@/components/dashboard/panel';
+import { SiteFavicon } from '@/components/dashboard/site-favicon';
 import { TabNav, type TabItem } from '@/components/dashboard/tab-nav';
 import { BotWorkspace } from './bot-workspace';
 import { DocumentsCard, type DocumentRow } from './documents-card';
@@ -53,7 +54,7 @@ export default async function BotPage({
   const { data: bot } = await supabase
     .from('bots')
     .select(
-      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture',
+      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, favicon_url',
     )
     .eq('id', botId)
     .maybeSingle();
@@ -97,6 +98,14 @@ export default async function BotPage({
 
         <PageHeader
           title={bot.name}
+          icon={
+            <SiteFavicon
+              faviconUrl={bot.favicon_url}
+              websiteUrl={bot.website_url}
+              initial={(bot.name.trim()[0] ?? '?').toUpperCase()}
+              size="lg"
+            />
+          }
           meta={
             <>
               {!bot.is_active && <Badge>{t.deactivated}</Badge>}

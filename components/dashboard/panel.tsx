@@ -63,16 +63,21 @@ export function PageHeader({
   description,
   action,
   meta,
+  icon,
 }: {
   title: string;
   description?: string;
   action?: React.ReactNode;
   /** Compteur, etiquette d'etat… pose a cote du titre. */
   meta?: React.ReactNode;
+  /** Vignette a gauche du titre — icone du site, logo… */
+  icon?: React.ReactNode;
 }) {
   return (
     <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
-      <div className="min-w-0">
+      <div className="flex min-w-0 items-center gap-3">
+        {icon}
+        <div className="min-w-0">
         <div className="flex items-center gap-2.5">
           <h1 className="truncate text-xl font-semibold tracking-tight">{title}</h1>
           {meta}
@@ -82,6 +87,7 @@ export function PageHeader({
             {description}
           </p>
         )}
+        </div>
       </div>
       {action && <div className="flex shrink-0 flex-wrap items-center gap-2">{action}</div>}
     </div>

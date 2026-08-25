@@ -4,6 +4,7 @@ import { requireAdmin } from '@/lib/admin/guard';
 import { listBots } from '@/lib/admin/queries';
 import { getDictionary } from '@/lib/i18n';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
+import { SiteFavicon } from '@/components/dashboard/site-favicon';
 import { EmptyState } from '@/components/dashboard/empty-state';
 import { BotActions } from '@/components/admin/bot-actions';
 import { PageHeader } from '@/components/dashboard/panel';
@@ -46,6 +47,13 @@ export default async function AdminBotsPage() {
                   className={`border-b last:border-0 ${bot.isActive ? '' : 'opacity-60'}`}
                 >
                   <td className="px-4 py-3">
+                    <div className="flex items-center gap-2.5">
+                      <SiteFavicon
+                        faviconUrl={bot.faviconUrl}
+                        websiteUrl={bot.websiteUrl}
+                        initial={(bot.name.trim()[0] ?? '?').toUpperCase()}
+                      />
+                      <div className="min-w-0">
                     <p className="font-medium">{bot.name}</p>
                     <a
                       href={bot.websiteUrl}
@@ -56,6 +64,8 @@ export default async function AdminBotsPage() {
                       {bot.websiteUrl}
                       <ExternalLink className="size-3" aria-hidden />
                     </a>
+                      </div>
+                    </div>
                   </td>
                   <td className="text-muted-foreground px-4 py-3">{bot.ownerEmail}</td>
                   <td className="px-4 py-3">

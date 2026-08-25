@@ -21,7 +21,7 @@
  */
 
 import { chunkPage } from './chunker';
-import { cleanPage } from './cleaner';
+import { cleanPage, extractFaviconUrl } from './cleaner';
 import { removeBoilerplate } from './boilerplate';
 import { extractLinks, normalizeUrl } from './crawler';
 import { embedDocuments } from './embeddings';
@@ -151,9 +151,20 @@ async function crawlTick(
 
   let pagesDone = job.pages_done;
 
+  /*
+   * Icone du site, relevee sur la premiere page qui en declare une.
+   *
+   * Pas de requete supplementaire : le HTML est deja la. On ne retient que la
+   * premiere trouvee — les pages internes declarent la meme, et se relancer
+   * dessus a chaque page ne changerait rien au resultat.
+   */
+  let favicon: string | null = null;
+
   for (const { url, res } of fetched) {
     if (pagesDone >= job.max_pages) break;
     if (!res.ok || !res.contentType.includes('html')) continue;
+
+    if (!favicon) favicon = extractFaviconUrl(res.body, url);
 
     const cleaned = cleanPage(res.body, url);
     if (!cleaned) continue;
@@ -187,6 +198,20 @@ async function crawlTick(
    * derniere tranche gratuite — cinq pages au maximum, ce qui est un cout
    * accepte en echange de la simplicite.
    */
+  /*
+   * Ecriture de l'icone.
+   *
+   * `is null` dans le filtre : une resynchronisation ne doit pas ecraser une
+   * icone deja connue par un `null` venu d'une page qui n'en declare pas.
+   */
+  if (favicon) {
+    await db
+      .from('bots')
+      .update({ favicon_url: favicon })
+      .eq('id', job.bot_id)
+      .is('favicon_url', null);
+  }
+
   const stored = pagesDone - job.pages_done;
   let creditsLeft = true;
 

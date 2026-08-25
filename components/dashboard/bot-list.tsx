@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
 import type { Dictionary, Locale } from '@/lib/i18n';
-import { Avatar } from '@/components/ui/avatar';
 import { BotStatusBadge } from './bot-status';
+import { SiteFavicon } from './site-favicon';
 import { hostOf, initialOf, lastSyncLabel, type BotSummary } from './bot-summary';
 import { Panel, PanelHeader, panelLinkClass } from './panel';
 
@@ -45,7 +45,11 @@ export function BotList({
               href={`/dashboard/bots/${bot.id}`}
               className="focus-ring hover:bg-surface-subtle group flex items-center gap-3 px-4 py-3 transition-colors"
             >
-              <Avatar initials={initialOf(bot.name)} size="md" />
+              <SiteFavicon
+                faviconUrl={bot.favicon_url}
+                websiteUrl={bot.website_url}
+                initial={initialOf(bot.name)}
+              />
 
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">{bot.name}</p>

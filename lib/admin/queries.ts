@@ -161,6 +161,7 @@ export interface AdminBotRow {
   ownerEmail: string;
   lastSyncedAt: string | null;
   createdAt: string;
+  faviconUrl: string | null;
   pages: number;
   conversations: number;
 }
@@ -169,7 +170,7 @@ export async function listBots(db: Db, limit = 200): Promise<AdminBotRow[]> {
   const { data: bots } = await db
     .from('bots')
     .select(
-      'id, user_id, name, website_url, status, is_active, last_synced_at, created_at',
+      'id, user_id, name, website_url, status, is_active, last_synced_at, created_at, favicon_url',
     )
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -206,6 +207,7 @@ export async function listBots(db: Db, limit = 200): Promise<AdminBotRow[]> {
     ownerEmail: emailById.get(bot.user_id as string) ?? '—',
     lastSyncedAt: (bot.last_synced_at as string | null) ?? null,
     createdAt: bot.created_at as string,
+    faviconUrl: (bot.favicon_url as string | null) ?? null,
     pages: pageCounts.get(bot.id as string) ?? 0,
     conversations: conversationCounts.get(bot.id as string) ?? 0,
   }));

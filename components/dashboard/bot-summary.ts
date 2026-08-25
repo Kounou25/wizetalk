@@ -4,6 +4,8 @@ export interface BotSummary {
   website_url: string;
   status: string;
   last_synced_at: string | null;
+  /** Icone relevee a l'exploration. `null` avant la premiere analyse. */
+  favicon_url: string | null;
 }
 
 /** « https://www.exemple.fr/a » -> « exemple.fr ». L'URL brute est trop longue

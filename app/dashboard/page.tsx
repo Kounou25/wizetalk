@@ -66,7 +66,7 @@ export default async function DashboardPage() {
   ] = await Promise.all([
     supabase
       .from('bots')
-      .select('id, name, website_url, status, last_synced_at')
+      .select('id, name, website_url, status, last_synced_at, favicon_url')
       .order('created_at', { ascending: false })
       .limit(5),
     supabase.from('pages').select('id', { count: 'exact', head: true }),

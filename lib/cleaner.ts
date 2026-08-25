@@ -164,3 +164,49 @@ export function cleanPage(html: string, url: string): CleanPage | null {
     contentHash: createHash('sha256').update(text).digest('hex'),
   };
 }
+
+/**
+ * Adresse absolue de l'icone declaree par une page.
+ *
+ * L'ordre des selecteurs suit la qualite du resultat : `apple-touch-icon` est
+ * la plus grande version disponible (180 px en general), `icon` peut etre un
+ * SVG ou un PNG de taille variable, `shortcut icon` est la forme historique
+ * qu'on rencontre encore sur les sites anciens.
+ *
+ * Retourne `null` si la page ne declare rien : l'appelant retombera alors sur
+ * `/favicon.ico`, que la plupart des serveurs servent encore par convention.
+ */
+export function extractFaviconUrl(html: string, pageUrl: string): string | null {
+  const $ = cheerio.load(html);
+
+  const selectors = [
+    'link[rel="apple-touch-icon"]',
+    'link[rel="icon"]',
+    'link[rel="shortcut icon"]',
+    'link[rel="apple-touch-icon-precomposed"]',
+  ];
+
+  for (const selector of selectors) {
+    const href = $(selector).attr('href')?.trim();
+    if (!href) continue;
+
+    /*
+     * Les icones en `data:` sont rejetees : elles peuvent peser plusieurs
+     * dizaines de kilo-octets, et on les recopierait dans chaque ligne de
+     * chaque liste d'assistants.
+     */
+    if (href.startsWith('data:')) continue;
+
+    try {
+      const absolute = new URL(href, pageUrl);
+      // Seuls http(s) : un `javascript:` ou un `file:` n'a rien a faire dans
+      // un attribut src rendu par le navigateur du proprietaire.
+      if (absolute.protocol !== 'http:' && absolute.protocol !== 'https:') continue;
+      return absolute.toString();
+    } catch {
+      // href malforme : on tente le selecteur suivant.
+    }
+  }
+
+  return null;
+}
