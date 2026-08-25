@@ -1,22 +1,17 @@
 import {
-  ChartSkeleton,
+  ListPanelSkeleton,
   PageHeaderSkeleton,
   StatGroupSkeleton,
   TableSkeleton,
 } from '@/components/dashboard/skeleton';
 
-export default function AdminLoading() {
+export default function AdminBillingLoading() {
   return (
     <div className="flex flex-col gap-5">
       <PageHeaderSkeleton action={false} />
       <StatGroupSkeleton count={4} />
-      <StatGroupSkeleton count={4} />
-      <ChartSkeleton />
-      <div className="grid gap-5 lg:grid-cols-2">
-        <ChartSkeleton />
-        <ChartSkeleton />
-      </div>
       <TableSkeleton rows={6} />
+      <ListPanelSkeleton rows={5} lines={1} />
     </div>
   );
 }

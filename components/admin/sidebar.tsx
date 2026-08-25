@@ -2,7 +2,15 @@
 
 import Link, { useLinkStatus } from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ArrowLeft, Bot, Gauge, ScrollText, ShieldCheck, Users } from 'lucide-react';
+import {
+  ArrowLeft,
+  Bot,
+  CreditCard,
+  Gauge,
+  ScrollText,
+  ShieldCheck,
+  Users,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/components/ui/spinner';
 
@@ -10,6 +18,7 @@ const ITEMS = [
   { href: '/admin', label: "Vue d'ensemble", icon: Gauge, exact: true },
   { href: '/admin/users', label: 'Comptes', icon: Users, exact: false },
   { href: '/admin/bots', label: 'Assistants', icon: Bot, exact: false },
+  { href: '/admin/billing', label: 'Paiements', icon: CreditCard, exact: false },
   { href: '/admin/audit', label: 'Journal', icon: ScrollText, exact: false },
 ];
 

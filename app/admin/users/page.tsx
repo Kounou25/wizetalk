@@ -5,6 +5,7 @@ import { listUsers } from '@/lib/admin/queries';
 import { EmptyState } from '@/components/dashboard/empty-state';
 import { CreditActions, UserActions } from '@/components/admin/user-actions';
 import { Badge } from '@/components/ui/badge';
+import { UserAvatar } from '@/components/admin/user-avatar';
 import type { PlanId } from '@/lib/credits';
 
 /** Le back-office reste en francais : il ne s'adresse qu'a l'equipe. */
@@ -40,7 +41,7 @@ export default async function AdminUsersPage() {
           <table className="w-full text-sm">
             <thead className="text-muted-foreground border-border border-b text-left text-xs">
               <tr>
-                <th scope="col" className="px-4 py-3 font-medium">Adresse</th>
+                <th scope="col" className="px-4 py-3 font-medium">Compte</th>
                 <th scope="col" className="px-4 py-3 font-medium">Inscrit le</th>
                 <th scope="col" className="px-4 py-3 font-medium">Dernière visite</th>
                 <th scope="col" className="px-4 py-3 font-medium">Plan</th>
@@ -54,12 +55,34 @@ export default async function AdminUsersPage() {
               {users.map((user) => (
                 <tr key={user.id} className="border-border border-b last:border-0">
                   <td className="px-4 py-3">
-                    <span className="font-medium">{user.email}</span>
-                    {user.isAdmin && (
-                      <span className="ml-2 rounded-full bg-red-500/10 px-2 py-0.5 text-[11px] font-semibold text-red-600">
-                        admin
-                      </span>
-                    )}
+                    {/* Le visage d'abord : dans une liste de comptes, il se
+                        reconnait plus vite qu'une adresse. */}
+                    <div className="flex items-center gap-2.5">
+                      <UserAvatar
+                        src={user.avatarUrl}
+                        fullName={user.fullName}
+                        email={user.email}
+                      />
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="truncate font-medium">
+                            {user.fullName ?? user.email}
+                          </span>
+                          {user.isAdmin && (
+                            <span className="shrink-0 rounded-full bg-red-500/10 px-2 py-0.5 text-[11px] font-semibold text-red-600">
+                              admin
+                            </span>
+                          )}
+                        </div>
+                        {/* L'adresse reste visible : c'est elle qui sert a
+                            retrouver un compte dans le support. */}
+                        {user.fullName && (
+                          <p className="text-muted-foreground truncate text-xs">
+                            {user.email}
+                          </p>
+                        )}
+                      </div>
+                    </div>
                     {user.id === admin.id && (
                       <span className="text-muted-foreground ml-2 text-[11px]">(vous)</span>
                     )}

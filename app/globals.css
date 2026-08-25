@@ -177,11 +177,25 @@
 .viz-root {
   --series-1: #2563eb; /* bleu de marque — conversations */
   --series-2: #eb6834; /* orange — messages */
+
+  /*
+   * Deux roles supplementaires, pour les graphiques du back-office.
+   *
+   * Repris de la palette Okabe-Ito, concue pour rester distinguable sous les
+   * trois formes de daltonisme. Le validateur cite plus haut n'existe pas dans
+   * le depot : ces deux valeurs ne sont donc PAS mesurees comme les deux
+   * premieres, elles s'appuient sur une palette de reference. A repasser au
+   * validateur le jour ou il est ajoute.
+   */
+  --series-3: #009e73; /* vert bleute — inscriptions */
+  --series-4: #cc79a7; /* mauve — assistants crees */
 }
 
 .dark .viz-root {
   --series-1: #3987e5;
   --series-2: #d95926;
+  --series-3: #1aab84;
+  --series-4: #d98cb8;
 }
 
 /* Variante du quadrillage pour la bande sombre. */
