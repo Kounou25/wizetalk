@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
@@ -9,6 +9,24 @@ import { cn } from '@/lib/utils';
  *  element particulier — un bouton d'envoi dans un <form>, par exemple. */
 export const dropdownItemClass =
   'focus-ring hover:bg-surface-subtle flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium transition-colors outline-none focus-visible:bg-surface-subtle';
+
+/**
+ * Fermeture du menu, exposee aux entrees.
+ *
+ * Le menu se fermait auparavant sur tout clic recu par son conteneur. C'etait
+ * commode, et faux : une entree qui soumet un formulaire etait demontee par ce
+ * clic AVANT que le navigateur ne declenche l'envoi, qui n'arrivait donc
+ * jamais. C'est ce qui rendait la deconnexion inoperante.
+ *
+ * Chaque entree decide desormais elle-meme. Un lien ferme tout de suite ; une
+ * entree qui declenche une action serveur laisse le menu ouvert, ce qui a le
+ * bon gout de garder son indicateur de chargement visible.
+ */
+const DropdownContext = createContext<(() => void) | null>(null);
+
+export function useDropdownClose(): () => void {
+  return useContext(DropdownContext) ?? (() => {});
+}
 
 /**
  * Menu attache a un bouton.
@@ -126,22 +144,21 @@ export function DropdownMenu({
       </button>
 
       {open && (
-        <div
-          ref={menuRef}
-          role="menu"
-          aria-label={label}
-          onKeyDown={onMenuKeyDown}
-          // Un clic sur n'importe quelle entree referme : chaque entree est une
-          // action terminale, aucune ne laisse le menu ouvert.
-          onClick={() => setOpen(false)}
-          className={cn(
-            'overlay animate-overlay-in absolute top-[calc(100%+6px)] z-50 min-w-56 p-1.5',
-            align === 'end' ? 'right-0' : 'left-0',
-            className,
-          )}
-        >
-          {children}
-        </div>
+        <DropdownContext.Provider value={() => setOpen(false)}>
+          <div
+            ref={menuRef}
+            role="menu"
+            aria-label={label}
+            onKeyDown={onMenuKeyDown}
+            className={cn(
+              'overlay animate-overlay-in absolute top-[calc(100%+6px)] z-50 min-w-56 p-1.5',
+              align === 'end' ? 'right-0' : 'left-0',
+              className,
+            )}
+          >
+            {children}
+          </div>
+        </DropdownContext.Provider>
       )}
     </div>
   );
@@ -160,6 +177,8 @@ export function DropdownItem({
   tone?: 'default' | 'danger';
   children: React.ReactNode;
 }) {
+  const close = useDropdownClose();
+
   const className = cn(
     dropdownItemClass,
     tone === 'danger' ? 'text-red-600 hover:bg-red-500/10' : 'text-foreground',
@@ -174,14 +193,22 @@ export function DropdownItem({
 
   if (href) {
     return (
-      <Link href={href} role="menuitem" className={className}>
+      <Link href={href} role="menuitem" className={className} onClick={close}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button type="button" role="menuitem" onClick={onSelect} className={className}>
+    <button
+      type="button"
+      role="menuitem"
+      className={className}
+      onClick={() => {
+        onSelect?.();
+        close();
+      }}
+    >
       {content}
     </button>
   );

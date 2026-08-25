@@ -449,6 +449,7 @@ export const fr = {
       usageOf: 'sur',
       account: 'Compte',
       signedInAs: 'Connecté en tant que',
+      settings: 'Paramètres',
     },
 
     status: {
@@ -456,6 +457,62 @@ export const fr = {
       crawling: 'Analyse en cours',
       ready: 'Prêt',
       error: 'Échec de l’analyse',
+    },
+
+    account: {
+      title: 'Paramètres',
+      lead: 'Votre profil, la langue de l’interface et votre mot de passe.',
+
+      profileTitle: 'Profil',
+      profileLead: 'Le nom qui apparaît dans les messages que nous vous envoyons.',
+      fullName: 'Nom et prénom',
+      fullNamePlaceholder: 'Marie Dupont',
+      email: 'Adresse e-mail',
+      emailHint: 'L’adresse de connexion ne se change pas depuis cette page.',
+      signedInWith: 'Connexion par',
+      providerPassword: 'Mot de passe',
+      providerGoogle: 'Google',
+      save: 'Enregistrer',
+      saving: 'Enregistrement…',
+      saved: 'Modifications enregistrées.',
+
+      languageTitle: 'Langue',
+      languageLead: 'S’applique au tableau de bord et aux messages que nous vous envoyons.',
+
+      securityTitle: 'Mot de passe',
+      securityLead: 'Choisissez un nouveau mot de passe pour votre compte.',
+      currentPassword: 'Mot de passe actuel',
+      newPassword: 'Nouveau mot de passe',
+      confirmPassword: 'Confirmer le mot de passe',
+      passwordHint: '8 caractères minimum.',
+      updatePassword: 'Mettre à jour',
+      updating: 'Mise à jour…',
+      passwordSaved: 'Mot de passe mis à jour.',
+      googleOnly:
+        'Votre compte se connecte avec Google. Le mot de passe se change depuis votre compte Google, pas ici.',
+
+      usageTitle: 'Consommation',
+      usageLead: 'Messages échangés par vos assistants, sur le mois en cours.',
+      usageEmpty: 'Aucun assistant pour l’instant.',
+
+      errorName: 'Indiquez votre nom et prénom.',
+      errorPassword: 'Le mot de passe doit faire au moins 8 caractères.',
+      errorMismatch: 'Les deux mots de passe ne correspondent pas.',
+      errorCurrentPassword: 'Le mot de passe actuel est incorrect.',
+      errorGeneric: 'La modification n’a pas pu être enregistrée. Réessayez.',
+    },
+
+    help: {
+      title: 'Aide',
+      lead: 'Comment démarrer, ce qu’on nous demande le plus, et comment nous joindre.',
+      startTitle: 'Démarrer en trois étapes',
+      faqTitle: 'Questions fréquentes',
+      contactTitle: 'Votre question n’est pas là ?',
+      contactLead:
+        'Écrivez-nous en décrivant ce que vous cherchez à faire. Nous répondons sous 24 h ouvrées.',
+      contactCta: 'Nous écrire',
+      newBotCta: 'Créer un assistant',
+      siteCta: 'Voir la présentation',
     },
 
     overview: {

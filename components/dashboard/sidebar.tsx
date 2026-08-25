@@ -8,7 +8,7 @@ import type { Dictionary, Locale } from '@/lib/i18n';
 import { Logo } from '@/components/landing/logo';
 import { Progress } from '@/components/ui/progress';
 import { Spinner } from '@/components/ui/spinner';
-import { isNavActive, navItems, type NavItem } from './nav-items';
+import { isNavActive, navItems, secondaryNavItems, type NavItem } from './nav-items';
 import type { ShellUsage } from './types';
 
 /**
@@ -133,6 +133,7 @@ export function SidebarContent({
 }) {
   const t = dict.dashboard.nav;
   const items = navItems(dict);
+  const secondary = secondaryNavItems(dict);
 
   return (
     <div className="flex h-full flex-col">
@@ -179,6 +180,19 @@ export function SidebarContent({
           ))}
         </div>
       </nav>
+
+      {/* Reglages et aide : on y passe, on n'y travaille pas. Detaches du bloc
+          principal par un filet plutot que ranges sous un intitule de plus. */}
+      <div className="border-border space-y-0.5 border-t px-3 py-3">
+        {secondary.map((item) => (
+          <NavLink
+            key={item.href}
+            item={item}
+            active={isNavActive(pathname, item)}
+            onNavigate={onNavigate}
+          />
+        ))}
+      </div>
 
       {usage.quota > 0 && <UsageMeter usage={usage} locale={locale} dict={dict} />}
     </div>

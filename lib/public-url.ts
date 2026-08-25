@@ -29,3 +29,13 @@ export const PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? CANONICAL;
 export const PUBLIC_ASSET_URL = PUBLIC_APP_URL.includes('localhost')
   ? CANONICAL
   : PUBLIC_APP_URL;
+
+/**
+ * Adresse de contact du support.
+ *
+ * Definie ici avec le reste de l'identite publique : elle sert a la fois
+ * d'expediteur des messages sortants et de point de contact affiche dans
+ * l'aide. Deux valeurs recopiees finiraient par diverger, et le client
+ * repondrait a une adresse que personne ne releve.
+ */
+export const SUPPORT_EMAIL = 'hello@deezy.chat';

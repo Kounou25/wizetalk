@@ -1,5 +1,5 @@
 import type { Locale } from '@/lib/i18n/config';
-import { PUBLIC_ASSET_URL } from '@/lib/public-url';
+import { PUBLIC_ASSET_URL, SUPPORT_EMAIL } from '@/lib/public-url';
 
 /**
  * Message de bienvenue.
@@ -13,8 +13,9 @@ import { PUBLIC_ASSET_URL } from '@/lib/public-url';
  * clients en mode texte et ameliore nettement le classement anti-spam.
  */
 
-/** Expediteur. Adresse publique, pas un secret : elle vit avec le gabarit. */
-export const FROM = 'Deezy <hello@deezy.chat>';
+/** Expediteur. La meme adresse que celle affichee dans l'aide : le client
+ *  repond la ou on l'invite a ecrire. */
+export const FROM = `Deezy <${SUPPORT_EMAIL}>`;
 
 /**
  * Logo du message.

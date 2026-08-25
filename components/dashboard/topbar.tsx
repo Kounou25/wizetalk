@@ -3,7 +3,7 @@
 import { useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LifeBuoy, LogOut, Menu, ShieldCheck } from 'lucide-react';
+import { LifeBuoy, LogOut, Menu, Settings, ShieldCheck } from 'lucide-react';
 
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { logout } from '@/app/(auth)/actions';
@@ -17,7 +17,7 @@ import {
   dropdownItemClass,
 } from '@/components/ui/dropdown-menu';
 import { Spinner } from '@/components/ui/spinner';
-import { currentSection, navItems } from './nav-items';
+import { currentSection } from './nav-items';
 import { LocaleSwitch } from './locale-switch';
 import type { ShellUser } from './types';
 
@@ -65,7 +65,7 @@ export function TopBar({
 }) {
   const pathname = usePathname();
   const t = dict.dashboard.nav;
-  const section = currentSection(pathname, navItems(dict));
+  const section = currentSection(pathname, dict);
 
   return (
     <header className="border-border bg-surface/85 supports-[backdrop-filter]:bg-surface/70 sticky top-0 z-30 flex h-14 items-center gap-3 border-b px-4 backdrop-blur sm:px-6">
@@ -101,14 +101,14 @@ export function TopBar({
       <div className="ml-auto flex items-center gap-2">
         <LocaleSwitch locale={locale} />
 
-        <a
-          href={`/${locale}#faq`}
+        <Link
+          href="/dashboard/help"
           className="focus-ring text-muted-foreground hover:bg-surface-subtle hover:text-foreground hidden size-9 items-center justify-center rounded-lg transition-colors sm:flex"
           aria-label={t.help}
           title={t.help}
         >
           <LifeBuoy className="size-4" />
-        </a>
+        </Link>
 
         <DropdownMenu
           label={t.account}
@@ -129,7 +129,11 @@ export function TopBar({
 
           <DropdownSeparator />
 
-          <DropdownItem href={`/${locale}#faq`} icon={LifeBuoy}>
+          <DropdownItem href="/dashboard/settings" icon={Settings}>
+            {t.settings}
+          </DropdownItem>
+
+          <DropdownItem href="/dashboard/help" icon={LifeBuoy}>
             {t.help}
           </DropdownItem>
 

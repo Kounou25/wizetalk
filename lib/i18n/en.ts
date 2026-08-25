@@ -450,6 +450,7 @@ export const en: Dictionary = {
       usageOf: 'of',
       account: 'Account',
       signedInAs: 'Signed in as',
+      settings: 'Settings',
     },
 
     status: {
@@ -457,6 +458,62 @@ export const en: Dictionary = {
       crawling: 'Analysing',
       ready: 'Ready',
       error: 'Analysis failed',
+    },
+
+    account: {
+      title: 'Settings',
+      lead: 'Your profile, the interface language and your password.',
+
+      profileTitle: 'Profile',
+      profileLead: 'The name shown in the messages we send you.',
+      fullName: 'Full name',
+      fullNamePlaceholder: 'Marie Dupont',
+      email: 'Email address',
+      emailHint: 'The sign-in address cannot be changed from this page.',
+      signedInWith: 'Signed in with',
+      providerPassword: 'Password',
+      providerGoogle: 'Google',
+      save: 'Save',
+      saving: 'Saving…',
+      saved: 'Changes saved.',
+
+      languageTitle: 'Language',
+      languageLead: 'Applies to the dashboard and to the messages we send you.',
+
+      securityTitle: 'Password',
+      securityLead: 'Choose a new password for your account.',
+      currentPassword: 'Current password',
+      newPassword: 'New password',
+      confirmPassword: 'Confirm password',
+      passwordHint: '8 characters minimum.',
+      updatePassword: 'Update',
+      updating: 'Updating…',
+      passwordSaved: 'Password updated.',
+      googleOnly:
+        'Your account signs in with Google. The password is changed from your Google account, not here.',
+
+      usageTitle: 'Usage',
+      usageLead: 'Messages handled by your assistants this month.',
+      usageEmpty: 'No assistants yet.',
+
+      errorName: 'Enter your full name.',
+      errorPassword: 'The password must be at least 8 characters.',
+      errorMismatch: 'The two passwords do not match.',
+      errorCurrentPassword: 'The current password is incorrect.',
+      errorGeneric: 'The change could not be saved. Please try again.',
+    },
+
+    help: {
+      title: 'Help',
+      lead: 'How to get started, what we get asked the most, and how to reach us.',
+      startTitle: 'Get started in three steps',
+      faqTitle: 'Frequently asked questions',
+      contactTitle: 'Your question is not here?',
+      contactLead:
+        'Write to us describing what you are trying to do. We answer within one business day.',
+      contactCta: 'Email us',
+      newBotCta: 'Create an assistant',
+      siteCta: 'See the overview',
     },
 
     overview: {

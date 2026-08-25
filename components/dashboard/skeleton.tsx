@@ -11,14 +11,16 @@ export function Skeleton({ className }: { className?: string }) {
   return <div className={cn('bg-border/70 animate-pulse rounded-md', className)} />;
 }
 
-export function PageHeaderSkeleton() {
+export function PageHeaderSkeleton({ action = true }: { action?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-6">
       <div className="flex flex-col gap-2">
         <Skeleton className="h-6 w-48" />
         <Skeleton className="h-4 w-72" />
       </div>
-      <Skeleton className="h-9 w-36" />
+      {/* Les pages sans action principale ne doivent pas laisser apparaitre un
+          bouton fantome, qui disparaitrait au premier rendu reel. */}
+      {action && <Skeleton className="h-9 w-36" />}
     </div>
   );
 }
