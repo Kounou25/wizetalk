@@ -18,7 +18,8 @@
     "dev:lan": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "billing:check": "tsx scripts/billing-check.ts"
   },
   "dependencies": {
     "@dodopayments/nextjs": "^0.3.9",
