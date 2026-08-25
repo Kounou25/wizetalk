@@ -37,6 +37,23 @@ export async function claimEvent(
 }
 
 /**
+ * Libere un evenement dont le traitement a echoue.
+ *
+ * Sans cela, la reservation devient un piege : l'evenement est marque comme vu,
+ * l'action a echoue, et le rejeu du prestataire est ignore — l'evenement est
+ * perdu pour de bon. En retirant la ligne, on rend le rejeu possible.
+ *
+ * L'ordre reserve-puis-agis reste le bon : il ferme la fenetre pendant laquelle
+ * deux livraisons simultanees agiraient toutes les deux. La liberation ne
+ * rouvre cette fenetre qu'en cas d'echec, ou il n'y a plus rien a proteger.
+ */
+export async function releaseEvent(webhookId: string): Promise<void> {
+  const db = createAdminClient();
+  const { error } = await db.from('billing_events').delete().eq('id', webhookId);
+  if (error) console.error('[billing] liberation impossible', webhookId, error.message);
+}
+
+/**
  * Retrouve le compte destinataire d'un evenement.
  *
  * Par `subscription_id` d'abord : il est ecrit en base au moment ou l'on cree

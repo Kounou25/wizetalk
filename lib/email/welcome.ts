@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n/config';
 import { PUBLIC_ASSET_URL, SUPPORT_EMAIL } from '@/lib/public-url';
+import { BRAND, BRAND_SOFT, escapeHtml, FONT, INK, LINE, MUTED, PAGE, TEXT } from './theme';
 
 /**
  * Message de bienvenue.
@@ -35,19 +36,8 @@ const LOGO = {
   height: 48,
 };
 
-/**
- * Palette, reprise de l'application (--brand converti en hexadecimal : aucun
- * client de messagerie ne comprend oklch()).
- */
-const BRAND = '#0069E8';
-const BRAND_SOFT = '#EAF3FF';
-const INK = '#0F172A';
-const TEXT = '#334155';
-const MUTED = '#64748B';
-const LINE = '#E7ECF3';
-const PAGE = '#F1F5F9';
-
-const FONT = "-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+// Palette et echappement : partages avec les autres messages sortants.
+export { BRAND, BRAND_SOFT, INK, TEXT, MUTED, LINE, PAGE, FONT } from './theme';
 
 export interface WelcomeContent {
   subject: string;
@@ -166,14 +156,6 @@ export function firstNameFrom(email: string, fullName?: string | null): string {
   if (!cleaned) return email;
 
   return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
 }
 
 export function buildWelcomeEmail(

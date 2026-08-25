@@ -24,9 +24,11 @@ import {
   applyPlan,
   claimEvent,
   expireSubscription,
+  releaseEvent,
   touchSubscription,
   type SubscriptionSnapshot,
 } from '@/lib/billing/sync';
+import { sendInvoiceEmail, type PaymentNotice } from '@/lib/billing/send-invoice';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Payload = any;
@@ -74,7 +76,54 @@ function handle(
 
     if (!(await claimEvent(key, type, snap.subscriptionId))) return;
 
-    await action(snap);
+    try {
+      await action(snap);
+    } catch (cause) {
+      // La reservation est levee : sans cela l'evenement serait marque comme
+      // traite alors qu'il ne l'est pas, et le rejeu serait ignore.
+      await releaseEvent(key);
+      throw cause;
+    }
+  };
+}
+
+/**
+ * Meme enveloppe, pour les evenements de paiement.
+ *
+ * Le payload d'un paiement n'a pas la forme d'un abonnement : il porte un
+ * `payment_id` et un montant, la ou l'autre porte un statut et une echeance.
+ */
+function handlePayment(type: string, action: (notice: PaymentNotice) => Promise<void>) {
+  return async (payload: Payload) => {
+    const data = payload?.data;
+    const paymentId = data?.payment_id;
+    if (typeof paymentId !== 'string' || !paymentId) return;
+
+    const notice: PaymentNotice = {
+      paymentId,
+      subscriptionId: data?.subscription_id ?? null,
+      productId: data?.product_cart?.[0]?.product_id ?? data?.product_id ?? null,
+      totalAmount: typeof data?.total_amount === 'number' ? data.total_amount : null,
+      currency: data?.currency ?? null,
+      customerEmail: data?.customer?.email ?? null,
+      customerName: data?.customer?.name ?? null,
+      metadata: data?.metadata ?? null,
+    };
+
+    const webhookId = payload?.webhookId ?? payload?.['webhook-id'] ?? payload?.id;
+    const key =
+      typeof webhookId === 'string' && webhookId
+        ? webhookId
+        : `${type}:${paymentId}:${payload?.timestamp ?? ''}`;
+
+    if (!(await claimEvent(key, type, notice.subscriptionId))) return;
+
+    try {
+      await action(notice);
+    } catch (cause) {
+      await releaseEvent(key);
+      throw cause;
+    }
   };
 }
 
@@ -164,5 +213,22 @@ const buildHandler = (webhookKey: string) =>
 
     onSubscriptionFailed: handle('subscription.failed', async (snap) => {
       await touchSubscription(snap);
+    }),
+
+    /*
+     * Facture envoyee depuis l'adresse de Deezy, avec le PDF de Dodo en piece
+     * jointe.
+     *
+     * Sur un evenement distinct de `subscription.active`, et c'est voulu : un
+     * incident de messagerie ne doit pas empecher l'attribution du plan, et un
+     * envoi rate doit pouvoir etre rejoue sans reappliquer l'abonnement. Les
+     * deux evenements ont chacun leur reservation.
+     *
+     * L'erreur remonte : le rejeu du prestataire est notre seule chance de
+     * renvoyer la facture. Une facture perdue en silence est un probleme
+     * comptable, pas un incident technique mineur.
+     */
+    onPaymentSucceeded: handlePayment('payment.succeeded', async (notice) => {
+      await sendInvoiceEmail(notice);
     }),
   });

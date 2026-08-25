@@ -57,6 +57,7 @@ export async function subscribe(formData: FormData): Promise<void> {
         user.email.split('@')[0] ??
         'Client',
       country: DEFAULT_COUNTRY[locale] ?? 'FR',
+      locale,
     });
 
     /*

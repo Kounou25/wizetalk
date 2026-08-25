@@ -62,6 +62,7 @@ export async function startSubscription({
   email,
   name,
   country,
+  locale,
 }: {
   plan: PaidPlanId;
   period: BillingPeriod;
@@ -70,6 +71,8 @@ export async function startSubscription({
   name: string;
   /** Code ISO 3166-1 alpha-2. Exige par Dodo pour le calcul des taxes. */
   country: string;
+  /** Langue du client, pour les messages declenches par webhook. */
+  locale: string;
 }): Promise<StartedSubscription> {
   const subscription = await dodo().subscriptions.create({
     product_id: productIdFor(plan, period),
@@ -84,7 +87,12 @@ export async function startSubscription({
      * documentation ne garantit pas qu'elles reviennent dans les webhooks. On
      * ecrit `subscription_id -> user_id` en base des le retour de cet appel.
      */
-    metadata: { user_id: userId, plan, period },
+    /*
+     * `locale` est la seule facon de connaitre la langue du client au moment
+     * d'un webhook : celui-ci n'a aucun contexte de requete, donc ni cookie ni
+     * en-tete. On l'enregistre ici, ou on la connait encore.
+     */
+    metadata: { user_id: userId, plan, period, locale },
   });
 
   if (!subscription.payment_link) {
