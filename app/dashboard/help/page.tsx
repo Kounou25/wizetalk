@@ -21,10 +21,10 @@ export default async function HelpPage() {
         {/* Les memes trois etapes que la page de presentation : le client
             retrouve mot pour mot ce qu'on lui a promis avant l'inscription. */}
         <ol className="divide-border divide-y">
-          {dict.solution.steps.map((step, index) => (
+          {dict.install.steps.map((step) => (
             <li key={step.title} className="flex gap-3 px-4 py-3">
               <span className="bg-surface-subtle text-foreground border-border flex size-6 shrink-0 items-center justify-center rounded-full border font-mono text-[11px] font-semibold tabular-nums">
-                {index + 1}
+                {step.step}
               </span>
               <div className="min-w-0">
                 <p className="text-sm font-medium">{step.title}</p>

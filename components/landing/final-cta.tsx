@@ -1,10 +1,23 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Reveal } from '@/components/reveal';
 import type { Dictionary, Locale } from '@/lib/i18n';
 
+/**
+ * Dernier appel a l'action.
+ *
+ * Une question, pas une promesse : le lecteur qui arrive ici a tout compris,
+ * ce qu'il lui manque c'est une raison d'agir maintenant. Lui faire compter ce
+ * qu'il a deja perdu est plus efficace que lui redire ce qu'il gagnerait.
+ *
+ * Un seul bouton : a ce stade, proposer une alternative revient a offrir une
+ * porte de sortie.
+ */
 export function FinalCta({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const t = dict.finalCta;
+
   return (
     <section className="border-t">
       <div className="relative overflow-hidden">
@@ -19,29 +32,26 @@ export function FinalCta({ locale, dict }: { locale: Locale; dict: Dictionary })
 
         <Reveal className="relative mx-auto max-w-3xl px-6 py-24 text-center md:py-28">
           <h2 className="text-3xl font-bold tracking-tight text-balance md:text-5xl">
-            {dict.finalCta.titleStart}
-            <br />
-            <span className="text-gradient-animate">{dict.finalCta.titleHighlight}</span>
+            {t.title}
           </h2>
           <p className="text-muted-foreground mx-auto mt-5 max-w-lg text-lg text-pretty">
-            {dict.finalCta.lead}
+            {t.lead}
           </p>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div className="mt-8 flex justify-center">
             <Button
               asChild
               size="lg"
-              className="bg-brand hover:bg-brand/90 text-brand-foreground group h-12 px-6 text-base"
+              className="bg-brand hover:bg-brand/90 text-brand-foreground group h-12 px-7 text-base"
             >
               <Link href={`/${locale}/signup`}>
-                {dict.finalCta.primary}
+                {t.cta}
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-12 px-6 text-base">
-              <Link href={`/${locale}/login`}>{dict.finalCta.secondary}</Link>
-            </Button>
           </div>
+
+          <p className="text-muted-foreground mt-4 text-sm">{t.microcopy}</p>
         </Reveal>
       </div>
     </section>

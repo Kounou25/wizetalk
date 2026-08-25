@@ -65,6 +65,14 @@ export function Pricing({ locale, pricing }: { locale: Locale; pricing: PricingT
           </h2>
           <p className="text-muted-foreground mt-4 text-lg text-pretty">{t.lead}</p>
 
+          {/*
+            La justification business, avant les montants.
+            Un prix lu seul se compare a d'autres prix ; lu apres ce qu'il
+            rapporte, il se compare a une opportunite perdue. C'est la seule
+            comparaison qui joue en faveur du produit.
+          */}
+          <p className="mt-6 text-lg font-semibold text-balance">{t.roi}</p>
+
           {/* Sans palier gratuit, l'essai est la seule porte d'entree :
               il doit se voir avant les prix, pas apres. */}
           <p className="border-brand/20 bg-brand-soft text-brand mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold">

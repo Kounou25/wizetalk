@@ -1,12 +1,22 @@
 import Link from 'next/link';
-import { ArrowRight, Check, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Reveal } from '@/components/reveal';
 import { TiltCard } from '@/components/tilt-card';
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { WidgetMockup } from './widget-preview';
 
+/**
+ * Le hero doit repondre a quatre questions en cinq secondes : qu'est-ce que
+ * c'est, pourquoi j'en ai besoin, qu'est-ce qui le distingue, pourquoi
+ * maintenant. D'ou l'ordre : le manque a gagner dans le titre, le mecanisme
+ * dans le sous-titre, l'action, puis la preuve — la maquette a droite, qui
+ * montre une vraie reponse et sa source.
+ */
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const t = dict.hero;
+
   return (
     <section className="relative overflow-hidden">
       {/* Lavis colore en haut de page, quadrillage estompe, puis deux masses
@@ -30,24 +40,20 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
 
       <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 py-20 lg:grid-cols-2 lg:py-28">
         <Reveal>
+          {/* Le positionnement, en surtitre : la phrase qui doit rester si le
+              visiteur ne lit rien d'autre. */}
           <span className="animate-pulse-ring border-brand/15 bg-brand-soft text-brand inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium">
             <ShieldCheck className="size-3.5" aria-hidden />
-            {dict.hero.badge}
+            {t.badge}
           </span>
 
-          {/* Le titre doit dire ce qu'EST le produit : un visiteur qui arrive
-              doit comprendre en une lecture, sans faire defiler. */}
-          <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-balance sm:text-5xl lg:text-[3.6rem] lg:leading-[1.04]">
-            {dict.hero.titleStart}{' '}
-            <span className="text-gradient-animate">{dict.hero.titleHighlight}</span>
+          <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-balance sm:text-5xl lg:text-[3.4rem] lg:leading-[1.05]">
+            {t.titleStart}{' '}
+            <span className="text-gradient-animate">{t.titleHighlight}</span>
           </h1>
 
           <p className="text-muted-foreground mt-6 max-w-lg text-lg leading-relaxed text-pretty">
-            {dict.hero.subtitleStart}
-            <strong className="text-foreground font-semibold">
-              {dict.hero.subtitleStrong}
-            </strong>
-            {dict.hero.subtitleEnd}
+            {t.subtitle}
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -57,43 +63,23 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               className="bg-brand hover:bg-brand/90 text-brand-foreground group h-12 px-6 text-base"
             >
               <Link href={`/${locale}/signup`}>
-                {dict.hero.ctaPrimary}
+                {t.ctaPrimary}
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-12 px-6 text-base">
-              <a href="#fonctionnement">{dict.hero.ctaSecondary}</a>
+              <a href="#fonctionnement">{t.ctaSecondary}</a>
             </Button>
           </div>
 
           {/* Leve les freins juste sous l'appel a l'action, la ou l'hesitation
               se produit — pas plus bas dans la page. */}
-          <p className="text-muted-foreground mt-4 text-sm">{dict.hero.reassurance}</p>
-
-          {/*
-            L'extrait de code a ete retire d'ici : il rassure un developpeur et
-            fait fuir un commercant. La promesse « une seule ligne » se dit
-            aussi bien en francais ; le code reste visible plus bas, dans la
-            section compatibilite, pour ceux que ca interesse.
-          */}
-          <p className="mt-6 flex items-center gap-2 text-sm font-medium">
-            <span className="bg-brand-soft text-brand flex size-6 shrink-0 items-center justify-center rounded-full">
-              <Check className="size-3.5" aria-hidden />
-            </span>
-            {dict.hero.installNote}
-          </p>
-
-          <ul className="text-muted-foreground mt-6 flex flex-col gap-2.5 text-sm sm:flex-row sm:gap-6">
-            {dict.hero.proofs.map((proof) => (
-              <li key={proof} className="flex items-center gap-1.5">
-                <Check className="text-brand size-4" aria-hidden />
-                {proof}
-              </li>
-            ))}
-          </ul>
+          <p className="text-muted-foreground mt-4 text-sm">{t.microcopy}</p>
         </Reveal>
 
-        {/* Le produit, tout de suite : on ne fait pas defiler pour comprendre. */}
+        {/* Le produit, tout de suite : on ne fait pas defiler pour comprendre.
+            Une conversation reelle, avec sa source — pas une illustration de
+            robot, qui ne prouverait rien. */}
         <Reveal delay={150} className="relative">
           <TiltCard className="mx-auto w-full max-w-md">
             <WidgetMockup dict={dict} />
@@ -104,7 +90,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-70" />
               <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
             </span>
-            {dict.hero.liveBadge}
+            {t.installNote}
           </div>
         </Reveal>
       </div>

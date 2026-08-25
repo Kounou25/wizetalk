@@ -7,13 +7,18 @@ import { requestOrigin } from '@/lib/request-origin';
 import { ScrollProgressBar } from '@/components/scroll-progress-bar';
 import { LandingNav } from '@/components/landing/nav';
 import { Hero } from '@/components/landing/hero';
-import { LogoMarquee } from '@/components/landing/logo-marquee';
+import { ProductProof } from '@/components/landing/product-proof';
 import { Problem } from '@/components/landing/problem';
-import { Showcase } from '@/components/landing/showcase';
+import { Change } from '@/components/landing/change';
+import { Recovery } from '@/components/landing/recovery';
+import { Insight } from '@/components/landing/insight';
+import { BeforeAfter } from '@/components/landing/before-after';
+import { WhyDeezy } from '@/components/landing/why-deezy';
 import { Comparison } from '@/components/landing/comparison';
-import { Solution } from '@/components/landing/solution';
+import { Install } from '@/components/landing/install';
 import { Platforms } from '@/components/landing/platforms';
-import { Features } from '@/components/landing/features';
+import { Benefits } from '@/components/landing/benefits';
+import { Results } from '@/components/landing/results';
 import { Pricing } from '@/components/landing/pricing';
 import { Faq } from '@/components/landing/faq';
 import { FinalCta } from '@/components/landing/final-cta';
@@ -62,36 +67,65 @@ export default async function LandingPage({
   const dict = getDictionary(locale);
   // Page publique : la session ne sert qu'a adapter les boutons de la barre.
   const user = await getUser();
+  const typed = locale as Locale;
 
   return (
     <>
       <ScrollProgressBar />
-      <LandingNav locale={locale as Locale} dict={dict} authenticated={Boolean(user)} />
+      <LandingNav locale={typed} dict={dict} authenticated={Boolean(user)} />
 
+      {/*
+        L'ordre EST l'argument. La page ne decrit pas un produit, elle conduit
+        un raisonnement, et chaque section repond a la question que la
+        precedente vient de poser :
+
+          Hero        ce que vous perdez, et la preuve qu'on peut l'eviter
+          Preuve      sur quoi reposent les reponses — faute de clients citables
+          Probleme    -> « ca me parle, mais est-ce que ca me coute vraiment ? »
+          Changement  -> « d'accord, mais qu'est-ce que ca fait, concretement ? »
+          Fiabilite   -> « et si l'IA raconte n'importe quoi ? »   ★ le coeur
+          Insight     -> « qu'est-ce que j'y gagne au-dela des reponses ? »
+          Avant/Apres -> « montrez-moi la difference »
+          Pourquoi    -> « en quoi c'est different des autres ? »
+          Comparaison -> « j'ai deja essaye autre chose »
+          Installation-> « ca va me prendre combien de temps ? »
+          Plateformes -> « est-ce que ca marche chez moi ? »
+          Benefices   -> « et au quotidien, ca donne quoi ? »
+          Resultats   -> « qu'est-ce que vous promettez vraiment ? »
+          Tarifs      -> « combien, et est-ce que ca vaut le coup ? »
+          FAQ         -> les derniers doutes, dans l'ordre ou ils arrivent
+          CTA final   -> la seule chose qu'il reste a faire
+
+        Fiabilite est le pivot : le refus de repondre et la recuperation du
+        prospect y sont traites ensemble. Les separer les faisait se repeter,
+        et le lecteur croyait avoir deja lu la seconde section.
+      */}
       <main>
-        <Hero locale={locale as Locale} dict={dict} />
-        <LogoMarquee dict={dict} />
+        <Hero locale={typed} dict={dict} />
+        <ProductProof dict={dict} />
 
-        {/*
-          Probleme -> demonstration -> comparaison -> mise en oeuvre.
-          Showcase porte l'essentiel : quatre rangees alternees ou chaque
-          benefice est montre autant qu'affirme. Comparison est la seule bande
-          sombre — elle marque le creux du recit, le retour au clair fait le
-          soulagement.
-        */}
-        <Problem dict={dict} />
-        <Showcase dict={dict} />
+        <Problem locale={typed} dict={dict} />
+        <Change dict={dict} />
+
+        <Recovery locale={typed} dict={dict} />
+        <Insight dict={dict} />
+        <BeforeAfter dict={dict} />
+
+        <WhyDeezy dict={dict} />
         <Comparison dict={dict} />
-        <Solution dict={dict} />
 
+        <Install locale={typed} dict={dict} />
         <Platforms dict={dict} />
-        <Features dict={dict} />
-        <Pricing locale={locale as Locale} pricing={dict.pricing} />
+
+        <Benefits dict={dict} />
+        <Results dict={dict} />
+
+        <Pricing locale={typed} pricing={dict.pricing} />
         <Faq dict={dict} />
-        <FinalCta locale={locale as Locale} dict={dict} />
+        <FinalCta locale={typed} dict={dict} />
       </main>
 
-      <LandingFooter locale={locale as Locale} dict={dict} />
+      <LandingFooter locale={typed} dict={dict} />
     </>
   );
 }

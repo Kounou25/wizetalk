@@ -28,8 +28,27 @@ export function WidgetMockup({ dict }: { dict: Dictionary }) {
         <Bubble from="visitor">{t.question}</Bubble>
         <Bubble>{t.answer}</Bubble>
 
-        <div className="text-muted-foreground border-t pt-2.5 text-[11px]">
-          <p className="flex items-center gap-1.5">
+        {/* La provenance de la reponse, sous la reponse elle-meme. C'est ce
+            qui distingue Deezy d'un assistant generique : le visiteur peut
+            verifier, et le proprietaire du site sait d'ou ca sort. */}
+        <div className="flex flex-col gap-1.5 border-t pt-2.5 text-[11px]">
+          <p className="flex items-center gap-1.5 font-medium text-emerald-600">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="m20 6-11 11-5-5" />
+            </svg>
+            {dict.hero.liveBadge}
+          </p>
+          <p className="text-muted-foreground flex items-center gap-1.5">
             <svg
               width="11"
               height="11"
@@ -43,7 +62,7 @@ export function WidgetMockup({ dict }: { dict: Dictionary }) {
               <path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5" />
               <path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7L12 19" />
             </svg>
-            monentreprise.com/livraison
+            {t.sourceLabel} · <span className="font-medium">{t.sourceName}</span>
           </p>
         </div>
       </div>

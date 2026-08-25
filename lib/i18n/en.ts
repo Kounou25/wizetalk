@@ -3,220 +3,300 @@ import type { Dictionary } from './fr';
 /** Typee contre le francais : une cle oubliee ne compile pas. */
 export const en: Dictionary = {
   meta: {
-    title: 'Deezy — the AI chatbot that answers your customers 24/7',
+    title: 'Deezy — AI Chatbot for Your Website That Answers Customers 24/7',
     description:
-      'Build your own AI chatbot assistant in minutes. It learns your website and your documents, answers your visitors around the clock, and collects their email when it does not know.',
+      'Turn your website into an AI assistant that answers customers 24/7, captures leads and learns from unanswered questions. Start free for 7 days.',
   },
 
   nav: {
-    problem: 'Why Deezy',
-    solution: 'What changes',
+    problem: 'The problem',
+    solution: 'How it works',
     pricing: 'Pricing',
     faq: 'Questions',
     login: 'Log in',
-    signup: 'Create my assistant',
+    signup: 'Try it free',
     dashboard: 'My account',
   },
 
   hero: {
-    badge: 'It never answers at random',
-    titleStart: 'Stop losing customers',
-    titleHighlight: 'for lack of an answer',
-    subtitleStart: 'Build ',
-    subtitleStrong: 'your own AI chatbot assistant',
-    subtitleEnd:
-      ' in minutes. It learns your site and your documents, answers your visitors around the clock, and collects their email when it does not know.',
-    ctaPrimary: 'Create my AI assistant',
-    ctaSecondary: 'See what changes',
-    reassurance: '7-day free trial — Live in 2 minutes — Cancel in one click',
+    badge: 'Turn unanswered questions into customers',
+    titleStart: 'Stop losing customers because',
+    titleHighlight: 'your website can’t answer them',
+    subtitle:
+      'Deezy turns your website and documents into an AI assistant that answers visitors 24/7 — and captures their contact when it doesn’t know the answer.',
+    ctaPrimary: 'Try Deezy free',
+    ctaSecondary: 'See how it works',
+    microcopy: '7-day free trial · Live in 2 minutes · Cancel anytime',
     installNote: 'One line to paste on your site. Nothing else to do.',
-    proofs: ['Nothing to write', 'No installation', '7 days to judge'],
-    liveBadge: 'Answer taken from your site',
+    liveBadge: 'Answer from your website',
     mockup: {
       title: 'Assistant',
       online: 'Online',
       welcome: 'Hi! How can I help you?',
-      question: 'Do you ship to Belgium?',
-      answer:
-        'Yes, we ship to Belgium within 48 hours. Shipping is free on orders over EUR 60.',
-      placeholder: 'Type your message…',
+      question: 'Do you deliver on Saturdays?',
+      answer: 'Yes. We deliver every Saturday, for any order placed before 6 PM.',
+      sourceLabel: 'From your page',
+      sourceName: 'Shipping & Returns',
+      placeholder: 'Write your message…',
     },
   },
 
-  logos: {
-    label: 'Join the companies making their site speak',
+  proof: {
+    title: 'Your website. Your content. Your answers. Your customers.',
+    items: [
+      {
+        title: 'It answers with your information',
+        body: 'Your pages and your documents — never generic knowledge picked up elsewhere.',
+      },
+      {
+        title: 'It says when it doesn’t know',
+        body: 'No improvised price or delivery time. Doubt beats a wrong answer.',
+      },
+      {
+        title: 'Your content stays yours',
+        body: 'What you teach it never answers on behalf of another business.',
+      },
+    ],
   },
 
   problem: {
     eyebrow: 'The real cost',
-    title: 'Sound familiar?',
-    lead: 'Your site already holds the answers. Your visitors cannot find them — and nobody tells you when they leave.',
+    title: 'Every unanswered question is a potential lost customer.',
+    lead: 'Your website already holds the answers. Your visitors just can’t find them — and nobody tells you when they leave.',
     items: [
       {
-        title: 'They leave without buying',
-        body: 'One unanswered question and the tab closes. You will never know they were there, or what they were after.',
+        step: '01',
+        title: 'They leave',
+        body: 'One unanswered question, and the tab closes. You’ll never know they were there.',
       },
       {
-        title: 'You repeat the same answers',
-        body: 'Opening hours, delivery, prices. Several times a day. Time you are not spending selling.',
+        step: '02',
+        title: 'They wait',
+        body: 'They fill in your form, then wait hours. Often until the next morning.',
       },
       {
-        title: 'Your contact form arrives too late',
-        body: 'You reply tomorrow morning. The customer ordered elsewhere the same evening.',
+        step: '03',
+        title: 'They ask somewhere else',
+        body: 'While you’re closed, they’re already comparing your competitors.',
       },
       {
-        title: 'Evenings and weekends, nobody answers',
-        body: 'And that is exactly when your visitors compare, hesitate and decide.',
+        step: '04',
+        title: 'You never know',
+        body: 'No counter measures the visitors who left because they couldn’t find their answer.',
+      },
+    ],
+    flow: {
+      label: 'Today, on your website',
+      steps: ['A visitor', 'Has a question', 'No answer', 'They leave'],
+    },
+    cta: 'Stop losing these visitors',
+  },
+
+  change: {
+    eyebrow: 'The change',
+    title: 'What if your website could answer every visitor instantly?',
+    lead: 'Deezy is an assistant that knows your business, speaks your customers’ language, and never stops.',
+    items: [
+      {
+        title: 'It knows your website',
+        body: 'Give it your address: it reads your pages and keeps what matters to your customers.',
+      },
+      {
+        title: 'It reads your documents',
+        body: 'Pricing, catalogue, policies — everything your website doesn’t say yet.',
+      },
+      {
+        title: 'It answers instantly',
+        body: 'No queue, no form, no “we’ll get back to you”.',
+      },
+      {
+        title: 'It speaks the customer’s language',
+        body: 'A question asked in French gets a French answer. Nothing to configure.',
+      },
+      {
+        title: 'It works at night',
+        body: 'Evenings, weekends, holidays: that’s when your visitors hesitate and decide.',
+      },
+      {
+        title: 'It captures leads',
+        body: 'When it doesn’t know, it asks for an email instead of letting the visitor go.',
+      },
+      {
+        title: 'It shows its sources',
+        body: 'Every answer links back to the page it came from. Verifiable in one click.',
       },
     ],
   },
 
-  showcase: {
-    eyebrow: 'What Deezy changes',
-    title: 'A salesperson who knows your business, available at all times.',
-    lead: 'Not a scripted robot. An AI chatbot fed by what you already know — your site, your documents — answering in your place.',
-    rows: [
+  recovery: {
+    eyebrow: 'The difference',
+    title: 'AI that knows when it doesn’t know.',
+    lead: 'Deezy answers from your content. It doesn’t invent prices, delivery times or company policies — because you would be the one honouring them.',
+    conversation: {
+      question: 'How much is your Pro plan?',
+      refusal: 'I couldn’t find that information in what I’ve read from your website.',
+      invite: 'Leave your email and the team will get back to you directly.',
+      placeholder: 'you@example.com',
+      send: 'Send my question',
+      sent: 'Your question is on its way. Someone will get back to you.',
+    },
+    funnelLabel: 'What happens next',
+    funnel: {
+      start: 'A visitor has a question',
+      branchAnswer: {
+        label: 'Deezy has the answer',
+        steps: ['It answers immediately', 'The visitor keeps browsing'],
+        outcome: 'Customer reassured',
+      },
+      branchLead: {
+        label: 'Deezy doesn’t know',
+        steps: ['It asks for their email', 'You get the question and the contact'],
+        outcome: 'Lead recovered',
+      },
+    },
+    payoff:
+      'When Deezy cannot answer, you don’t lose the visitor: you get their question and their contact, at the exact moment their buying intent is highest.',
+    cta: 'Recover my leads',
+  },
+
+  insight: {
+    eyebrow: 'What you learn',
+    title: 'Discover what your customers want to know.',
+    lead: 'Every unanswered question shows you exactly what your website is missing.',
+    listTitle: 'What your customers ask',
+    items: [
+      { question: 'How much is the Pro plan?', count: '7×' },
+      { question: 'Do you deliver on Saturdays?', count: '4×' },
+      { question: 'Do you take back old equipment?', count: '2×' },
+    ],
+    payoff: 'Add the missing information once. Deezy takes care of the rest.',
+    note: 'Deezy doesn’t just answer your customers. It shows you what’s blocking your sales.',
+  },
+
+  beforeAfter: {
+    eyebrow: 'The difference, in five seconds',
+    title: 'The same visitor. Two outcomes.',
+    without: {
+      label: 'Without Deezy',
+      turns: [
+        { question: 'Do you deliver to my city?', answer: 'Contact us' },
+        { question: 'How much does delivery cost?', answer: 'Contact us' },
+      ],
+      outcome: 'The visitor leaves.',
+    },
+    with: {
+      label: 'With Deezy',
+      turns: [
+        {
+          question: 'Do you deliver to my city?',
+          answer: 'Yes, within 24 to 48 hours. Delivery is free over €60.',
+        },
+        {
+          question: 'Great, I’d like to order.',
+          answer: 'Let me put you in touch right away.',
+        },
+      ],
+      sourceLabel: 'From your page',
+      sourceName: 'Shipping & Returns',
+      outcome: 'The visitor becomes a customer.',
+    },
+  },
+
+  why: {
+    eyebrow: 'Why Deezy',
+    title: 'Not another chatbot. A better way to turn traffic into customers.',
+    lead: 'Four things most assistants don’t do.',
+    cards: [
       {
-        eyebrow: 'What it knows',
-        title: 'It knows your business, not generalities',
-        body: 'Give it your website address and Deezy reads the whole thing. Add your documents — prices, catalogue, terms — and it knows those too. You write no question-and-answer pairs.',
-        points: [
-          'Your entire site, read automatically',
-          'Your internal documents, added in a few clicks',
-          'No question-and-answer pairs to write',
-        ],
+        title: 'Answers from your business',
+        body: 'Deezy uses your website and your documents, not generic AI knowledge.',
       },
       {
-        eyebrow: 'Trust',
-        title: 'It never makes things up',
-        body: 'An assistant that invents a price or a delivery time commits you to your customer. Deezy only says what it read on your side, and shows where the answer came from. When it does not know, it says so.',
-        points: [
-          'Every answer links back to its source',
-          'No improvised price or delivery time',
-          'It would rather stay quiet than be wrong',
-        ],
+        title: 'Never guesses',
+        body: 'When the information is missing, it says so instead of inventing a plausible answer.',
       },
       {
-        eyebrow: 'Customers recovered',
-        title: 'A visitor without an answer is no longer a lost visitor',
-        body: 'When Deezy cannot find it, it does not let them go: it offers to take their email. You get the contact along with their question, ready to call back.',
-        points: [
-          'The contact arrives with their question',
-          'At the moment the intent to buy is strongest',
-          'You call back, you close',
-        ],
+        title: 'Recovers lost leads',
+        body: 'With no answer available, it captures the visitor’s email and question.',
       },
       {
-        eyebrow: 'What you learn',
-        title: 'You find out what your customers want to know',
-        body: 'Unanswered questions are grouped together, most frequent first. That is the exact list of what your site is missing — and what is costing you sales.',
-        points: [
-          'Ranked by frequency',
-          'Every conversation available to read',
-          'You fill the gaps, Deezy follows',
-        ],
+        title: 'Teaches you your gaps',
+        body: 'You see what people ask, and what your website doesn’t say yet.',
       },
     ],
-    visuals: {
-      crawlTitle: 'Your business, learned in minutes',
-      crawlLines: ['Your site is read', 'Your documents are added', 'Your assistant is ready'],
-      confidenceQuestion: 'Do you ship to Belgium?',
-      confidenceAnswer:
-        'Yes, we ship to Belgium within 48 hours. Shipping is free on orders over EUR 60.',
-      verifiedLabel: 'Verified answer',
-      sourceLabel: 'From your page',
-      sourceName: 'Shipping and returns',
-      leadQuestion: 'How much is the Pro pack?',
-      leadRefusal:
-        'I cannot find that information. Leave me your email and we will get back to you.',
-      leadPlaceholder: 'you@example.com',
-      leadSend: 'Send',
-      gapsTitle: 'What your customers ask',
-      gaps: [
-        { question: 'How much is the Pro pack?', count: '7x' },
-        { question: 'Do you deliver on Saturdays?', count: '4x' },
-        { question: 'Do you take back old equipment?', count: '2x' },
-      ],
-    },
   },
 
   comparison: {
     eyebrow: 'Comparison',
-    title: 'What the other solutions do.',
-    lead: 'You have probably tried one already. Here is where each one stops.',
-    columns: ['Answers instantly', 'Always current', 'Invents nothing'],
+    title: 'What the other options do.',
+    lead: 'You’ve probably tried one already. Here is exactly where each one stops.',
+    columns: [
+      'Instant answers',
+      'Uses your content',
+      'Doesn’t guess',
+      'Captures leads',
+      'Learns from questions',
+    ],
     rows: [
       {
         label: 'The contact form',
-        values: [false, true, true],
-        note: 'You reply tomorrow. They bought tonight.',
+        values: [false, false, true, true, false],
+        note: 'You reply tomorrow. They ordered elsewhere tonight.',
       },
       {
         label: 'The FAQ page',
-        values: [true, false, true],
-        note: 'Out of date at your first price change.',
+        values: [true, true, true, false, false],
+        note: 'Out of date the moment you change a price.',
       },
       {
-        label: 'The scripted bot',
-        values: [true, false, true],
-        note: 'Stuck on the first unexpected question.',
+        label: 'The scripted chatbot',
+        values: [true, 'partial', true, true, false],
+        note: 'Stuck at the first question you didn’t anticipate.',
       },
       {
-        label: 'A generic AI assistant',
-        values: [true, false, false],
-        note: 'Invents a price, and you have to honour it.',
+        label: 'A generic AI chatbot',
+        values: [true, false, false, false, false],
+        note: 'Invents a price, and you’re the one who honours it.',
       },
       {
         label: 'Deezy',
-        values: [true, true, true],
-        note: 'Knows your business, shows its sources, stays quiet when it does not know.',
+        values: [true, true, true, true, true],
+        note: 'Knows your business, shows its sources, and says so when it doesn’t know.',
       },
     ],
     highlightRow: 4,
+    legend: { yes: 'Yes', partial: 'Partly', no: 'No' },
   },
 
-  solution: {
+  install: {
     eyebrow: 'Getting started',
-    title: 'Your assistant is live in two minutes.',
-    lead: 'Nothing to prepare, nothing to configure, no technical skills.',
+    title: 'From zero to live in 2 minutes.',
+    lead: 'No training. No complicated setup. No developer required.',
     steps: [
       {
-        title: 'Give your website address',
-        body: 'Deezy goes through it and keeps what matters to your customers.',
+        step: '01',
+        title: 'Add your website',
+        body: 'Deezy reads it and keeps what matters to your customers.',
       },
       {
+        step: '02',
         title: 'Add your documents',
-        body: 'Prices, catalogue, terms: everything your site does not say yet.',
+        body: 'Pricing, catalogue, policies: everything your website doesn’t say yet.',
       },
       {
-        title: 'Paste one line on your site',
-        body: 'The assistant appears. Your visitors can talk to it.',
+        step: '03',
+        title: 'Paste one line of code',
+        body: 'The assistant appears on your site. Your visitors can talk to it.',
       },
     ],
-    analysis: ['Your site is read', 'Your documents are added', 'Your assistant is ready'],
-    dashboard: {
-      status: 'Live',
-      botName: 'My company assistant',
-      stats: [
-        { value: '18', label: 'pages read' },
-        { value: '6', label: 'documents' },
-        { value: '57', label: 'conversations' },
-      ],
-      recentTitle: 'What your customers asked',
-      recent: [
-        'Do you ship to Belgium?',
-        'What are your Saturday hours?',
-        'Do you offer a warranty?',
-      ],
-      answered: 'answered',
-      caption: 'You finally know what your customers are looking for.',
-    },
+    codeLabel: 'The line to paste, before the closing tag',
+    cta: 'Try Deezy free',
   },
 
   platforms: {
     eyebrow: 'Compatibility',
-    title: 'It works on your site, whatever it is.',
-    lead: 'WordPress, Shopify, Wix, Squarespace or a custom build: if you can add one line of code, Deezy works. No plugin to install, no developer to book.',
+    title: 'Works with the website you already have.',
+    lead: 'WordPress, Shopify, Wix, Squarespace or a custom site: no plugin to install, no developer to book.',
     hints: {
       WordPress: 'Theme or plugin',
       Shopify: 'Theme editor',
@@ -225,56 +305,68 @@ export const en: Dictionary = {
       Webflow: 'Project settings',
       Framer: 'Custom code',
       'Next.js': 'Script tag',
-      HTML: 'Custom build',
-    },
-    fallback:
-      'Your platform is not listed? It most likely works anyway — and we will help you check.',
+      HTML: 'Custom site',
+    } as Record<string, string>,
+    fallback: 'If you can add one line of code, you can use Deezy.',
   },
 
-  features: {
+  benefits: {
     eyebrow: 'What you gain',
-    title: 'An assistant you can trust with your customers.',
+    title: 'Your website keeps working, even when you don’t.',
     items: [
       {
-        title: 'It works while you sleep',
-        body: 'Your evening, weekend and holiday visitors get an answer. Without waking you up.',
+        title: 'Open 24/7',
+        body: 'Your evening, weekend and holiday visitors get an answer.',
       },
       {
-        title: 'It speaks your customer’s language',
-        body: 'A question asked in French gets an answer in French. Nothing to set up.',
+        title: 'In the visitor’s language',
+        body: 'A question asked in French gets a French answer. Nothing to configure.',
       },
       {
-        title: 'It looks like your brand',
-        body: 'Its name, its welcome message, its colour, where it sits on the page: you choose.',
+        title: 'In your brand’s colours',
+        body: 'Its name, welcome message, colour and position: you choose everything.',
       },
       {
-        title: 'It does not break your site',
-        body: 'It sits on top without touching your design, and disappears in one click if you want.',
+        title: 'Without touching your site',
+        body: 'It sits on top of your design, and disappears in one click if you want.',
       },
       {
-        title: 'You read every conversation',
-        body: 'You know what you are asked, what is answered, and what stays unanswered.',
+        title: 'Every conversation',
+        body: 'You see what people ask, what gets answered, and what stays unanswered.',
       },
       {
         title: 'Your data stays yours',
-        body: 'Your company’s content never answers for anyone else.',
+        body: 'Your business content never answers on behalf of another company.',
       },
     ],
+  },
+
+  results: {
+    eyebrow: 'Concretely',
+    title: 'What you can count on from day one.',
+    items: [
+      { value: '24/7', label: 'Your visitors get an answer' },
+      { value: '2 min', label: 'To go live' },
+      { value: '1 line', label: 'To paste on your site' },
+      { value: '100%', label: 'Of answers drawn from your content' },
+    ],
+    note: 'These are product facts, not customer averages. We’ll publish real results the day we have them.',
   },
 
   pricing: {
     eyebrow: 'Pricing',
     title: 'One price, three sizes.',
-    lead: 'Try it for 7 days. Cancel in one click, no questions asked.',
+    lead: 'Try it for 7 days. Cancel anytime, no questions asked.',
+    roi: 'If Deezy recovers a single customer, it has already paid for itself.',
     trialBadge: '7-day free trial on every plan',
     popular: 'Most popular',
     notIncluded: 'Not included',
     perMonth: '/month',
     billing: {
       monthly: 'Monthly',
-      annual: 'Yearly',
+      annual: 'Annual',
       save: '2 months free',
-      annualNote: 'billed {total} $ a year',
+      annualNote: '{total} $ per year',
     },
     plans: [
       {
@@ -286,26 +378,26 @@ export const en: Dictionary = {
         inherits: '',
         features: [
           '1 assistant',
-          'Up to 100 pages of your site',
+          'Up to 100 pages from your site',
           '20 documents',
           '500 answers per month',
-          'Collect your visitors’ emails',
-          'Styled to match your brand',
+          'Visitor email capture',
+          'In your brand’s colours',
         ],
         excluded: [
           'Multiple assistants',
           'Unanswered questions report',
-          'Deezy branding removal',
+          'Remove the Deezy mention',
           'Priority support',
         ],
-        cta: 'Try for 7 days',
+        cta: 'Try 7 days free',
       },
       {
         name: 'Growth',
         monthly: 24,
         annual: 20,
         annualTotal: 240,
-        description: 'For a site with visitors every day.',
+        description: 'For a site with daily traffic.',
         inherits: 'Everything in Essential, plus:',
         features: [
           '3 assistants',
@@ -314,8 +406,8 @@ export const en: Dictionary = {
           'Unanswered questions report',
           'Support reply within 24 h',
         ],
-        excluded: ['Deezy branding removal', 'Priority support'],
-        cta: 'Try for 7 days',
+        excluded: ['Remove the Deezy mention', 'Priority support'],
+        cta: 'Try 7 days free',
       },
       {
         name: 'Business',
@@ -328,83 +420,102 @@ export const en: Dictionary = {
           '10 assistants',
           'Up to 2,000 pages, unlimited documents',
           '15,000 answers per month',
-          'Deezy branding removed',
+          'No Deezy mention',
           'Priority support',
         ],
-        excluded: [],
-        cta: 'Try for 7 days',
+        excluded: [] as string[],
+        cta: 'Try 7 days free',
       },
     ],
     custom: {
       label: 'Need more?',
       description:
-        'High volume, several teams, specific needs: we build the offer with you.',
-      cta: 'Get in touch',
+        'High volumes, several teams, specific needs: we build the offer with you.',
+      cta: 'Email us',
     },
     footnote:
-      'Change plan at any time. One answer means one message sent by the assistant to a visitor.',
+      'No long-term commitment, cancel anytime. One answer is one message sent by the assistant to a visitor.',
   },
 
   faq: {
-    eyebrow: 'Frequently asked',
-    title: 'What people ask us most',
+    eyebrow: 'Your questions',
+    title: 'What people ask before getting started',
     items: [
       {
-        question: 'What exactly is Deezy?',
+        question: 'Is Deezy really using my website content?',
         answer:
-          'An AI chatbot assistant you build yourself, for your site. You give it your address and your documents, you pick its name and colours — it then answers your visitors in your place, day and night, with your information and never generalities.',
+          'Yes, and only that. Deezy reads your pages and your documents, then builds its answers from what it found there. Every answer links back to the page it came from, so you can check.',
       },
       {
-        question: 'Do I have to prepare questions and answers?',
+        question: 'Do I need to write questions and answers by hand?',
         answer:
-          'No, and that is the whole point. Your website address is enough: Deezy reads it and draws the answers from it. You can then add your documents for what your site does not say yet.',
+          'No, and that’s the whole point. Your website address is enough. You can then add documents for what your site doesn’t say yet, but you never write a script.',
       },
       {
-        question: 'What happens when it does not know the answer?',
+        question: 'What happens when Deezy doesn’t know something?',
         answer:
-          'It says so plainly, and offers the visitor a callback by email. We would rather give a cautious answer than an invented one: a made-up price would commit you to your customer.',
+          'It says so plainly, and offers the visitor a chance to leave their email. You get their question and their address while their buying intent is highest. The question also lands in your unanswered questions report.',
       },
       {
-        question: 'How long does setup take?',
+        question: 'Can Deezy invent information?',
         answer:
-          'A few minutes. You give your address, wait while your site is read, then paste one line. It is live.',
+          'It is built not to: when nothing in your content answers, it declines rather than guessing. An imagined price or delivery time would commit you to your customer — we prefer a cautious answer.',
       },
       {
         question: 'Do I need a developer?',
         answer:
-          'No. If you can add a tracking code or one line in your site settings, you can install Deezy. WordPress, Shopify, Wix, Squarespace and the rest are covered.',
+          'No. If you can add a tracking code or a line in your website settings, you can install Deezy. WordPress, Shopify, Wix, Squarespace and the rest are covered.',
       },
       {
-        question: 'What about when I change my prices or hours?',
+        question: 'How long does setup take?',
         answer:
-          'You update your site as usual, then run an update from your account. Deezy re-reads what changed.',
+          'A few minutes. You give your address, you wait while your site is read, you paste one line of code. It’s live.',
       },
       {
-        question: 'Will it break my site?',
+        question: 'What happens when I update my website?',
         answer:
-          'No. The assistant sits on top of your site without touching your design, and you can switch it off in one click without removing anything.',
+          'You update your site as usual, then start a new analysis from your account. Deezy re-reads what changed.',
       },
       {
-        question: 'Could my information end up serving a competitor?',
+        question: 'Will Deezy slow down my website?',
         answer:
-          'Never. Your company content only answers your visitors, on your site. It never serves another account.',
+          'No. The script loads after your page and never blocks its rendering. The assistant sits on top of your site, without touching your design.',
+      },
+      {
+        question: 'Can I customise the assistant?',
+        answer:
+          'Yes: its name, welcome message, main colour and position on the page. It can also be switched off in one click, without removing the script.',
+      },
+      {
+        question: 'Can I see my visitors’ conversations?',
+        answer:
+          'Yes. Every exchange is available from your account, with unanswered questions grouped and ranked by frequency.',
+      },
+      {
+        question: 'Does Deezy really capture leads?',
+        answer:
+          'When it can’t find the answer, it offers the visitor a chance to leave their address. You get the contact along with their question. This capture can be switched off if you already have a form.',
+      },
+      {
+        question: 'Is my business data shared with other customers?',
+        answer:
+          'No. Your business content only powers your own assistant, and never answers on behalf of anyone else.',
       },
     ],
   },
 
   finalCta: {
-    titleStart: 'How many customers left',
-    titleHighlight: 'without asking their question?',
-    lead: 'You will never know about yesterday’s. From now on, you can answer them.',
-    primary: 'Create my AI assistant',
-    secondary: 'I already have an account',
+    title: 'How many customers left your website without getting an answer?',
+    lead: 'You can’t recover yesterday’s visitors. But you can answer the next one.',
+    cta: 'Start my free trial',
+    microcopy: '7 days free · Live in minutes · Cancel anytime',
   },
 
   footer: {
     tagline:
       'Your customers get an answer right away. You recover the ones who would have left.',
     productTitle: 'Product',
-    howItWorks: 'What changes',
+    howItWorks: 'How it works',
     accountTitle: 'Account',
     login: 'Log in',
     signup: 'Create an account',

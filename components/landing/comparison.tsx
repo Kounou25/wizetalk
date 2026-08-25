@@ -1,20 +1,25 @@
-import { Check, X } from 'lucide-react';
+import { Check, Minus, X } from 'lucide-react';
+
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
+
+type Cell = boolean | 'partial';
 
 /**
  * Tableau comparatif des approches.
  *
- * Remplace l'ancienne bande d'agitation : le tableau dit la meme chose — les
- * alternatives echouent chacune sur un point precis — mais il le montre au
- * lieu de l'affirmer, et le lecteur verifie d'un coup d'oeil.
- *
- * Seule bande sombre de la page : elle marque le creux du recit, et le retour
- * au clair juste apres fait office de soulagement.
- *
  * On ne compare pas des concurrents nommes, mais des APPROCHES. Nommer des
  * produits tiers obligerait a defendre chaque case, et la comparaison
  * vieillirait au premier changement de leur cote.
+ *
+ * L'etat `partial` existe pour rester juste : un robot a scenarios utilise
+ * bien votre contenu, mais seulement celui que vous avez saisi a la main. Tout
+ * ramener a oui/non forcerait a mentir dans un sens ou dans l'autre — et une
+ * comparaison ou le produit maison coche tout, seul, se lit comme une
+ * publicite, pas comme un argument.
+ *
+ * Seule bande sombre de la page : elle marque le creux du recit, et le retour
+ * au clair juste apres fait office de soulagement.
  */
 export function Comparison({ dict }: { dict: Dictionary }) {
   const t = dict.comparison;
@@ -30,7 +35,7 @@ export function Comparison({ dict }: { dict: Dictionary }) {
         className="animate-float pointer-events-none absolute -top-32 right-1/4 size-[32rem] rounded-full bg-sky-500/15 blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-5xl px-6 py-24 md:py-28">
+      <div className="relative mx-auto max-w-5xl px-6 py-20 md:py-28">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold tracking-widest text-sky-400 uppercase">
             {t.eyebrow}
@@ -41,11 +46,12 @@ export function Comparison({ dict }: { dict: Dictionary }) {
           <p className="mt-5 text-lg text-slate-400 text-pretty">{t.lead}</p>
         </Reveal>
 
-        <Reveal className="mt-14">
-          {/* Le tableau deborde sur mobile : il defile dans son propre cadre
-              plutot que d'elargir la page entiere. */}
-          <div className="overflow-x-auto rounded-2xl ring-1 ring-white/10">
-            <table className="w-full min-w-[36rem] border-collapse text-sm">
+        {/* Au-dela de `md`, le tableau : cinq colonnes se comparent d'un coup
+            d'oeil. En dessous, il deviendrait un ruban a faire defiler, donc
+            on bascule sur des cartes — meme information, lecture verticale. */}
+        <Reveal className="mt-14 hidden md:block">
+          <div className="overflow-hidden rounded-2xl ring-1 ring-white/10">
+            <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="border-b border-white/10">
                   <th scope="col" className="px-5 py-4 text-left font-medium text-slate-400">
@@ -55,7 +61,7 @@ export function Comparison({ dict }: { dict: Dictionary }) {
                     <th
                       key={column}
                       scope="col"
-                      className="px-4 py-4 text-center text-xs font-semibold text-slate-300"
+                      className="px-3 py-4 text-center text-xs font-semibold text-slate-300"
                     >
                       {column}
                     </th>
@@ -79,7 +85,9 @@ export function Comparison({ dict }: { dict: Dictionary }) {
                       <th scope="row" className="px-5 py-4 text-left align-top">
                         <span
                           className={
-                            highlighted ? 'font-bold text-white' : 'font-medium text-slate-300'
+                            highlighted
+                              ? 'font-bold text-white'
+                              : 'font-medium text-slate-300'
                           }
                         >
                           {row.label}
@@ -90,22 +98,8 @@ export function Comparison({ dict }: { dict: Dictionary }) {
                       </th>
 
                       {row.values.map((value, column) => (
-                        <td key={column} className="px-4 py-4 text-center align-top">
-                          {value ? (
-                            <span
-                              className="inline-flex size-6 items-center justify-center rounded-full bg-emerald-500/15"
-                              /* Icone ET libelle masque : la couleur seule ne
-                                 doit jamais porter l'information. */
-                            >
-                              <Check className="size-3.5 text-emerald-400" aria-hidden />
-                              <span className="sr-only">oui</span>
-                            </span>
-                          ) : (
-                            <span className="inline-flex size-6 items-center justify-center rounded-full bg-red-500/15">
-                              <X className="size-3.5 text-red-400" aria-hidden />
-                              <span className="sr-only">non</span>
-                            </span>
-                          )}
+                        <td key={column} className="px-3 py-4 text-center align-top">
+                          <Mark value={value as Cell} legend={t.legend} />
                         </td>
                       ))}
                     </tr>
@@ -115,7 +109,78 @@ export function Comparison({ dict }: { dict: Dictionary }) {
             </table>
           </div>
         </Reveal>
+
+        <div className="mt-12 flex flex-col gap-4 md:hidden">
+          {t.rows.map((row, index) => {
+            const highlighted = index === t.highlightRow;
+
+            return (
+              <Reveal key={row.label} delay={index * 60}>
+                <div
+                  className={`rounded-2xl p-5 ring-1 ${
+                    highlighted ? 'bg-brand/10 ring-brand/40' : 'bg-white/[0.03] ring-white/10'
+                  }`}
+                >
+                  <p
+                    className={
+                      highlighted ? 'font-bold text-white' : 'font-medium text-slate-200'
+                    }
+                  >
+                    {row.label}
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">{row.note}</p>
+
+                  <ul className="mt-4 flex flex-col gap-2">
+                    {row.values.map((value, column) => (
+                      <li key={column} className="flex items-center gap-2.5 text-sm">
+                        <Mark value={value as Cell} legend={t.legend} />
+                        <span className="text-slate-300">{t.columns[column]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * Marque d'une case. Icone, forme et libelle masque varient ensemble : la
+ * couleur seule ne doit jamais porter l'information.
+ */
+function Mark({
+  value,
+  legend,
+}: {
+  value: Cell;
+  legend: { yes: string; partial: string; no: string };
+}) {
+  if (value === 'partial') {
+    return (
+      <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-amber-500/15">
+        <Minus className="size-3.5 text-amber-400" aria-hidden />
+        <span className="sr-only">{legend.partial}</span>
+      </span>
+    );
+  }
+
+  if (value) {
+    return (
+      <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
+        <Check className="size-3.5 text-emerald-400" aria-hidden />
+        <span className="sr-only">{legend.yes}</span>
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-red-500/15">
+      <X className="size-3.5 text-red-400" aria-hidden />
+      <span className="sr-only">{legend.no}</span>
+    </span>
   );
 }
