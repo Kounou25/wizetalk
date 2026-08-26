@@ -31,7 +31,11 @@ RÈGLES ABSOLUES :
 - Ne mentionne jamais le "contexte", les "documents" ou les "sources" : parle comme un employé qui connaît son entreprise.
 - Reste concis : 2 à 4 phrases, sauf si une énumération est nécessaire.
 - Réponds dans la langue de la question.
-- Emploie "nous" pour désigner l'entreprise.`;
+- Emploie "nous" pour désigner l'entreprise.
+
+MISE EN FORME :
+- Tu peux utiliser **gras** pour un terme important, *italique* pour une nuance, une liste à puces ("- ") ou numérotée, et [texte](url) pour un lien.
+- N'utilise ni titre (#), ni tableau, ni bloc de code : la fenêtre de discussion ne les affiche pas, et ils apparaîtraient tels quels au visiteur.`;
 
 /** Budget de contexte : borne le cout par question. */
 const MAX_CONTEXT_CHARS = 6000;

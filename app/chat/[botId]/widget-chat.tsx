@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { RichText } from '@/components/rich-text';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -178,12 +179,21 @@ export function WidgetChat({
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4">
         <div className="flex flex-col gap-3">
           <Bubble role="assistant" color={primaryColor}>
-            {welcomeMessage}
+            <RichText text={welcomeMessage} />
           </Bubble>
 
           {messages.map((message, index) => (
             <Bubble key={index} role={message.role} color={primaryColor}>
-              {message.content ||
+              {/* La question du visiteur reste du texte brut : personne n'ecrit
+                  en markdown dans un champ de discussion, et l'interpreter
+                  transformerait ses etoiles en mise en forme involontaire. */}
+              {message.content ? (
+                message.role === 'assistant' ? (
+                  <RichText text={message.content} />
+                ) : (
+                  message.content
+                )
+              ) : (
                 (pending && index === messages.length - 1 ? (
                   <span className="inline-flex gap-1">
                     <Dot delay="0ms" />
@@ -192,7 +202,8 @@ export function WidgetChat({
                   </span>
                 ) : (
                   ''
-                ))}
+                ))
+              )}
               {message.sources && message.sources.length > 0 && (
                 <span className="mt-2 flex flex-col gap-0.5 border-t border-slate-200 pt-2 text-[11px] text-slate-500">
                   {message.sources.slice(0, 3).map((source) => (
@@ -373,7 +384,9 @@ function Bubble({
   return (
     <div className={isUser ? 'flex justify-end' : 'flex justify-start'}>
       <div
-        className="max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm whitespace-pre-wrap"
+        className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm ${
+          isUser ? 'whitespace-pre-wrap' : 'leading-relaxed'
+        }`}
         style={
           isUser
             ? { backgroundColor: color, color: '#fff' }

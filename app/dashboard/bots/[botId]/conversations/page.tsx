@@ -6,6 +6,7 @@ import { getDictionary } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
 import { EmptyState } from '@/components/dashboard/empty-state';
 import { PageHeader, BackLink } from '@/components/dashboard/panel';
+import { RichText } from '@/components/rich-text';
 
 interface MessageRow {
   id: string;
@@ -74,15 +75,23 @@ export default async function ConversationsPage({
                         message.role === 'user' ? 'flex justify-end' : 'flex justify-start'
                       }
                     >
-                      <p
-                        className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
+                      {/* Le proprietaire relit exactement ce que le visiteur a
+                          vu : la mise en forme doit donc etre la meme des deux
+                          cotes, sans quoi il jugerait une reponse sur une
+                          presentation qui n'a jamais ete affichee. */}
+                      <div
+                        className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                           message.role === 'user'
-                            ? 'bg-brand text-brand-foreground'
+                            ? 'bg-brand text-brand-foreground whitespace-pre-wrap'
                             : 'bg-muted'
                         }`}
                       >
-                        {message.content}
-                      </p>
+                        {message.role === 'assistant' ? (
+                          <RichText text={message.content} />
+                        ) : (
+                          message.content
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
