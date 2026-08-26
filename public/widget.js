@@ -40,6 +40,30 @@
       console.error('[Deezy]', error.message);
     });
 
+  /*
+   * Encombrement du widget chez le client.
+   *
+   * Regroupe ici parce que ces nombres etaient ecrits deux fois — dans le
+   * style initial de l'iframe et dans applyViewport. Deux copies d'une meme
+   * mesure finissent toujours par diverger, et la divergence ne se voit qu'au
+   * redimensionnement de la fenetre, c'est-a-dire presque jamais pendant les
+   * essais.
+   *
+   * LE BOUTON NE DESCEND PAS SOUS 44 px
+   *
+   * C'est la cible tactile minimale recommandee (WCAG 2.5.5). En dessous, on
+   * gagne quelques pixels sur la page et on perd les visiteurs qui ratent le
+   * bouton au doigt. 48 laisse une marge sans peser.
+   */
+  var LAUNCHER = 48;
+  var EDGE = 16;
+  var GAP = 12;
+  var PANEL_W = 360;
+  var PANEL_H = 520;
+
+  // Bas du panneau : juste au-dessus du bouton.
+  var PANEL_BOTTOM = EDGE + LAUNCHER + GAP;
+
   function mount(config) {
     var isLeft = config.position === 'bottom-left';
     var side = isLeft ? 'left' : 'right';
@@ -51,15 +75,15 @@
     launcher.setAttribute('aria-label', 'Ouvrir le chat');
     launcher.style.cssText = [
       'position:fixed',
-      'bottom:20px',
-      side + ':20px',
-      'width:56px',
-      'height:56px',
+      'bottom:' + EDGE + 'px',
+      side + ':' + EDGE + 'px',
+      'width:' + LAUNCHER + 'px',
+      'height:' + LAUNCHER + 'px',
       'border-radius:9999px',
       'border:none',
       'cursor:pointer',
       'background:' + color,
-      'box-shadow:0 6px 24px rgba(0,0,0,.18)',
+      'box-shadow:0 4px 16px rgba(0,0,0,.16)',
       'display:flex',
       'align-items:center',
       'justify-content:center',
@@ -69,7 +93,7 @@
     ].join(';');
 
     launcher.innerHTML =
-      '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff"' +
+      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff"' +
       ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>' +
       '</svg>';
@@ -88,15 +112,15 @@
     frame.setAttribute('allow', 'clipboard-write');
     frame.style.cssText = [
       'position:fixed',
-      'bottom:88px',
-      side + ':20px',
-      'width:400px',
-      'height:600px',
-      'max-width:calc(100vw - 40px)',
-      'max-height:calc(100vh - 120px)',
+      'bottom:' + PANEL_BOTTOM + 'px',
+      side + ':' + EDGE + 'px',
+      'width:' + PANEL_W + 'px',
+      'height:' + PANEL_H + 'px',
+      'max-width:calc(100vw - ' + EDGE * 2 + 'px)',
+      'max-height:calc(100vh - ' + (PANEL_BOTTOM + EDGE) + 'px)',
       'border:none',
-      'border-radius:16px',
-      'box-shadow:0 12px 48px rgba(0,0,0,.22)',
+      'border-radius:14px',
+      'box-shadow:0 8px 32px rgba(0,0,0,.18)',
       'background:#fff',
       'z-index:2147483000',
       'display:none',
@@ -104,7 +128,7 @@
       'transition:opacity .18s ease',
     ].join(';');
 
-    // Plein ecran sur mobile : un panneau de 400px n'y a pas de sens.
+    // Plein ecran sur mobile : un panneau flottant n'y a pas de sens.
     function applyViewport() {
       if (window.innerWidth <= 480) {
         frame.style.width = '100vw';
@@ -115,13 +139,13 @@
         frame.style[side] = '0';
         frame.style.borderRadius = '0';
       } else {
-        frame.style.width = '400px';
-        frame.style.height = '600px';
-        frame.style.maxWidth = 'calc(100vw - 40px)';
-        frame.style.maxHeight = 'calc(100vh - 120px)';
-        frame.style.bottom = '88px';
-        frame.style[side] = '20px';
-        frame.style.borderRadius = '16px';
+        frame.style.width = PANEL_W + 'px';
+        frame.style.height = PANEL_H + 'px';
+        frame.style.maxWidth = 'calc(100vw - ' + EDGE * 2 + 'px)';
+        frame.style.maxHeight = 'calc(100vh - ' + (PANEL_BOTTOM + EDGE) + 'px)';
+        frame.style.bottom = PANEL_BOTTOM + 'px';
+        frame.style[side] = EDGE + 'px';
+        frame.style.borderRadius = '14px';
       }
     }
     window.addEventListener('resize', applyViewport);
