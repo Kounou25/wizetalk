@@ -11,6 +11,7 @@ const ACTION_LABELS: Record<string, string> = {
   'admin.revoke': 'a retiré le droit d’administration à',
   'bot.enable': 'a activé',
   'bot.disable': 'a désactivé',
+  'plan.update': 'a modifié le palier',
   'account.messages': 'a modifié le quota de messages de',
   'account.reset_messages': 'a remis à zéro les messages consommés de',
 };

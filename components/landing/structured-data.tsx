@@ -1,5 +1,6 @@
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { PUBLIC_APP_URL } from '@/lib/public-url';
+import { PLAN_PRICING, type PlanId } from '@/lib/plans';
 
 /**
  * Donnees structurees de la page de presentation.
@@ -57,11 +58,12 @@ export function StructuredData({ locale, dict }: { locale: Locale; dict: Diction
       url,
       description: dict.meta.description,
       publisher: { '@id': `${PUBLIC_APP_URL}/#organization` },
-      // Les montants viennent du dictionnaire, comme la grille affichee.
       offers: dict.pricing.plans.map((plan) => ({
         '@type': 'Offer',
         name: plan.name,
-        price: plan.monthly,
+        // Le prix vient du code, comme la page : la table `plans` ne le porte
+        // pas, puisque c'est le prestataire de paiement qui le decide.
+        price: PLAN_PRICING[plan.id as PlanId].monthly,
         priceCurrency: 'USD',
         category: 'subscription',
         url: `${url}#tarifs`,

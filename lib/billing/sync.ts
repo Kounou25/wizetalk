@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { createAdminClient } from '@/lib/supabase/admin';
-import { messagesFor, planFromProductId, type BillingPeriod, type PaidPlanId } from './plans';
+import { planFromProductId, type BillingPeriod, type PaidPlanId } from './plans';
 
 /**
  * Reserve le traitement d'un evenement.
@@ -132,7 +132,6 @@ export async function applyPlan(snapshot: SubscriptionSnapshot): Promise<boolean
   const { error } = await db.rpc('apply_subscription_plan', {
     p_user_id: userId,
     p_plan: match.plan satisfies PaidPlanId,
-    p_credits: messagesFor(match.plan),
     p_subscription_id: snapshot.subscriptionId,
     p_customer_id: snapshot.customerId,
     p_status: snapshot.status,

@@ -9,7 +9,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { pageLimit } from '@/lib/plans';
+import { getLimitsFor } from '@/lib/plans-db';
 import { getPlan } from '@/lib/quotas';
 
 export const maxDuration = 60;
@@ -65,10 +65,11 @@ export async function POST(request: Request) {
      * client payant. C'est ici, a la creation du job, que le palier prend effet.
      */
     const plan = await getPlan(admin, bot.user_id as string);
+    const limits = await getLimitsFor(plan);
 
     const { data: job, error } = await admin
       .from('crawl_jobs')
-      .insert({ bot_id: botId, status: 'pending', max_pages: pageLimit(plan) })
+      .insert({ bot_id: botId, status: 'pending', max_pages: limits.pages })
       .select('id')
       .single();
 

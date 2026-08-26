@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { PLANS, type PlanId } from '@/lib/plans';
+import type { PlanId } from '@/lib/plans';
 
 /** Periodicite de facturation. Dodo attache la periodicite au produit : un plan
  *  mensuel et son equivalent annuel sont deux produits distincts. */
@@ -78,11 +78,6 @@ export function planFromProductId(
     }
   }
   return null;
-}
-
-/** Quota mensuel de messages d'un plan paye. */
-export function messagesFor(plan: PaidPlanId): number {
-  return PLANS[plan].messages;
 }
 
 /** Produits manquants, pour un controle de configuration au demarrage. */

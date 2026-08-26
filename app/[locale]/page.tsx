@@ -24,6 +24,7 @@ import { Faq } from '@/components/landing/faq';
 import { FinalCta } from '@/components/landing/final-cta';
 import { LandingFooter } from '@/components/landing/footer';
 import { StructuredData } from '@/components/landing/structured-data';
+import { getPlanLimits } from '@/lib/plans-db';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -88,6 +89,8 @@ export default async function LandingPage({
   const dict = getDictionary(locale);
   // Page publique : la session ne sert qu'a adapter les boutons de la barre.
   const user = await getUser();
+  // Les limites annoncees sont celles que le produit applique.
+  const limits = await getPlanLimits();
   const typed = locale as Locale;
 
   return (
@@ -145,7 +148,7 @@ export default async function LandingPage({
         <Benefits dict={dict} />
         <Results dict={dict} />
 
-        <Pricing locale={typed} pricing={dict.pricing} />
+        <Pricing locale={typed} pricing={dict.pricing} limits={limits} />
         <Faq dict={dict} />
         <FinalCta locale={typed} dict={dict} />
       </main>

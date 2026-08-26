@@ -2,7 +2,8 @@ import 'server-only';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-import { botLimit, documentLimit, type MessageBalance, type PlanId } from './plans';
+import type { MessageBalance, PlanId } from './plans';
+import { getLimitsFor } from './plans-db';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Db = SupabaseClient<any, any, any>;
@@ -85,15 +86,13 @@ export interface LimitCheck {
  */
 export async function canCreateBot(db: Db, userId: string): Promise<LimitCheck> {
   const plan = await getPlan(db, userId);
-  const { count } = await db
-    .from('bots')
-    .select('id', { count: 'exact', head: true })
-    .eq('user_id', userId);
+  const [limits, { count }] = await Promise.all([
+    getLimitsFor(plan),
+    db.from('bots').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+  ]);
 
   const current = count ?? 0;
-  const limit = botLimit(plan);
-
-  return { allowed: current < limit, current, limit, plan };
+  return { allowed: current < limits.bots, current, limit: limits.bots, plan };
 }
 
 /** Le compte peut-il ajouter un document de plus a cet assistant ? */
@@ -103,15 +102,17 @@ export async function canAddDocument(
   botId: string,
 ): Promise<LimitCheck> {
   const plan = await getPlan(db, userId);
-  const limit = documentLimit(plan);
-
-  const { count } = await db
-    .from('pages')
-    .select('id', { count: 'exact', head: true })
-    .eq('bot_id', botId)
-    .eq('source', 'document');
+  const [limits, { count }] = await Promise.all([
+    getLimitsFor(plan),
+    db
+      .from('pages')
+      .select('id', { count: 'exact', head: true })
+      .eq('bot_id', botId)
+      .eq('source', 'document'),
+  ]);
 
   const current = count ?? 0;
+  const limit = limits.documents;
 
   // `null` vaut illimite : le palier le plus haut se vend precisement la-dessus.
   return { allowed: limit === null || current < limit, current, limit, plan };

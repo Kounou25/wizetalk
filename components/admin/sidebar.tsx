@@ -9,6 +9,7 @@ import {
   Gauge,
   ScrollText,
   ShieldCheck,
+  SlidersHorizontal,
   Users,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -19,6 +20,7 @@ const ITEMS = [
   { href: '/admin/users', label: 'Comptes', icon: Users, exact: false },
   { href: '/admin/bots', label: 'Assistants', icon: Bot, exact: false },
   { href: '/admin/billing', label: 'Paiements', icon: CreditCard, exact: false },
+  { href: '/admin/plans', label: 'Paliers', icon: SlidersHorizontal, exact: false },
   { href: '/admin/audit', label: 'Journal', icon: ScrollText, exact: false },
 ];
 

@@ -19,21 +19,13 @@
 
 export type PlanId = 'trial' | 'essential' | 'growth' | 'business';
 
-/** Un plafond a `null` est illimite. */
-export interface Plan {
-  id: PlanId;
+/** Limites d'un palier. Un plafond a `null` est illimite. */
+export interface PlanLimits {
   /** Messages envoyes aux visiteurs, par mois. L'essai ne se renouvelle pas. */
   messages: number;
   bots: number;
   pages: number;
   documents: number | null;
-
-  /** Prix mensuel en dollars. `null` pour l'essai, qui ne se vend pas. */
-  monthly: number | null;
-  /** Equivalent mensuel du paiement annuel, arrondi pour l'affichage. */
-  annualMonthly: number | null;
-  /** Montant reellement preleve sur l'annee : dix mois payes sur douze. */
-  annualTotal: number | null;
 
   /** Rapport des questions restees sans reponse. */
   gapsReport: boolean;
@@ -42,71 +34,57 @@ export interface Plan {
   prioritySupport: boolean;
 }
 
-export const PLANS: Record<PlanId, Plan> = {
-  /*
-   * L'essai.
-   *
-   * Il s'epuise a l'usage, pas au chronometre : un petit site peut ne recevoir
-   * que trois questions en une semaine, et un essai de sept jours expirerait
-   * avant d'avoir rien prouve. Cent messages suffisent pour que de vrais
-   * visiteurs mettent l'assistant a l'epreuve.
-   */
+/**
+ * Prix, et repli sur les limites.
+ *
+ * LE PRIX RESTE ICI, LES LIMITES NON
+ *
+ * Les limites vivent dans la table `plans` : un administrateur les ajuste
+ * depuis le back-office, et la page de tarifs comme le code d'application
+ * lisent la meme ligne. Voir `getPlanLimits()` dans lib/plans-db.ts.
+ *
+ * Le prix, lui, ne peut pas etre decide ici : c'est le produit chez le
+ * prestataire de paiement qui determine ce qui est preleve. L'inscrire en base
+ * laisserait afficher 25 $ alors que 19 $ sont factures. Il reste donc en code,
+ * ou il se relit dans la meme revue que le reste.
+ *
+ * Les limites ci-dessous ne servent que de repli, si la table est illisible :
+ * mieux vaut appliquer des valeurs prudentes que de laisser passer sans borne.
+ */
+export interface PlanPricing {
+  monthly: number | null;
+  annualMonthly: number | null;
+  annualTotal: number | null;
+}
+
+export const PLAN_PRICING: Record<PlanId, PlanPricing> = {
+  trial: { monthly: null, annualMonthly: null, annualTotal: null },
+  essential: { monthly: 19, annualMonthly: 16, annualTotal: 190 },
+  growth: { monthly: 39, annualMonthly: 33, annualTotal: 390 },
+  business: { monthly: 79, annualMonthly: 66, annualTotal: 790 },
+};
+
+export const FALLBACK_LIMITS: Record<PlanId, PlanLimits> = {
   trial: {
-    id: 'trial',
-    messages: 100,
-    bots: 1,
-    pages: 50,
-    documents: 5,
-    monthly: null,
-    annualMonthly: null,
-    annualTotal: null,
-    gapsReport: false,
-    removeBranding: false,
-    prioritySupport: false,
+    messages: 100, bots: 1, pages: 50, documents: 5,
+    gapsReport: false, removeBranding: false, prioritySupport: false,
   },
-
   essential: {
-    id: 'essential',
-    messages: 1_000,
-    bots: 1,
-    pages: 100,
-    documents: 20,
-    monthly: 19,
-    annualMonthly: 16,
-    annualTotal: 190,
-    gapsReport: false,
-    removeBranding: false,
-    prioritySupport: false,
+    messages: 1_000, bots: 1, pages: 100, documents: 20,
+    gapsReport: false, removeBranding: false, prioritySupport: false,
   },
-
   growth: {
-    id: 'growth',
-    messages: 5_000,
-    bots: 3,
-    pages: 500,
-    documents: 100,
-    monthly: 39,
-    annualMonthly: 33,
-    annualTotal: 390,
-    gapsReport: true,
-    removeBranding: false,
-    prioritySupport: false,
+    messages: 5_000, bots: 3, pages: 500, documents: 100,
+    gapsReport: true, removeBranding: false, prioritySupport: false,
   },
-
   business: {
-    id: 'business',
-    messages: 20_000,
-    bots: 10,
-    pages: 2_000,
-    documents: null,
-    monthly: 79,
-    annualMonthly: 66,
-    annualTotal: 790,
-    gapsReport: true,
-    removeBranding: true,
-    prioritySupport: true,
+    messages: 20_000, bots: 10, pages: 2_000, documents: null,
+    gapsReport: true, removeBranding: true, prioritySupport: true,
   },
 };
+
+export const PLAN_IDS: PlanId[] = ['trial', 'essential', 'growth', 'business'];
+export const PAID_PLAN_IDS: PlanId[] = ['essential', 'growth', 'business'];
 
 export interface MessageBalance {
   plan: PlanId;
@@ -134,18 +112,4 @@ export function isNearLimit(balance: MessageBalance): boolean {
 
 export function isExhausted(balance: MessageBalance): boolean {
   return remaining(balance) <= 0;
-}
-
-/** Plafond de pages explorables, pour un plan donne. */
-export function pageLimit(plan: PlanId): number {
-  return PLANS[plan].pages;
-}
-
-/** `null` signifie illimite. */
-export function documentLimit(plan: PlanId): number | null {
-  return PLANS[plan].documents;
-}
-
-export function botLimit(plan: PlanId): number {
-  return PLANS[plan].bots;
 }

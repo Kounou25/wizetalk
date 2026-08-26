@@ -1,7 +1,9 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, updateTag } from 'next/cache';
 import { logAdminAction, requireAdmin } from '@/lib/admin/guard';
+import { PLAN_IDS, type PlanId } from '@/lib/plans';
+import { PLANS_CACHE_TAG } from '@/lib/plans-db';
 
 /**
  * Actions du back-office.
@@ -97,4 +99,80 @@ export async function resetAccountUsage(userId: string, email: string) {
   });
 
   revalidatePath('/admin/users');
+}
+
+/**
+ * Enregistre les limites d'un palier.
+ *
+ * Un changement de palier affecte TOUS les comptes qui l'utilisent, pas
+ * seulement les prochains : `sync_plan_quota` repercute le nouveau quota sur
+ * les abonnes en cours. Sans cela, un client garderait le volume fige au jour
+ * de son activation et ne verrait le changement qu'au renouvellement suivant.
+ *
+ * Le compteur consomme n'est jamais remis a zero : seul le plafond bouge, le
+ * client garde ce qu'il a deja utilise ce mois-ci.
+ */
+export async function savePlanLimits(planId: string, formData: FormData) {
+  const { db, admin } = await requireAdmin();
+
+  if (!PLAN_IDS.includes(planId as PlanId)) {
+    throw new Error(`Palier inconnu : ${planId}`);
+  }
+
+  /** Entier borne. Une saisie vide ou absurde ne doit pas ouvrir les vannes. */
+  const int = (field: string, max: number) => {
+    const raw = Number(formData.get(field));
+    if (!Number.isFinite(raw)) return 0;
+    return Math.max(0, Math.min(max, Math.round(raw)));
+  };
+
+  // Le champ documents distingue « illimite » de « zero » : la case a cocher
+  // l'emporte sur le nombre saisi.
+  const unlimitedDocs = formData.get('documentsUnlimited') === 'on';
+
+  const next = {
+    messages: int('messages', 10_000_000),
+    bots: int('bots', 1_000),
+    pages: int('pages', 100_000),
+    documents: unlimitedDocs ? null : int('documents', 100_000),
+    gaps_report: formData.get('gapsReport') === 'on',
+    remove_branding: formData.get('removeBranding') === 'on',
+    priority_support: formData.get('prioritySupport') === 'on',
+  };
+
+  // L'ancienne ligne est relue pour le journal : « a change X » sans dire
+  // depuis quoi ne permet pas de reconstituer un incident.
+  const { data: before } = await db
+    .from('plans')
+    .select('messages, bots, pages, documents')
+    .eq('id', planId)
+    .maybeSingle();
+
+  const { error } = await db.from('plans').update(next).eq('id', planId);
+  if (error) throw new Error(`Enregistrement impossible : ${error.message}`);
+
+  const { data: affected } = await db.rpc('sync_plan_quota', { p_plan: planId });
+
+  await logAdminAction(admin, 'plan.update', {
+    type: 'plan',
+    id: planId,
+    detail: {
+      plan: planId,
+      before: before ?? null,
+      after: { ...next, documents: next.documents },
+      accountsUpdated: Number(affected ?? 0),
+    },
+  });
+
+  /*
+   * Le cache de la grille est invalide explicitement.
+   *
+   * `updateTag` et non `revalidateTag` : c'est la variante prevue pour les
+   * Server Actions, celle qui garantit de relire ce qu'on vient d'ecrire. Un
+   * administrateur doit voir son changement applique immediatement, pas au
+   * bout d'une expiration.
+   */
+  updateTag(PLANS_CACHE_TAG);
+  revalidatePath('/admin/plans');
+  revalidatePath('/dashboard/settings');
 }

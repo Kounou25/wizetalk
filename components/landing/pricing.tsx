@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Reveal } from '@/components/reveal';
 import { cn } from '@/lib/utils';
 import type { Dictionary, Locale } from '@/lib/i18n';
+import { PLAN_PRICING, type PlanId, type PlanLimits } from '@/lib/plans';
 
 type PricingText = Dictionary['pricing'];
 
@@ -34,7 +35,16 @@ type PricingText = Dictionary['pricing'];
  */
 const FEATURED_INDEX = 1;
 
-export function Pricing({ locale, pricing }: { locale: Locale; pricing: PricingText }) {
+export function Pricing({
+  locale,
+  pricing,
+  limits,
+}: {
+  locale: Locale;
+  pricing: PricingText;
+  /** Grille lue en base : la page annonce ce que le produit applique. */
+  limits: Record<PlanId, PlanLimits>;
+}) {
   const t = pricing;
   const [annual, setAnnual] = useState(false);
 
@@ -94,6 +104,7 @@ export function Pricing({ locale, pricing }: { locale: Locale; pricing: PricingT
                 featured={index === FEATURED_INDEX}
                 annual={annual}
                 labels={t}
+                limits={limits[plan.id as PlanId]}
                 locale={locale}
                 href={`/${locale}/signup`}
               />
@@ -129,11 +140,58 @@ export function Pricing({ locale, pricing }: { locale: Locale; pricing: PricingT
 
 type Plan = PricingText['plans'][number];
 
+type LimitLabels = PricingText['limitLabels'];
+type FeatureLabels = PricingText['featureLabels'];
+
+/**
+ * Les puces chiffrees d'un palier, composees a partir de la grille en base.
+ *
+ * C'est ce qui empeche la page d'annoncer autre chose que ce que le produit
+ * applique : les nombres viennent de la meme table que les controles de
+ * plafond, seuls les libelles sont traduits.
+ */
+function featureLines(
+  limits: PlanLimits,
+  labels: { limitLabels: LimitLabels; featureLabels: FeatureLabels },
+): string[] {
+  const n = (template: string, value: number) =>
+    template.replace('{n}', value.toLocaleString('fr-FR'));
+
+  const lines = [
+    n(limits.bots > 1 ? labels.limitLabels.bots : labels.limitLabels.bot, limits.bots),
+    n(labels.limitLabels.pages, limits.pages),
+    limits.documents === null
+      ? labels.limitLabels.documentsUnlimited
+      : n(labels.limitLabels.documents, limits.documents),
+  ];
+
+  // Les interrupteurs du palier deviennent des puces : les activer dans le
+  // back-office les fait apparaitre ici, sans toucher au dictionnaire.
+  if (limits.gapsReport) lines.push(labels.featureLabels.gapsReport);
+  if (limits.removeBranding) lines.push(labels.featureLabels.removeBranding);
+  if (limits.prioritySupport) lines.push(labels.featureLabels.prioritySupport);
+
+  return lines;
+}
+
+/** Ce que le palier n'a pas, deduit des memes interrupteurs. */
+function excludedLines(
+  limits: PlanLimits,
+  labels: { featureLabels: FeatureLabels },
+): string[] {
+  const lines: string[] = [];
+  if (!limits.gapsReport) lines.push(labels.featureLabels.gapsReport);
+  if (!limits.removeBranding) lines.push(labels.featureLabels.removeBranding);
+  if (!limits.prioritySupport) lines.push(labels.featureLabels.prioritySupport);
+  return lines;
+}
+
 function PlanCard({
   plan,
   featured,
   annual,
   labels,
+  limits,
   locale,
   href,
 }: {
@@ -141,10 +199,14 @@ function PlanCard({
   featured: boolean;
   annual: boolean;
   labels: PricingText;
+  /** Limites du palier, lues en base. */
+  limits: PlanLimits;
   locale: Locale;
   href: string;
 }) {
-  const price = annual ? plan.annual : plan.monthly;
+  const pricing = PLAN_PRICING[plan.id as PlanId];
+  const price = annual ? pricing.annualMonthly : pricing.monthly;
+  const excluded = excludedLines(limits, labels);
 
   return (
     <div
@@ -191,7 +253,7 @@ function PlanCard({
             featured ? 'text-slate-500' : 'text-muted-foreground/60',
           )}
         >
-          {annual ? `${plan.monthly} $` : ''}
+          {annual ? `${pricing.monthly} $` : ''}
         </p>
 
         <p className="flex items-baseline gap-1.5">
@@ -214,7 +276,7 @@ function PlanCard({
             featured ? 'text-slate-400' : 'text-muted-foreground',
           )}
         >
-          {annual ? labels.billing.annualNote.replace('{total}', String(plan.annualTotal)) : ''}
+          {annual ? labels.billing.annualNote.replace('{total}', String(pricing.annualTotal)) : ''}
         </p>
       </div>
 
@@ -226,7 +288,7 @@ function PlanCard({
           featured ? 'bg-white/10 text-white' : 'bg-brand-soft text-brand',
         )}
       >
-        {plan.messages.toLocaleString(locale === 'fr' ? 'fr-FR' : 'en-US')}{' '}
+        {limits.messages.toLocaleString(locale === 'fr' ? 'fr-FR' : 'en-US')}{' '}
         {labels.messagesSuffix}
       </p>
 
@@ -258,7 +320,7 @@ function PlanCard({
       )}
 
       <ul className={cn('flex flex-col gap-3.5', plan.inherits ? 'mt-4' : 'mt-8')}>
-        {plan.features.map((feature) => (
+        {featureLines(limits, labels).concat(plan.extras).map((feature) => (
           <li key={feature} className="flex items-start gap-3 text-sm">
             <span
               className={cn(
@@ -282,7 +344,7 @@ function PlanCard({
         
         Le dernier palier n'affiche rien : c'est precisement son argument.
       */}
-      {plan.excluded.length > 0 && (
+      {excluded.length > 0 && (
         <div
           className={cn(
             'mt-6 border-t pt-5',
@@ -299,7 +361,7 @@ function PlanCard({
           </p>
 
           <ul className="mt-3 flex flex-col gap-2.5">
-            {plan.excluded.map((item) => (
+            {excluded.map((item) => (
               <li
                 key={item}
                 className={cn(

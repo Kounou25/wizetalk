@@ -399,6 +399,25 @@ export const fr = {
     notIncluded: 'Non inclus',
     perMonth: '/mois',
     messagesSuffix: 'messages par mois',
+    /*
+     * Gabarits des puces chiffrees.
+     *
+     * Les nombres viennent de la table `plans`, la meme que celle appliquee par
+     * le produit : la page ne peut plus annoncer une limite differente de celle
+     * qui sera reellement imposee. Seul le libelle est traduit.
+     */
+    limitLabels: {
+      bot: '{n} assistant',
+      bots: '{n} assistants',
+      pages: 'Jusqu’à {n} pages par assistant',
+      documents: '{n} documents par assistant',
+      documentsUnlimited: 'Documents illimités',
+    },
+    featureLabels: {
+      gapsReport: 'Rapport des questions sans réponse',
+      removeBranding: 'Sans mention Deezy',
+      prioritySupport: 'Support prioritaire',
+    },
     billing: {
       monthly: 'Mensuel',
       annual: 'Annuel',
@@ -407,64 +426,33 @@ export const fr = {
     },
     plans: [
       {
+        id: 'essential',
         name: 'Essentiel',
-        monthly: 19,
-        annual: 16,
-        annualTotal: 190,
-        messages: 1000,
         description: 'Pour un site, une activité.',
         inherits: '',
-        features: [
-          '1 assistant',
-          'Jusqu’à 100 pages de votre site',
-          '20 documents',
+        // Ce qui ne se derive pas de la grille : ni un nombre, ni un
+        // interrupteur, mais une capacite presente sur tous les paliers.
+        extras: [
           'Récupération des e-mails de vos visiteurs',
           'Alerte e-mail à chaque prospect',
           'Aux couleurs de votre marque',
         ],
-        excluded: [
-          'Plusieurs assistants',
-          'Rapport des questions sans réponse',
-          'Retrait de la mention Deezy',
-          'Support prioritaire',
-        ],
         cta: 'Commencer',
       },
       {
+        id: 'growth',
         name: 'Croissance',
-        monthly: 39,
-        annual: 33,
-        annualTotal: 390,
-        messages: 5000,
         description: 'Pour un site qui reçoit du monde tous les jours.',
         inherits: 'Tout de l’Essentiel, plus :',
-        features: [
-          '3 assistants',
-          'Jusqu’à 500 pages par assistant',
-          '100 documents par assistant',
-          'Rapport des questions sans réponse',
-          'Réponse du support sous 24 h',
-        ],
-        excluded: ['Retrait de la mention Deezy', 'Support prioritaire'],
+        extras: ['Réponse du support sous 24 h'],
         cta: 'Commencer',
       },
       {
+        id: 'business',
         name: 'Entreprise',
-        monthly: 79,
-        annual: 66,
-        annualTotal: 790,
-        messages: 20000,
         description: 'Pour plusieurs sites ou plusieurs marques.',
         inherits: 'Tout de Croissance, plus :',
-        features: [
-          '10 assistants',
-          'Jusqu’à 2 000 pages par assistant',
-          'Documents illimités',
-          'Sans mention Deezy',
-          'Support prioritaire',
-        ],
-        // Rien a exclure : c'est precisement l'argument de ce palier.
-        excluded: [] as string[],
+        extras: [] as string[],
         cta: 'Commencer',
       },
     ],

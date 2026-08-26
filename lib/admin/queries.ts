@@ -1,7 +1,7 @@
 import 'server-only';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { PLANS, type PlanId } from '@/lib/plans';
+import { PLAN_PRICING, type PlanId } from '@/lib/plans';
 
 /**
  * Lectures du back-office.
@@ -379,13 +379,13 @@ export function computeBillingStats(rows: SubscriptionRow[]): BillingStats {
      */
     if (row.status !== 'active') continue;
 
-    const plan = PLANS[row.plan];
+    const price = PLAN_PRICING[row.plan];
     if (row.billingPeriod === 'annual') {
       // Ramene au mois pour rester comparable au mensuel.
-      stats.mrr += (plan.annualTotal ?? 0) / 12;
+      stats.mrr += (price.annualTotal ?? 0) / 12;
       stats.active++;
-    } else if (plan.monthly) {
-      stats.mrr += plan.monthly;
+    } else if (price.monthly) {
+      stats.mrr += price.monthly;
       stats.active++;
     }
   }

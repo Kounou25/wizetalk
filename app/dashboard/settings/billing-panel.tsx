@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { CreditCard, ExternalLink } from 'lucide-react';
 
 import type { Dictionary, Locale } from '@/lib/i18n';
-import { PLANS, type MessageBalance, type PlanId } from '@/lib/plans';
+import { PLAN_PRICING, type MessageBalance, type PlanId, type PlanLimits } from '@/lib/plans';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Segmented } from '@/components/ui/segmented';
@@ -30,6 +30,7 @@ export function BillingPanel({
   currentPeriodEnd,
   cancelAtPeriodEnd,
   hasCustomer,
+  limits,
   locale,
   dict,
   notice,
@@ -40,6 +41,8 @@ export function BillingPanel({
   currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
   hasCustomer: boolean;
+  /** Grille lue en base, pour que les quotas affiches soient ceux appliques. */
+  limits: Record<PlanId, PlanLimits>;
   locale: Locale;
   dict: Dictionary;
   /** Message renvoye par la redirection de retour, s'il y en a un. */
@@ -152,9 +155,9 @@ export function BillingPanel({
 
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {PAID.map((id) => {
-              const plan = PLANS[id];
+              const pricing = PLAN_PRICING[id];
               const isCurrent = activePlan === id && billingPeriod === period;
-              const price = period === 'annual' ? plan.annualMonthly : plan.monthly;
+              const price = period === 'annual' ? pricing.annualMonthly : pricing.monthly;
 
               return (
                 <div
@@ -175,12 +178,12 @@ export function BillingPanel({
 
                   {period === 'annual' && (
                     <p className="text-muted-foreground text-[11px] tabular-nums">
-                      {plan.annualTotal} $ {t.perYear}
+                      {pricing.annualTotal} $ {t.perYear}
                     </p>
                   )}
 
                   <p className="text-brand mt-2 text-xs font-semibold tabular-nums">
-                    {plan.messages.toLocaleString(numberLocale)} {tc.title.toLowerCase()}
+                    {limits[id].messages.toLocaleString(numberLocale)} {tc.title.toLowerCase()}
                   </p>
 
                   {isCurrent ? (

@@ -8,17 +8,16 @@ import { Progress } from '@/components/ui/progress';
 import { LocaleSwitch } from '@/components/dashboard/locale-switch';
 import { PageHeader, Panel, PanelHeader } from '@/components/dashboard/panel';
 import { PasswordForm, ProfileForm } from './settings-forms';
-import { isExhausted, isNearLimit, PLANS, remaining, type PlanId } from '@/lib/plans';
+import { isExhausted, isNearLimit, remaining, type PlanId, type PlanLimits } from '@/lib/plans';
+import { getPlanLimits } from '@/lib/plans-db';
 import { getMessageBalance } from '@/lib/quotas';
 import { BillingPanel } from './billing-panel';
 
 /** Plafonds du plan, en clair. `documents: null` signifie illimite. */
 function planLimits(
-  plan: PlanId,
+  p: PlanLimits,
   t: { limitBots: string; limitBotsPlural: string; limitPages: string; limitDocuments: string; unlimited: string },
 ): string[] {
-  const p = PLANS[plan];
-
   return [
     `${p.bots} ${p.bots > 1 ? t.limitBotsPlural : t.limitBots}`,
     `${p.pages.toLocaleString('fr-FR')} ${t.limitPages}`,
@@ -92,6 +91,10 @@ export default async function SettingsPage({
     searchParams,
   ]);
 
+  // Les limites viennent de la table `plans` : la page affiche ce que le
+  // produit applique, pas une copie figee dans le code.
+  const allLimits = await getPlanLimits();
+  const limits = allLimits[(balance?.plan ?? 'trial') as PlanId];
   const withPassword = hasPasswordIdentity(user);
   const numberLocale = locale === 'fr' ? 'fr-FR' : 'en-US';
 
@@ -140,6 +143,7 @@ export default async function SettingsPage({
         currentPeriodEnd={(profile?.current_period_end as string | null) ?? null}
         cancelAtPeriodEnd={Boolean(profile?.cancel_at_period_end)}
         hasCustomer={Boolean(profile?.dodo_customer_id)}
+        limits={allLimits}
         locale={locale}
         dict={dict}
         notice={noticeFrom(params)}
@@ -191,7 +195,7 @@ export default async function SettingsPage({
             <div className="border-border border-t pt-4">
               <p className="text-sm font-medium">{tc.limitsTitle}</p>
               <ul className="text-muted-foreground mt-2 flex flex-col gap-1.5 text-sm">
-                {planLimits(balance.plan, tc).map((line) => (
+                {planLimits(limits, tc).map((line) => (
                   <li key={line} className="flex items-start gap-2">
                     <span
                       className="bg-brand mt-2 size-1.5 shrink-0 rounded-full"
