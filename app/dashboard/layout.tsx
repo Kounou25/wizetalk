@@ -21,6 +21,8 @@ export const metadata: Metadata = {
 };
 
 import { getMessageBalance } from '@/lib/quotas';
+import { isExhausted } from '@/lib/plans';
+import { buildUpgradeOffer } from '@/lib/upgrade';
 
 /** "marie.dupont@exemple.fr" -> "MD" */
 function initialsFromEmail(email: string): string {
@@ -62,6 +64,15 @@ export default async function DashboardLayout({
    * after() differe l'envoi apres l'envoi de la reponse : le tableau de bord
    * s'affiche sans attendre l'API de messagerie.
    */
+  /*
+   * Quota epuise : on prepare la proposition de mise a niveau.
+   *
+   * Calculee ici et pas systematiquement — c'est une lecture de plus, inutile
+   * tant que la jauge n'est pas au bout.
+   */
+  const messagesOffer =
+    balance && isExhausted(balance) ? await buildUpgradeOffer(balance.plan, 'messages') : null;
+
   const appUrl = await requestOrigin();
   after(async () => {
     await sendWelcomeEmailOnce({
@@ -81,6 +92,7 @@ export default async function DashboardLayout({
       user={{ email: user.email ?? '', initials: initialsFromEmail(user.email ?? '?') }}
       botCount={botCount ?? 0}
       balance={balance}
+      messagesOffer={messagesOffer}
       locale={locale}
       dict={getDictionary(locale)}
       isAdmin={admin}

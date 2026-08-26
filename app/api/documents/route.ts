@@ -24,6 +24,7 @@ import {
 } from '@/lib/documents';
 import type { EmbeddedChunk } from '@/lib/types';
 import { canAddDocument } from '@/lib/quotas';
+import { buildUpgradeOffer } from '@/lib/upgrade';
 
 export const maxDuration = 60;
 
@@ -101,13 +102,11 @@ export async function POST(request: Request) {
     const room = await canAddDocument(admin, user.id, botId);
     if (!room.allowed) {
       await admin.storage.from('documents').remove([path]);
+
+      // La proposition entiere plutot qu'une phrase : le client verra ce que
+      // le palier suivant lui apporte, pas seulement ce qu'on lui refuse.
       return NextResponse.json(
-        {
-          error: `Votre plan permet ${room.limit} document${
-            (room.limit ?? 0) > 1 ? 's' : ''
-          } par assistant. Passez à un plan supérieur pour en ajouter davantage.`,
-          code: 'document_limit',
-        },
+        { code: 'document_limit', upgrade: await buildUpgradeOffer(room.plan, 'documents') },
         { status: 402 },
       );
     }

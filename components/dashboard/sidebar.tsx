@@ -11,6 +11,8 @@ import { Progress } from '@/components/ui/progress';
 import { Spinner } from '@/components/ui/spinner';
 import { isNavActive, navItems, secondaryNavItems, type NavItem } from './nav-items';
 import { isExhausted, isNearLimit, remaining, type MessageBalance } from '@/lib/plans';
+import { UpgradeButton } from './upgrade-button';
+import type { UpgradeOffer } from './upgrade-dialog';
 
 /**
  * Icone d'un lien de navigation, remplacee par un anneau pendant la
@@ -69,10 +71,12 @@ function NavLink({
  */
 function CreditMeter({
   balance,
+  offer,
   locale,
   dict,
 }: {
   balance: MessageBalance;
+  offer: UpgradeOffer | null;
   locale: Locale;
   dict: Dictionary;
 }) {
@@ -112,14 +116,32 @@ function CreditMeter({
           </p>
         )}
 
-        {/* Vers les reglages, et non vers la page de tarifs publique : le
-            client est deja connecte, l'achat se fait depuis son compte. */}
-        <Link
-          href="/dashboard/settings#abonnement"
-          className="focus-ring text-brand mt-2 inline-block rounded text-[11px] font-semibold hover:underline"
-        >
-          {t.action}
-        </Link>
+        {/*
+          Quota epuise : on ouvre la comparaison des paliers plutot que de
+          renvoyer vers les reglages. Le client voit alors ce que le palier
+          suivant lui rendrait, au moment precis ou la limite le gene.
+
+          Tant qu'il reste des messages, le lien discret suffit : rien ne
+          justifie d'interrompre quelqu'un qui n'est bloque par rien.
+        */}
+        {offer ? (
+          <UpgradeButton
+            offer={offer}
+            label={t.action}
+            locale={locale}
+            dict={dict}
+            variant="ghost"
+            size="sm"
+            className="text-brand mt-2 h-7 px-0 text-[11px] font-semibold hover:bg-transparent hover:underline"
+          />
+        ) : (
+          <Link
+            href="/dashboard/settings#abonnement"
+            className="focus-ring text-brand mt-2 inline-block rounded text-[11px] font-semibold hover:underline"
+          >
+            {t.action}
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -129,6 +151,7 @@ export function SidebarContent({
   pathname,
   botCount,
   balance,
+  messagesOffer,
   locale,
   dict,
   onNavigate,
@@ -136,6 +159,8 @@ export function SidebarContent({
   pathname: string;
   botCount: number;
   balance: MessageBalance | null;
+  /** Non nul uniquement quand le quota est epuise. */
+  messagesOffer: UpgradeOffer | null;
   locale: Locale;
   dict: Dictionary;
   /** Fourni uniquement dans le tiroir mobile : ferme apres navigation. */
@@ -204,7 +229,14 @@ export function SidebarContent({
         ))}
       </div>
 
-      {balance && <CreditMeter balance={balance} locale={locale} dict={dict} />}
+      {balance && (
+        <CreditMeter
+          balance={balance}
+          offer={messagesOffer}
+          locale={locale}
+          dict={dict}
+        />
+      )}
     </div>
   );
 }

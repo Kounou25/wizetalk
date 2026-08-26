@@ -644,6 +644,49 @@ export const fr = {
       portalError: 'Le portail est momentanément indisponible. Réessayez.',
     },
 
+    upgrade: {
+      titleMessages: 'Vous avez utilisé tous vos messages du mois',
+      titleBots: 'Vous avez atteint votre nombre d’assistants',
+      titleDocuments: 'Vous avez atteint votre nombre de documents',
+      titlePages: 'Vous avez atteint votre limite de pages',
+      titleGaps: 'Ce rapport n’est pas inclus dans votre plan',
+      titleBranding: 'Le retrait de la mention n’est pas inclus dans votre plan',
+      lead: 'Voici ce que vous obtenez en passant au plan {plan}.',
+      /* Le tableau compare le palier actuel au propose : le client doit voir
+         ce qu'il gagne, pas seulement ce qu'on lui refuse. */
+      current: 'Aujourd’hui',
+      suggested: 'Avec {plan}',
+      rowMessages: 'Messages par mois',
+      rowBots: 'Assistants',
+      rowPages: 'Pages par assistant',
+      rowDocuments: 'Documents par assistant',
+      rowGaps: 'Rapport des questions sans réponse',
+      rowBranding: 'Sans mention Deezy',
+      rowSupport: 'Support prioritaire',
+      yes: 'Inclus',
+      no: 'Non inclus',
+      unlimited: 'Illimité',
+      cta: 'Voir les plans',
+      dismiss: 'Plus tard',
+      /* Palier le plus haut deja atteint : on ne propose rien, on oriente vers
+         le sur-mesure plutot que de laisser le client sans issue. */
+      topTitle: 'Vous êtes déjà au plan le plus complet',
+      topBody:
+        'Pour aller au-delà, écrivez-nous : on construit l’offre avec vous.',
+      topCta: 'Nous écrire',
+      /* Aucun palier superieur n'ameliore cette limite precise. Different du
+         cas ci-dessus : le client n'est pas au sommet de la grille. */
+      noneTitle: 'Aucun plan supérieur ne change cette limite',
+      noneBody:
+        'Écrivez-nous : on regarde votre besoin et on ajuste votre plan.',
+      /* Plafond de pages atteint : on constate un fait (le crawl s'est arrete
+         au plafond du palier) sans affirmer que des pages manquent — on ne le
+         sait pas. */
+      capNotice:
+        'L’indexation a atteint le plafond de {limit} pages de votre plan. Si votre site en compte davantage, les pages suivantes ne sont pas prises en compte.',
+      capCta: 'Augmenter la limite',
+    },
+
     quota: {
       title: 'Messages',
       action: 'Choisir un plan',
@@ -814,6 +857,11 @@ export const fr = {
       leadsDesc: 'Visiteurs à rappeler',
       gapsTitle: 'Questions sans réponse',
       gapsDesc: 'Ce qui manque sur votre site',
+      gapsLocked: 'Inclus à partir du plan Croissance',
+      gapsLockedTitle: 'Le rapport des questions sans réponse',
+      gapsLockedBody:
+        'Il regroupe les questions auxquelles votre assistant n’a pas su répondre, les plus fréquentes en tête. C’est la liste exacte de ce qui manque à votre site — et de ce qui vous coûte des ventes.',
+      gapsLockedCta: 'Voir les plans',
       conversationsDesc: 'Historique des échanges',
       tabOverview: 'Vue d’ensemble',
       tabKnowledge: 'Connaissances',
@@ -913,6 +961,14 @@ export const fr = {
       notifyLeadsTitle: 'M’alerter par e-mail à chaque prospect',
       notifyLeadsBody:
         'Vous recevez la question et l’adresse dès la capture, pour rappeler pendant que l’intérêt est encore vif.',
+      brandingTitle: 'Retirer la mention « Propulsé par Deezy »',
+      brandingBody:
+        'La petite mention en bas de la fenêtre de discussion disparaît du widget installé sur votre site.',
+      /* Verrouille : on decrit l'avantage, pas le refus. Le bouton ouvre la
+         comparaison des paliers. */
+      brandingLocked:
+        'Votre plan actuel affiche la mention en bas du widget. Les plans supérieurs permettent de la retirer.',
+      brandingCta: 'Voir comment',
       dangerTitle: 'Supprimer cet assistant',
       dangerBody:
         "Les pages indexées, les sections et l'historique des conversations seront supprimés définitivement. Cette action est irréversible.",

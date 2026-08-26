@@ -4,7 +4,8 @@ import { CreateBotForm } from './create-bot-form';
 import { PageHeader, BackLink } from '@/components/dashboard/panel';
 
 export default async function NewBotPage() {
-  const dict = getDictionary(await getRequestLocale());
+  const locale = await getRequestLocale();
+  const dict = getDictionary(locale);
   const t = dict.dashboard.newBot;
 
   return (
@@ -14,7 +15,7 @@ export default async function NewBotPage() {
         <PageHeader title={t.title} description={t.lead} />
       </div>
 
-      <CreateBotForm dict={dict} />
+      <CreateBotForm locale={locale} dict={dict} />
 
       <ol className="text-muted-foreground flex flex-col gap-3 text-sm">
         {t.steps.map((step, index) => (

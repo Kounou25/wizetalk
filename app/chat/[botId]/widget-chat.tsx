@@ -15,6 +15,9 @@ interface WidgetChatProps {
   name: string;
   welcomeMessage: string;
   primaryColor: string;
+  /** Faux quand le palier du proprietaire retire la mention Deezy. */
+  showBranding: boolean;
+  appUrl: string;
 }
 
 /** Identifiant de visiteur, stable tant que l'onglet reste ouvert. */
@@ -39,6 +42,8 @@ export function WidgetChat({
   name,
   welcomeMessage,
   primaryColor,
+  showBranding,
+  appUrl,
 }: WidgetChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -239,6 +244,25 @@ export function WidgetChat({
           </svg>
         </button>
       </form>
+
+      {/*
+        Mention de marque.
+        
+        C'est elle que le palier le plus haut permet de retirer : sans elle, cet
+        avantage vendrait le retrait de quelque chose qui n'existe pas. Placee
+        sous le champ de saisie et en petit — elle doit se voir sans gener la
+        conversation, qui appartient au client.
+      */}
+      {showBranding && (
+        <a
+          href={`${appUrl}?utm_source=widget`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="block border-t border-slate-100 py-1.5 text-center text-[10px] text-slate-400 transition-colors hover:text-slate-600"
+        >
+          Propulsé par Deezy
+        </a>
+      )}
     </div>
   );
 }

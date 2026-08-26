@@ -589,6 +589,38 @@ export const en: Dictionary = {
       portalError: 'The portal is temporarily unavailable. Please try again.',
     },
 
+    upgrade: {
+      titleMessages: 'You have used every message in your plan this month',
+      titleBots: 'You have reached your number of assistants',
+      titleDocuments: 'You have reached your number of documents',
+      titlePages: 'You have reached your page limit',
+      titleGaps: 'This report is not included in your plan',
+      titleBranding: 'Removing the mention is not included in your plan',
+      lead: 'Here is what you get by moving to the {plan} plan.',
+      current: 'Today',
+      suggested: 'With {plan}',
+      rowMessages: 'Messages per month',
+      rowBots: 'Assistants',
+      rowPages: 'Pages per assistant',
+      rowDocuments: 'Documents per assistant',
+      rowGaps: 'Unanswered questions report',
+      rowBranding: 'No Deezy mention',
+      rowSupport: 'Priority support',
+      yes: 'Included',
+      no: 'Not included',
+      unlimited: 'Unlimited',
+      cta: 'See the plans',
+      dismiss: 'Later',
+      topTitle: 'You are already on the most complete plan',
+      topBody: 'To go further, write to us: we build the offer with you.',
+      topCta: 'Email us',
+      noneTitle: 'No higher plan changes this limit',
+      noneBody: 'Email us: we will look at your needs and adjust your plan.',
+      capNotice:
+        'Indexing reached your plan’s ceiling of {limit} pages. If your site has more, the remaining pages are not covered.',
+      capCta: 'Raise the limit',
+    },
+
     quota: {
       title: 'Messages',
       action: 'Choose a plan',
@@ -756,6 +788,11 @@ export const en: Dictionary = {
       leadsDesc: 'Visitors to call back',
       gapsTitle: 'Unanswered questions',
       gapsDesc: 'What your site is missing',
+      gapsLocked: 'Included from the Growth plan',
+      gapsLockedTitle: 'The unanswered questions report',
+      gapsLockedBody:
+        'It groups the questions your assistant couldn’t answer, most frequent first. It is the exact list of what your site is missing — and of what is costing you sales.',
+      gapsLockedCta: 'See the plans',
       conversationsDesc: 'Chat history',
       tabOverview: 'Overview',
       tabKnowledge: 'Knowledge',
@@ -855,6 +892,14 @@ export const en: Dictionary = {
       notifyLeadsTitle: 'Email me for every lead',
       notifyLeadsBody:
         'You get the question and the address as soon as it is captured, so you can follow up while interest is still high.',
+      /* La mention du widget est ecrite en dur en francais : la citer telle
+         quelle evite de promettre un texte qui n'existe pas. */
+      brandingTitle: 'Remove the “Propulsé par Deezy” mention',
+      brandingBody:
+        'The small line at the bottom of the chat window disappears from the widget on your site.',
+      brandingLocked:
+        'Your current plan shows the mention at the bottom of the widget. Higher plans let you remove it.',
+      brandingCta: 'See how',
       dangerTitle: 'Delete this assistant',
       dangerBody:
         'Indexed pages, sections and chat history will be permanently deleted. This cannot be undone.',

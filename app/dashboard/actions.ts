@@ -4,7 +4,9 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
-import { canCreateBot } from '@/lib/quotas';
+import { canCreateBot, getPlan } from '@/lib/quotas';
+import { getLimitsFor } from '@/lib/plans-db';
+import { buildUpgradeOffer, type UpgradeOffer } from '@/lib/upgrade';
 
 const botInput = z.object({
   name: z.string().trim().min(2, 'Donnez un nom à votre assistant.').max(60),
@@ -13,6 +15,8 @@ const botInput = z.object({
 
 export interface BotFormState {
   error?: string;
+  /** Limite atteinte : le formulaire ouvre la proposition de mise a niveau. */
+  upgrade?: UpgradeOffer;
   saved?: boolean;
 }
 
@@ -50,12 +54,14 @@ export async function createBot(
    */
   const room = await canCreateBot(supabase, user.id);
   if (!room.allowed) {
-    return {
-      error:
-        room.plan === 'trial'
-          ? `Votre essai permet ${room.limit} assistant. Choisissez un plan pour en créer d’autres.`
-          : `Votre plan permet ${room.limit} assistant${(room.limit ?? 0) > 1 ? 's' : ''}. Passez à un plan supérieur pour en créer davantage.`,
-    };
+    /*
+     * On ne renvoie pas une phrase, mais la proposition entiere.
+     *
+     * Le formulaire ouvre alors un dialogue qui montre ce que le palier
+     * suivant apporte. Un message d'erreur seul laisse le client devant une
+     * porte fermee ; la comparaison lui donne une raison d'avancer.
+     */
+    return { upgrade: await buildUpgradeOffer(room.plan, 'bots') };
   }
 
   const hostname = new URL(parsed.data.websiteUrl).hostname;
@@ -94,6 +100,7 @@ const botSettings = z.object({
   position: z.enum(['bottom-right', 'bottom-left']),
   leadCapture: z.boolean(),
   notifyLeads: z.boolean(),
+  hideBranding: z.boolean(),
 });
 
 /** Personnalisation du widget : nom, accueil, couleur, position. */
@@ -109,6 +116,7 @@ export async function updateBot(
     position: String(formData.get('position') ?? ''),
     leadCapture: formData.get('leadCapture') === 'on',
     notifyLeads: formData.get('notifyLeads') === 'on',
+    hideBranding: formData.get('hideBranding') === 'on',
   });
 
   if (!parsed.success) {
@@ -116,19 +124,37 @@ export async function updateBot(
   }
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
+
+  const changes: Record<string, unknown> = {
+    name: parsed.data.name,
+    welcome_message: parsed.data.welcomeMessage,
+    primary_color: parsed.data.primaryColor,
+    position: parsed.data.position,
+    lead_capture: parsed.data.leadCapture,
+    notify_leads: parsed.data.notifyLeads,
+  };
+
+  /*
+   * Le retrait de la mention ne s'enregistre que si le palier l'inclut.
+   *
+   * L'interrupteur est verrouille dans l'interface, mais un formulaire forge
+   * enverrait le champ quand meme. La regle qui compte est celle-ci, cote
+   * serveur : sans elle, l'option se contournerait avec une ligne de console.
+   *
+   * Hors palier, la colonne n'est pas ecrite du tout — plutot que forcee a
+   * false. Le choix du client survit ainsi a un changement de plan et
+   * redevient effectif s'il remonte, sans qu'il ait a le refaire.
+   */
+  const limits = await getLimitsFor(await getPlan(supabase, user.id));
+  if (limits.removeBranding) changes.hide_branding = parsed.data.hideBranding;
+
   // Le RLS limite deja la mise a jour aux bots de l'utilisateur : un botId
   // etranger ne touche aucune ligne plutot que d'echouer bruyamment.
-  const { error } = await supabase
-    .from('bots')
-    .update({
-      name: parsed.data.name,
-      welcome_message: parsed.data.welcomeMessage,
-      primary_color: parsed.data.primaryColor,
-      position: parsed.data.position,
-      lead_capture: parsed.data.leadCapture,
-      notify_leads: parsed.data.notifyLeads,
-    })
-    .eq('id', botId);
+  const { error } = await supabase.from('bots').update(changes).eq('id', botId);
 
   if (error) return { error: `Enregistrement impossible : ${error.message}` };
 

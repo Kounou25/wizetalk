@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { FileText, Trash2, TriangleAlert, Upload } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/client';
-import type { Dictionary } from '@/lib/i18n';
+import type { Dictionary, Locale } from '@/lib/i18n';
 import { Spinner } from '@/components/ui/spinner';
+import { UpgradeDialog, type UpgradeOffer } from '@/components/dashboard/upgrade-dialog';
 
 export interface DocumentRow {
   id: string;
@@ -38,10 +39,12 @@ interface Pending {
 export function DocumentsCard({
   botId,
   documents,
+  locale,
   dict,
 }: {
   botId: string;
   documents: DocumentRow[];
+  locale: Locale;
   dict: Dictionary;
 }) {
   const t = dict.dashboard.documents;
@@ -51,6 +54,7 @@ export function DocumentsCard({
   const [pending, setPending] = useState<Pending | null>(null);
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [upgrade, setUpgrade] = useState<UpgradeOffer | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
   /**
@@ -102,7 +106,23 @@ export function DocumentsCard({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ botId, path: slot.path, fileName: file.name, mimeType }),
         });
-        const result = (await processed.json()) as { truncated?: boolean; error?: string };
+        const result = (await processed.json()) as {
+          truncated?: boolean;
+          error?: string;
+          code?: string;
+          upgrade?: UpgradeOffer;
+        };
+
+        /*
+         * Plafond atteint : on ouvre la proposition au lieu d'afficher un
+         * refus. Et on interrompt la boucle — insister sur les fichiers
+         * suivants produirait le meme blocage autant de fois.
+         */
+        if (result.code === 'document_limit' && result.upgrade) {
+          setUpgrade(result.upgrade);
+          break;
+        }
+
         if (!processed.ok) throw new Error(result.error ?? 'Lecture impossible.');
 
         if (result.truncated) setNotice(`${file.name} — ${t.truncated}`);
@@ -176,6 +196,14 @@ export function DocumentsCard({
           onChange={(event) => void handleFiles(event.target.files)}
         />
       </div>
+
+      <UpgradeDialog
+        offer={upgrade}
+        open={Boolean(upgrade)}
+        onClose={() => setUpgrade(null)}
+        locale={locale}
+        dict={dict}
+      />
 
       {error && (
         <p role="alert" className="mt-3 flex items-start gap-2 text-sm text-red-600">

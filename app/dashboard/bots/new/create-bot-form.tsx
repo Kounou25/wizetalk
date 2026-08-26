@@ -1,20 +1,33 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { Globe, Sparkles } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { Dictionary } from '@/lib/i18n';
+import type { Dictionary, Locale } from '@/lib/i18n';
 import { createBot, type BotFormState } from '@/app/dashboard/actions';
+import { UpgradeDialog } from '@/components/dashboard/upgrade-dialog';
 
-export function CreateBotForm({ dict }: { dict: Dictionary }) {
+export function CreateBotForm({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const [dismissed, setDismissed] = useState(false);
   const [state, formAction, pending] = useActionState<BotFormState, FormData>(
     createBot,
     {},
   );
   const t = dict.dashboard.newBot;
+
+  /*
+   * Chaque nouvelle reponse bloquee rouvre le dialogue.
+   *
+   * Sans ce `useEffect`, un client qui ferme la fenetre puis resoumet ne
+   * reverrait rien : l'etat « ferme » survivrait a la nouvelle tentative, et
+   * le formulaire semblerait ne rien faire.
+   */
+  useEffect(() => {
+    if (state.upgrade) setDismissed(false);
+  }, [state.upgrade]);
 
   return (
     <form
@@ -50,6 +63,14 @@ export function CreateBotForm({ dict }: { dict: Dictionary }) {
         </div>
         <p className="text-muted-foreground text-xs">{t.urlHint}</p>
       </div>
+
+      <UpgradeDialog
+        offer={state.upgrade ?? null}
+        open={Boolean(state.upgrade) && !dismissed}
+        onClose={() => setDismissed(true)}
+        locale={locale}
+        dict={dict}
+      />
 
       {state.error && (
         <p role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-600">

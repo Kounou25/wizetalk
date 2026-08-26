@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState, useEffect, useId, useState, useTransition } from 'react';
-import { Check, Power, Trash2 } from 'lucide-react';
+import { Check, Lock, Power, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,7 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { ChatGlyph } from '@/components/landing/logo';
-import type { Dictionary } from '@/lib/i18n';
+import type { Dictionary, Locale } from '@/lib/i18n';
+import { UpgradeButton } from '@/components/dashboard/upgrade-button';
+import type { UpgradeOffer } from '@/components/dashboard/upgrade-dialog';
 import {
   deleteBot,
   setBotActive,
@@ -39,6 +41,12 @@ interface SettingsCardProps {
   isActive: boolean;
   leadCapture: boolean;
   notifyLeads: boolean;
+  hideBranding: boolean;
+  /** Le palier autorise-t-il le retrait de la mention. */
+  canRemoveBranding: boolean;
+  /** Non nul uniquement quand le palier ne l'autorise pas. */
+  brandingOffer: UpgradeOffer | null;
+  locale: Locale;
   dict: Dictionary;
 }
 
@@ -51,6 +59,10 @@ export function SettingsCard({
   isActive: initialActive,
   leadCapture: initialLeadCapture,
   notifyLeads: initialNotifyLeads,
+  hideBranding: initialHideBranding,
+  canRemoveBranding,
+  brandingOffer,
+  locale,
   dict,
 }: SettingsCardProps) {
   const t = dict.dashboard.settings;
@@ -65,8 +77,10 @@ export function SettingsCard({
   const [position, setPosition] = useState(initialPosition);
   const [leadCapture, setLeadCapture] = useState(initialLeadCapture);
   const [notifyLeads, setNotifyLeads] = useState(initialNotifyLeads);
+  const [hideBranding, setHideBranding] = useState(initialHideBranding);
   const notifyLabelId = useId();
   const leadLabelId = useId();
+  const brandingLabelId = useId();
 
   return (
     <div className="flex flex-col gap-6">
@@ -214,6 +228,63 @@ export function SettingsCard({
                   onCheckedChange={setNotifyLeads}
                   aria-labelledby={notifyLabelId}
                 />
+              </div>
+            )}
+
+            {/*
+              Retrait de la mention Deezy.
+
+              Affiche dans les deux cas, verrouille ou non : un avantage qu'on
+              ne montre qu'a ceux qui l'ont deja ne vend rien, et un client qui
+              l'a paye ne savait pas non plus qu'il en beneficiait.
+            */}
+            {canRemoveBranding ? (
+              <div className="bg-muted/50 flex items-start justify-between gap-4 rounded-lg p-4">
+                <div>
+                  <p id={brandingLabelId} className="text-sm font-medium">
+                    {t.brandingTitle}
+                  </p>
+                  <p className="text-muted-foreground mt-1 max-w-sm text-xs text-pretty">
+                    {t.brandingBody}
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  name="hideBranding"
+                  checked={hideBranding}
+                  onChange={(event) => setHideBranding(event.target.checked)}
+                  className="sr-only"
+                />
+                <Switch
+                  checked={hideBranding}
+                  onCheckedChange={setHideBranding}
+                  aria-labelledby={brandingLabelId}
+                />
+              </div>
+            ) : (
+              <div className="border-border flex items-start justify-between gap-4 rounded-lg border border-dashed p-4">
+                <div className="flex items-start gap-3">
+                  <span className="bg-brand-soft text-brand mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg">
+                    <Lock className="size-3.5" aria-hidden />
+                  </span>
+                  <div>
+                    <p className="text-sm font-medium">{t.brandingTitle}</p>
+                    <p className="text-muted-foreground mt-1 max-w-sm text-xs text-pretty">
+                      {t.brandingLocked}
+                    </p>
+                  </div>
+                </div>
+                {brandingOffer && (
+                  <UpgradeButton
+                    offer={brandingOffer}
+                    label={t.brandingCta}
+                    locale={locale}
+                    dict={dict}
+                    variant="outline"
+                    size="sm"
+                    className="shrink-0"
+                  />
+                )}
               </div>
             )}
 

@@ -9,6 +9,7 @@ import { SidebarContent } from './sidebar';
 import { TopBar } from './topbar';
 import type { MessageBalance } from '@/lib/plans';
 import type { ShellUser } from './types';
+import type { UpgradeOffer } from './upgrade-dialog';
 
 export type { ShellUser };
 
@@ -17,6 +18,8 @@ interface DashboardShellProps {
   botCount: number;
   /** `null` tant que le profil n'a pas ete cree. */
   balance: MessageBalance | null;
+  /** Non nul uniquement quand le quota de messages est epuise. */
+  messagesOffer: UpgradeOffer | null;
   locale: Locale;
   dict: Dictionary;
   /** Affiche l'entree vers le back-office. Le droit reel est verifie cote serveur. */
@@ -35,6 +38,7 @@ export function DashboardShell({
   user,
   botCount,
   balance,
+  messagesOffer,
   locale,
   dict,
   isAdmin,
@@ -66,6 +70,7 @@ export function DashboardShell({
           pathname={pathname}
           botCount={botCount}
           balance={balance}
+          messagesOffer={messagesOffer}
           locale={locale}
           dict={dict}
         />
@@ -89,6 +94,7 @@ export function DashboardShell({
               pathname={pathname}
               botCount={botCount}
               balance={balance}
+              messagesOffer={messagesOffer}
               locale={locale}
               dict={dict}
               onNavigate={() => setMobileOpen(false)}

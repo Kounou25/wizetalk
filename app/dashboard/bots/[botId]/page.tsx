@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, ExternalLink } from 'lucide-react';
+import { ChevronRight, ExternalLink, Lock } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 import { getBotSeries, getBotSources, getBotStats } from '@/lib/database';
@@ -11,12 +11,16 @@ import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { BackLink, PageHeader } from '@/components/dashboard/panel';
 import { SiteFavicon } from '@/components/dashboard/site-favicon';
+import { getLimitsFor } from '@/lib/plans-db';
+import { getPlan } from '@/lib/quotas';
 import { TabNav, type TabItem } from '@/components/dashboard/tab-nav';
 import { TrendChart } from '@/components/dashboard/trend-chart';
 import { BotWorkspace } from './bot-workspace';
 import { DocumentsCard, type DocumentRow } from './documents-card';
 import { InstallCard } from './install-card';
 import { SettingsCard } from './settings-card';
+import { UpgradeButton } from '@/components/dashboard/upgrade-button';
+import { buildUpgradeOffer } from '@/lib/upgrade';
 
 /**
  * Onglets de la fiche d'un assistant.
@@ -45,6 +49,8 @@ export default async function BotPage({
   const locale = await getRequestLocale();
   const dict = getDictionary(locale);
   const t = dict.dashboard.botPage;
+  const tu = dict.dashboard.upgrade;
+  const tag = locale === 'fr' ? 'fr-FR' : 'en-US';
 
   // Un onglet inconnu retombe sur le premier plutot que de rendre une page
   // vide : une URL tronquee ou un lien peri me doivent pas casser la fiche.
@@ -56,7 +62,7 @@ export default async function BotPage({
   const { data: bot } = await supabase
     .from('bots')
     .select(
-      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, notify_leads, favicon_url',
+      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, notify_leads, hide_branding, favicon_url, user_id',
     )
     .eq('id', botId)
     .maybeSingle();
@@ -69,12 +75,25 @@ export default async function BotPage({
    * C'est le principal gain de ce decoupage : la fiche ne paie plus, a chaque
    * visite, le cout de tout ce qu'elle pourrait montrer.
    */
-  const [stats, documents, series, sources] = await Promise.all([
+  const plan = await getPlan(supabase, bot.user_id as string);
+
+  const [stats, documents, series, sources, limits] = await Promise.all([
     getBotStats(supabase, botId),
     tab === 'connaissances' ? loadDocuments(supabase, botId) : Promise.resolve([]),
     tab === 'apercu' ? getBotSeries(supabase, botId) : Promise.resolve([]),
     tab === 'apercu' ? getBotSources(supabase, botId) : Promise.resolve(null),
+    getLimitsFor(plan),
   ]);
+
+  // L'indexation s'est arretee au plafond du palier.
+  const pagesOffer =
+    stats.pages >= limits.pages ? await buildUpgradeOffer(plan, 'pages') : null;
+
+  // Calculee seulement pour l'onglet qui l'affiche, et seulement si verrouille.
+  const brandingOffer =
+    tab === 'parametres' && !limits.removeBranding
+      ? await buildUpgradeOffer(plan, 'removeBranding')
+      : null;
 
   const tc = dict.dashboard.chart;
   const chartLabels = {
@@ -179,6 +198,31 @@ export default async function BotPage({
         )}
       </StatGroup>
 
+      {/*
+        Plafond de pages atteint.
+
+        On enonce un fait verifiable — l'indexation s'est arretee au plafond du
+        palier — sans affirmer que des pages ont ete laissees de cote : le
+        robot ne remonte pas cette information, et l'inventer serait vendre sur
+        une crainte fabriquee.
+      */}
+      {pagesOffer && (
+        <div className="border-border bg-surface-subtle flex flex-wrap items-center justify-between gap-3 rounded-xl border px-4 py-3">
+          <p className="text-muted-foreground min-w-0 text-sm text-pretty">
+            {tu.capNotice.replace('{limit}', limits.pages.toLocaleString(tag))}
+          </p>
+          <UpgradeButton
+            offer={pagesOffer}
+            label={tu.capCta}
+            locale={locale}
+            dict={dict}
+            variant="outline"
+            size="sm"
+            className="shrink-0"
+          />
+        </div>
+      )}
+
       <TabNav items={tabs} active={tab} label={t.tabsLabel} />
 
       {tab === 'apercu' && (
@@ -195,9 +239,13 @@ export default async function BotPage({
           <ReportLink
             href={`/dashboard/bots/${bot.id}/gaps`}
             title={t.gapsTitle}
-            description={t.gapsDesc}
+            /* Le raccourci ne promet pas ce que le palier ne donne pas : il
+               annonce l'avantage a debloquer plutot qu'un compteur qu'on ne
+               pourra pas consulter. */
+            description={limits.gapsReport ? t.gapsDesc : t.gapsLocked}
             value={stats.unanswered}
-            highlight={stats.unanswered > 0}
+            highlight={limits.gapsReport && stats.unanswered > 0}
+            locked={!limits.gapsReport}
           />
           <ReportLink
             href={`/dashboard/bots/${bot.id}/conversations`}
@@ -266,7 +314,7 @@ export default async function BotPage({
             chunkCount={stats.chunks}
             dict={dict}
           />
-          <DocumentsCard botId={bot.id} documents={documents} dict={dict} />
+          <DocumentsCard botId={bot.id} documents={documents} locale={locale} dict={dict} />
         </>
       )}
 
@@ -282,6 +330,10 @@ export default async function BotPage({
           isActive={bot.is_active}
           leadCapture={bot.lead_capture}
           notifyLeads={bot.notify_leads ?? true}
+          hideBranding={bot.hide_branding ?? true}
+          canRemoveBranding={limits.removeBranding}
+          brandingOffer={brandingOffer}
+          locale={locale}
           dict={dict}
         />
       )}
@@ -314,12 +366,15 @@ function ReportLink({
   description,
   value,
   highlight = false,
+  locked = false,
 }: {
   href: string;
   title: string;
   description: string;
   value: number;
   highlight?: boolean;
+  /** Le palier n'inclut pas ce rapport : le lien mene a l'explication. */
+  locked?: boolean;
 }) {
   return (
     <Link
@@ -329,16 +384,22 @@ function ReportLink({
       <div className="min-w-0">
         <p className="flex items-center gap-1 text-sm font-semibold">
           {title}
-          <ChevronRight
-            className="text-muted-foreground group-hover:text-foreground size-3.5 transition-colors"
-            aria-hidden
-          />
+          {locked ? (
+            <Lock className="text-muted-foreground size-3.5" aria-hidden />
+          ) : (
+            <ChevronRight
+              className="text-muted-foreground group-hover:text-foreground size-3.5 transition-colors"
+              aria-hidden
+            />
+          )}
         </p>
         <p className="text-muted-foreground mt-0.5 text-xs text-pretty">{description}</p>
       </div>
-      <Badge variant={highlight ? 'brand' : 'neutral'} className="text-sm tabular-nums">
-        {value}
-      </Badge>
+      {!locked && (
+        <Badge variant={highlight ? 'brand' : 'neutral'} className="text-sm tabular-nums">
+          {value}
+        </Badge>
+      )}
     </Link>
   );
 }
