@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { after } from 'next/server';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
@@ -7,6 +8,18 @@ import { isAdmin } from '@/lib/admin/guard';
 import { requestOrigin } from '@/lib/request-origin';
 import { sendWelcomeEmailOnce } from '@/lib/email/send-welcome';
 import { DashboardShell } from '@/components/dashboard/shell';
+/*
+ * Interdit d'indexation.
+ *
+ * Ces pages redirigent deja un visiteur anonyme, donc rien ne fuiterait — mais
+ * un robot qui les demande consomme du budget d'exploration pour recevoir une
+ * redirection, budget pris sur les pages qu'on veut voir indexees. robots.txt
+ * le dit deja ; cette balise le repete pour les robots qui l'ignorent.
+ */
+export const metadata: Metadata = {
+  robots: { index: false, follow: false, nocache: true },
+};
+
 import { getCreditBalance } from '@/lib/credits-db';
 
 /** "marie.dupont@exemple.fr" -> "MD" */

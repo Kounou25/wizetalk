@@ -1,6 +1,19 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAdminUser } from '@/lib/admin/guard';
 import { AdminSidebar } from '@/components/admin/sidebar';
+/*
+ * Interdit d'indexation.
+ *
+ * Ces pages redirigent deja un visiteur anonyme, donc rien ne fuiterait — mais
+ * un robot qui les demande consomme du budget d'exploration pour recevoir une
+ * redirection, budget pris sur les pages qu'on veut voir indexees. robots.txt
+ * le dit deja ; cette balise le repete pour les robots qui l'ignorent.
+ */
+export const metadata: Metadata = {
+  robots: { index: false, follow: false, nocache: true },
+};
+
 
 /**
  * Le back-office.

@@ -23,6 +23,7 @@ import { Pricing } from '@/components/landing/pricing';
 import { Faq } from '@/components/landing/faq';
 import { FinalCta } from '@/components/landing/final-cta';
 import { LandingFooter } from '@/components/landing/footer';
+import { StructuredData } from '@/components/landing/structured-data';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -53,6 +54,26 @@ export async function generateMetadata({
         LOCALES.map((other) => [other, `${appUrl}/${other}`]),
       ),
     },
+    /*
+     * Le partage social est traduit lui aussi.
+     *
+     * Sans ce bloc, les deux langues heriteraient du titre francais defini
+     * dans le layout racine : un lien vers /en partage sur LinkedIn
+     * s'afficherait en francais.
+     */
+    openGraph: {
+      type: 'website',
+      siteName: 'Deezy',
+      url: `${appUrl}/${locale}`,
+      locale: locale === 'fr' ? 'fr_FR' : 'en_US',
+      title: dict.meta.title,
+      description: dict.meta.description,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.meta.title,
+      description: dict.meta.description,
+    },
   };
 }
 
@@ -71,6 +92,10 @@ export default async function LandingPage({
 
   return (
     <>
+      {/* Balisage schema.org : il decrit ce que la page montre deja, jamais
+          davantage. Voir le commentaire du composant. */}
+      <StructuredData locale={typed} dict={dict} />
+
       <ScrollProgressBar />
       <LandingNav locale={typed} dict={dict} authenticated={Boolean(user)} />
 

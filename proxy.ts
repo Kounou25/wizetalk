@@ -6,6 +6,12 @@
  * anonymement depuis les sites des clients et ne doivent jamais dependre d'une
  * session. /auth/callback est exclu aussi : ce gestionnaire ecrit lui-meme les
  * cookies apres l'echange du code OAuth.
+ *
+ * robots.txt, sitemap.xml et l'image de partage en sont exclus pour une autre
+ * raison : ce proxy appelle Supabase a chaque requete qu'il intercepte. Un
+ * robot d'indexation qui vient lire robots.txt declencherait une revalidation
+ * de session — un aller-retour reseau pour un fichier qui ne depend d'aucun
+ * utilisateur.
  */
 
 import { createServerClient } from '@supabase/ssr';
@@ -95,6 +101,6 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|widget.js|chat/|api/chat|api/lead|api/widget/|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|opengraph-image|widget.js|chat/|api/chat|api/lead|api/widget/|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
