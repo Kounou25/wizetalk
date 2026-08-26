@@ -38,6 +38,7 @@ interface SettingsCardProps {
   position: string;
   isActive: boolean;
   leadCapture: boolean;
+  notifyLeads: boolean;
   dict: Dictionary;
 }
 
@@ -49,6 +50,7 @@ export function SettingsCard({
   position: initialPosition,
   isActive: initialActive,
   leadCapture: initialLeadCapture,
+  notifyLeads: initialNotifyLeads,
   dict,
 }: SettingsCardProps) {
   const t = dict.dashboard.settings;
@@ -62,6 +64,8 @@ export function SettingsCard({
   const [color, setColor] = useState(initialColor);
   const [position, setPosition] = useState(initialPosition);
   const [leadCapture, setLeadCapture] = useState(initialLeadCapture);
+  const [notifyLeads, setNotifyLeads] = useState(initialNotifyLeads);
+  const notifyLabelId = useId();
   const leadLabelId = useId();
 
   return (
@@ -185,6 +189,33 @@ export function SettingsCard({
                 aria-labelledby={leadLabelId}
               />
             </div>
+
+            {/* L'alerte n'a de sens que si la collecte est active : on la masque
+                plutot que de proposer un reglage sans effet. */}
+            {leadCapture && (
+              <div className="bg-muted/50 flex items-start justify-between gap-4 rounded-lg p-4">
+                <div>
+                  <p id={notifyLabelId} className="text-sm font-medium">
+                    {t.notifyLeadsTitle}
+                  </p>
+                  <p className="text-muted-foreground mt-1 max-w-sm text-xs text-pretty">
+                    {t.notifyLeadsBody}
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  name="notifyLeads"
+                  checked={notifyLeads}
+                  onChange={(event) => setNotifyLeads(event.target.checked)}
+                  className="sr-only"
+                />
+                <Switch
+                  checked={notifyLeads}
+                  onCheckedChange={setNotifyLeads}
+                  aria-labelledby={notifyLabelId}
+                />
+              </div>
+            )}
 
             {state.error && (
               <p

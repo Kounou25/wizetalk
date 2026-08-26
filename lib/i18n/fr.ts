@@ -929,6 +929,9 @@ export const fr = {
       leadCaptureTitle: 'Récupérer les e-mails sur question sans réponse',
       leadCaptureBody:
         "Quand l'assistant ne sait pas, il propose au visiteur de laisser son adresse plutôt que de le laisser partir.",
+      notifyLeadsTitle: 'M’alerter par e-mail à chaque prospect',
+      notifyLeadsBody:
+        'Vous recevez la question et l’adresse dès la capture, pour rappeler pendant que l’intérêt est encore vif.',
       dangerTitle: 'Supprimer cet assistant',
       dangerBody:
         "Les pages indexées, les sections et l'historique des conversations seront supprimés définitivement. Cette action est irréversible.",

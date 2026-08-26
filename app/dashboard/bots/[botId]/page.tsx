@@ -56,7 +56,7 @@ export default async function BotPage({
   const { data: bot } = await supabase
     .from('bots')
     .select(
-      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, favicon_url',
+      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, notify_leads, favicon_url',
     )
     .eq('id', botId)
     .maybeSingle();
@@ -281,6 +281,7 @@ export default async function BotPage({
           position={bot.position}
           isActive={bot.is_active}
           leadCapture={bot.lead_capture}
+          notifyLeads={bot.notify_leads ?? true}
           dict={dict}
         />
       )}

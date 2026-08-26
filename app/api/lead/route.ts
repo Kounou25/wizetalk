@@ -9,6 +9,8 @@
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { appHostFromRequest } from '@/lib/request-origin';
+import { after } from 'next/server';
+import { sendLeadAlert } from '@/lib/email/send-lead-alert';
 
 export const maxDuration = 30;
 
@@ -126,6 +128,16 @@ export async function POST(request: Request) {
   if (error) {
     return Response.json({ error: 'Enregistrement impossible.' }, { status: 500, headers });
   }
+
+  /*
+   * L'alerte part APRES la reponse.
+   *
+   * `after()` differe l'envoi jusqu'a ce que le visiteur ait recu sa
+   * confirmation : il n'attend pas le serveur de messagerie, et un incident SMTP
+   * ne peut pas transformer une capture reussie en erreur affichee sur le site
+   * du client.
+   */
+  after(() => sendLeadAlert(botId, email, question));
 
   return Response.json({ ok: true }, { headers });
 }

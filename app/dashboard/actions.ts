@@ -75,6 +75,7 @@ const botSettings = z.object({
     .regex(/^#[0-9a-fA-F]{6}$/, 'La couleur doit être au format #RRGGBB.'),
   position: z.enum(['bottom-right', 'bottom-left']),
   leadCapture: z.boolean(),
+  notifyLeads: z.boolean(),
 });
 
 /** Personnalisation du widget : nom, accueil, couleur, position. */
@@ -89,6 +90,7 @@ export async function updateBot(
     primaryColor: String(formData.get('primaryColor') ?? ''),
     position: String(formData.get('position') ?? ''),
     leadCapture: formData.get('leadCapture') === 'on',
+    notifyLeads: formData.get('notifyLeads') === 'on',
   });
 
   if (!parsed.success) {
@@ -106,6 +108,7 @@ export async function updateBot(
       primary_color: parsed.data.primaryColor,
       position: parsed.data.position,
       lead_capture: parsed.data.leadCapture,
+      notify_leads: parsed.data.notifyLeads,
     })
     .eq('id', botId);
 

@@ -877,6 +877,9 @@ export const en: Dictionary = {
       leadCaptureTitle: 'Collect emails on unanswered questions',
       leadCaptureBody:
         'When the assistant does not know, it offers the visitor a callback instead of letting them leave.',
+      notifyLeadsTitle: 'Email me for every lead',
+      notifyLeadsBody:
+        'You get the question and the address as soon as it is captured, so you can follow up while interest is still high.',
       dangerTitle: 'Delete this assistant',
       dangerBody:
         'Indexed pages, sections and chat history will be permanently deleted. This cannot be undone.',
