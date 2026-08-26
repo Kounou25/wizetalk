@@ -24,6 +24,7 @@ import { Faq } from '@/components/landing/faq';
 import { FinalCta } from '@/components/landing/final-cta';
 import { LandingFooter } from '@/components/landing/footer';
 import { StructuredData } from '@/components/landing/structured-data';
+import { DeezyWidget } from '@/components/landing/deezy-widget';
 import { getPlanLimits } from '@/lib/plans-db';
 
 export function generateStaticParams() {
@@ -154,6 +155,8 @@ export default async function LandingPage({
       </main>
 
       <LandingFooter locale={typed} dict={dict} />
+
+      <DeezyWidget />
     </>
   );
 }

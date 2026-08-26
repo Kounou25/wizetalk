@@ -15,7 +15,20 @@
  */
 const CANONICAL = 'https://www.deezy.chat';
 
-export const PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? CANONICAL;
+/*
+ * La barre finale est retiree, pas supposee absente.
+ *
+ * Cette valeur est toujours suivie d'un chemin commencant par « / ». Une
+ * variable ecrite « https://www.deezy.chat/ » — ce qui n'a rien d'anormal,
+ * beaucoup d'interfaces d'hebergement la completent ainsi — produisait alors
+ * « https://www.deezy.chat//widget.js » dans l'extrait que le client copie sur
+ * son site. Le serveur redirige, donc cela fonctionne ; mais chaque visiteur
+ * paie un aller-retour de plus, et l'extrait a l'air fautif.
+ */
+export const PUBLIC_APP_URL = (process.env.NEXT_PUBLIC_APP_URL ?? CANONICAL).replace(
+  /\/+$/,
+  '',
+);
 
 /**
  * Base des ressources destinées à quitter la machine — les images d'un e-mail,
