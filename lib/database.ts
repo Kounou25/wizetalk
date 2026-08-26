@@ -251,3 +251,97 @@ export async function getBotStats(db: Db, botId: string): Promise<BotStats> {
     unanswered: unanswered.count ?? 0,
   };
 }
+
+export interface BotPoint {
+  /** Jour au format ISO (AAAA-MM-JJ). */
+  date: string;
+  conversations: number;
+  messages: number;
+  /** Reponses ou l'assistant a refuse faute de contenu pertinent. */
+  refused: number;
+  leads: number;
+}
+
+/**
+ * Compteurs quotidiens d'un seul assistant.
+ *
+ * `messages` n'a pas de bot_id : la jointure interne sur `conversations` sert
+ * uniquement a filtrer, d'ou le `!inner`. C'est la meme mecanique que dans
+ * getBotStats, appliquee ici a une serie plutot qu'a un total.
+ *
+ * Le regroupement se fait en memoire, comme pour getActivitySeries : PostgREST
+ * ne sait pas faire de `group by` sans vue dediee, et la borne a 90 jours garde
+ * le volume raisonnable.
+ */
+export async function getBotSeries(
+  db: Db,
+  botId: string,
+  days = 90,
+): Promise<BotPoint[]> {
+  const start = new Date();
+  start.setUTCHours(0, 0, 0, 0);
+  start.setUTCDate(start.getUTCDate() - (days - 1));
+  const since = start.toISOString();
+
+  const [conversations, messages, leads] = await Promise.all([
+    db
+      .from('conversations')
+      .select('created_at')
+      .eq('bot_id', botId)
+      .gte('created_at', since),
+    db
+      .from('messages')
+      .select('created_at, refused, conversations!inner(bot_id)')
+      .eq('conversations.bot_id', botId)
+      .gte('created_at', since),
+    db.from('leads').select('created_at').eq('bot_id', botId).gte('created_at', since),
+  ]);
+
+  const buckets = new Map<string, BotPoint>();
+  for (let offset = 0; offset < days; offset++) {
+    const day = new Date(start);
+    day.setUTCDate(start.getUTCDate() + offset);
+    const key = day.toISOString().slice(0, 10);
+    buckets.set(key, { date: key, conversations: 0, messages: 0, refused: 0, leads: 0 });
+  }
+
+  const tally = (rows: { created_at: string }[] | null, field: 'conversations' | 'leads') => {
+    for (const row of rows ?? []) {
+      const bucket = buckets.get(row.created_at.slice(0, 10));
+      if (bucket) bucket[field] += 1;
+    }
+  };
+
+  tally(conversations.data as { created_at: string }[] | null, 'conversations');
+  tally(leads.data as { created_at: string }[] | null, 'leads');
+
+  for (const row of (messages.data ?? []) as { created_at: string; refused: boolean }[]) {
+    const bucket = buckets.get(row.created_at.slice(0, 10));
+    if (!bucket) continue;
+    bucket.messages += 1;
+    if (row.refused) bucket.refused += 1;
+  }
+
+  return [...buckets.values()];
+}
+
+/** Repartition des connaissances : pages du site contre documents ajoutes. */
+export async function getBotSources(
+  db: Db,
+  botId: string,
+): Promise<{ website: number; documents: number }> {
+  const [website, documents] = await Promise.all([
+    db
+      .from('pages')
+      .select('id', { count: 'exact', head: true })
+      .eq('bot_id', botId)
+      .eq('source', 'website'),
+    db
+      .from('pages')
+      .select('id', { count: 'exact', head: true })
+      .eq('bot_id', botId)
+      .eq('source', 'document'),
+  ]);
+
+  return { website: website.count ?? 0, documents: documents.count ?? 0 };
+}

@@ -15,7 +15,7 @@ import type { PlanId } from '@/lib/credits';
 import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { PageHeader, panelLinkClass } from '@/components/dashboard/panel';
-import { TrendChart } from '@/components/admin/trend-chart';
+import { TrendChart } from '@/components/dashboard/trend-chart';
 import { getDictionary } from '@/lib/i18n';
 
 const PLAN_LABELS: Record<PlanId, string> = {
@@ -39,6 +39,18 @@ export default async function AdminOverviewPage() {
   ]);
 
   const dict = getDictionary('fr');
+
+  /* Le back-office ne s'adresse qu'a l'equipe : libelles en francais, pris du
+     dictionnaire la ou il en a deja. */
+  const chartLabels = {
+    rangeLabel: dict.dashboard.chart.rangeLabel,
+    range7: dict.dashboard.chart.range7,
+    range30: dict.dashboard.chart.range30,
+    range90: dict.dashboard.chart.range90,
+    showTable: dict.dashboard.chart.showTable,
+    hideTable: dict.dashboard.chart.hideTable,
+    day: dict.dashboard.chart.day,
+  };
   const billing = computeBillingStats(subscriptions);
 
   const refusalRate =
@@ -92,6 +104,7 @@ export default async function AdminOverviewPage() {
         title="Activité de la plateforme"
         description="Échanges traités par tous les assistants."
         points={series}
+        labels={chartLabels}
         series={[
           { key: 'conversations', label: 'Conversations', color: 'var(--series-1)' },
           { key: 'messages', label: 'Messages', color: 'var(--series-2)' },
@@ -103,6 +116,7 @@ export default async function AdminOverviewPage() {
           title="Croissance"
           description="Nouveaux comptes et nouveaux assistants."
           points={series}
+          labels={chartLabels}
           series={[
             { key: 'signups', label: 'Inscriptions', color: 'var(--series-3)' },
             { key: 'bots', label: 'Assistants créés', color: 'var(--series-4)' },
@@ -113,6 +127,7 @@ export default async function AdminOverviewPage() {
           title="La boucle de récupération"
           description="Questions sans réponse, et prospects récupérés en face."
           points={series}
+          labels={chartLabels}
           series={[
             { key: 'refused', label: 'Sans réponse', color: 'var(--series-2)' },
             { key: 'leads', label: 'Prospects', color: 'var(--series-1)' },

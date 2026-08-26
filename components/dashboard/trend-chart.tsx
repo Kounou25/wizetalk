@@ -24,22 +24,31 @@ export interface TrendSeries<T extends string> {
 
 type Range = '7' | '30' | '90';
 
+export interface TrendLabels {
+  rangeLabel: string;
+  range7: string;
+  range30: string;
+  range90: string;
+  showTable: string;
+  hideTable: string;
+  day: string;
+}
+
 /**
- * Courbe multi-series du back-office.
+ * Courbe multi-series, generique.
  *
- * Generique la ou ActivityChart ne l'est pas : celle du tableau de bord tire
- * ses libelles du dictionnaire client, ce qui la lie a deux series precises.
- * Celle-ci recoit ses series en parametre et sert donc a tout — activite,
- * croissance, sante des reponses — sans etre recopiee trois fois.
- *
- * Le back-office ne s'adresse qu'a l'equipe : les textes sont en francais, sans
- * passer par l'internationalisation.
+ * Les libelles ET les series arrivent en parametre : c'est ce qui permet au
+ * meme composant de servir le tableau de bord client — traduit, une courbe par
+ * assistant — et le back-office, en francais. Une seconde implementation
+ * aurait diverge des la premiere retouche.
  */
 export function TrendChart<T extends string>({
   title,
   description,
   points,
   series,
+  labels,
+  locale = 'fr',
   className,
 }: {
   title: string;
@@ -47,8 +56,12 @@ export function TrendChart<T extends string>({
   /** Serie complete. La periode affichee se decoupe dedans. */
   points: (Record<T, number> & { date: string })[];
   series: TrendSeries<T>[];
+  labels: TrendLabels;
+  /** Pilote le format des dates et des nombres. */
+  locale?: 'fr' | 'en';
   className?: string;
 }) {
+  const tag = locale === 'fr' ? 'fr-FR' : 'en-US';
   const [range, setRange] = useState<Range>('30');
   const [hovered, setHovered] = useState<number | null>(null);
   const [showTable, setShowTable] = useState(false);
@@ -115,7 +128,7 @@ export function TrendChart<T extends string>({
   const dayTickEvery = Math.max(1, Math.ceil(data.length / 6));
 
   const formatDay = (iso: string) =>
-    new Date(`${iso}T00:00:00`).toLocaleDateString('fr-FR', {
+    new Date(`${iso}T00:00:00`).toLocaleDateString(tag, {
       day: 'numeric',
       month: 'short',
     });
@@ -127,7 +140,7 @@ export function TrendChart<T extends string>({
         description={description}
         action={
           <Segmented
-            label="Période affichée"
+            label={labels.rangeLabel}
             value={range}
             onChange={(next) => {
               setRange(next);
@@ -136,9 +149,9 @@ export function TrendChart<T extends string>({
               setHovered(null);
             }}
             options={[
-              { value: '7', label: '7 j' },
-              { value: '30', label: '30 j' },
-              { value: '90', label: '90 j' },
+              { value: '7', label: labels.range7 },
+              { value: '30', label: labels.range30 },
+              { value: '90', label: labels.range90 },
             ]}
           />
         }
@@ -159,7 +172,7 @@ export function TrendChart<T extends string>({
             viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
             className="w-full"
             role="img"
-            aria-label={`${title} — ${data.length} jours`}
+            aria-label={`${title} — ${data.length}`}
           >
             <defs>
               <linearGradient id={areaId} x1="0" y1="0" x2="0" y2="1">
@@ -283,7 +296,7 @@ export function TrendChart<T extends string>({
                 />
                 {s.label}
                 <span className="text-foreground font-semibold tabular-nums">
-                  {totals[s.key].toLocaleString('fr-FR')}
+                  {totals[s.key].toLocaleString(tag)}
                 </span>
               </li>
             ))}
@@ -297,7 +310,7 @@ export function TrendChart<T extends string>({
             className="focus-ring text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-1.5 rounded-md text-xs font-medium transition-colors"
           >
             <Table2 className="size-3.5" aria-hidden />
-            {showTable ? 'Masquer le tableau' : 'Voir le tableau'}
+            {showTable ? labels.hideTable : labels.showTable}
           </button>
         </div>
 
@@ -307,7 +320,7 @@ export function TrendChart<T extends string>({
             <table className="w-full text-sm">
               <thead className="text-muted-foreground bg-surface sticky top-0 text-left text-xs">
                 <tr>
-                  <th scope="col" className="py-1.5 font-medium">Jour</th>
+                  <th scope="col" className="py-1.5 font-medium">{labels.day}</th>
                   {series.map((s) => (
                     <th key={s.key} scope="col" className="py-1.5 text-right font-medium">
                       {s.label}

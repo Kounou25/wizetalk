@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { ChevronRight, ExternalLink } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
-import { getBotStats } from '@/lib/database';
-import { getDictionary } from '@/lib/i18n';
+import { getBotSeries, getBotSources, getBotStats } from '@/lib/database';
+import { getDictionary, type Locale } from '@/lib/i18n';
 import { getRequestLocale } from '@/lib/i18n/server';
 import { Badge } from '@/components/ui/badge';
 import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
@@ -12,6 +12,7 @@ import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { BackLink, PageHeader } from '@/components/dashboard/panel';
 import { SiteFavicon } from '@/components/dashboard/site-favicon';
 import { TabNav, type TabItem } from '@/components/dashboard/tab-nav';
+import { TrendChart } from '@/components/dashboard/trend-chart';
 import { BotWorkspace } from './bot-workspace';
 import { DocumentsCard, type DocumentRow } from './documents-card';
 import { InstallCard } from './install-card';
@@ -41,7 +42,8 @@ export default async function BotPage({
 }) {
   const { botId } = await params;
   const query = await searchParams;
-  const dict = getDictionary(await getRequestLocale());
+  const locale = await getRequestLocale();
+  const dict = getDictionary(locale);
   const t = dict.dashboard.botPage;
 
   // Un onglet inconnu retombe sur le premier plutot que de rendre une page
@@ -67,10 +69,46 @@ export default async function BotPage({
    * C'est le principal gain de ce decoupage : la fiche ne paie plus, a chaque
    * visite, le cout de tout ce qu'elle pourrait montrer.
    */
-  const [stats, documents] = await Promise.all([
+  const [stats, documents, series, sources] = await Promise.all([
     getBotStats(supabase, botId),
     tab === 'connaissances' ? loadDocuments(supabase, botId) : Promise.resolve([]),
+    tab === 'apercu' ? getBotSeries(supabase, botId) : Promise.resolve([]),
+    tab === 'apercu' ? getBotSources(supabase, botId) : Promise.resolve(null),
   ]);
+
+  const tc = dict.dashboard.chart;
+  const chartLabels = {
+    rangeLabel: tc.rangeLabel,
+    range7: tc.range7,
+    range30: tc.range30,
+    range90: tc.range90,
+    showTable: tc.showTable,
+    hideTable: tc.hideTable,
+    day: tc.day,
+  };
+
+  /*
+   * Taux de reponse, calcule sur la periode chargee.
+   *
+   * Dit dans le sens qui interesse le proprietaire : il veut savoir ce que son
+   * assistant sait faire, pas ce qu'il rate. Le back-office garde le taux de
+   * refus — c'est un indicateur de sante produit, pas un argument client.
+   *
+   * `null` quand aucun message n'a encore ete echange : afficher « 0 % » sur
+   * un assistant qui n'a jamais servi serait un reproche injustifie.
+   */
+  const totals = series.reduce(
+    (sum, point) => ({
+      messages: sum.messages + point.messages,
+      refused: sum.refused + point.refused,
+    }),
+    { messages: 0, refused: 0 },
+  );
+
+  const answerRate =
+    totals.messages > 0
+      ? Math.round(((totals.messages - totals.refused) / totals.messages) * 100)
+      : null;
 
   const tabs: TabItem[] = [
     { id: 'apercu', label: t.tabOverview, href: `/dashboard/bots/${bot.id}` },
@@ -128,10 +166,17 @@ export default async function BotPage({
 
       {/* En-tete et indicateurs restent hors onglets : ils situent la fiche
           quel que soit l'onglet ouvert. */}
-      <StatGroup columns={3}>
+      <StatGroup columns={tab === 'apercu' ? 4 : 3}>
         <StatCell label={t.pages} value={stats.pages} />
         <StatCell label={t.sections} value={stats.chunks} />
         <StatCell label={t.conversations} value={stats.conversations} />
+        {tab === 'apercu' && (
+          <StatCell
+            label={t.answerRate}
+            value={answerRate === null ? '—' : `${answerRate} %`}
+            hint={answerRate === null ? undefined : t.answerRateHint}
+          />
+        )}
       </StatGroup>
 
       <TabNav items={tabs} active={tab} label={t.tabsLabel} />
@@ -161,6 +206,53 @@ export default async function BotPage({
             value={stats.conversations}
           />
         </div>
+      )}
+
+      {tab === 'apercu' && (
+        <>
+          <TrendChart
+            title={t.activityTitle}
+            description={t.activityLead}
+            points={series}
+            labels={chartLabels}
+            locale={locale}
+            series={[
+              { key: 'conversations', label: tc.conversations, color: 'var(--series-1)' },
+              { key: 'messages', label: tc.messages, color: 'var(--series-2)' },
+            ]}
+          />
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {/* La boucle du produit, vue de l'interieur : ce que le site ne
+                dit pas encore, et ce que ca rapporte quand meme. */}
+            <TrendChart
+              title={t.loopTitle}
+              description={t.loopLead}
+              points={series}
+              labels={chartLabels}
+              locale={locale}
+              className="min-w-0 lg:col-span-2"
+              series={[
+                { key: 'refused', label: tc.refused, color: 'var(--series-2)' },
+                { key: 'leads', label: tc.leads, color: 'var(--series-3)' },
+              ]}
+            />
+
+            {sources && (
+              <SourcesPanel
+                website={sources.website}
+                documents={sources.documents}
+                labels={{
+                  title: t.sourcesTitle,
+                  website: t.sourceWebsite,
+                  documents: t.sourceDocuments,
+                  empty: t.sourcesEmpty,
+                }}
+                locale={locale}
+              />
+            )}
+          </div>
+        </>
       )}
 
       {tab === 'connaissances' && (
@@ -247,5 +339,74 @@ function ReportLink({
         {value}
       </Badge>
     </Link>
+  );
+}
+
+/**
+ * Repartition des connaissances : ce que l'assistant a lu, et d'ou.
+ *
+ * En barres et non en camembert : comparer deux longueurs alignees sur une
+ * meme base est une tache visuelle plus fiable que comparer deux angles, et le
+ * libelle reste lisible sans legende separee.
+ */
+function SourcesPanel({
+  website,
+  documents,
+  labels,
+  locale,
+}: {
+  website: number;
+  documents: number;
+  labels: { title: string; website: string; documents: string; empty: string };
+  locale: Locale;
+}) {
+  const total = website + documents;
+  const tag = locale === 'fr' ? 'fr-FR' : 'en-US';
+
+  const rows = [
+    { label: labels.website, value: website, color: 'bg-brand' },
+    { label: labels.documents, value: documents, color: 'bg-[var(--series-3)]' },
+  ];
+
+  return (
+    <section className="panel viz-root flex flex-col">
+      <div className="border-border flex items-baseline justify-between border-b px-4 py-3.5">
+        <h2 className="text-sm font-semibold">{labels.title}</h2>
+        <span className="text-muted-foreground text-xs tabular-nums">
+          {total.toLocaleString(tag)}
+        </span>
+      </div>
+
+      {total === 0 ? (
+        <p className="text-muted-foreground p-4 text-sm">{labels.empty}</p>
+      ) : (
+        <ul className="flex flex-col gap-3.5 p-4">
+          {rows.map((row) => {
+            const share = (row.value / total) * 100;
+
+            return (
+              <li key={row.label} className="flex flex-col gap-1.5">
+                <div className="flex items-baseline justify-between gap-3 text-sm">
+                  <span className="truncate">{row.label}</span>
+                  <span className="shrink-0 tabular-nums">
+                    {row.value.toLocaleString(tag)}
+                    <span className="text-muted-foreground text-xs">
+                      {' · '}
+                      {share.toFixed(0)} %
+                    </span>
+                  </span>
+                </div>
+                <div className="bg-surface-subtle border-border h-1.5 overflow-hidden rounded-full border">
+                  <div
+                    className={`h-full rounded-full ${row.color}`}
+                    style={{ width: `${share}%` }}
+                  />
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
   );
 }
