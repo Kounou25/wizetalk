@@ -77,26 +77,9 @@ export function Pricing({ locale, pricing }: { locale: Locale; pricing: PricingT
               porte d'entree, ils doivent se voir avant les prix. */}
           <p className="border-brand/20 bg-brand-soft text-brand mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold">
             <Sparkles className="size-4" aria-hidden />
-            {t.startingCredits}
+            {t.startingOffer}
           </p>
 
-          {/*
-            Le credit est une unite maison : sans definition, le visiteur ne
-            peut pas convertir « 5 000 credits » en quelque chose qui lui
-            parle, et donc pas juger le prix. Elle vient donc avant la grille,
-            pas dans une note de bas de page.
-          */}
-          <div className="border-border bg-background/60 mx-auto mt-8 max-w-lg rounded-2xl border p-5 text-left">
-            <p className="text-sm font-semibold">{t.creditTitle}</p>
-            <ul className="text-muted-foreground mt-2.5 flex flex-col gap-1.5 text-sm">
-              {t.creditItems.map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <span className="bg-brand mt-2 size-1.5 shrink-0 rounded-full" aria-hidden />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
         </Reveal>
 
         <Reveal className="mt-10 flex justify-center">
@@ -235,16 +218,16 @@ function PlanCard({
         </p>
       </div>
 
-      {/* L'allocation de credits, juste sous le montant : c'est elle qui donne
-          sa valeur au prix, pas la liste de fonctionnalites plus bas. */}
+      {/* Le quota de messages, juste sous le montant : c'est lui qui donne sa
+          valeur au prix, pas la liste de fonctionnalites plus bas. */}
       <p
         className={cn(
           'mt-4 rounded-lg px-3 py-2 text-center text-sm font-semibold tabular-nums',
           featured ? 'bg-white/10 text-white' : 'bg-brand-soft text-brand',
         )}
       >
-        {plan.credits.toLocaleString(locale === 'fr' ? 'fr-FR' : 'en-US')}{' '}
-        {labels.creditsSuffix}
+        {plan.messages.toLocaleString(locale === 'fr' ? 'fr-FR' : 'en-US')}{' '}
+        {labels.messagesSuffix}
       </p>
 
       <Button

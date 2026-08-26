@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { CreditCard, ExternalLink } from 'lucide-react';
 
 import type { Dictionary, Locale } from '@/lib/i18n';
-import { PLANS, type CreditBalance, type PlanId } from '@/lib/credits';
+import { PLANS, type MessageBalance, type PlanId } from '@/lib/plans';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Segmented } from '@/components/ui/segmented';
@@ -34,7 +34,7 @@ export function BillingPanel({
   dict,
   notice,
 }: {
-  balance: CreditBalance | null;
+  balance: MessageBalance | null;
   subscriptionStatus: string | null;
   billingPeriod: Period | null;
   currentPeriodEnd: string | null;
@@ -46,7 +46,7 @@ export function BillingPanel({
   notice: 'done' | 'error' | 'portal-absent' | 'portal-error' | null;
 }) {
   const t = dict.dashboard.billing;
-  const tc = dict.dashboard.credits;
+  const tc = dict.dashboard.quota;
   const numberLocale = locale === 'fr' ? 'fr-FR' : 'en-US';
 
   // La periodicite proposee reprend celle deja souscrite : un client mensuel
@@ -180,7 +180,7 @@ export function BillingPanel({
                   )}
 
                   <p className="text-brand mt-2 text-xs font-semibold tabular-nums">
-                    {plan.credits.toLocaleString(numberLocale)} {tc.title.toLowerCase()}
+                    {plan.messages.toLocaleString(numberLocale)} {tc.title.toLowerCase()}
                   </p>
 
                   {isCurrent ? (

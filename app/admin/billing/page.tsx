@@ -7,7 +7,7 @@ import {
   listSubscriptions,
   type SubscriptionRow,
 } from '@/lib/admin/queries';
-import type { PlanId } from '@/lib/credits';
+import type { PlanId } from '@/lib/plans';
 import { Badge, type BadgeVariant } from '@/components/ui/badge';
 import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
 import { EmptyState } from '@/components/dashboard/empty-state';
@@ -75,7 +75,7 @@ export default async function AdminBillingPage() {
         <StatCell
           label="Comptes en essai"
           value={stats.trials}
-          hint="Crédits de départ, jamais renouvelés"
+          hint="Messages offerts, jamais renouvelés"
         />
         <StatCell
           label="À relancer"
@@ -111,7 +111,7 @@ export default async function AdminBillingPage() {
                   <th scope="col" className="px-4 py-3 font-medium">Plan</th>
                   <th scope="col" className="px-4 py-3 font-medium">État</th>
                   <th scope="col" className="px-4 py-3 font-medium">Échéance</th>
-                  <th scope="col" className="px-4 py-3 text-right font-medium">Crédits</th>
+                  <th scope="col" className="px-4 py-3 text-right font-medium">Messages</th>
                 </tr>
               </thead>
               <tbody>
@@ -175,7 +175,7 @@ export default async function AdminBillingPage() {
 
 function SubscriptionLine({ row }: { row: SubscriptionRow }) {
   const status = row.status ? STATUS[row.status] : undefined;
-  const ratio = row.creditsIncluded > 0 ? row.creditsUsed / row.creditsIncluded : 0;
+  const ratio = row.messagesIncluded > 0 ? row.messagesUsed / row.messagesIncluded : 0;
 
   return (
     <tr className="border-border border-b last:border-0">
@@ -211,11 +211,11 @@ function SubscriptionLine({ row }: { row: SubscriptionRow }) {
 
       <td className="px-4 py-3 text-right tabular-nums">
         <span className={ratio >= 0.8 ? 'font-semibold text-amber-600' : ''}>
-          {row.creditsUsed.toLocaleString('fr-FR')}
+          {row.messagesUsed.toLocaleString('fr-FR')}
         </span>
         <span className="text-muted-foreground">
           {' / '}
-          {row.creditsIncluded.toLocaleString('fr-FR')}
+          {row.messagesIncluded.toLocaleString('fr-FR')}
         </span>
       </td>
     </tr>

@@ -1,7 +1,7 @@
 import 'server-only';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { PLANS, type PlanId } from '@/lib/credits';
+import { PLANS, type PlanId } from '@/lib/plans';
 
 /**
  * Lectures du back-office.
@@ -80,8 +80,8 @@ export interface AdminUserRow {
   isAdmin: boolean;
   botCount: number;
   plan: PlanId;
-  creditsIncluded: number;
-  creditsUsed: number;
+  messagesIncluded: number;
+  messagesUsed: number;
 }
 
 /**
@@ -102,7 +102,7 @@ export async function listUsers(db: Db, limit = 200): Promise<AdminUserRow[]> {
   const [{ data: bots }, { data: admins }, { data: profiles }] = await Promise.all([
     db.from('bots').select('user_id'),
     db.from('admins').select('user_id'),
-    db.from('profiles').select('user_id, plan, credits_included, credits_used'),
+    db.from('profiles').select('user_id, plan, messages_included, messages_used'),
   ]);
 
   const adminIds = new Set((admins ?? []).map((row) => row.user_id as string));
@@ -118,8 +118,8 @@ export async function listUsers(db: Db, limit = 200): Promise<AdminUserRow[]> {
       row.user_id as string,
       {
         plan: (row.plan as PlanId) ?? 'trial',
-        included: (row.credits_included as number) ?? 0,
-        used: (row.credits_used as number) ?? 0,
+        included: (row.messages_included as number) ?? 0,
+        used: (row.messages_used as number) ?? 0,
       },
     ]),
   );
@@ -145,8 +145,8 @@ export async function listUsers(db: Db, limit = 200): Promise<AdminUserRow[]> {
         isAdmin: adminIds.has(user.id),
         botCount: botCounts.get(user.id) ?? 0,
         plan: wallet?.plan ?? ('trial' as PlanId),
-        creditsIncluded: wallet?.included ?? 0,
-        creditsUsed: wallet?.used ?? 0,
+        messagesIncluded: wallet?.included ?? 0,
+        messagesUsed: wallet?.used ?? 0,
       };
     })
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
@@ -251,8 +251,8 @@ export interface SubscriptionRow {
   plan: PlanId;
   status: string | null;
   billingPeriod: 'monthly' | 'annual' | null;
-  creditsIncluded: number;
-  creditsUsed: number;
+  messagesIncluded: number;
+  messagesUsed: number;
   currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
   subscriptionId: string | null;
@@ -285,7 +285,7 @@ export async function listSubscriptions(db: Db, limit = 200): Promise<Subscripti
     db
       .from('profiles')
       .select(
-        'user_id, plan, credits_included, credits_used, subscription_status, billing_period, current_period_end, cancel_at_period_end, dodo_subscription_id, dodo_customer_id, created_at',
+        'user_id, plan, messages_included, messages_used, subscription_status, billing_period, current_period_end, cancel_at_period_end, dodo_subscription_id, dodo_customer_id, created_at',
       )
       .order('created_at', { ascending: false })
       .limit(limit),
@@ -302,8 +302,8 @@ export async function listSubscriptions(db: Db, limit = 200): Promise<Subscripti
     plan: ((row.plan as PlanId) ?? 'trial') as PlanId,
     status: (row.subscription_status as string | null) ?? null,
     billingPeriod: (row.billing_period as 'monthly' | 'annual' | null) ?? null,
-    creditsIncluded: (row.credits_included as number) ?? 0,
-    creditsUsed: (row.credits_used as number) ?? 0,
+    messagesIncluded: (row.messages_included as number) ?? 0,
+    messagesUsed: (row.messages_used as number) ?? 0,
     currentPeriodEnd: (row.current_period_end as string | null) ?? null,
     cancelAtPeriodEnd: Boolean(row.cancel_at_period_end),
     subscriptionId: (row.dodo_subscription_id as string | null) ?? null,

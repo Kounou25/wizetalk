@@ -5,7 +5,7 @@ export const en: Dictionary = {
   meta: {
     title: 'Deezy — AI Chatbot for Your Website That Answers Customers 24/7',
     description:
-      'Turn your website into an AI assistant that answers customers 24/7, captures leads and learns from unanswered questions. Start with 300 free credits.',
+      'Turn your website into an AI assistant that answers customers 24/7, captures leads and learns from unanswered questions. Start with 100 free messages.',
   },
 
   nav: {
@@ -26,7 +26,7 @@ export const en: Dictionary = {
       'Deezy turns your website and documents into an AI assistant that answers visitors 24/7 — and captures their contact when it doesn’t know the answer.',
     ctaPrimary: 'Try Deezy free',
     ctaSecondary: 'See how it works',
-    microcopy: '300 free credits · Live in 2 minutes · No commitment',
+    microcopy: '100 free messages · Live in 2 minutes · No commitment',
     installNote: 'One line to paste on your site. Nothing else to do.',
     liveBadge: 'Answer from your website',
     mockup: {
@@ -356,19 +356,13 @@ export const en: Dictionary = {
   pricing: {
     eyebrow: 'Pricing',
     title: 'One price, three sizes.',
-    lead: 'Each plan gives you a number of credits per month. No commitment, cancel anytime.',
+    lead: 'Each plan gives you a monthly message quota. No commitment, cancel anytime.',
     roi: 'If Deezy recovers a single customer, it has already paid for itself.',
-    creditTitle: 'What a credit is',
-    creditItems: [
-      '1 credit per answer sent to a visitor',
-      '1 credit per page of your site analysed',
-      '2 credits per document processed',
-    ],
-    startingCredits: '300 free credits when you create your account, no commitment',
+    startingOffer: '100 free messages when you create your account, no commitment',
     popular: 'Most popular',
     notIncluded: 'Not included',
     perMonth: '/month',
-    creditsSuffix: 'credits per month',
+    messagesSuffix: 'messages per month',
     billing: {
       monthly: 'Monthly',
       annual: 'Annual',
@@ -381,14 +375,15 @@ export const en: Dictionary = {
         monthly: 19,
         annual: 16,
         annualTotal: 190,
-        credits: 1000,
+        messages: 1000,
         description: 'For one site, one business.',
         inherits: '',
         features: [
-          '1,000 credits per month',
           '1 assistant',
           'Up to 100 pages from your site',
+          '20 documents',
           'Visitor email capture',
+          'Email alert for every lead',
           'In your brand’s colours',
         ],
         excluded: [
@@ -404,13 +399,13 @@ export const en: Dictionary = {
         monthly: 39,
         annual: 33,
         annualTotal: 390,
-        credits: 5000,
+        messages: 5000,
         description: 'For a site with daily traffic.',
         inherits: 'Everything in Essential, plus:',
         features: [
-          '5,000 credits per month',
           '3 assistants',
-          'Up to 500 pages and 100 documents',
+          'Up to 500 pages per assistant',
+          '100 documents per assistant',
           'Unanswered questions report',
           'Support reply within 24 h',
         ],
@@ -422,13 +417,13 @@ export const en: Dictionary = {
         monthly: 79,
         annual: 66,
         annualTotal: 790,
-        credits: 20000,
+        messages: 20000,
         description: 'For several sites or several brands.',
         inherits: 'Everything in Growth, plus:',
         features: [
-          '20,000 credits per month',
           '10 assistants',
-          'Up to 2,000 pages, unlimited documents',
+          'Up to 2,000 pages per assistant',
+          'Unlimited documents',
           'No Deezy mention',
           'Priority support',
         ],
@@ -443,7 +438,7 @@ export const en: Dictionary = {
       cta: 'Email us',
     },
     footnote:
-      'Credits renew every month and do not roll over. When you run out, your assistant keeps collecting your visitors’ emails.',
+      'A message is one answer sent by the assistant to a visitor. The quota renews every month and does not roll over. Once reached, your assistant keeps collecting your visitors’ emails.',
   },
 
   faq: {
@@ -471,12 +466,12 @@ export const en: Dictionary = {
           'It is built not to: when nothing in your content answers, it declines rather than guessing. An imagined price or delivery time would commit you to your customer — we prefer a cautious answer.',
       },
       {
-        question: 'How do credits work?',
+        question: 'What counts as a message?',
         answer:
-          'Each plan gives you a number of credits per month. An answer sent to a visitor costs 1 credit, a page of your site analysed 1 credit, a document processed 2 credits. Credits renew every month and do not roll over.',
+          'One answer sent by the assistant to a visitor. Analysing your site and processing your documents use no messages: they are bounded by your plan’s page and document limits. The quota renews every month and does not roll over.',
       },
       {
-        question: 'What happens when I run out of credits?',
+        question: 'What happens when I reach my quota?',
         answer:
           'Your assistant stops answering, but it doesn’t disappear from your site: it keeps offering visitors the chance to leave their email. You keep recovering leads, and you can see in your account what you could have answered.',
       },
@@ -527,7 +522,7 @@ export const en: Dictionary = {
     title: 'How many customers left your website without getting an answer?',
     lead: 'You can’t recover yesterday’s visitors. But you can answer the next one.',
     cta: 'Create my account',
-    microcopy: '300 free credits · Live in minutes · No commitment',
+    microcopy: '100 free messages · Live in minutes · No commitment',
   },
 
   footer: {
@@ -545,7 +540,7 @@ export const en: Dictionary = {
     loginTitle: 'Welcome back',
     loginLead: 'Log in to find your assistants.',
     signupTitle: 'Create your assistant',
-    signupLead: '300 free credits to try it out. No commitment.',
+    signupLead: '100 free messages to try it out. No commitment.',
     googleLogin: 'Log in with Google',
     googleSignup: 'Sign up with Google',
     redirecting: 'Redirecting…',
@@ -583,7 +578,7 @@ export const en: Dictionary = {
     billing: {
       title: 'Subscription',
       lead: 'Your plan, its billing and your invoices.',
-      noPlan: 'You are using your starting credits. Choose a plan to keep going.',
+      noPlan: 'You are using your free messages. Choose a plan to keep going.',
       currentPlan: 'Current plan',
       monthly: 'Monthly',
       annual: 'Annual',
@@ -614,22 +609,22 @@ export const en: Dictionary = {
       portalError: 'The portal is temporarily unavailable. Please try again.',
     },
 
-    credits: {
-      title: 'Credits',
+    quota: {
+      title: 'Messages',
       action: 'Choose a plan',
       of: 'of',
       remaining: 'left',
       renews: 'Renews on',
-      trialNote: 'Starting credits, not renewed.',
-      exhausted: 'Credits exhausted',
+      trialNote: 'Free messages, not renewed.',
+      exhausted: 'Quota reached',
       exhaustedHint:
         'Your assistant no longer answers, but it keeps collecting your visitors’ emails.',
-      costTitle: 'What uses a credit',
-      costs: [
-        '1 credit per answer sent to a visitor',
-        '1 credit per page of your site analysed',
-        '2 credits per document processed',
-      ],
+      limitsTitle: 'What your plan includes',
+      limitBots: 'assistant',
+      limitBotsPlural: 'assistants',
+      limitPages: 'pages indexed per assistant',
+      limitDocuments: 'documents per assistant',
+      unlimited: 'Unlimited documents',
       plans: {
         trial: 'Trial',
         essential: 'Essential',
@@ -678,7 +673,7 @@ export const en: Dictionary = {
         'Your account signs in with Google. The password is changed from your Google account, not here.',
 
       usageTitle: 'Usage',
-      usageLead: 'Your credits, and what uses them.',
+      usageLead: 'Your message quota, and what your plan includes.',
 
       errorName: 'Enter your full name.',
       errorPassword: 'The password must be at least 8 characters.',

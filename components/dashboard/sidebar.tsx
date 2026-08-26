@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Spinner } from '@/components/ui/spinner';
 import { isNavActive, navItems, secondaryNavItems, type NavItem } from './nav-items';
-import { isExhausted, isNearLimit, remaining, type CreditBalance } from '@/lib/credits';
+import { isExhausted, isNearLimit, remaining, type MessageBalance } from '@/lib/plans';
 
 /**
  * Icone d'un lien de navigation, remplacee par un anneau pendant la
@@ -72,11 +72,11 @@ function CreditMeter({
   locale,
   dict,
 }: {
-  balance: CreditBalance;
+  balance: MessageBalance;
   locale: Locale;
   dict: Dictionary;
 }) {
-  const t = dict.dashboard.credits;
+  const t = dict.dashboard.quota;
   const numberLocale = locale === 'fr' ? 'fr-FR' : 'en-US';
 
   const left = remaining(balance);
@@ -135,7 +135,7 @@ export function SidebarContent({
 }: {
   pathname: string;
   botCount: number;
-  balance: CreditBalance | null;
+  balance: MessageBalance | null;
   locale: Locale;
   dict: Dictionary;
   /** Fourni uniquement dans le tiroir mobile : ferme apres navigation. */

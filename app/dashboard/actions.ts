@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { canCreateBot } from '@/lib/quotas';
 
 const botInput = z.object({
   name: z.string().trim().min(2, 'Donnez un nom à votre assistant.').max(60),
@@ -39,6 +40,23 @@ export async function createBot(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
+
+  /*
+   * Plafond d'assistants du plan.
+   *
+   * Verifie a la creation, et nulle part ailleurs : les assistants deja crees
+   * ne sont jamais desactives retroactivement. Un widget deja installe sur le
+   * site d'un client ne doit pas s'eteindre parce que la regle a change.
+   */
+  const room = await canCreateBot(supabase, user.id);
+  if (!room.allowed) {
+    return {
+      error:
+        room.plan === 'trial'
+          ? `Votre essai permet ${room.limit} assistant. Choisissez un plan pour en créer d’autres.`
+          : `Votre plan permet ${room.limit} assistant${(room.limit ?? 0) > 1 ? 's' : ''}. Passez à un plan supérieur pour en créer davantage.`,
+    };
+  }
 
   const hostname = new URL(parsed.data.websiteUrl).hostname;
 

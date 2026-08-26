@@ -23,8 +23,7 @@ import {
   parseDocument,
 } from '@/lib/documents';
 import type { EmbeddedChunk } from '@/lib/types';
-import { CREDIT_COST } from '@/lib/credits';
-import { consumeCredits } from '@/lib/credits-db';
+import { canAddDocument } from '@/lib/quotas';
 
 export const maxDuration = 60;
 
@@ -92,21 +91,22 @@ export async function POST(request: Request) {
     }
 
     /*
-     * Debit avant traitement.
+     * Plafond de documents du plan.
      *
-     * L'ordre compte : c'est l'analyse puis la vectorisation qui coutent, pas
-     * le televersement. On debite donc une fois le fichier valide mais avant
-     * de l'envoyer au modele — un compte a sec ne declenche aucun appel
-     * facturable.
+     * Verifie une fois le fichier valide mais avant de l'envoyer au modele :
+     * un compte au plafond ne declenche aucun appel facturable. Le plafond
+     * remplace le debit qui existait ici — il borne le meme cout, et se lit
+     * comme un avantage sur la page de tarifs plutot que comme un compteur.
      */
-    const debit = await consumeCredits(admin, botId, CREDIT_COST.document);
-    if (!debit.allowed) {
+    const room = await canAddDocument(admin, user.id, botId);
+    if (!room.allowed) {
       await admin.storage.from('documents').remove([path]);
       return NextResponse.json(
         {
-          error:
-            'Crédits épuisés : ce document ne peut pas être traité. Rechargez votre compte pour continuer.',
-          code: 'credits_exhausted',
+          error: `Votre plan permet ${room.limit} document${
+            (room.limit ?? 0) > 1 ? 's' : ''
+          } par assistant. Passez à un plan supérieur pour en ajouter davantage.`,
+          code: 'document_limit',
         },
         { status: 402 },
       );

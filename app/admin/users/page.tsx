@@ -3,10 +3,10 @@ import { Users } from 'lucide-react';
 import { requireAdmin } from '@/lib/admin/guard';
 import { listUsers } from '@/lib/admin/queries';
 import { EmptyState } from '@/components/dashboard/empty-state';
-import { CreditActions, UserActions } from '@/components/admin/user-actions';
+import { QuotaActions, UserActions } from '@/components/admin/user-actions';
 import { Badge } from '@/components/ui/badge';
 import { UserAvatar } from '@/components/admin/user-avatar';
-import type { PlanId } from '@/lib/credits';
+import type { PlanId } from '@/lib/plans';
 
 /** Le back-office reste en francais : il ne s'adresse qu'a l'equipe. */
 const PLAN_LABELS: Record<PlanId, string> = {
@@ -46,8 +46,8 @@ export default async function AdminUsersPage() {
                 <th scope="col" className="px-4 py-3 font-medium">Dernière visite</th>
                 <th scope="col" className="px-4 py-3 font-medium">Plan</th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">Assistants</th>
-                <th scope="col" className="px-4 py-3 text-right font-medium">Crédits</th>
-                <th scope="col" className="px-4 py-3 text-right font-medium">Portefeuille</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Messages</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Quota</th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">Droits</th>
               </tr>
             </thead>
@@ -102,18 +102,18 @@ export default async function AdminUsersPage() {
                   </td>
                   <td className="px-4 py-3 text-right tabular-nums">{user.botCount}</td>
                   <td className="px-4 py-3 text-right tabular-nums">
-                    {user.creditsUsed.toLocaleString('fr-FR')}
+                    {user.messagesUsed.toLocaleString('fr-FR')}
                     <span className="text-muted-foreground">
                       {' / '}
-                      {user.creditsIncluded.toLocaleString('fr-FR')}
+                      {user.messagesIncluded.toLocaleString('fr-FR')}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <CreditActions
+                    <QuotaActions
                       userId={user.id}
                       email={user.email}
-                      credits={user.creditsIncluded}
-                      used={user.creditsUsed}
+                      messages={user.messagesIncluded}
+                      used={user.messagesUsed}
                     />
                   </td>
                   <td className="px-4 py-3 text-right">

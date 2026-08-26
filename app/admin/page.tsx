@@ -11,7 +11,7 @@ import {
   listSubscriptions,
   type Breakdown,
 } from '@/lib/admin/queries';
-import type { PlanId } from '@/lib/credits';
+import type { PlanId } from '@/lib/plans';
 import { StatCell, StatGroup } from '@/components/dashboard/stat-card';
 import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { PageHeader, panelLinkClass } from '@/components/dashboard/panel';

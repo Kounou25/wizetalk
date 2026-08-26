@@ -60,38 +60,37 @@ export async function setBotActive(botId: string, name: string, isActive: boolea
 }
 
 /**
- * Ajuste l'allocation de credits d'un compte.
+ * Ajuste le quota de messages d'un compte.
  *
- * Porte par le compte et non par l'assistant : depuis 0007_credits, le
- * portefeuille est unique. Ajuster ici permet de traiter un cas particulier
- * — un geste commercial, un depassement conteste — sans creer un palier sur
- * mesure dans la grille tarifaire.
+ * Porte par le compte et non par l'assistant : le quota est unique. Ajuster ici
+ * permet de traiter un cas particulier — un geste commercial, un depassement
+ * conteste — sans creer un palier sur mesure dans la grille tarifaire.
  */
-export async function setAccountCredits(userId: string, email: string, credits: number) {
+export async function setAccountMessages(userId: string, email: string, messages: number) {
   const { db, admin } = await requireAdmin();
 
-  const value = Math.max(0, Math.min(1_000_000, Math.round(credits)));
-  await db.from('profiles').update({ credits_included: value }).eq('user_id', userId);
+  const value = Math.max(0, Math.min(1_000_000, Math.round(messages)));
+  await db.from('profiles').update({ messages_included: value }).eq('user_id', userId);
 
-  await logAdminAction(admin, 'account.credits', {
+  await logAdminAction(admin, 'account.messages', {
     type: 'user',
     id: userId,
-    detail: { email, credits: value },
+    detail: { email, messages: value },
   });
 
   revalidatePath('/admin/users');
 }
 
-/** Remet a zero les credits consommes du compte, sans toucher a l'allocation. */
+/** Remet a zero les messages consommes du compte, sans toucher au quota. */
 export async function resetAccountUsage(userId: string, email: string) {
   const { db, admin } = await requireAdmin();
 
   await db
     .from('profiles')
-    .update({ credits_used: 0, period_started_at: new Date().toISOString() })
+    .update({ messages_used: 0, period_started_at: new Date().toISOString() })
     .eq('user_id', userId);
 
-  await logAdminAction(admin, 'account.reset_credits', {
+  await logAdminAction(admin, 'account.reset_messages', {
     type: 'user',
     id: userId,
     detail: { email },

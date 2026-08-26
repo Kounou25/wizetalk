@@ -6,31 +6,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   resetAccountUsage,
-  setAccountCredits,
+  setAccountMessages,
   setUserAdmin,
 } from '@/app/admin/actions';
 
 /**
- * Reglage du portefeuille de credits d'un compte.
+ * Reglage du quota de messages d'un compte.
  *
  * Separe du droit d'administration : ce sont deux gestes de nature differente
  * — l'un commercial, l'autre securitaire — et les melanger dans un meme groupe
  * de boutons invite a la fausse manoeuvre.
  */
-export function CreditActions({
+export function QuotaActions({
   userId,
   email,
-  credits,
+  messages,
   used,
 }: {
   userId: string;
   email: string;
-  credits: number;
+  messages: number;
   used: number;
 }) {
   const [pending, startTransition] = useTransition();
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(String(credits));
+  const [draft, setDraft] = useState(String(messages));
 
   if (editing) {
     return (
@@ -40,7 +40,7 @@ export function CreditActions({
           onChange={(event) => setDraft(event.target.value)}
           inputMode="numeric"
           className="h-8 w-24"
-          aria-label={`Crédits alloués à ${email}`}
+          aria-label={`Messages alloués à ${email}`}
         />
         <Button
           size="icon"
@@ -48,11 +48,11 @@ export function CreditActions({
           disabled={pending}
           onClick={() =>
             startTransition(async () => {
-              await setAccountCredits(userId, email, Number(draft) || 0);
+              await setAccountMessages(userId, email, Number(draft) || 0);
               setEditing(false);
             })
           }
-          aria-label="Enregistrer l’allocation"
+          aria-label="Enregistrer le quota"
         >
           <Check />
         </Button>
@@ -61,7 +61,7 @@ export function CreditActions({
           variant="ghost"
           className="size-8"
           onClick={() => {
-            setDraft(String(credits));
+            setDraft(String(messages));
             setEditing(false);
           }}
           aria-label="Annuler"
@@ -79,9 +79,9 @@ export function CreditActions({
         variant="ghost"
         disabled={pending}
         onClick={() => setEditing(true)}
-        title="Modifier l’allocation de crédits"
+        title="Modifier le quota de messages"
       >
-        Crédits
+        Messages
       </Button>
 
       {used > 0 && (
@@ -91,7 +91,7 @@ export function CreditActions({
           className="size-8"
           disabled={pending}
           onClick={() => startTransition(() => resetAccountUsage(userId, email))}
-          aria-label="Remettre les crédits consommés à zéro"
+          aria-label="Remettre les messages consommés à zéro"
           title="Remettre le compteur à zéro"
         >
           <RotateCcw />

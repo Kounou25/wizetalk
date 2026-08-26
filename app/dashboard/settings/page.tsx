@@ -8,9 +8,23 @@ import { Progress } from '@/components/ui/progress';
 import { LocaleSwitch } from '@/components/dashboard/locale-switch';
 import { PageHeader, Panel, PanelHeader } from '@/components/dashboard/panel';
 import { PasswordForm, ProfileForm } from './settings-forms';
-import { isExhausted, isNearLimit, remaining } from '@/lib/credits';
-import { getCreditBalance } from '@/lib/credits-db';
+import { isExhausted, isNearLimit, PLANS, remaining, type PlanId } from '@/lib/plans';
+import { getMessageBalance } from '@/lib/quotas';
 import { BillingPanel } from './billing-panel';
+
+/** Plafonds du plan, en clair. `documents: null` signifie illimite. */
+function planLimits(
+  plan: PlanId,
+  t: { limitBots: string; limitBotsPlural: string; limitPages: string; limitDocuments: string; unlimited: string },
+): string[] {
+  const p = PLANS[plan];
+
+  return [
+    `${p.bots} ${p.bots > 1 ? t.limitBotsPlural : t.limitBots}`,
+    `${p.pages.toLocaleString('fr-FR')} ${t.limitPages}`,
+    p.documents === null ? t.unlimited : `${p.documents} ${t.limitDocuments}`,
+  ];
+}
 
 /** Date du prochain rechargement : un mois apres le debut de la periode. */
 function nextRenewal(periodStartedAt: string): Date {
@@ -56,7 +70,7 @@ export default async function SettingsPage({
   const locale = await getRequestLocale();
   const dict = getDictionary(locale);
   const t = dict.dashboard.account;
-  const tc = dict.dashboard.credits;
+  const tc = dict.dashboard.quota;
 
   const {
     data: { user },
@@ -67,7 +81,7 @@ export default async function SettingsPage({
   if (!user) redirect('/login');
 
   const [balance, { data: profile }, params] = await Promise.all([
-    getCreditBalance(supabase, user.id),
+    getMessageBalance(supabase, user.id),
     supabase
       .from('profiles')
       .select(
@@ -171,16 +185,19 @@ export default async function SettingsPage({
               </p>
             )}
 
+            {/* Les plafonds du plan, derives de lib/plans.ts plutot que
+                recopies : la page ne peut pas annoncer autre chose que ce que
+                le code applique. */}
             <div className="border-border border-t pt-4">
-              <p className="text-sm font-medium">{tc.costTitle}</p>
+              <p className="text-sm font-medium">{tc.limitsTitle}</p>
               <ul className="text-muted-foreground mt-2 flex flex-col gap-1.5 text-sm">
-                {tc.costs.map((cost) => (
-                  <li key={cost} className="flex items-start gap-2">
+                {planLimits(balance.plan, tc).map((line) => (
+                  <li key={line} className="flex items-start gap-2">
                     <span
                       className="bg-brand mt-2 size-1.5 shrink-0 rounded-full"
                       aria-hidden
                     />
-                    {cost}
+                    {line}
                   </li>
                 ))}
               </ul>

@@ -28,8 +28,6 @@ import { embedDocuments } from './embeddings';
 import { fetchRobots, fetchText, isAllowed, mapLimit } from './http';
 import { replaceChunks, upsertPage, type Db } from './database';
 import type { CleanPage, EmbeddedChunk, Section } from './types';
-import { CREDIT_COST } from './credits';
-import { consumeCredits } from './credits-db';
 
 /** Pages recuperees par tick. Compromis duree d'invocation / nombre d'allers-retours. */
 export const CRAWL_PAGES_PER_TICK = 5;
@@ -212,17 +210,15 @@ async function crawlTick(
       .is('favicon_url', null);
   }
 
-  const stored = pagesDone - job.pages_done;
-  let creditsLeft = true;
-
-  if (stored > 0) {
-    const debit = await consumeCredits(db, job.bot_id, stored * CREDIT_COST.page);
-    creditsLeft = debit.allowed;
-  }
-
-  // Credits epuises : on arrete l'exploration ici. Les pages deja lues restent
-  // exploitables, l'assistant repond avec ce qu'il a.
-  const crawlFinished = !creditsLeft || queue.length === 0 || pagesDone >= job.max_pages;
+  /*
+   * Le cout de l'exploration n'est plus debite : il est borne en amont.
+   *
+   * `max_pages` est fixe a la creation du job d'apres le plan du compte — 50
+   * pages en essai, 2 000 sur le palier le plus haut. Un plafond se lit comme
+   * un avantage sur la page de tarifs, la ou un compteur qui se vide en lisant
+   * un site se lisait comme une penalite.
+   */
+  const crawlFinished = queue.length === 0 || pagesDone >= job.max_pages;
 
   if (!crawlFinished) {
     await saveJob(db, job.id, {

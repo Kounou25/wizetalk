@@ -25,8 +25,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { createPgRetriever } from '@/lib/database';
 import { answerQuestionStream } from '@/lib/rag';
 import { appHostFromRequest } from '@/lib/request-origin';
-import { CREDIT_COST } from '@/lib/credits';
-import { consumeCredits } from '@/lib/credits-db';
+import { consumeMessage } from '@/lib/quotas';
 import { negotiateLocale, type Locale } from '@/lib/i18n/config';
 
 export const maxDuration = 60;
@@ -153,7 +152,7 @@ export async function POST(request: Request) {
   }
   // Debite avant tout appel au modele. `allowed` a false ne coupe pas le
   // service : il bascule la reponse en mode capture de prospect.
-  const { allowed: hasCredits } = await consumeCredits(db, botId, CREDIT_COST.answer);
+  const { allowed: hasCredits } = await consumeMessage(db, botId);
 
   // Une conversation par session de visiteur.
   const { data: existing } = await db

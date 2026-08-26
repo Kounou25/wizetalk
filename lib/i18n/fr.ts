@@ -11,7 +11,7 @@ export const fr = {
   meta: {
     title: 'Deezy — le chatbot IA qui répond à vos clients 24 h/24',
     description:
-      "Transformez votre site en assistant IA : il répond à vos visiteurs 24 h/24, récupère leurs coordonnées quand il n'a pas la réponse, et vous montre ce qui manque à votre site. 300 crédits offerts pour essayer.",
+      "Transformez votre site en assistant IA : il répond à vos visiteurs 24 h/24, récupère leurs coordonnées quand il n'a pas la réponse, et vous montre ce qui manque à votre site. 100 messages offerts pour essayer.",
   },
 
   nav: {
@@ -34,7 +34,7 @@ export const fr = {
       "Deezy transforme votre site et vos documents en un assistant qui répond à vos visiteurs 24 h/24 — et récupère leur adresse quand il n'a pas la réponse.",
     ctaPrimary: 'Essayer Deezy gratuitement',
     ctaSecondary: 'Voir comment ça marche',
-    microcopy: '300 crédits offerts · En ligne en 2 minutes · Sans engagement',
+    microcopy: '100 messages offerts · En ligne en 2 minutes · Sans engagement',
     installNote: 'Une seule ligne à coller sur votre site. Rien d’autre à faire.',
     liveBadge: 'Réponse tirée de votre site',
     mockup: {
@@ -392,21 +392,13 @@ export const fr = {
   pricing: {
     eyebrow: 'Tarifs',
     title: 'Un prix, trois tailles.',
-    lead: 'Chaque plan vous donne un nombre de crédits par mois. Sans engagement, résiliable à tout moment.',
+    lead: 'Chaque plan vous donne un quota de messages par mois. Sans engagement, résiliable à tout moment.',
     roi: 'Si Deezy vous fait récupérer un seul client, il est déjà rentabilisé.',
-    /* Le credit est une unite maison : elle doit etre expliquee AVANT les
-       montants, sinon le visiteur ne peut pas juger le prix. */
-    creditTitle: 'Ce qu’est un crédit',
-    creditItems: [
-      '1 crédit par réponse envoyée à un visiteur',
-      '1 crédit par page de votre site analysée',
-      '2 crédits par document traité',
-    ],
-    startingCredits: '300 crédits offerts à la création du compte, sans engagement',
+    startingOffer: '100 messages offerts à la création du compte, sans engagement',
     popular: 'Le plus choisi',
     notIncluded: 'Non inclus',
     perMonth: '/mois',
-    creditsSuffix: 'crédits par mois',
+    messagesSuffix: 'messages par mois',
     billing: {
       monthly: 'Mensuel',
       annual: 'Annuel',
@@ -419,14 +411,15 @@ export const fr = {
         monthly: 19,
         annual: 16,
         annualTotal: 190,
-        credits: 1000,
+        messages: 1000,
         description: 'Pour un site, une activité.',
         inherits: '',
         features: [
-          '1 000 crédits par mois',
           '1 assistant',
           'Jusqu’à 100 pages de votre site',
+          '20 documents',
           'Récupération des e-mails de vos visiteurs',
+          'Alerte e-mail à chaque prospect',
           'Aux couleurs de votre marque',
         ],
         excluded: [
@@ -442,13 +435,13 @@ export const fr = {
         monthly: 39,
         annual: 33,
         annualTotal: 390,
-        credits: 5000,
+        messages: 5000,
         description: 'Pour un site qui reçoit du monde tous les jours.',
         inherits: 'Tout de l’Essentiel, plus :',
         features: [
-          '5 000 crédits par mois',
           '3 assistants',
-          'Jusqu’à 500 pages et 100 documents',
+          'Jusqu’à 500 pages par assistant',
+          '100 documents par assistant',
           'Rapport des questions sans réponse',
           'Réponse du support sous 24 h',
         ],
@@ -460,13 +453,13 @@ export const fr = {
         monthly: 79,
         annual: 66,
         annualTotal: 790,
-        credits: 20000,
+        messages: 20000,
         description: 'Pour plusieurs sites ou plusieurs marques.',
         inherits: 'Tout de Croissance, plus :',
         features: [
-          '20 000 crédits par mois',
           '10 assistants',
-          'Jusqu’à 2 000 pages, documents illimités',
+          'Jusqu’à 2 000 pages par assistant',
+          'Documents illimités',
           'Sans mention Deezy',
           'Support prioritaire',
         ],
@@ -482,7 +475,7 @@ export const fr = {
       cta: 'Nous écrire',
     },
     footnote:
-      'Les crédits se renouvellent chaque mois et ne se reportent pas. À court de crédits, votre assistant continue de récupérer les e-mails de vos visiteurs.',
+      'Un message, c’est une réponse envoyée par l’assistant à un visiteur. Le quota se renouvelle chaque mois et ne se reporte pas. Une fois atteint, votre assistant continue de récupérer les e-mails de vos visiteurs.',
   },
 
   /*
@@ -518,12 +511,12 @@ export const fr = {
           "Il est construit pour ne pas le faire : quand rien dans votre contenu ne répond, il refuse plutôt que de deviner. Un prix ou un délai imaginé vous engagerait auprès de votre client — nous préférons une réponse prudente.",
       },
       {
-        question: 'Comment fonctionnent les crédits ?',
+        question: 'Qu’est-ce qui compte comme un message ?',
         answer:
-          "Chaque plan vous donne un nombre de crédits par mois. Une réponse envoyée à un visiteur coûte 1 crédit, une page de votre site analysée 1 crédit, un document traité 2 crédits. Les crédits se renouvellent chaque mois et ne se reportent pas.",
+          "Une réponse envoyée par l'assistant à un visiteur. L'analyse de votre site et le traitement de vos documents ne consomment aucun message : ils sont bornés par les limites de pages et de documents de votre plan. Le quota se renouvelle chaque mois et ne se reporte pas.",
       },
       {
-        question: 'Que se passe-t-il quand je n’ai plus de crédits ?',
+        question: 'Que se passe-t-il quand j’atteins mon quota ?',
         answer:
           "Votre assistant ne répond plus, mais il ne disparaît pas de votre site : il continue de proposer à vos visiteurs de laisser leur e-mail. Vous continuez donc de récupérer des prospects, et vous voyez dans votre espace ce que vous auriez pu répondre.",
       },
@@ -574,7 +567,7 @@ export const fr = {
     title: 'Combien de clients ont quitté votre site sans obtenir de réponse ?',
     lead: 'Vous ne rattraperez pas les visiteurs d’hier. Mais vous pouvez répondre au prochain.',
     cta: 'Créer mon compte',
-    microcopy: '300 crédits offerts · En ligne en quelques minutes · Sans engagement',
+    microcopy: '100 messages offerts · En ligne en quelques minutes · Sans engagement',
   },
 
   footer: {
@@ -592,7 +585,7 @@ export const fr = {
     loginTitle: 'Content de vous revoir',
     loginLead: 'Connectez-vous pour retrouver vos assistants.',
     signupTitle: 'Créez votre assistant',
-    signupLead: '300 crédits offerts pour essayer. Sans engagement.',
+    signupLead: '100 messages offerts pour essayer. Sans engagement.',
     googleLogin: 'Se connecter avec Google',
     googleSignup: "S'inscrire avec Google",
     redirecting: 'Redirection…',
@@ -630,7 +623,7 @@ export const fr = {
     billing: {
       title: 'Abonnement',
       lead: 'Votre plan, sa facturation et vos factures.',
-      noPlan: 'Vous utilisez vos crédits de départ. Choisissez un plan pour continuer.',
+      noPlan: 'Vous utilisez vos messages offerts. Choisissez un plan pour continuer.',
       currentPlan: 'Plan actuel',
       monthly: 'Mensuel',
       annual: 'Annuel',
@@ -663,24 +656,24 @@ export const fr = {
       portalError: 'Le portail est momentanément indisponible. Réessayez.',
     },
 
-    credits: {
-      title: 'Crédits',
+    quota: {
+      title: 'Messages',
       action: 'Choisir un plan',
       of: 'sur',
       remaining: 'restants',
       renews: 'Renouvellement le',
-      trialNote: 'Crédits de départ, non renouvelés.',
-      exhausted: 'Crédits épuisés',
-      /* Ce que le client doit lire en priorite quand il tombe a zero : le
+      trialNote: 'Messages offerts, non renouvelés.',
+      exhausted: 'Quota atteint',
+      /* Ce que le client doit lire en priorite quand il atteint son quota : le
          service n'est pas mort, il est degrade — et il rapporte encore. */
       exhaustedHint:
         'Votre assistant ne répond plus, mais il continue de récupérer les e-mails de vos visiteurs.',
-      costTitle: 'Ce qui consomme un crédit',
-      costs: [
-        '1 crédit par réponse envoyée à un visiteur',
-        '1 crédit par page de votre site analysée',
-        '2 crédits par document traité',
-      ],
+      limitsTitle: 'Ce que votre plan inclut',
+      limitBots: 'assistant',
+      limitBotsPlural: 'assistants',
+      limitPages: 'pages indexées par assistant',
+      limitDocuments: 'documents par assistant',
+      unlimited: 'Documents illimités',
       plans: {
         trial: 'Essai',
         essential: 'Essentiel',
@@ -729,7 +722,7 @@ export const fr = {
         'Votre compte se connecte avec Google. Le mot de passe se change depuis votre compte Google, pas ici.',
 
       usageTitle: 'Consommation',
-      usageLead: 'Vos crédits, et ce qui les consomme.',
+      usageLead: 'Votre quota de messages, et ce que votre plan inclut.',
 
       errorName: 'Indiquez votre nom et prénom.',
       errorPassword: 'Le mot de passe doit faire au moins 8 caractères.',

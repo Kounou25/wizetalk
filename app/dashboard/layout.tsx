@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-import { getCreditBalance } from '@/lib/credits-db';
+import { getMessageBalance } from '@/lib/quotas';
 
 /** "marie.dupont@exemple.fr" -> "MD" */
 function initialsFromEmail(email: string): string {
@@ -47,7 +47,7 @@ export default async function DashboardLayout({
   // bots. `bots` ne sert plus qu'a alimenter le compteur de la navigation.
   const [{ count: botCount }, balance, locale, admin] = await Promise.all([
     supabase.from('bots').select('id', { count: 'exact', head: true }),
-    getCreditBalance(supabase, user.id),
+    getMessageBalance(supabase, user.id),
     getRequestLocale(),
     isAdmin(),
   ]);
