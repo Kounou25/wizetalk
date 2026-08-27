@@ -18,7 +18,7 @@ import { TrendChart } from '@/components/dashboard/trend-chart';
 import { BotWorkspace } from './bot-workspace';
 import { DocumentsCard, type DocumentRow } from './documents-card';
 import { InstallCard } from './install-card';
-import { SettingsCard } from './settings-card';
+import { SettingsCard, type WidgetLocale } from './settings-card';
 import { UpgradeButton } from '@/components/dashboard/upgrade-button';
 import { buildUpgradeOffer } from '@/lib/upgrade';
 
@@ -62,7 +62,7 @@ export default async function BotPage({
   const { data: bot } = await supabase
     .from('bots')
     .select(
-      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, notify_leads, hide_branding, favicon_url, user_id',
+      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, notify_leads, hide_branding, widget_locale, favicon_url, user_id',
     )
     .eq('id', botId)
     .maybeSingle();
@@ -330,6 +330,7 @@ export default async function BotPage({
           isActive={bot.is_active}
           leadCapture={bot.lead_capture}
           notifyLeads={bot.notify_leads ?? true}
+          widgetLocale={(bot.widget_locale ?? 'auto') as WidgetLocale}
           hideBranding={bot.hide_branding ?? true}
           canRemoveBranding={limits.removeBranding}
           brandingOffer={brandingOffer}

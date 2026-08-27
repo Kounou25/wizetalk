@@ -892,6 +892,12 @@ export const en: Dictionary = {
       notifyLeadsTitle: 'Email me for every lead',
       notifyLeadsBody:
         'You get the question and the address as soon as it is captured, so you can follow up while interest is still high.',
+      localeTitle: 'Chat window language',
+      localeBody:
+        'Automatic follows the page language, then the visitor’s browser. Pick a fixed language if your site declares its own incorrectly.',
+      localeAuto: 'Automatic',
+      localeFr: 'French',
+      localeEn: 'English',
       brandingTitle: 'Remove the “Powered by Deezy” mention',
       brandingBody:
         'The small line at the bottom of the chat window disappears from the widget on your site.',

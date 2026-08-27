@@ -101,6 +101,9 @@ const botSettings = z.object({
   leadCapture: z.boolean(),
   notifyLeads: z.boolean(),
   hideBranding: z.boolean(),
+  // Domaine ferme, comme la contrainte en base : une valeur inattendue
+  // produirait une fenetre sans libelles chez le visiteur.
+  widgetLocale: z.enum(['auto', 'fr', 'en']),
 });
 
 /** Personnalisation du widget : nom, accueil, couleur, position. */
@@ -117,6 +120,7 @@ export async function updateBot(
     leadCapture: formData.get('leadCapture') === 'on',
     notifyLeads: formData.get('notifyLeads') === 'on',
     hideBranding: formData.get('hideBranding') === 'on',
+    widgetLocale: String(formData.get('widgetLocale') ?? 'auto'),
   });
 
   if (!parsed.success) {
@@ -136,6 +140,7 @@ export async function updateBot(
     position: parsed.data.position,
     lead_capture: parsed.data.leadCapture,
     notify_leads: parsed.data.notifyLeads,
+    widget_locale: parsed.data.widgetLocale,
   };
 
   /*

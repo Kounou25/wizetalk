@@ -961,6 +961,14 @@ export const fr = {
       notifyLeadsTitle: 'M’alerter par e-mail à chaque prospect',
       notifyLeadsBody:
         'Vous recevez la question et l’adresse dès la capture, pour rappeler pendant que l’intérêt est encore vif.',
+      localeTitle: 'Langue de la fenêtre',
+      /* On explique ce que fait « auto », sinon le proprietaire choisit une
+         langue fixe par prudence et casse son propre site bilingue. */
+      localeBody:
+        'Automatique suit la langue de la page, puis celle du navigateur du visiteur. Choisissez une langue fixe si votre site déclare mal la sienne.',
+      localeAuto: 'Automatique',
+      localeFr: 'Français',
+      localeEn: 'Anglais',
       brandingTitle: 'Retirer la mention « Propulsé par Deezy »',
       brandingBody:
         'La petite mention en bas de la fenêtre de discussion disparaît du widget installé sur votre site.',

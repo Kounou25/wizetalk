@@ -127,8 +127,6 @@
     return 'fr';
   }
 
-  var lang = detectLang();
-  var T = STRINGS[lang];
 
   /*
    * Les animations demandent des images-cles, qu'un style en ligne ne peut pas
@@ -169,6 +167,15 @@
 
   function mount(config) {
     injectStyles();
+
+    /*
+     * Le reglage du proprietaire l'emporte sur la deduction.
+     *
+     * Il n'existe que pour corriger les cas ou la deduction se trompe — un
+     * site dont le <html lang> ment. Tant qu'il vaut « auto », rien ne change.
+     */
+    var lang = STRINGS[config.locale] ? config.locale : detectLang();
+    var T = STRINGS[lang];
 
     var isLeft = config.position === 'bottom-left';
     var side = isLeft ? 'left' : 'right';

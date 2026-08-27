@@ -35,7 +35,7 @@ export async function GET(
 
   const { data: bot } = await createAdminClient()
     .from('bots')
-    .select('id, name, welcome_message, primary_color, position, is_active')
+    .select('id, name, welcome_message, primary_color, position, is_active, widget_locale')
     .eq('id', botId)
     .maybeSingle();
 
@@ -50,6 +50,8 @@ export async function GET(
       welcomeMessage: bot.welcome_message,
       primaryColor: bot.primary_color,
       position: bot.position,
+      // « auto » laisse widget.js deduire ; 'fr' ou 'en' l'imposent.
+      locale: bot.widget_locale ?? 'auto',
     },
     { headers: CORS },
   );

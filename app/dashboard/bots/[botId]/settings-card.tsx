@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { Segmented } from '@/components/ui/segmented';
 import { Textarea } from '@/components/ui/textarea';
 import { ChatGlyph } from '@/components/landing/logo';
 import type { Dictionary, Locale } from '@/lib/i18n';
@@ -20,6 +21,9 @@ import {
 } from '@/app/dashboard/actions';
 
 /** Teintes lisibles en blanc : le texte du widget est toujours clair dessus. */
+/** Domaine du reglage de langue, aligne sur la contrainte en base. */
+export type WidgetLocale = 'auto' | 'fr' | 'en';
+
 const PRESET_COLORS = [
   '#2563eb',
   '#0ea5e9',
@@ -41,6 +45,7 @@ interface SettingsCardProps {
   isActive: boolean;
   leadCapture: boolean;
   notifyLeads: boolean;
+  widgetLocale: WidgetLocale;
   hideBranding: boolean;
   /** Le palier autorise-t-il le retrait de la mention. */
   canRemoveBranding: boolean;
@@ -59,6 +64,7 @@ export function SettingsCard({
   isActive: initialActive,
   leadCapture: initialLeadCapture,
   notifyLeads: initialNotifyLeads,
+  widgetLocale: initialWidgetLocale,
   hideBranding: initialHideBranding,
   canRemoveBranding,
   brandingOffer,
@@ -78,6 +84,7 @@ export function SettingsCard({
   const [leadCapture, setLeadCapture] = useState(initialLeadCapture);
   const [notifyLeads, setNotifyLeads] = useState(initialNotifyLeads);
   const [hideBranding, setHideBranding] = useState(initialHideBranding);
+  const [widgetLocale, setWidgetLocale] = useState<WidgetLocale>(initialWidgetLocale);
   const notifyLabelId = useId();
   const leadLabelId = useId();
   const brandingLabelId = useId();
@@ -177,6 +184,22 @@ export function SettingsCard({
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="widgetLocale">{t.localeTitle}</Label>
+              <input type="hidden" name="widgetLocale" value={widgetLocale} />
+              <Segmented
+                options={[
+                  { value: 'auto', label: t.localeAuto },
+                  { value: 'fr', label: t.localeFr },
+                  { value: 'en', label: t.localeEn },
+                ]}
+                value={widgetLocale}
+                onChange={setWidgetLocale}
+                label={t.localeTitle}
+              />
+              <p className="text-muted-foreground text-xs text-pretty">{t.localeBody}</p>
             </div>
 
             <div className="bg-muted/50 flex items-start justify-between gap-4 rounded-lg p-4">

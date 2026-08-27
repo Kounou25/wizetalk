@@ -23,30 +23,42 @@ export default async function ChatPage({
 }) {
   const { botId } = await params;
 
-  /*
-   * Langue du VISITEUR, pas celle du proprietaire.
-   *
-   * `?lang=` est pose par widget.js, qui lit la langue du navigateur sur le
-   * site du client. On le prefere a l'en-tete parce qu'il garantit que la
-   * bulle d'invitation, ecrite sur la page du client, et cette fenetre parlent
-   * la meme langue — deux sources independantes finiraient par se contredire.
-   *
-   * L'en-tete prend le relais quand le parametre manque : quelqu'un qui ouvre
-   * /chat/<id> directement doit tomber sur une langue sensee.
-   */
-  const { lang } = await searchParams;
-  const locale = isLocale(lang) ? lang : negotiateLocale((await headers()).get('accept-language'));
-  const dict = getDictionary(locale);
-
   const db = createAdminClient();
 
   const { data: bot } = await db
     .from('bots')
-    .select('id, name, welcome_message, primary_color, is_active, hide_branding, user_id')
+    .select('id, name, welcome_message, primary_color, is_active, hide_branding, widget_locale, user_id')
     .eq('id', botId)
     .maybeSingle();
 
   if (!bot || !bot.is_active) notFound();
+
+  /*
+   * Langue de la fenetre, par ordre de priorite :
+   *
+   *   1. le reglage de l'assistant, quand le proprietaire l'a fige
+   *   2. `?lang=`, pose par widget.js d'apres la page puis le navigateur
+   *   3. l'en-tete Accept-Language
+   *
+   * Le reglage est verifie ici et pas seulement dans widget.js : cette page
+   * s'ouvre aussi par son adresse directe, et un `?lang=` fabrique ne doit pas
+   * contourner le choix du proprietaire.
+   *
+   * L'etape 2 vient de widget.js plutot que d'une detection propre a cette
+   * page : la bulle d'invitation, ecrite sur le site du client, et cette
+   * fenetre doivent parler la meme langue. Deux detections independantes
+   * finiraient par se contredire.
+   */
+  const { lang } = await searchParams;
+  const forced = bot.widget_locale as string | null;
+
+  const locale = isLocale(forced)
+    ? forced
+    : isLocale(lang)
+      ? lang
+      : negotiateLocale((await headers()).get('accept-language'));
+
+  const dict = getDictionary(locale);
 
   /*
    * La mention Deezy disparait quand DEUX conditions sont reunies : le palier
