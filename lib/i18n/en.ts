@@ -1,3 +1,4 @@
+import { enterpriseEn } from './enterprise/en';
 import type { Dictionary } from './fr';
 
 /** Typee contre le francais : une cle oubliee ne compile pas. */
@@ -16,6 +17,7 @@ export const en: Dictionary = {
     login: 'Log in',
     signup: 'Try it free',
     dashboard: 'My account',
+    enterprise: 'Enterprise',
   },
 
   hero: {
@@ -980,4 +982,6 @@ export const en: Dictionary = {
     leadFailed: 'Could not save your address.',
     leadOffline: 'Connection failed. Please try again.',
   },
+
+  enterprise: enterpriseEn,
 };

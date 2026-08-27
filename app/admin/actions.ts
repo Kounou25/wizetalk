@@ -176,3 +176,51 @@ export async function savePlanLimits(planId: string, formData: FormData) {
   revalidatePath('/admin/plans');
   revalidatePath('/dashboard/settings');
 }
+
+/**
+ * Fait avancer une demande Enterprise dans le suivi commercial.
+ *
+ * La table `demo_requests` a le RLS active sans politique : seul le client
+ * privilegie rendu par requireAdmin() peut l'ecrire. L'appel en premiere ligne
+ * n'est donc pas une formalite — sans lui, l'action n'aurait meme pas de quoi
+ * ecrire.
+ *
+ * L'etat autorise est verifie ici plutot que laisse a la contrainte SQL : une
+ * valeur inattendue doit produire une erreur nette du cote de l'appelant, pas
+ * une violation de contrainte remontee de la base.
+ */
+const DEMO_STATUSES = ['new', 'contacted', 'qualified', 'closed'] as const;
+
+export async function setDemoRequestStatus(requestId: string, status: string) {
+  const { db, admin } = await requireAdmin();
+
+  if (!DEMO_STATUSES.includes(status as (typeof DEMO_STATUSES)[number])) {
+    throw new Error(`État inconnu : ${status}`);
+  }
+
+  const { data: before } = await db
+    .from('demo_requests')
+    .select('email, company, status')
+    .eq('id', requestId)
+    .maybeSingle();
+
+  const { error } = await db
+    .from('demo_requests')
+    .update({ status })
+    .eq('id', requestId);
+
+  if (error) throw new Error(`Enregistrement impossible : ${error.message}`);
+
+  await logAdminAction(admin, 'demo.status', {
+    type: 'demo_request',
+    id: requestId,
+    detail: {
+      company: before?.company ?? null,
+      email: before?.email ?? null,
+      from: before?.status ?? null,
+      to: status,
+    },
+  });
+
+  revalidatePath('/admin/demos');
+}

@@ -150,7 +150,7 @@ export default async function LandingPage({
         <Results dict={dict} />
 
         <Pricing locale={typed} pricing={dict.pricing} limits={limits} />
-        <Faq dict={dict} />
+        <Faq {...dict.faq} />
         <FinalCta locale={typed} dict={dict} />
       </main>
 

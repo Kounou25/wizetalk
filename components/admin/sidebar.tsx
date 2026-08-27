@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   ArrowLeft,
   Bot,
+  Building2,
   CreditCard,
   Gauge,
   ScrollText,
@@ -19,6 +20,7 @@ const ITEMS = [
   { href: '/admin', label: "Vue d'ensemble", icon: Gauge, exact: true },
   { href: '/admin/users', label: 'Comptes', icon: Users, exact: false },
   { href: '/admin/bots', label: 'Assistants', icon: Bot, exact: false },
+  { href: '/admin/demos', label: 'Demandes', icon: Building2, exact: false },
   { href: '/admin/billing', label: 'Paiements', icon: CreditCard, exact: false },
   { href: '/admin/plans', label: 'Paliers', icon: SlidersHorizontal, exact: false },
   { href: '/admin/audit', label: 'Journal', icon: ScrollText, exact: false },

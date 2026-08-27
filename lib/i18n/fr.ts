@@ -1,3 +1,5 @@
+import { enterpriseFr } from './enterprise/fr';
+
 /**
  * Dictionnaire de reference. Toute nouvelle chaine part d'ici.
  *
@@ -22,6 +24,7 @@ export const fr = {
     login: 'Se connecter',
     signup: 'Essayer gratuitement',
     dashboard: 'Mon espace',
+    enterprise: 'Enterprise',
   },
 
   hero: {
@@ -1067,6 +1070,9 @@ export const fr = {
     leadFailed: 'L’enregistrement a échoué.',
     leadOffline: 'Connexion impossible. Réessayez.',
   },
+
+  /* Page Enterprise : namespace a part, voir lib/i18n/enterprise/fr.ts. */
+  enterprise: enterpriseFr,
 };
 
 /**

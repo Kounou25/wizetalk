@@ -1,24 +1,44 @@
 import { Reveal } from '@/components/reveal';
-import type { Dictionary } from '@/lib/i18n';
 
 /**
  * Accordeon en <details>/<summary> natif : ouverture au clavier, accessible
  * par defaut, et aucune dependance supplementaire.
+ *
+ * PARAMETRE PLUTOT QUE LIE AU DICTIONNAIRE
+ *
+ * Il recevait `dict` entier et lisait `dict.faq`. La page Enterprise a sa
+ * propre liste de questions, sous une autre cle : recopier le composant pour
+ * changer un chemin d'acces aurait fait diverger deux accordeons identiques
+ * des la premiere retouche. Il prend donc ce qu'il affiche, et rien d'autre.
+ *
+ * `id` est parametrable pour la meme raison : deux ancres #faq sur deux pages
+ * differentes ne se genent pas, mais les libelles de navigation, eux, ne sont
+ * pas les memes.
  */
-export function Faq({ dict }: { dict: Dictionary }) {
+export function Faq({
+  id = 'faq',
+  eyebrow,
+  title,
+  items,
+}: {
+  id?: string;
+  eyebrow: string;
+  title: string;
+  items: { question: string; answer: string }[];
+}) {
   return (
-    <section id="faq" className="mx-auto max-w-3xl px-6 py-24 md:py-28">
+    <section id={id} className="mx-auto max-w-3xl scroll-mt-20 px-6 py-24 md:py-28">
       <Reveal className="text-center">
         <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
-          {dict.faq.eyebrow}
+          {eyebrow}
         </p>
         <h2 className="mt-3 text-3xl font-bold tracking-tight text-balance md:text-4xl">
-          {dict.faq.title}
+          {title}
         </h2>
       </Reveal>
 
       <div className="mt-12 divide-y border-y">
-        {dict.faq.items.map((item) => (
+        {items.map((item) => (
           <details key={item.question} className="group py-5">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">
               {item.question}

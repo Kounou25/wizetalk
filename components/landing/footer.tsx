@@ -20,15 +20,30 @@ export function LandingFooter({ locale, dict }: { locale: Locale; dict: Dictiona
         <div className="flex gap-16 text-sm">
           <div className="flex flex-col gap-3">
             <p className="font-medium">{dict.footer.productTitle}</p>
-            <a href="#fonctionnement" className="text-muted-foreground hover:text-foreground">
+            <Link
+              href={`/${locale}#fonctionnement`}
+              className="text-muted-foreground hover:text-foreground"
+            >
               {dict.footer.howItWorks}
-            </a>
-            <a href="#tarifs" className="text-muted-foreground hover:text-foreground">
+            </Link>
+            <Link
+              href={`/${locale}#tarifs`}
+              className="text-muted-foreground hover:text-foreground"
+            >
               {dict.nav.pricing}
-            </a>
-            <a href="#faq" className="text-muted-foreground hover:text-foreground">
+            </Link>
+            <Link
+              href={`/${locale}#faq`}
+              className="text-muted-foreground hover:text-foreground"
+            >
               {dict.nav.faq}
-            </a>
+            </Link>
+            <Link
+              href={`/${locale}/enterprise`}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              {dict.nav.enterprise}
+            </Link>
           </div>
 
           <div className="flex flex-col gap-3">
