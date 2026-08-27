@@ -80,11 +80,22 @@
   var TEASER_LIFETIME = 8000;
 
   /*
-   * Langue du visiteur.
+   * Langue du visiteur, dans cet ordre :
    *
-   * Lue sur SON navigateur, et non sur le site qui nous heberge : un
-   * anglophone sur un site francais doit pouvoir lire l'invitation. Le
-   * francais reste le repli, comme partout ailleurs dans le produit.
+   *   1. celle que la PAGE declare (<html lang>)
+   *   2. celle du navigateur
+   *   3. le francais
+   *
+   * La page passe avant le navigateur, et c'est le point important. Sur un
+   * site bilingue, quelqu'un qui lit la version anglaise a fait un choix
+   * explicite — il a cliqué sur « EN » — et ce choix doit l'emporter sur le
+   * reglage de son navigateur, qui n'est souvent que celui d'usine. Sans cette
+   * regle, la version anglaise d'un site affiche un widget francais a tous les
+   * visiteurs dont le navigateur est reste en francais.
+   *
+   * Le navigateur reprend la main quand la page ne declare rien, ou declare
+   * une langue que nous ne parlons pas : mieux vaut une langue que le visiteur
+   * comprend qu'un repli aveugle.
    *
    * Cette meme valeur part dans l'adresse de l'iframe : la bulle et la fenetre
    * de discussion parlent ainsi forcement la meme langue. Deux detections
@@ -106,7 +117,9 @@
   };
 
   function detectLang() {
-    var tags = navigator.languages || [navigator.language || ''];
+    var pageLang = (document.documentElement && document.documentElement.lang) || '';
+    var tags = [pageLang].concat(navigator.languages || [navigator.language || '']);
+
     for (var i = 0; i < tags.length; i++) {
       var base = String(tags[i]).toLowerCase().split('-')[0];
       if (STRINGS[base]) return base;
