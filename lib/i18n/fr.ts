@@ -1017,6 +1017,26 @@ export const fr = {
       ctaAction: 'Synchroniser',
     },
   },
+  /*
+   * Fenetre de discussion, cote visiteur.
+   *
+   * Ces phrases s'affichent sur le site du CLIENT, devant SON public. Elles
+   * suivent donc la langue du visiteur, pas celle du proprietaire ni la notre :
+   * un anglophone sur un site francais doit pouvoir lire le champ de saisie.
+   */
+  widget: {
+    close: 'Fermer',
+    placeholder: 'Écrivez votre message…',
+    send: 'Envoyer',
+    error: 'Désolé, une erreur est survenue. Réessayez dans un instant.',
+    unavailable: 'Réponse indisponible.',
+    branding: 'Propulsé par Deezy',
+    leadLead: 'Laissez-nous votre e-mail, nous vous répondons directement.',
+    leadPlaceholder: 'vous@exemple.com',
+    leadThanks: 'Merci, c’est noté. Nous revenons vers vous par e-mail.',
+    leadFailed: 'L’enregistrement a échoué.',
+    leadOffline: 'Connexion impossible. Réessayez.',
+  },
 };
 
 /**

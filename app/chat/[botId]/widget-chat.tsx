@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RichText } from '@/components/rich-text';
+import type { Dictionary } from '@/lib/i18n';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -19,6 +20,8 @@ interface WidgetChatProps {
   /** Faux quand le palier du proprietaire retire la mention Deezy. */
   showBranding: boolean;
   appUrl: string;
+  /** Vocabulaire dans la langue du visiteur, resolu cote serveur. */
+  t: Dictionary['widget'];
 }
 
 /** Identifiant de visiteur, stable tant que l'onglet reste ouvert. */
@@ -45,6 +48,7 @@ export function WidgetChat({
   primaryColor,
   showBranding,
   appUrl,
+  t,
 }: WidgetChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -85,7 +89,7 @@ export function WidgetChat({
           body: JSON.stringify({ botId, sessionId, message: question }),
         });
 
-        if (!response.ok || !response.body) throw new Error('Réponse indisponible.');
+        if (!response.ok || !response.body) throw new Error(t.unavailable);
 
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
@@ -128,7 +132,7 @@ export function WidgetChat({
               } else if (payload.type === 'error') {
                 next[next.length - 1] = {
                   ...last,
-                  content: 'Désolé, une erreur est survenue. Réessayez dans un instant.',
+                  content: t.error,
                 };
               }
               return next;
@@ -142,7 +146,7 @@ export function WidgetChat({
           if (last && last.role === 'assistant' && !last.content) {
             next[next.length - 1] = {
               ...last,
-              content: 'Désolé, une erreur est survenue. Réessayez dans un instant.',
+              content: t.error,
             };
           }
           return next;
@@ -167,7 +171,7 @@ export function WidgetChat({
         <button
           type="button"
           onClick={close}
-          aria-label="Fermer"
+          aria-label={t.close}
           className="cursor-pointer rounded p-1 leading-none opacity-80 transition-opacity hover:opacity-100"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -228,6 +232,7 @@ export function WidgetChat({
               sessionId={sessionId}
               question={lastQuestion.current}
               color={primaryColor}
+              t={t}
               onDone={() => setLeadCaptured(true)}
             />
           )}
@@ -238,7 +243,7 @@ export function WidgetChat({
         <input
           value={input}
           onChange={(event) => setInput(event.target.value)}
-          placeholder="Écrivez votre message…"
+          placeholder={t.placeholder}
           disabled={pending}
           maxLength={1000}
           className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-slate-400"
@@ -246,7 +251,7 @@ export function WidgetChat({
         <button
           type="submit"
           disabled={pending || !input.trim()}
-          aria-label="Envoyer"
+          aria-label={t.send}
           className="shrink-0 cursor-pointer rounded-lg px-3 text-white transition-opacity disabled:opacity-40"
           style={{ backgroundColor: primaryColor }}
         >
@@ -271,7 +276,7 @@ export function WidgetChat({
           rel="noreferrer noopener"
           className="block border-t border-slate-100 py-1.5 text-center text-[10px] text-slate-400 transition-colors hover:text-slate-600"
         >
-          Propulsé par Deezy
+          {t.branding}
         </a>
       )}
     </div>
@@ -290,12 +295,14 @@ function LeadForm({
   sessionId,
   question,
   color,
+  t,
   onDone,
 }: {
   botId: string;
   sessionId: string;
   question: string;
   color: string;
+  t: Dictionary['widget'];
   onDone: () => void;
 }) {
   const [email, setEmail] = useState('');
@@ -306,7 +313,7 @@ function LeadForm({
   if (sent) {
     return (
       <div className="rounded-xl bg-emerald-50 px-3.5 py-3 text-xs leading-relaxed text-emerald-800">
-        Merci, c&apos;est noté. Nous revenons vers vous par e-mail.
+        {t.leadThanks}
       </div>
     );
   }
@@ -328,13 +335,13 @@ function LeadForm({
           const result = (await response.json()) as { ok?: boolean; error?: string };
 
           if (!response.ok || !result.ok) {
-            setError(result.error ?? "L'enregistrement a échoué.");
+            setError(result.error ?? t.leadFailed);
             return;
           }
           setSent(true);
           onDone();
         } catch {
-          setError('Connexion impossible. Réessayez.');
+          setError(t.leadOffline);
         } finally {
           setSending(false);
         }
@@ -342,7 +349,7 @@ function LeadForm({
       className="rounded-xl bg-slate-50 p-3.5"
     >
       <p className="text-xs leading-relaxed text-slate-600">
-        Laissez-nous votre e-mail, nous vous répondons directement.
+        {t.leadLead}
       </p>
 
       <div className="mt-2.5 flex gap-2">
@@ -350,7 +357,7 @@ function LeadForm({
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="vous@exemple.com"
+          placeholder={t.leadPlaceholder}
           required
           disabled={sending}
           className="min-w-0 flex-1 rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs outline-none focus:border-slate-400"
@@ -361,7 +368,7 @@ function LeadForm({
           className="shrink-0 cursor-pointer rounded-lg px-3 text-xs font-medium text-white transition-opacity disabled:opacity-40"
           style={{ backgroundColor: color }}
         >
-          {sending ? '…' : 'Envoyer'}
+          {sending ? '…' : t.send}
         </button>
       </div>
 

@@ -1,4 +1,7 @@
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
+
+import { getDictionary, isLocale, negotiateLocale } from '@/lib/i18n';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { WidgetChat } from './widget-chat';
 import { getLimitsFor } from '@/lib/plans-db';
@@ -13,10 +16,27 @@ import { PUBLIC_APP_URL } from '@/lib/public-url';
  */
 export default async function ChatPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ botId: string }>;
+  searchParams: Promise<{ lang?: string }>;
 }) {
   const { botId } = await params;
+
+  /*
+   * Langue du VISITEUR, pas celle du proprietaire.
+   *
+   * `?lang=` est pose par widget.js, qui lit la langue du navigateur sur le
+   * site du client. On le prefere a l'en-tete parce qu'il garantit que la
+   * bulle d'invitation, ecrite sur la page du client, et cette fenetre parlent
+   * la meme langue — deux sources independantes finiraient par se contredire.
+   *
+   * L'en-tete prend le relais quand le parametre manque : quelqu'un qui ouvre
+   * /chat/<id> directement doit tomber sur une langue sensee.
+   */
+  const { lang } = await searchParams;
+  const locale = isLocale(lang) ? lang : negotiateLocale((await headers()).get('accept-language'));
+  const dict = getDictionary(locale);
 
   const db = createAdminClient();
 
@@ -46,6 +66,7 @@ export default async function ChatPage({
       primaryColor={bot.primary_color}
       showBranding={!(limits.removeBranding && bot.hide_branding)}
       appUrl={PUBLIC_APP_URL}
+      t={dict.widget}
     />
   );
 }

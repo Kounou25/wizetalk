@@ -892,9 +892,7 @@ export const en: Dictionary = {
       notifyLeadsTitle: 'Email me for every lead',
       notifyLeadsBody:
         'You get the question and the address as soon as it is captured, so you can follow up while interest is still high.',
-      /* La mention du widget est ecrite en dur en francais : la citer telle
-         quelle evite de promettre un texte qui n'existe pas. */
-      brandingTitle: 'Remove the “Propulsé par Deezy” mention',
+      brandingTitle: 'Remove the “Powered by Deezy” mention',
       brandingBody:
         'The small line at the bottom of the chat window disappears from the widget on your site.',
       brandingLocked:
@@ -947,5 +945,18 @@ export const en: Dictionary = {
       cta: 'Add this information to your site, then run a sync: the assistant will know it.',
       ctaAction: 'Sync',
     },
+  },
+  widget: {
+    close: 'Close',
+    placeholder: 'Type your message…',
+    send: 'Send',
+    error: 'Sorry, something went wrong. Please try again in a moment.',
+    unavailable: 'Reply unavailable.',
+    branding: 'Powered by Deezy',
+    leadLead: 'Leave us your email and we will get back to you directly.',
+    leadPlaceholder: 'you@example.com',
+    leadThanks: 'Thanks, noted. We will get back to you by email.',
+    leadFailed: 'Could not save your address.',
+    leadOffline: 'Connection failed. Please try again.',
   },
 };

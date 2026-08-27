@@ -76,9 +76,46 @@
    * surgit sur la page qu'on est en train de lire est la raison pour laquelle
    * la plupart des visiteurs ferment ces widgets sans les avoir essayes.
    */
-  var TEASER_TEXT = 'Une question ? Je vous réponds tout de suite.';
   var TEASER_DELAY = 4000;
-  var TEASER_LIFETIME = 20000;
+  var TEASER_LIFETIME = 8000;
+
+  /*
+   * Langue du visiteur.
+   *
+   * Lue sur SON navigateur, et non sur le site qui nous heberge : un
+   * anglophone sur un site francais doit pouvoir lire l'invitation. Le
+   * francais reste le repli, comme partout ailleurs dans le produit.
+   *
+   * Cette meme valeur part dans l'adresse de l'iframe : la bulle et la fenetre
+   * de discussion parlent ainsi forcement la meme langue. Deux detections
+   * independantes finiraient par se contredire.
+   */
+  var STRINGS = {
+    fr: {
+      teaser: 'Une question ? Je vous réponds tout de suite.',
+      open: 'Ouvrir le chat',
+      close: 'Fermer le chat',
+      hide: "Masquer l'invitation",
+    },
+    en: {
+      teaser: 'A question? I answer right away.',
+      open: 'Open chat',
+      close: 'Close chat',
+      hide: 'Hide this invitation',
+    },
+  };
+
+  function detectLang() {
+    var tags = navigator.languages || [navigator.language || ''];
+    for (var i = 0; i < tags.length; i++) {
+      var base = String(tags[i]).toLowerCase().split('-')[0];
+      if (STRINGS[base]) return base;
+    }
+    return 'fr';
+  }
+
+  var lang = detectLang();
+  var T = STRINGS[lang];
 
   /*
    * Les animations demandent des images-cles, qu'un style en ligne ne peut pas
@@ -127,7 +164,7 @@
     // --- Bouton flottant --------------------------------------------------
     var launcher = document.createElement('button');
     launcher.type = 'button';
-    launcher.setAttribute('aria-label', 'Ouvrir le chat');
+    launcher.setAttribute('aria-label', T.open);
     launcher.style.cssText = [
       'position:fixed',
       'bottom:' + EDGE + 'px',
@@ -176,8 +213,8 @@
 
     var invite = document.createElement('button');
     invite.type = 'button';
-    invite.setAttribute('aria-label', TEASER_TEXT + ' Ouvrir le chat.');
-    invite.textContent = TEASER_TEXT;
+    invite.setAttribute('aria-label', T.teaser + ' ' + T.open + '.');
+    invite.textContent = T.teaser;
     invite.style.cssText = [
       'position:relative',
       'margin:0',
@@ -197,7 +234,7 @@
 
     var dismiss = document.createElement('button');
     dismiss.type = 'button';
-    dismiss.setAttribute('aria-label', "Masquer l'invitation");
+    dismiss.setAttribute('aria-label', T.hide);
     dismiss.innerHTML =
       '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#475569"' +
       ' stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
@@ -270,7 +307,7 @@
 
     // --- Iframe -----------------------------------------------------------
     var frame = document.createElement('iframe');
-    frame.src = origin + '/chat/' + encodeURIComponent(botId);
+    frame.src = origin + '/chat/' + encodeURIComponent(botId) + '?lang=' + lang;
     frame.title = config.name || 'Assistant';
     frame.setAttribute('allow', 'clipboard-write');
     frame.style.cssText = [
@@ -317,7 +354,7 @@
 
     function toggle(next) {
       open = next;
-      launcher.setAttribute('aria-label', open ? 'Fermer le chat' : 'Ouvrir le chat');
+      launcher.setAttribute('aria-label', open ? T.close : T.open);
       if (open) hideTeaser(true);
 
       if (open) {
