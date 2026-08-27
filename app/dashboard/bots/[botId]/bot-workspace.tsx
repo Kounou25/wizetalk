@@ -6,15 +6,7 @@ import { RefreshCw, SendHorizontal, Sparkles, TriangleAlert } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { Dictionary } from '@/lib/i18n';
-
-interface TickResult {
-  status: string;
-  pagesFound: number;
-  pagesDone: number;
-  chunksDone: number;
-  done: boolean;
-  error?: string;
-}
+import { runCrawl, type CrawlProgress } from '@/lib/crawl-client';
 
 interface BotWorkspaceProps {
   botId: string;
@@ -33,7 +25,7 @@ export function BotWorkspace({
 }: BotWorkspaceProps) {
   const t = dict.dashboard.knowledge;
   const phases: Record<string, string> = t.phases;
-  const [progress, setProgress] = useState<TickResult | null>(null);
+  const [progress, setProgress] = useState<CrawlProgress | null>(null);
   const [running, setRunning] = useState(false);
 
   const analyze = useCallback(async () => {
@@ -41,43 +33,7 @@ export function BotWorkspace({
     setProgress(null);
 
     try {
-      const startResponse = await fetch('/api/crawl', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ botId }),
-      });
-      const started = (await startResponse.json()) as { jobId?: string; error?: string };
-      if (!started.jobId) throw new Error(started.error ?? 'Analyse impossible.');
-
-      // L'onglet joue le role d'ordonnanceur : chaque appel avance le job d'un
-      // cran, jusqu'a ce que le serveur reponde done. C'est ce qui permet de
-      // tenir dans les limites de duree du serverless sans file d'attente.
-      let done = false;
-      while (!done) {
-        const tickResponse = await fetch('/api/crawl/tick', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ jobId: started.jobId }),
-        });
-
-        // Une coupure de la plateforme (502, 504, delai depasse) ne renvoie pas
-        // de JSON : sans ce garde-fou, l'analyse s'arreterait sur une erreur
-        // d'analyse syntaxique au lieu de dire ce qui s'est reellement passe.
-        const raw = await tickResponse.text();
-        let result: TickResult;
-        try {
-          result = JSON.parse(raw) as TickResult;
-        } catch {
-          throw new Error(
-            `Le serveur a répondu ${tickResponse.status} : ${raw.slice(0, 200) || 'réponse vide'}`,
-          );
-        }
-
-        setProgress(result);
-        if (result.error) return;
-        done = result.done;
-      }
-
+      await runCrawl(botId, setProgress);
       window.location.reload();
     } catch (error) {
       setProgress({

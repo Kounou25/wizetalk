@@ -840,6 +840,22 @@ export const fr = {
         "Nous explorerons ce site et ses pages internes. Aucun autre domaine n'est visité.",
       submit: 'Créer mon assistant',
       submitting: 'Création…',
+      /* Deuxieme etape : l'analyse demarre seule, il faut donc dire ce qui se
+         passe et pourquoi il ne faut pas fermer l'onglet. */
+      submitHint: 'L’analyse de votre site démarre aussitôt.',
+      stepsTitle: 'Ce qui se passe ensuite',
+      analysing: 'Analyse de votre site',
+      analysingLead: 'Nous lisons vos pages et en extrayons ce que l’assistant devra savoir.',
+      keepOpen: 'Gardez cet onglet ouvert. Cela prend généralement une à deux minutes.',
+      pagesFound: 'pages trouvées',
+      pagesRead: 'pages lues',
+      sectionsBuilt: 'sections indexées',
+      analysisFailed: 'L’analyse n’a pas abouti',
+      retry: 'Réessayer',
+      openBot: 'Ouvrir l’assistant',
+      /* Le nom se deduit du domaine : un champ pre-rempli se corrige, un champ
+         vide se subit. */
+      nameFromUrl: 'Déduit de votre adresse — modifiable.',
       steps: [
         'Nous explorons votre site et en extrayons le contenu utile.',
         'Vous testez votre assistant directement depuis le tableau de bord.',

@@ -17,6 +17,13 @@ export interface BotFormState {
   error?: string;
   /** Limite atteinte : le formulaire ouvre la proposition de mise a niveau. */
   upgrade?: UpgradeOffer;
+  /**
+   * Assistant cree. Le formulaire enchaine alors sur l'analyse du site.
+   *
+   * Renvoye plutot que redirige : la redirection quittait la page avant que
+   * quoi que ce soit ait pu demarrer, et l'analyse est pilotee par l'onglet.
+   */
+  botId?: string;
   saved?: boolean;
 }
 
@@ -82,7 +89,7 @@ export async function createBot(
 
   revalidatePath('/dashboard');
   revalidatePath('/dashboard/bots');
-  redirect(`/dashboard/bots/${data.id}`);
+  return { botId: data.id as string };
 }
 
 const botSettings = z.object({
