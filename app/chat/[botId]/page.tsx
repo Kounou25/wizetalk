@@ -74,7 +74,9 @@ export default async function ChatPage({
     <WidgetChat
       botId={bot.id}
       name={bot.name}
-      welcomeMessage={bot.welcome_message}
+      // NULL = pas d'accueil choisi : on sert le notre, dans la langue
+      // resolue plus haut.
+      welcomeMessage={bot.welcome_message ?? dict.widget.welcomeDefault}
       primaryColor={bot.primary_color}
       showBranding={!(limits.removeBranding && bot.hide_branding)}
       appUrl={PUBLIC_APP_URL}

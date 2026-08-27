@@ -118,12 +118,12 @@ export function SettingsCard({
                 name="welcomeMessage"
                 value={welcome}
                 onChange={(event) => setWelcome(event.target.value)}
+                placeholder={t.welcomePlaceholder}
                 maxLength={200}
                 rows={3}
-                required
               />
-              <p className="text-muted-foreground text-xs tabular-nums">
-                {welcome.length}/200 {t.chars}
+              <p className="text-muted-foreground text-xs text-pretty">
+                {welcome.trim() ? `${welcome.length}/200 ${t.chars}` : t.welcomeAuto}
               </p>
             </div>
 
@@ -501,7 +501,7 @@ function WidgetPreview({
             </div>
             <div className="p-3">
               <p className="rounded-xl bg-slate-100 px-2.5 py-2 text-[11px] leading-relaxed text-slate-700">
-                {welcome || t.previewPlaceholder}
+                {welcome.trim() || t.welcomePlaceholder}
               </p>
             </div>
           </div>

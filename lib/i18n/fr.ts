@@ -945,6 +945,12 @@ export const fr = {
       lead: "L'aperçu se met à jour pendant que vous tapez.",
       nameLabel: "Nom de l'assistant",
       welcomeLabel: "Message d'accueil",
+      /* Le champ est facultatif : vide, l'accueil de Deezy s'affiche dans la
+         langue du visiteur. Sans cette phrase, personne ne devine qu'ecrire
+         quelque chose fige la langue. */
+      welcomeAuto:
+        'Laissez vide pour utiliser l’accueil de Deezy, traduit selon la langue du visiteur.',
+      welcomePlaceholder: 'Bonjour ! Comment puis-je vous aider ?',
       chars: 'caractères',
       colorLabel: 'Couleur principale',
       positionLabel: 'Position sur votre site',
@@ -954,7 +960,6 @@ export const fr = {
       saving: 'Enregistrement…',
       saved: 'Enregistré',
       preview: 'Aperçu',
-      previewPlaceholder: 'Votre message d’accueil apparaîtra ici.',
       leadCaptureTitle: 'Récupérer les e-mails sur question sans réponse',
       leadCaptureBody:
         "Quand l'assistant ne sait pas, il propose au visiteur de laisser son adresse plutôt que de le laisser partir.",
@@ -1033,6 +1038,7 @@ export const fr = {
    * un anglophone sur un site francais doit pouvoir lire le champ de saisie.
    */
   widget: {
+    welcomeDefault: 'Bonjour ! Comment puis-je vous aider ?',
     close: 'Fermer',
     placeholder: 'Écrivez votre message…',
     send: 'Envoyer',

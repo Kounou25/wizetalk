@@ -87,10 +87,14 @@ export async function createBot(
 
 const botSettings = z.object({
   name: z.string().trim().min(2, "Donnez un nom à votre assistant.").max(60),
+  /*
+   * Vide est une valeur, pas une erreur : elle signifie « garde l'accueil de
+   * Deezy », qui suit alors la langue du visiteur. L'imposer non vide obligeait
+   * chaque proprietaire a figer une langue sans le savoir.
+   */
   welcomeMessage: z
     .string()
     .trim()
-    .min(2, "Le message d'accueil ne peut pas être vide.")
     .max(200, "200 caractères maximum : c'est une bulle, pas une page."),
   // Hexadecimal a 6 chiffres : c'est ce que produit <input type="color">,
   // et ce que widget.js injecte tel quel dans un style inline.
@@ -135,7 +139,7 @@ export async function updateBot(
 
   const changes: Record<string, unknown> = {
     name: parsed.data.name,
-    welcome_message: parsed.data.welcomeMessage,
+    welcome_message: parsed.data.welcomeMessage || null,
     primary_color: parsed.data.primaryColor,
     position: parsed.data.position,
     lead_capture: parsed.data.leadCapture,

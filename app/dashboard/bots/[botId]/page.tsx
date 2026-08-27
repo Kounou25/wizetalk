@@ -324,7 +324,7 @@ export default async function BotPage({
         <SettingsCard
           botId={bot.id}
           name={bot.name}
-          welcomeMessage={bot.welcome_message}
+          welcomeMessage={bot.welcome_message ?? ''}
           primaryColor={bot.primary_color}
           position={bot.position}
           isActive={bot.is_active}

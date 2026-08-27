@@ -876,6 +876,9 @@ export const en: Dictionary = {
       lead: 'The preview updates as you type.',
       nameLabel: 'Assistant name',
       welcomeLabel: 'Welcome message',
+      welcomeAuto:
+        'Leave empty to use Deezy’s greeting, translated to the visitor’s language.',
+      welcomePlaceholder: 'Hello! How can I help you?',
       chars: 'characters',
       colorLabel: 'Primary colour',
       positionLabel: 'Position on your site',
@@ -885,7 +888,6 @@ export const en: Dictionary = {
       saving: 'Saving…',
       saved: 'Saved',
       preview: 'Preview',
-      previewPlaceholder: 'Your welcome message will appear here.',
       leadCaptureTitle: 'Collect emails on unanswered questions',
       leadCaptureBody:
         'When the assistant does not know, it offers the visitor a callback instead of letting them leave.',
@@ -953,6 +955,7 @@ export const en: Dictionary = {
     },
   },
   widget: {
+    welcomeDefault: 'Hello! How can I help you?',
     close: 'Close',
     placeholder: 'Type your message…',
     send: 'Send',
