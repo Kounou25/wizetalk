@@ -23,6 +23,9 @@ export const metadata: Metadata = {
 import { getMessageBalance } from '@/lib/quotas';
 import { isExhausted } from '@/lib/plans';
 import { buildUpgradeOffer } from '@/lib/upgrade';
+import { cookies } from 'next/headers';
+import { createAdminClient } from '@/lib/supabase/admin';
+import { ACQ_COOKIE, decodeAcquisition, recordAcquisitionOnce } from '@/lib/acquisition';
 
 /** "marie.dupont@exemple.fr" -> "MD" */
 function initialsFromEmail(email: string): string {
@@ -73,8 +76,24 @@ export default async function DashboardLayout({
   const messagesOffer =
     balance && isExhausted(balance) ? await buildUpgradeOffer(balance.plan, 'messages') : null;
 
+  /*
+   * Provenance du compte, ecrite au premier passage dans le tableau de bord.
+   *
+   * Ici parce que c'est le seul endroit traverse par les deux chemins
+   * d'inscription — mot de passe et Google — et parce que le declencheur SQL
+   * qui cree la ligne `profiles` tourne dans Postgres, sans acces aux cookies.
+   */
+  const acq = decodeAcquisition((await cookies()).get(ACQ_COOKIE)?.value);
+
   const appUrl = await requestOrigin();
   after(async () => {
+    await recordAcquisitionOnce(
+      createAdminClient(),
+      user.id,
+      user.created_at,
+      acq,
+    );
+
     await sendWelcomeEmailOnce({
       id: user.id,
       email: user.email ?? '',

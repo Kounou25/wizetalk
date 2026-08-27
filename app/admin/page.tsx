@@ -6,9 +6,11 @@ import {
   computeBillingStats,
   getBotBreakdown,
   getPlatformSeries,
+  getAcquisitionBreakdown,
   getPlatformStats,
   listBots,
   listSubscriptions,
+  type AcquisitionRow,
   type Breakdown,
 } from '@/lib/admin/queries';
 import type { PlanId } from '@/lib/plans';
@@ -30,12 +32,13 @@ export default async function AdminOverviewPage() {
   // privilegie : impossible de lire ces donnees sans repasser le controle.
   const { db } = await requireAdmin();
 
-  const [stats, bots, series, botBreakdown, subscriptions] = await Promise.all([
+  const [stats, bots, series, botBreakdown, subscriptions, acquisition] = await Promise.all([
     getPlatformStats(db),
     listBots(db, 8),
     getPlatformSeries(db),
     getBotBreakdown(db),
     listSubscriptions(db),
+    getAcquisitionBreakdown(db),
   ]);
 
   const dict = getDictionary('fr');
@@ -140,6 +143,8 @@ export default async function AdminOverviewPage() {
         <BreakdownPanel title="État des assistants" rows={botBreakdown} />
       </div>
 
+      <AcquisitionPanel rows={acquisition} />
+
       {/*
         Le taux de refus est l'indicateur de sante du produit : s'il grimpe,
         soit le seuil de similarite est trop haut, soit les sites indexes sont
@@ -214,6 +219,83 @@ export default async function AdminOverviewPage() {
  * une tache visuelle nettement plus fiable que comparer des angles, et le
  * libelle reste lisible sans legende separee.
  */
+/**
+ * Provenance des comptes.
+ *
+ * Deux colonnes et non une : le nombre de comptes dit ou passent les gens, le
+ * nombre de payants dit lesquels valent quelque chose. Un canal qui amene
+ * quarante essais et aucun abonnement n'est pas un bon canal, et une colonne
+ * unique de comptes le presenterait comme le meilleur.
+ *
+ * Le tri suit les payants d'abord, pour la meme raison.
+ */
+function AcquisitionPanel({ rows }: { rows: AcquisitionRow[] }) {
+  const accounts = rows.reduce((sum, row) => sum + row.accounts, 0);
+  const paying = rows.reduce((sum, row) => sum + row.paying, 0);
+
+  return (
+    <section className="panel flex flex-col">
+      <div className="border-border flex flex-wrap items-baseline justify-between gap-2 border-b px-4 py-3.5">
+        <h2 className="text-sm font-semibold">Provenance des comptes</h2>
+        <span className="text-muted-foreground text-xs tabular-nums">
+          {accounts.toLocaleString('fr-FR')} compte{accounts > 1 ? 's' : ''} ·{' '}
+          {paying.toLocaleString('fr-FR')} payant{paying > 1 ? 's' : ''}
+        </span>
+      </div>
+
+      {rows.length === 0 ? (
+        <p className="text-muted-foreground p-4 text-sm">Aucune donnée.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="text-muted-foreground border-border border-b text-left text-xs">
+              <tr>
+                <th scope="col" className="px-4 py-3 font-medium">Canal</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Comptes</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Part</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Payants</th>
+                <th scope="col" className="px-4 py-3 text-right font-medium">Conversion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => {
+                const share = accounts > 0 ? (row.accounts / accounts) * 100 : 0;
+                const rate = row.accounts > 0 ? (row.paying / row.accounts) * 100 : 0;
+                const untracked = row.channel === 'Avant le suivi';
+
+                return (
+                  <tr key={row.channel} className="border-border border-b last:border-0">
+                    <td className="px-4 py-3">
+                      <span className={untracked ? 'text-muted-foreground' : 'font-medium'}>
+                        {row.channel}
+                      </span>
+                      {untracked && (
+                        <p className="text-muted-foreground mt-0.5 text-xs text-pretty">
+                          Comptes créés avant la mise en place de la mesure.
+                        </p>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-right tabular-nums">{row.accounts}</td>
+                    <td className="text-muted-foreground px-4 py-3 text-right tabular-nums">
+                      {share.toFixed(0)} %
+                    </td>
+                    <td className="px-4 py-3 text-right tabular-nums">{row.paying}</td>
+                    {/* Sans compte, pas de taux : « 0 % » laisserait croire a un
+                        echec la ou il n'y a simplement rien eu. */}
+                    <td className="px-4 py-3 text-right font-medium tabular-nums">
+                      {row.accounts === 0 ? '—' : `${rate.toFixed(0)} %`}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function BreakdownPanel({ title, rows }: { title: string; rows: Breakdown[] }) {
   const total = rows.reduce((sum, row) => sum + row.value, 0);
 

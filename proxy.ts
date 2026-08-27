@@ -17,6 +17,12 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { DEFAULT_LOCALE, isLocale, negotiateLocale } from '@/lib/i18n/config';
+import {
+  ACQ_COOKIE,
+  ACQ_MAX_AGE,
+  encodeAcquisition,
+  readAcquisition,
+} from '@/lib/acquisition';
 
 /** En-tete lu par le layout racine pour poser l'attribut lang du document. */
 const LOCALE_HEADER = 'x-deezy-locale';
@@ -84,6 +90,39 @@ export async function proxy(request: NextRequest) {
     url.pathname = '/dashboard';
     url.search = '';
     return NextResponse.redirect(url);
+  }
+
+  /*
+   * Provenance de la premiere visite.
+   *
+   * Ici plutot que dans une page : le proxy voit TOUTES les entrees, y compris
+   * quelqu'un qui arrive directement sur /fr/signup depuis une publicite. Une
+   * capture posee sur la page d'accueil raterait exactement les visiteurs les
+   * plus interessants.
+   *
+   * `has` et non une ecriture systematique : la premiere visite gagne. La
+   * derniere ecraserait la source d'origine par le « direct » du visiteur qui
+   * revient, c'est-a-dire par le canal qui ne fait que le ramener.
+   */
+  const isPageView =
+    request.method === 'GET' &&
+    (request.headers.get('accept') ?? '').includes('text/html');
+
+  if (isPageView && !request.cookies.has(ACQ_COOKIE)) {
+    const acq = readAcquisition(
+      request.headers.get('referer'),
+      request.nextUrl.searchParams,
+      request.nextUrl.hostname,
+    );
+
+    response.cookies.set(ACQ_COOKIE, encodeAcquisition(acq), {
+      path: '/',
+      maxAge: ACQ_MAX_AGE,
+      sameSite: 'lax',
+      // Lu uniquement par le serveur, a l'inscription. Aucun script de page
+      // n'a de raison d'y toucher.
+      httpOnly: true,
+    });
   }
 
   // Une langue choisie par l'URL devient la preference du visiteur : le

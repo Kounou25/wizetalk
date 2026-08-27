@@ -2,6 +2,7 @@ import 'server-only';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { PLAN_PRICING, type PlanId } from '@/lib/plans';
+import { channelOf } from '@/lib/acquisition';
 
 /**
  * Lectures du back-office.
@@ -481,6 +482,51 @@ export async function getPlatformSeries(db: Db, days = 90): Promise<PlatformPoin
   }
 
   return [...buckets.values()];
+}
+
+export interface AcquisitionRow {
+  channel: string;
+  accounts: number;
+  /** Comptes de ce canal qui ont pris un abonnement payant. */
+  paying: number;
+}
+
+/**
+ * Provenance des comptes, canal par canal.
+ *
+ * Le classement se fait a la LECTURE, a partir des valeurs brutes stockees :
+ * corriger la reconnaissance d'un domaine reclasse tout l'historique, au lieu
+ * de ne s'appliquer qu'aux inscriptions suivantes.
+ *
+ * Les comptes crees avant la mesure ressortent dans une ligne distincte. Les
+ * noyer dans « Direct » gonflerait le seul canal qu'on ne peut pas piloter, et
+ * ferait croire que le bouche-a-oreille marche mieux qu'il ne marche.
+ */
+export async function getAcquisitionBreakdown(db: Db): Promise<AcquisitionRow[]> {
+  const { data } = await db
+    .from('profiles')
+    .select('plan, acq_at, acq_referrer, acq_source, acq_medium');
+
+  const rows = new Map<string, AcquisitionRow>();
+
+  for (const row of data ?? []) {
+    const channel = row.acq_at
+      ? channelOf({
+          referrer: (row.acq_referrer as string | null) ?? null,
+          source: (row.acq_source as string | null) ?? null,
+          medium: (row.acq_medium as string | null) ?? null,
+        })
+      : 'Avant le suivi';
+
+    const bucket = rows.get(channel) ?? { channel, accounts: 0, paying: 0 };
+    bucket.accounts += 1;
+    if (row.plan && row.plan !== 'trial') bucket.paying += 1;
+    rows.set(channel, bucket);
+  }
+
+  return [...rows.values()].sort(
+    (a, b) => b.paying - a.paying || b.accounts - a.accounts,
+  );
 }
 
 export interface Breakdown {
