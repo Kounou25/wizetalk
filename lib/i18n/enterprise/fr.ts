@@ -235,6 +235,22 @@ export const enterpriseFr = {
       },
     ],
     note: 'La collecte des coordonnées et l’alerte à vos équipes fonctionnent aujourd’hui. Le transfert vers un agent en direct dépend des outils de votre organisation, et se traite pendant l’implémentation.',
+
+    /* La question et la réponse affichées dans la maquette du chemin simple :
+       volontairement banales, ce sont celles qui occupent le plus les équipes. */
+    simplePreview: {
+      question: 'Vous êtes ouverts le samedi ?',
+      answer: 'Oui, de 9 h à 13 h dans toutes nos agences.',
+      sourceLabel: 'D’après votre page « Horaires »',
+    },
+
+    /* Textes alternatifs : ils décrivent une scène, jamais une identité. Voir
+       public/enterprise/SOURCES.md — ces visages illustrent les équipes du
+       CLIENT, et ne peuvent ni être nommés ni se voir prêter une citation. */
+    photoAlt:
+      'Deux conseillers équipés d’un casque, en conversation depuis leur bureau',
+    teamLabel: 'Votre équipe prend le relais',
+    agentAlt: 'Portrait d’un conseiller au support',
   },
 
   analytics: {

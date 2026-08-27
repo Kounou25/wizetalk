@@ -213,6 +213,16 @@ export const enterpriseEn: EnterpriseDictionary = {
       },
     ],
     note: 'Contact capture and team alerts work today. Transfer to a live agent depends on your organization’s tooling, and is addressed during implementation.',
+
+    simplePreview: {
+      question: 'Are you open on Saturdays?',
+      answer: 'Yes, from 9 AM to 1 PM in every branch.',
+      sourceLabel: 'From your “Opening hours” page',
+    },
+
+    photoAlt: 'Two advisors wearing headsets, talking with customers from their office',
+    teamLabel: 'Your team takes over',
+    agentAlt: 'Portrait of a support advisor',
   },
 
   analytics: {
