@@ -64,7 +64,62 @@
   // Bas du panneau : juste au-dessus du bouton.
   var PANEL_BOTTOM = EDGE + LAUNCHER + GAP;
 
+  /*
+   * Invitation posee a cote du bouton.
+   *
+   * Elle apparait apres un delai, s'efface d'elle-meme, et ne revient plus une
+   * fois ecartee ou une fois la discussion ouverte. Ces trois regles sont ce
+   * qui separe une invitation d'une publicite : elle propose, puis elle sort
+   * du chemin.
+   *
+   * Elle n'ouvre JAMAIS le panneau toute seule. Un cadre de 360 par 520 qui
+   * surgit sur la page qu'on est en train de lire est la raison pour laquelle
+   * la plupart des visiteurs ferment ces widgets sans les avoir essayes.
+   */
+  var TEASER_TEXT = 'Une question ? Je vous réponds tout de suite.';
+  var TEASER_DELAY = 4000;
+  var TEASER_LIFETIME = 20000;
+
+  /*
+   * Les animations demandent des images-cles, qu'un style en ligne ne peut pas
+   * porter. C'est la seule chose que l'on ecrit dans la page du client : une
+   * balise unique, des noms prefixes, aucun selecteur qui deborde sur son
+   * propre CSS.
+   */
+  function injectStyles() {
+    if (document.getElementById('deezy-styles')) return;
+
+    var style = document.createElement('style');
+    style.id = 'deezy-styles';
+    style.textContent = [
+      '@keyframes deezy-teaser-in{',
+      'from{opacity:0;transform:translateY(6px) scale(.96)}',
+      'to{opacity:1;transform:none}}',
+      '@keyframes deezy-teaser-out{',
+      'from{opacity:1;transform:none}',
+      'to{opacity:0;transform:translateY(4px) scale(.98)}}',
+      '.deezy-teaser{animation:deezy-teaser-in .28s cubic-bezier(.16,1,.3,1) both}',
+      '.deezy-teaser-leaving{animation:deezy-teaser-out .18s ease both}',
+      /*
+       * Mouvement reduit : le fondu reste, le deplacement disparait.
+       *
+       * Ce reglage est souvent active par des personnes sujettes au vertige ou
+       * a la migraine. Une bulle qui jaillit d'un coin est exactement ce
+       * qu'elles ont demande a ne plus voir — mais les faire disparaitre
+       * entierement leur retirerait l'invitation, ce qui n'est pas ce qu'elles
+       * ont demande non plus.
+       */
+      '@media (prefers-reduced-motion:reduce){',
+      '.deezy-teaser{animation:none;opacity:1}',
+      '.deezy-teaser-leaving{animation:none;opacity:0}}',
+    ].join('');
+
+    document.head.appendChild(style);
+  }
+
   function mount(config) {
+    injectStyles();
+
     var isLeft = config.position === 'bottom-left';
     var side = isLeft ? 'left' : 'right';
     var color = config.primaryColor || '#2563eb';
@@ -104,6 +159,114 @@
     launcher.addEventListener('mouseleave', function () {
       launcher.style.transform = 'scale(1)';
     });
+
+    // --- Invitation -------------------------------------------------------
+    var teaser = document.createElement('div');
+    teaser.style.cssText = [
+      'position:fixed',
+      // Meme hauteur que le bouton : la bulle se centre dessus sans calcul.
+      'bottom:' + EDGE + 'px',
+      'height:' + LAUNCHER + 'px',
+      side + ':' + (EDGE + LAUNCHER + 10) + 'px',
+      'display:none',
+      'align-items:center',
+      'z-index:2147482999',
+      'max-width:min(240px, calc(100vw - ' + (EDGE * 2 + LAUNCHER + 20) + 'px))',
+    ].join(';');
+
+    var invite = document.createElement('button');
+    invite.type = 'button';
+    invite.setAttribute('aria-label', TEASER_TEXT + ' Ouvrir le chat.');
+    invite.textContent = TEASER_TEXT;
+    invite.style.cssText = [
+      'position:relative',
+      'margin:0',
+      'padding:9px 12px',
+      'border:none',
+      'border-radius:12px',
+      // Blanc et non la couleur de la marque : la bulle doit ressembler a un
+      // message, pas a une banniere.
+      'background:#fff',
+      'color:#0f172a',
+      'font:500 13px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif',
+      'text-align:' + (isLeft ? 'left' : 'right'),
+      'box-shadow:0 4px 20px rgba(0,0,0,.14)',
+      'cursor:pointer',
+      'display:block',
+    ].join(';');
+
+    var dismiss = document.createElement('button');
+    dismiss.type = 'button';
+    dismiss.setAttribute('aria-label', "Masquer l'invitation");
+    dismiss.innerHTML =
+      '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#475569"' +
+      ' stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+    dismiss.style.cssText = [
+      'position:absolute',
+      'top:-7px',
+      'right:-7px',
+      'width:20px',
+      'height:20px',
+      'padding:0',
+      'border:none',
+      'border-radius:9999px',
+      'background:#e2e8f0',
+      'cursor:pointer',
+      'display:flex',
+      'align-items:center',
+      'justify-content:center',
+      'box-shadow:0 1px 4px rgba(0,0,0,.15)',
+    ].join(';');
+
+    var teaserTimer;
+
+    function hideTeaser(remember) {
+      clearTimeout(teaserTimer);
+      if (teaser.style.display === 'none') return;
+
+      teaser.className = 'deezy-teaser deezy-teaser-leaving';
+      setTimeout(function () {
+        teaser.style.display = 'none';
+        teaser.className = '';
+      }, 180);
+
+      // Ecarte volontairement : on ne la represente pas de la visite.
+      if (remember) {
+        try {
+          sessionStorage.setItem('deezy:teaser:' + botId, '1');
+        } catch (e) {
+          /* navigation privee : l'invitation reviendra, sans consequence. */
+        }
+      }
+    }
+
+    function showTeaser() {
+      if (open) return;
+      try {
+        if (sessionStorage.getItem('deezy:teaser:' + botId)) return;
+      } catch (e) {
+        /* stockage indisponible : on affiche, c'est le comportement le plus sur. */
+      }
+
+      teaser.style.display = 'flex';
+      teaser.className = 'deezy-teaser';
+      teaserTimer = setTimeout(function () {
+        hideTeaser(false);
+      }, TEASER_LIFETIME);
+    }
+
+    invite.addEventListener('click', function () {
+      hideTeaser(true);
+      toggle(true);
+    });
+
+    dismiss.addEventListener('click', function (event) {
+      event.stopPropagation();
+      hideTeaser(true);
+    });
+
+    invite.appendChild(dismiss);
+    teaser.appendChild(invite);
 
     // --- Iframe -----------------------------------------------------------
     var frame = document.createElement('iframe');
@@ -155,6 +318,7 @@
     function toggle(next) {
       open = next;
       launcher.setAttribute('aria-label', open ? 'Fermer le chat' : 'Ouvrir le chat');
+      if (open) hideTeaser(true);
 
       if (open) {
         applyViewport();
@@ -183,6 +347,9 @@
     });
 
     document.body.appendChild(launcher);
+    document.body.appendChild(teaser);
     document.body.appendChild(frame);
+
+    setTimeout(showTeaser, TEASER_DELAY);
   }
 })();
