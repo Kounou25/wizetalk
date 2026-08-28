@@ -118,6 +118,8 @@ export const enterpriseFr = {
     ],
     payoff:
       'Deezy donne au visiteur l’information dont il a besoin, sans lui demander de la chercher.',
+    /* Décrit une scène, jamais une identité — voir public/enterprise/SOURCES.md. */
+    photoAlt: 'Une personne consulte son téléphone, à l’extérieur d’un bâtiment',
   },
 
   solution: {
@@ -482,6 +484,8 @@ export const enterpriseFr = {
       },
     ],
     cta: 'Parler à notre équipe',
+    photoAlt:
+      'Deux personnes en séance de travail, l’une au paperboard, l’autre devant un ordinateur portable',
   },
 
   pricing: {

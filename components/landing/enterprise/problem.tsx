@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 
 import { Reveal } from '@/components/reveal';
@@ -15,6 +16,17 @@ import { Section, SectionHeading } from '../section';
  * Aucun chiffre. Un « 68 % des visiteurs abandonnent » non source serait la
  * ligne la plus attaquable de la page, et la premiere qu'un acheteur
  * demanderait a justifier.
+ *
+ * LA PHOTOGRAPHIE PORTE CE QUE LE TEXTE NE PEUT PAS DIRE
+ *
+ * Le reste de la section est une mecanique : une chaine d'etapes, quatre
+ * consequences. Elle explique le probleme, elle ne le fait pas ressentir. La
+ * bande photographique remet la personne au debut du raisonnement — c'est
+ * quelqu'un qui cherche une reponse sur son telephone, pas un « visiteur ».
+ *
+ * Elle illustre un CLIENT du lecteur, jamais un client de Deezy : aucune
+ * legende, aucun nom, aucune marque d'entreprise identifiable a l'image.
+ * Voir public/enterprise/SOURCES.md.
  */
 export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.problem;
@@ -22,6 +34,25 @@ export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
   return (
     <Section id="probleme-enterprise">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
+
+      <Reveal delay={60}>
+        {/* Bande large plutot que vignette : a cette place, l'image ouvre la
+            section, elle ne la decore pas. Le degrade en pied fond la photo
+            dans la page au lieu de la poser dessus comme un autocollant. */}
+        <div className="relative mt-12 h-52 overflow-hidden rounded-2xl sm:h-64 md:h-72">
+          <Image
+            src="/enterprise/customer-question.jpg"
+            alt={t.photoAlt}
+            fill
+            className="object-cover"
+            sizes="(min-width: 1152px) 1088px, 100vw"
+          />
+          <div
+            aria-hidden
+            className="from-background/70 absolute inset-0 bg-gradient-to-t via-transparent to-transparent"
+          />
+        </div>
+      </Reveal>
 
       {/* La chaine des etapes : chaque maillon est une occasion d'abandonner. */}
       <Reveal delay={80}>

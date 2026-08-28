@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
 import { Section, SectionHeading } from '../section';
@@ -16,8 +18,20 @@ import { EnterpriseCta } from './cta';
  * pour laquelle la page ne promet aucun chiffre ailleurs : le pilote est
  * l'endroit ou le chiffre se mesure, chez lui.
  *
- * La ligne verticale relie les etapes plutot que de les juxtaposer : un
- * processus se lit comme un trajet, pas comme une liste de prestations.
+ * DEUX COLONNES, ET UNE PHOTOGRAPHIE PLUTOT QU'UN PICTOGRAMME
+ *
+ * Ces cinq etapes decrivent du travail fait par des gens : un cadrage, un
+ * atelier, une revue de conversations. Une colonne de texte seule les faisait
+ * lire comme les conditions generales d'un contrat. La photographie dit ce que
+ * la liste ne dit pas — qu'il y a quelqu'un en face, et que le deploiement est
+ * accompagne, ce qui est precisement ce qu'achete une grande organisation.
+ *
+ * L'image est `sticky` sur grand ecran : elle reste en vis-a-vis pendant que
+ * les etapes defilent, au lieu de disparaitre des la deuxieme.
+ *
+ * Elle illustre une seance de travail, sans legende ni nom : ce ne sont ni des
+ * employes de Deezy ni des clients identifies. Voir
+ * public/enterprise/SOURCES.md.
  */
 export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.workflow;
@@ -26,32 +40,46 @@ export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
     <Section tone="muted">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
-      <ol className="relative mx-auto mt-14 max-w-3xl">
-        {/* Le fil : il s'arrete a la derniere pastille, sinon il pend sous la
-            liste comme une etape manquante. */}
-        <span
-          className="bg-border absolute top-4 bottom-4 left-[19px] w-px md:left-[23px]"
-          aria-hidden
-        />
+      <div className="mt-14 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+        <Reveal>
+          <div className="relative h-72 overflow-hidden rounded-2xl sm:h-96 lg:sticky lg:top-28 lg:h-[30rem]">
+            <Image
+              src="/enterprise/working-session.jpg"
+              alt={t.photoAlt}
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+            />
+          </div>
+        </Reveal>
 
-        {t.steps.map((step, index) => (
-          <li key={step.index} className="relative pb-8 last:pb-0">
-            <Reveal delay={index * 80}>
-              <div className="flex gap-5">
-                <span className="bg-brand text-brand-foreground relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold md:size-12 md:text-sm">
-                  {step.index}
-                </span>
-                <div className="pt-1.5 md:pt-2.5">
-                  <p className="text-lg font-semibold">{step.title}</p>
-                  <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed text-pretty">
-                    {step.body}
-                  </p>
+        <ol className="relative">
+          {/* Le fil : il s'arrete a la derniere pastille, sinon il pend sous la
+              liste comme une etape manquante. */}
+          <span
+            className="bg-border absolute top-5 bottom-5 left-[19px] w-px md:left-[23px]"
+            aria-hidden
+          />
+
+          {t.steps.map((step, index) => (
+            <li key={step.index} className="relative pb-8 last:pb-0">
+              <Reveal delay={index * 80}>
+                <div className="flex gap-5">
+                  <span className="bg-brand text-brand-foreground relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold md:size-12 md:text-sm">
+                    {step.index}
+                  </span>
+                  <div className="pt-1.5 md:pt-2.5">
+                    <p className="text-lg font-semibold">{step.title}</p>
+                    <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed text-pretty">
+                      {step.body}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          </li>
-        ))}
-      </ol>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
+      </div>
 
       <Reveal delay={200}>
         <div className="mt-12 flex justify-center">

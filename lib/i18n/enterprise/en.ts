@@ -96,6 +96,7 @@ export const enterpriseEn: EnterpriseDictionary = {
     ],
     payoff:
       'Deezy helps visitors get the information they need without making them search for it.',
+    photoAlt: 'A person checking their phone outside a building',
   },
 
   solution: {
@@ -454,6 +455,8 @@ export const enterpriseEn: EnterpriseDictionary = {
       },
     ],
     cta: 'Talk to our team',
+    photoAlt:
+      'Two people in a working session, one at a flip chart, the other at a laptop',
   },
 
   pricing: {
