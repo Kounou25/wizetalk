@@ -57,11 +57,39 @@ export function WidgetChat({
   const [leadCaptured, setLeadCaptured] = useState(false);
   const sessionId = useSessionId(botId);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastQuestion = useRef('');
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, leadCaptured]);
+
+  /*
+   * Le curseur se place dans le champ a l'ouverture du panneau.
+   *
+   * widget.js envoyait deja `deezy:opened` — personne ne l'ecoutait. Le
+   * visiteur devait donc cliquer une seconde fois pour ecrire.
+   *
+   * Pas sur mobile : y placer le curseur leve le clavier par-dessus la
+   * conversation, avant meme que le visiteur ait lu le message d'accueil.
+   */
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.data?.type !== 'deezy:opened') return;
+      if (window.matchMedia('(min-width: 481px)').matches) inputRef.current?.focus();
+    };
+
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
+
+  /** Le champ grandit avec le texte, jusqu'a quatre lignes environ. */
+  const resize = useCallback(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, 96)}px`;
+  }, []);
 
   const close = useCallback(() => {
     window.parent.postMessage({ type: 'deezy:close' }, '*');
@@ -75,6 +103,7 @@ export function WidgetChat({
 
       lastQuestion.current = question;
       setInput('');
+      requestAnimationFrame(resize);
       setPending(true);
       setMessages((current) => [
         ...current,
@@ -155,39 +184,83 @@ export function WidgetChat({
         setPending(false);
       }
     },
-    [botId, input, pending, sessionId],
+    [botId, input, pending, sessionId, resize, t],
   );
 
   const showLeadForm =
     !leadCaptured && !pending && messages[messages.length - 1]?.leadCapture === true;
 
+  const initial = (name.trim()[0] ?? 'D').toUpperCase();
+
   return (
     <div className="flex h-dvh flex-col bg-white text-slate-900">
       <header
-        className="flex items-center justify-between px-4 py-3 text-white"
+        className="relative flex shrink-0 items-center gap-3 px-4 py-3 text-white"
         style={{ backgroundColor: primaryColor }}
       >
-        <p className="text-sm font-semibold">{name}</p>
+        {/*
+          Voile clair pose sur la couleur du client.
+          Il donne du relief a n'importe quelle teinte, sans avoir a la
+          recalculer : un degrade calcule demanderait de convertir un
+          hexadecimal arbitraire, et raterait les couleurs tres claires.
+        */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/15 to-transparent"
+        />
+
+        <span className="relative flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/20 text-sm font-bold">
+          {initial}
+        </span>
+
+        <div className="relative min-w-0 flex-1">
+          <p className="truncate text-sm font-semibold">{name}</p>
+          <p className="flex items-center gap-1.5 text-[11px] text-white/80">
+            <span className="size-1.5 shrink-0 rounded-full bg-emerald-300" aria-hidden />
+            <span className="truncate">
+              {t.online} · {t.replyTime}
+            </span>
+          </p>
+        </div>
+
         <button
           type="button"
           onClick={close}
           aria-label={t.close}
-          className="cursor-pointer rounded p-1 leading-none opacity-80 transition-opacity hover:opacity-100"
+          className="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-white/20"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M18 6 6 18M6 6l12 12" />
           </svg>
         </button>
       </header>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4">
-        <div className="flex flex-col gap-3">
+      {/* `log` + `aria-live` : sans eux, un lecteur d'ecran n'annonce jamais la
+          reponse qui vient d'arriver. */}
+      <div
+        ref={scrollRef}
+        role="log"
+        aria-live="polite"
+        className="flex-1 overflow-y-auto overscroll-contain px-4 py-4"
+      >
+        <div className="flex flex-col">
           <Bubble role="assistant" color={primaryColor}>
             <RichText text={welcomeMessage} />
           </Bubble>
 
           {messages.map((message, index) => (
-            <Bubble key={index} role={message.role} color={primaryColor}>
+            <Bubble
+              key={index}
+              role={message.role}
+              color={primaryColor}
+              // Deux messages du meme cote se resserrent : c'est ce qui les
+              // fait lire comme un seul tour de parole.
+              grouped={
+                index === 0
+                  ? message.role === 'assistant'
+                  : messages[index - 1]?.role === message.role
+              }
+            >
               {/* La question du visiteur reste du texte brut : personne n'ecrit
                   en markdown dans un champ de discussion, et l'interpreter
                   transformerait ses etoiles en mise en forme involontaire. */}
@@ -197,28 +270,41 @@ export function WidgetChat({
                 ) : (
                   message.content
                 )
+              ) : pending && index === messages.length - 1 ? (
+                <span className="flex items-center gap-1 py-0.5">
+                  <Dot delay="0ms" />
+                  <Dot delay="200ms" />
+                  <Dot delay="400ms" />
+                </span>
               ) : (
-                (pending && index === messages.length - 1 ? (
-                  <span className="inline-flex gap-1">
-                    <Dot delay="0ms" />
-                    <Dot delay="150ms" />
-                    <Dot delay="300ms" />
-                  </span>
-                ) : (
-                  ''
-                ))
+                ''
               )}
+
               {message.sources && message.sources.length > 0 && (
-                <span className="mt-2 flex flex-col gap-0.5 border-t border-slate-200 pt-2 text-[11px] text-slate-500">
+                <span className="mt-2.5 flex flex-wrap gap-1.5 border-t border-slate-200 pt-2.5">
                   {message.sources.slice(0, 3).map((source) => (
                     <a
                       key={source.url}
                       href={source.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="truncate hover:underline"
+                      className="inline-flex max-w-full items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[11px] text-slate-500 ring-1 ring-slate-200 transition-colors hover:text-slate-900"
                     >
-                      {source.title || source.url}
+                      <svg
+                        width="9"
+                        height="9"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        className="shrink-0"
+                        aria-hidden
+                      >
+                        <path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5" />
+                        <path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7L12 19" />
+                      </svg>
+                      <span className="truncate">{source.title || source.url}</span>
                     </a>
                   ))}
                 </span>
@@ -239,34 +325,58 @@ export function WidgetChat({
         </div>
       </div>
 
-      <form onSubmit={send} className="flex gap-2 border-t border-slate-200 p-3">
-        <input
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          placeholder={t.placeholder}
-          disabled={pending}
-          maxLength={1000}
-          className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-slate-400"
-        />
-        <button
-          type="submit"
-          disabled={pending || !input.trim()}
-          aria-label={t.send}
-          className="shrink-0 cursor-pointer rounded-lg px-3 text-white transition-opacity disabled:opacity-40"
-          style={{ backgroundColor: primaryColor }}
+      <div className="shrink-0 border-t border-slate-200 p-3">
+        {/*
+          Champ et bouton dans un meme contenant arrondi : l'ancien duo
+          rectangle + carre separes datait le widget a lui seul.
+        */}
+        <form
+          onSubmit={send}
+          className="flex items-end gap-2 rounded-2xl border border-slate-300 bg-white py-1.5 pr-1.5 pl-3 transition-colors focus-within:border-slate-400"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="m22 2-7 20-4-9-9-4Z" />
-          </svg>
-        </button>
-      </form>
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={(event) => {
+              setInput(event.target.value);
+              resize();
+            }}
+            /* Entree envoie, Maj+Entree passe a la ligne : la convention de
+               toutes les messageries. L'ancien <input> interdisait le
+               multiligne, donc toute question un peu longue partait d'un bloc. */
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                send(event);
+              }
+            }}
+            rows={1}
+            placeholder={t.placeholder}
+            disabled={pending}
+            maxLength={1000}
+            className="max-h-24 min-w-0 flex-1 resize-none bg-transparent py-1.5 text-sm leading-relaxed outline-none disabled:opacity-60"
+          />
+
+          <button
+            type="submit"
+            disabled={pending || !input.trim()}
+            aria-label={t.send}
+            className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-xl text-white transition-all disabled:cursor-not-allowed disabled:opacity-30"
+            style={{ backgroundColor: primaryColor }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m22 2-7 20-4-9-9-4Z" />
+            </svg>
+          </button>
+        </form>
+      </div>
 
       {/*
         Mention de marque.
-        
+
         C'est elle que le palier le plus haut permet de retirer : sans elle, cet
         avantage vendrait le retrait de quelque chose qui n'existe pas. Placee
-        sous le champ de saisie et en petit  elle doit se voir sans gener la
+        sous le champ de saisie et en petit — elle doit se voir sans gener la
         conversation, qui appartient au client.
       */}
       {showBranding && (
@@ -274,7 +384,7 @@ export function WidgetChat({
           href={`${appUrl}?utm_source=widget`}
           target="_blank"
           rel="noreferrer noopener"
-          className="block border-t border-slate-100 py-1.5 text-center text-[10px] text-slate-400 transition-colors hover:text-slate-600"
+          className="block shrink-0 border-t border-slate-100 py-1.5 text-center text-[10px] text-slate-400 transition-colors hover:text-slate-600"
         >
           {t.branding}
         </a>
@@ -287,7 +397,7 @@ export function WidgetChat({
  * Formulaire de rappel, propose juste apres un refus.
  *
  * C'est le seul moment ou demander une adresse est legitime : l'assistant
- * vient d'admettre qu'il ne sait pas, et la question est deja ecrite  le
+ * vient d'admettre qu'il ne sait pas, et la question est deja ecrite — le
  * visiteur n'a rien a reformuler.
  */
 function LeadForm({
@@ -312,7 +422,21 @@ function LeadForm({
 
   if (sent) {
     return (
-      <div className="rounded-xl bg-emerald-50 px-3.5 py-3 text-xs leading-relaxed text-emerald-800">
+      <div className="mt-3 flex items-start gap-2 rounded-2xl bg-emerald-50 px-3.5 py-3 text-xs leading-relaxed text-emerald-800 ring-1 ring-emerald-100">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="mt-0.5 shrink-0"
+          aria-hidden
+        >
+          <path d="m20 6-11 11-5-5" />
+        </svg>
         {t.leadThanks}
       </div>
     );
@@ -346,11 +470,9 @@ function LeadForm({
           setSending(false);
         }
       }}
-      className="rounded-xl bg-slate-50 p-3.5"
+      className="mt-3 rounded-2xl bg-slate-50 p-3.5 ring-1 ring-slate-200"
     >
-      <p className="text-xs leading-relaxed text-slate-600">
-        {t.leadLead}
-      </p>
+      <p className="text-xs leading-relaxed text-slate-600">{t.leadLead}</p>
 
       <div className="mt-2.5 flex gap-2">
         <input
@@ -360,12 +482,12 @@ function LeadForm({
           placeholder={t.leadPlaceholder}
           required
           disabled={sending}
-          className="min-w-0 flex-1 rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs outline-none focus:border-slate-400"
+          className="min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs outline-none transition-colors focus:border-slate-400"
         />
         <button
           type="submit"
           disabled={sending || !email.trim()}
-          className="shrink-0 cursor-pointer rounded-lg px-3 text-xs font-medium text-white transition-opacity disabled:opacity-40"
+          className="shrink-0 cursor-pointer rounded-xl px-3.5 text-xs font-semibold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
           style={{ backgroundColor: color }}
         >
           {sending ? '…' : t.send}
@@ -377,22 +499,35 @@ function LeadForm({
   );
 }
 
+/**
+ * Une bulle de conversation.
+ *
+ * Le coin du cote de l'expediteur est moins arrondi que les trois autres :
+ * c'est ce qui donne a la bulle une direction, sans dessiner de queue.
+ */
 function Bubble({
   role,
   color,
+  grouped = false,
   children,
 }: {
   role: 'user' | 'assistant';
   color: string;
+  /** Le message precedent vient du meme cote : on resserre l'ecart. */
+  grouped?: boolean;
   children: React.ReactNode;
 }) {
   const isUser = role === 'user';
 
   return (
-    <div className={isUser ? 'flex justify-end' : 'flex justify-start'}>
+    <div
+      className={`flex ${isUser ? 'justify-end' : 'justify-start'} ${grouped ? 'mt-1' : 'mt-3'} first:mt-0`}
+    >
       <div
-        className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm ${
-          isUser ? 'whitespace-pre-wrap' : 'leading-relaxed'
+        className={`max-w-[85%] px-3.5 py-2.5 text-sm ${
+          isUser
+            ? 'rounded-2xl rounded-br-md whitespace-pre-wrap'
+            : 'rounded-2xl rounded-bl-md leading-relaxed'
         }`}
         style={
           isUser
@@ -409,7 +544,7 @@ function Bubble({
 function Dot({ delay }: { delay: string }) {
   return (
     <span
-      className="inline-block size-1.5 animate-bounce rounded-full bg-slate-400"
+      className="deezy-typing-dot inline-block size-1.5 rounded-full bg-slate-400"
       style={{ animationDelay: delay }}
     />
   );

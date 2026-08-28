@@ -275,6 +275,37 @@
   animation: pulse-ring 2.2s ease-out infinite;
 }
 
+/*
+ * Indicateur de frappe du widget.
+ *
+ * Une pulsation d'opacite plutot que `animate-bounce` : trois points qui
+ * sautent attirent l'oeil comme une alerte, alors qu'ils ne signalent qu'une
+ * attente de quelques centaines de millisecondes.
+ */
+@keyframes deezy-typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.deezy-typing-dot {
+  animation: deezy-typing 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deezy-typing-dot {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
 /* Transition d'un onglet de code a l'autre. */
 @keyframes slide-up-fade {
   from {

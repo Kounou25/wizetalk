@@ -970,6 +970,8 @@ export const en: Dictionary = {
   },
   widget: {
     welcomeDefault: 'Hello! How can I help you?',
+    online: 'Online',
+    replyTime: 'Replies in seconds',
     close: 'Close',
     placeholder: 'Type your message…',
     send: 'Send',

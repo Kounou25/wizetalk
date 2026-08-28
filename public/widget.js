@@ -157,9 +157,18 @@
        * entierement leur retirerait l'invitation, ce qui n'est pas ce qu'elles
        * ont demande non plus.
        */
+      /*
+       * Anneau de focus : impossible a poser en style inline, `:focus-visible`
+       * etant un selecteur. Sans lui, le bouton est invisible a qui navigue au
+       * clavier — et il est souvent le seul element interactif ajoute a la page.
+       */
+      '.deezy-launcher:focus-visible{outline:none;',
+      'box-shadow:0 4px 16px rgba(0,0,0,.16),0 0 0 3px #fff,0 0 0 5px currentColor}',
+      '.deezy-launcher svg{transition:transform .2s cubic-bezier(.16,1,.3,1)}',
       '@media (prefers-reduced-motion:reduce){',
       '.deezy-teaser{animation:none;opacity:1}',
-      '.deezy-teaser-leaving{animation:none;opacity:0}}',
+      '.deezy-teaser-leaving{animation:none;opacity:0}',
+      '.deezy-launcher,.deezy-launcher svg{transition:none}}',
     ].join('');
 
     document.head.appendChild(style);
@@ -195,7 +204,7 @@
       'border:none',
       'cursor:pointer',
       'background:' + color,
-      'box-shadow:0 4px 16px rgba(0,0,0,.16)',
+      'box-shadow:0 6px 20px rgba(0,0,0,.18)',
       'display:flex',
       'align-items:center',
       'justify-content:center',
@@ -204,11 +213,27 @@
       'transition:transform .15s ease',
     ].join(';');
 
-    launcher.innerHTML =
+    /*
+     * Le bouton change d'icone quand le panneau est ouvert.
+     *
+     * Une bulle de discussion qui reste identique panneau ouvert ne dit pas ce
+     * que fait le clic suivant. Le chevron vers le bas, lui, se lit sans
+     * hesitation : il referme.
+     */
+    var ICON_OPEN =
       '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff"' +
       ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>' +
       '</svg>';
+
+    var ICON_CLOSE =
+      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff"' +
+      ' stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="m6 9 6 6 6-6"/></svg>';
+
+    launcher.className = 'deezy-launcher';
+    launcher.style.color = color; // lu par l'anneau de focus via currentColor
+    launcher.innerHTML = ICON_OPEN;
 
     launcher.addEventListener('mouseenter', function () {
       launcher.style.transform = 'scale(1.05)';
@@ -345,12 +370,23 @@
       'z-index:2147483000',
       'display:none',
       'opacity:0',
-      'transition:opacity .18s ease',
+      'transform:translateY(8px) scale(.98)',
+      'transform-origin:bottom ' + side,
+      'transition:opacity .2s ease, transform .2s cubic-bezier(.16,1,.3,1)',
     ].join(';');
+
+    function isFullscreen() {
+      return window.innerWidth <= 480;
+    }
+
+    /* Position de repos du panneau, d'ou il entre et ou il repart. */
+    function closedTransform() {
+      return isFullscreen() ? 'translateY(16px)' : 'translateY(8px) scale(.98)';
+    }
 
     // Plein ecran sur mobile : un panneau flottant n'y a pas de sens.
     function applyViewport() {
-      if (window.innerWidth <= 480) {
+      if (isFullscreen()) {
         frame.style.width = '100vw';
         frame.style.height = '100dvh';
         frame.style.maxWidth = '100vw';
@@ -358,6 +394,7 @@
         frame.style.bottom = '0';
         frame.style[side] = '0';
         frame.style.borderRadius = '0';
+        frame.style.transformOrigin = 'bottom center';
       } else {
         frame.style.width = PANEL_W + 'px';
         frame.style.height = PANEL_H + 'px';
@@ -366,6 +403,7 @@
         frame.style.bottom = PANEL_BOTTOM + 'px';
         frame.style[side] = EDGE + 'px';
         frame.style.borderRadius = '14px';
+        frame.style.transformOrigin = 'bottom ' + side;
       }
     }
     window.addEventListener('resize', applyViewport);
@@ -377,19 +415,25 @@
       launcher.setAttribute('aria-label', open ? T.close : T.open);
       if (open) hideTeaser(true);
 
+      launcher.innerHTML = open ? ICON_CLOSE : ICON_OPEN;
+
       if (open) {
         applyViewport();
+        frame.style.transform = closedTransform();
         frame.style.display = 'block';
-        // Laisse un frame au navigateur avant la transition d'opacite.
+        // Laisse un frame au navigateur avant la transition.
         requestAnimationFrame(function () {
           frame.style.opacity = '1';
+          frame.style.transform = 'none';
         });
+        // Ecoute dans widget-chat.tsx : place le curseur dans le champ.
         frame.contentWindow.postMessage({ type: 'deezy:opened' }, origin);
       } else {
         frame.style.opacity = '0';
+        frame.style.transform = closedTransform();
         setTimeout(function () {
           if (!open) frame.style.display = 'none';
-        }, 180);
+        }, 200);
       }
     }
 

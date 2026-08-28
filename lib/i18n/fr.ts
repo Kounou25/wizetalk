@@ -1058,6 +1058,8 @@ export const fr = {
    */
   widget: {
     welcomeDefault: 'Bonjour ! Comment puis-je vous aider ?',
+    online: 'En ligne',
+    replyTime: 'Répond en quelques secondes',
     close: 'Fermer',
     placeholder: 'Écrivez votre message…',
     send: 'Envoyer',

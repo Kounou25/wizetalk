@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { ArrowUpRight, Building2 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import type { Dictionary, Locale } from '@/lib/i18n';
 import { Logo } from './logo';
@@ -73,13 +75,28 @@ export function LandingNav({
             </a>
           ))}
 
+          {/*
+            Enterprise n'est pas une ancre de plus : c'est une autre page, et
+            une autre offre. D'ou le filet qui la detache des ancres, et la
+            pastille qui la sort du rang — sans aller jusqu'au bleu plein du
+            bouton d'action, qui doit rester le seul point d'attraction fort.
+          */}
           {!enterprise && (
-            <Link
-              href={`/${locale}/enterprise`}
-              className="hover:text-foreground transition-colors"
-            >
-              {dict.nav.enterprise}
-            </Link>
+            <>
+              <span aria-hidden className="bg-border h-4 w-px" />
+
+              <Link
+                href={`/${locale}/enterprise`}
+                className="group border-brand/20 bg-brand-soft text-brand hover:border-brand/45 hover:shadow-brand/10 inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all hover:shadow-sm"
+              >
+                <Building2 className="size-3.5" aria-hidden />
+                {dict.nav.enterprise}
+                <ArrowUpRight
+                  className="size-3 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+                  aria-hidden
+                />
+              </Link>
+            </>
           )}
         </div>
 
