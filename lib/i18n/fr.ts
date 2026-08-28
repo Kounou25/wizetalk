@@ -395,8 +395,8 @@ export const fr = {
   pricing: {
     eyebrow: 'Tarifs',
     title: 'Un prix, trois tailles.',
-    lead: 'Chaque plan vous donne un quota de messages par mois. Sans engagement, résiliable à tout moment.',
-    roi: 'Si Deezy vous fait récupérer un seul client, il est déjà rentabilisé.',
+    lead: '',
+    roi: '',
     startingOffer: '100 messages offerts à la création du compte, sans engagement',
     popular: 'Le plus choisi',
     notIncluded: 'Non inclus',
