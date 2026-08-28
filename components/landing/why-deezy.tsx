@@ -12,7 +12,7 @@ const ICONS = [Building2, ShieldCheck, Mail, Search];
  *
  * Elles arrivent apres la demonstration, jamais avant : une liste d'avantages
  * lue avant d'avoir vu le produit ne vaut que ce que vaut la confiance du
- * lecteur — c'est-a-dire rien, a ce stade de la page.
+ * lecteur  c'est-a-dire rien, a ce stade de la page.
  */
 export function WhyDeezy({ dict }: { dict: Dictionary }) {
   const t = dict.why;

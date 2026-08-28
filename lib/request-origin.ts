@@ -9,7 +9,7 @@ import { PUBLIC_APP_URL } from './public-url';
  * question « suis-je moi-meme ? ». Une variable d'environnement peut etre
  * oubliee au deploiement ; l'en-tete Host, non. Ce meme oubli a deja casse la
  * redirection OAuth, les balises canoniques, puis le controle d'origine du
- * widget — chaque fois en production uniquement, jamais en local.
+ * widget  chaque fois en production uniquement, jamais en local.
  */
 export function appHostFromRequest(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-host');
@@ -24,7 +24,7 @@ export function appHostFromRequest(request: Request): string {
  * En production derriere un proxy (Vercel), l'en-tete `host` est celui de
  * l'instance interne : c'est `x-forwarded-host` qui porte le domaine public.
  * On ne se repose pas sur NEXT_PUBLIC_APP_URL, qui resterait sur localhost si
- * on oubliait de le definir — avec pour consequence des redirections OAuth
+ * on oubliait de le definir  avec pour consequence des redirections OAuth
  * cassees et des balises canoniques pointant vers le mauvais domaine.
  */
 export async function requestOrigin(): Promise<string> {

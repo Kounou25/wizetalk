@@ -51,7 +51,7 @@ async function main() {
     const mail = buildWelcomeEmail(locale, 'Marie', 'https://www.deezy.chat/dashboard');
 
     check(mail.subject.length > 0 && mail.subject.length < 70,
-      `${locale} : objet de longueur raisonnable`, `${mail.subject.length} car. — « ${mail.subject} »`);
+      `${locale} : objet de longueur raisonnable`, `${mail.subject.length} car.  « ${mail.subject} »`);
     check(mail.html.includes('Marie'), `${locale} : prénom présent dans le HTML`);
     check(mail.html.includes('https://www.deezy.chat/dashboard'), `${locale} : lien vers le tableau de bord`);
 
@@ -68,7 +68,7 @@ async function main() {
 
     /*
      * Pour l'apercu seulement : le logo est incorpore en data: URI.
-     * Le message reel garde une URL https — les data: URI sont bloquees par
+     * Le message reel garde une URL https  les data: URI sont bloquees par
      * la plupart des clients de messagerie. Sans cela, l'apercu afficherait
      * une image cassee tant que le domaine ne sert pas encore le fichier.
      */

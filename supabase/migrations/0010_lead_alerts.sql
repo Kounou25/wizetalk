@@ -20,7 +20,7 @@ comment on column bots.notify_leads is
 --
 -- La langue vit dans un cookie, ce qui suffit tant qu'on rend une page : la
 -- requete la porte. Mais un message declenche par un webhook ou par la capture
--- d'un prospect n'a AUCUN contexte de requete — le visiteur qui declenche
+-- d'un prospect n'a AUCUN contexte de requete  le visiteur qui declenche
 -- l'envoi n'est pas le destinataire, et sa langue n'a rien a voir avec celle du
 -- proprietaire.
 --

@@ -153,7 +153,7 @@ async function crawlTick(
    * Icone du site, relevee sur la premiere page qui en declare une.
    *
    * Pas de requete supplementaire : le HTML est deja la. On ne retient que la
-   * premiere trouvee — les pages internes declarent la meme, et se relancer
+   * premiere trouvee  les pages internes declarent la meme, et se relancer
    * dessus a chaque page ne changerait rien au resultat.
    */
   let favicon: string | null = null;
@@ -193,7 +193,7 @@ async function crawlTick(
    * Une seule ecriture pour toute la tranche, plutot qu'une par page : cinq
    * allers-retours supplementaires par tick pour un compteur ne se justifient
    * pas. La contrepartie est qu'un compte a court de credits peut recevoir une
-   * derniere tranche gratuite — cinq pages au maximum, ce qui est un cout
+   * derniere tranche gratuite  cinq pages au maximum, ce qui est un cout
    * accepte en echange de la simplicite.
    */
   /*
@@ -213,7 +213,7 @@ async function crawlTick(
   /*
    * Le cout de l'exploration n'est plus debite : il est borne en amont.
    *
-   * `max_pages` est fixe a la creation du job d'apres le plan du compte — 50
+   * `max_pages` est fixe a la creation du job d'apres le plan du compte  50
    * pages en essai, 2 000 sur le palier le plus haut. Un plafond se lit comme
    * un avantage sur la page de tarifs, la ou un compteur qui se vide en lisant
    * un site se lisait comme une penalite.

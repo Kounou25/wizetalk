@@ -126,7 +126,7 @@ export default async function GapsPage({
         
         Le controle est ici, cote serveur, et pas seulement sur le lien qui y
         mene : une URL se tape a la main. On decrit ce que le rapport apporte
-        plutot que d'afficher un refus sec — le lecteur doit comprendre ce
+        plutot que d'afficher un refus sec  le lecteur doit comprendre ce
         qu'il gagne a monter en gamme, pas juste qu'on lui ferme la porte.
       */}
       {!limits.gapsReport ? (

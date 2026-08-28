@@ -24,7 +24,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
  *
  * Une demande commerciale perdue ne se rejoue pas : le visiteur ne remplira
  * pas le formulaire une seconde fois. Chaque sortie renvoie donc un etat, et
- * l'adresse de secours figure dans le message d'erreur — si notre base tombe,
+ * l'adresse de secours figure dans le message d'erreur  si notre base tombe,
  * il reste un e-mail a ecrire.
  */
 
@@ -148,7 +148,7 @@ export async function submitDemoRequest(
    * Anti-doublon, meme regle que la capture de prospects : une meme adresse
    * dans l'heure ne cree pas de seconde ligne. Quelqu'un qui renvoie le
    * formulaire parce qu'il doute de l'avoir envoye ne doit pas apparaitre
-   * deux fois dans la liste commerciale — et doit tout de meme voir une
+   * deux fois dans la liste commerciale  et doit tout de meme voir une
    * confirmation.
    */
   const oneHourAgo = new Date(Date.now() - 3_600_000).toISOString();

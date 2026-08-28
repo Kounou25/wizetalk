@@ -266,7 +266,7 @@ export function WidgetChat({
         
         C'est elle que le palier le plus haut permet de retirer : sans elle, cet
         avantage vendrait le retrait de quelque chose qui n'existe pas. Placee
-        sous le champ de saisie et en petit — elle doit se voir sans gener la
+        sous le champ de saisie et en petit  elle doit se voir sans gener la
         conversation, qui appartient au client.
       */}
       {showBranding && (
@@ -287,7 +287,7 @@ export function WidgetChat({
  * Formulaire de rappel, propose juste apres un refus.
  *
  * C'est le seul moment ou demander une adresse est legitime : l'assistant
- * vient d'admettre qu'il ne sait pas, et la question est deja ecrite — le
+ * vient d'admettre qu'il ne sait pas, et la question est deja ecrite  le
  * visiteur n'a rien a reformuler.
  */
 function LeadForm({

@@ -10,7 +10,7 @@ import { getDictionary, isLocale } from '@/lib/i18n';
  * Une page qui declare son propre bloc `openGraph` n'herite pas de l'image du
  * segment parent : sans ce fichier, un lien vers /fr/enterprise partage sur
  * LinkedIn afficherait le visuel de la page de presentation, avec sa promesse
- * grand public — exactement le contresens que cette offre cherche a eviter.
+ * grand public  exactement le contresens que cette offre cherche a eviter.
  *
  * Le badge « Enterprise » et les secteurs vises font toute la difference avec
  * l'image de la landing : un lien partage dans une conversation professionnelle

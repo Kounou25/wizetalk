@@ -7,8 +7,8 @@ import { BRAND_SOFT, escapeHtml, FONT, INK, LINE, MUTED, PAGE, TEXT } from './th
  *
  * Le PDF est joint, pas reconstruit : c'est celui de Dodo, la piece
  * comptable qui fait foi. En regenerer une ici garantirait qu'un jour les deux
- * divergent — sur un montant de taxe, un numero de facture ou une mention
- * legale — et c'est nous qui aurions tort.
+ * divergent  sur un montant de taxe, un numero de facture ou une mention
+ * legale  et c'est nous qui aurions tort.
  *
  * Le corps du message ne sert donc qu'a annoncer et a situer : ce qui a ete
  * preleve, pour quel plan, et ou retrouver l'historique complet.
@@ -45,7 +45,7 @@ interface Copy {
 
 const COPY: Record<Locale, Copy> = {
   fr: {
-    subject: (plan) => `Votre facture Deezy — ${plan}`,
+    subject: (plan) => `Votre facture Deezy  ${plan}`,
     preheader: (amount) => `Paiement de ${amount} reçu. Votre facture est en pièce jointe.`,
     greeting: (name) => `Bonjour ${name},`,
     intro:
@@ -64,7 +64,7 @@ const COPY: Record<Locale, Copy> = {
     annual: 'Annuelle',
   },
   en: {
-    subject: (plan) => `Your Deezy invoice — ${plan}`,
+    subject: (plan) => `Your Deezy invoice  ${plan}`,
     preheader: (amount) => `Payment of ${amount} received. Your invoice is attached.`,
     greeting: (name) => `Hi ${name},`,
     intro:
@@ -88,7 +88,7 @@ export interface InvoiceDetails {
   locale: Locale;
   name: string;
   planLabel: string;
-  /** Montant deja formate, taxe comprise — ex. « 19,00 $ ». */
+  /** Montant deja formate, taxe comprise  ex. « 19,00 $ ». */
   amount: string;
   period: 'monthly' | 'annual';
   /** Identifiant du paiement, utile au support comme au client. */

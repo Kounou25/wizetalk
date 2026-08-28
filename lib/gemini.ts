@@ -34,7 +34,7 @@ export const EMBEDDING_MODEL = process.env.GEMINI_EMBEDDING_MODEL ?? 'gemini-emb
  * gemini-3.5-flash-lite par defaut : suffisant pour restituer une reponse
  * ancree dans un contexte court, et surtout dote d'un quota gratuit
  * exploitable. Attention, gemini-3.6-flash est plafonne a 20 requetes par jour
- * en palier gratuit — de quoi bloquer meme le developpement.
+ * en palier gratuit  de quoi bloquer meme le developpement.
  */
 export const CHAT_MODEL = process.env.GEMINI_CHAT_MODEL ?? 'gemini-3.5-flash-lite';
 

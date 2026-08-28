@@ -65,8 +65,8 @@ export async function setBotActive(botId: string, name: string, isActive: boolea
  * Ajuste le quota de messages d'un compte.
  *
  * Porte par le compte et non par l'assistant : le quota est unique. Ajuster ici
- * permet de traiter un cas particulier — un geste commercial, un depassement
- * conteste — sans creer un palier sur mesure dans la grille tarifaire.
+ * permet de traiter un cas particulier  un geste commercial, un depassement
+ * conteste  sans creer un palier sur mesure dans la grille tarifaire.
  */
 export async function setAccountMessages(userId: string, email: string, messages: number) {
   const { db, admin } = await requireAdmin();
@@ -182,7 +182,7 @@ export async function savePlanLimits(planId: string, formData: FormData) {
  *
  * La table `demo_requests` a le RLS active sans politique : seul le client
  * privilegie rendu par requireAdmin() peut l'ecrire. L'appel en premiere ligne
- * n'est donc pas une formalite — sans lui, l'action n'aurait meme pas de quoi
+ * n'est donc pas une formalite  sans lui, l'action n'aurait meme pas de quoi
  * ecrire.
  *
  * L'etat autorise est verifie ici plutot que laisse a la contrainte SQL : une

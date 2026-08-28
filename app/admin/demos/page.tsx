@@ -63,7 +63,7 @@ interface DemoRequestRow {
  * `demo_requests` a le RLS active sans aucune politique : ni la cle anonyme ni
  * un compte connecte n'y voient quoi que ce soit. Seul le client service_role
  * rendu par requireAdmin() traverse. Une page qui utiliserait le client de
- * session recevrait une liste vide, sans la moindre erreur — d'ou ce rappel.
+ * session recevrait une liste vide, sans la moindre erreur  d'ou ce rappel.
  *
  * La provenance est affichee parce qu'elle repond a la question qui decide du
  * budget d'acquisition : d'ou viennent les demandes qui aboutissent. Elle est

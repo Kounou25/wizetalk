@@ -16,7 +16,7 @@ export const PLANS_CACHE_TAG = 'plans';
  * declencherait une requete a chaque visite pour quatre lignes qui changent
  * quelques fois par an.
  *
- * Le cache est invalide explicitement a l'enregistrement — pas par une duree
+ * Le cache est invalide explicitement a l'enregistrement  pas par une duree
  * d'expiration. Un administrateur qui change un quota doit le voir appliqué
  * tout de suite, pas dans une heure.
  *

@@ -4,7 +4,7 @@
 -- requete en ET : 'quel & tarif'. Le chunk doit alors contenir TOUS les termes,
 -- ce qui n'arrive presque jamais sur une question formulee naturellement.
 -- Resultat : l'arm lexical ne remontait rien et la recherche hybride etait en
--- realite purement vectorielle — donc aveugle aux termes exacts (references
+-- realite purement vectorielle  donc aveugle aux termes exacts (references
 -- produit, prix, sigles), qui sont justement sa raison d'etre.
 --
 -- On transforme la requete en OU. Chaque terme present fait remonter le chunk,

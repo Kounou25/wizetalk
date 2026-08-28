@@ -93,7 +93,7 @@ export function SectionHeading({
  *
  * Les grilles de cartes n'ont pas besoin de ces constantes. Une piste de
  * `grid-cols-3` vaut exactement une portee de 4 colonnes sur 12 des lors que
- * la gouttiere est la meme — `largeur = 12t + 11g` donne `(largeur - 2g)/3 =
+ * la gouttiere est la meme  `largeur = 12t + 11g` donne `(largeur - 2g)/3 =
  * 4t + 3g`. Seule compte donc l'uniformite de la gouttiere : 24px partout,
  * soit trois fois la base de 8px du rythme vertical. Un `gap-5` (20px) suffit
  * a sortir une rangee entiere du systeme.
@@ -102,11 +102,11 @@ export function SectionHeading({
 /** Grille asymetrique : texte a gauche, visuel a droite, colonne 6 vide. */
 export const splitGrid = 'grid gap-y-10 lg:grid-cols-12 lg:gap-x-6';
 
-/** Colonnes 1 a 5 — le texte. */
+/** Colonnes 1 a 5  le texte. */
 export const splitMain = 'lg:col-span-5';
 
 /**
- * Colonnes 7 a 12 — le visuel.
+ * Colonnes 7 a 12  le visuel.
  *
  * La colonne 6 reste vide : c'est elle qui donne l'air entre les deux blocs.
  * Un `gap` plus large produirait le meme espace a l'oeil, mais decalerait le

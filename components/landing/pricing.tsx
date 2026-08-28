@@ -395,7 +395,7 @@ function PlanCard({
  * Bascule a pastille glissante.
  *
  * La piste ne contient QUE les deux boutons et la pastille. Le badge du gain
- * annuel est un frere, place a cote — a l'interieur, il elargissait le
+ * annuel est un frere, place a cote  a l'interieur, il elargissait le
  * conteneur, donc la pastille calculee en pourcentage debordait sur les deux
  * boutons. Et comme ce badge est masque sous 640 px, le decalage etait faux
  * differemment selon la taille d'ecran.

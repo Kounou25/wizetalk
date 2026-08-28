@@ -10,7 +10,7 @@ import { requestOrigin } from '@/lib/request-origin';
  * N'accepte qu'un chemin interne.
  *
  * Sans ce filtre, `?next=https://site-malveillant.com` transformerait la
- * connexion en redirection ouverte — un classique du phishing : le lien part
+ * connexion en redirection ouverte  un classique du phishing : le lien part
  * bien de votre domaine, mais atterrit ailleurs.
  */
 function safeNext(value: FormDataEntryValue | null): string {
@@ -70,7 +70,7 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
   redirect(safeNext(formData.get('next')));
 }
 
-/** Demarre le flux OAuth Google — Supabase fournit l'URL de consentement. */
+/** Demarre le flux OAuth Google  Supabase fournit l'URL de consentement. */
 export async function signInWithGoogle(formData: FormData): Promise<void> {
   const next = safeNext(formData.get('next'));
   const origin = await requestOrigin();
@@ -107,7 +107,7 @@ export async function signup(_prev: AuthState, formData: FormData): Promise<Auth
   const { data, error } = await supabase.auth.signUp({
     ...credentialsOnly,
     options: {
-      // Range dans user_metadata.full_name — la meme cle que renseigne
+      // Range dans user_metadata.full_name  la meme cle que renseigne
       // Google, donc le message de bienvenue n'a rien de particulier a savoir.
       data: { full_name: fullName },
 
@@ -115,14 +115,14 @@ export async function signup(_prev: AuthState, formData: FormData): Promise<Auth
        * Ou aboutit le lien de confirmation.
        *
        * Sans cette adresse, Supabase renvoie le visiteur vers la « Site URL »
-       * du projet — la page d'accueil. Il y arrive deconnecte, puisque rien,
+       * du projet  la page d'accueil. Il y arrive deconnecte, puisque rien,
        * la-bas, n'echange le code contre une session : l'inscription semble
        * n'avoir servi a rien. Le passage par /auth/callback est ce qui ouvre
        * la session, exactement comme apres une connexion Google.
        *
        * L'adresse doit figurer dans les « Redirect URLs » du projet Supabase.
        * Toute URL absente de cette liste est silencieusement remplacee par la
-       * Site URL — meme symptome, sans le moindre message d'erreur.
+       * Site URL  meme symptome, sans le moindre message d'erreur.
        */
       emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(
         safeNext(formData.get('next')),

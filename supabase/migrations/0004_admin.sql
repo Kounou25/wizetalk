@@ -2,7 +2,7 @@
 --
 -- Deux tables volontairement minuscules : qui est administrateur, et ce que
 -- les administrateurs ont fait. Le back-office lit les donnees de TOUS les
--- comptes, il contourne donc RLS via le service_role — d'ou la necessite d'une
+-- comptes, il contourne donc RLS via le service_role  d'ou la necessite d'une
 -- trace.
 
 create table admins (
@@ -15,7 +15,7 @@ create table admins (
  *
  * Un back-office agit sur les donnees d'autrui : sans trace, personne ne peut
  * dire qui a desactive quel assistant, ni quand. `actor_email` est duplique
- * volontairement — le compte peut disparaitre, la trace doit rester lisible.
+ * volontairement  le compte peut disparaitre, la trace doit rester lisible.
  */
 create table admin_audit (
   id uuid primary key default gen_random_uuid(),
@@ -38,7 +38,7 @@ create index admin_audit_created_idx on admin_audit (created_at desc);
 --
 -- Ces deux tables n'ont AUCUNE politique, deliberement : RLS activee sans
 -- politique bloque tout le monde. Seul le service_role, qui contourne RLS,
--- y accede — c'est-a-dire uniquement le code serveur passe par requireAdmin().
+-- y accede  c'est-a-dire uniquement le code serveur passe par requireAdmin().
 --
 -- Consequence importante : un utilisateur ne peut pas lire la table `admins`,
 -- donc il ne peut meme pas decouvrir qui administre la plateforme.

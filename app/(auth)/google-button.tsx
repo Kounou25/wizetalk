@@ -7,7 +7,7 @@ import { signInWithGoogle } from './actions';
  * Marque officielle Google, en quatre couleurs.
  *
  * Les regles de marque de Google imposent le logo officiel sur un bouton
- * « Se connecter avec Google » — une version monochrome n'est pas conforme.
+ * « Se connecter avec Google »  une version monochrome n'est pas conforme.
  */
 function GoogleMark({ className }: { className?: string }) {
   return (

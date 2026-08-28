@@ -9,15 +9,15 @@ import { pairGrid, Section, SectionHeading } from '../section';
 /**
  * Relais humain : les deux chemins d'une conversation.
  *
- * Les deux cartes s'opposent par l'image — un ecran a gauche, des visages a
- * droite — et c'est ce contraste qui porte l'argument.
+ * Les deux cartes s'opposent par l'image  un ecran a gauche, des visages a
+ * droite  et c'est ce contraste qui porte l'argument.
  *
  * CE QUI EST LIVRE, ET CE QUI NE L'EST PAS
  *
  * Le chemin complexe fonctionne jusqu'a l'alerte : l'assistant refuse quand
  * l'information manque, propose de laisser une adresse, et /api/lead previent
  * le proprietaire par e-mail. Le transfert vers un agent en direct n'existe
- * pas — d'ou la formulation « selon les integrations » et la note sous les
+ * pas  d'ou la formulation « selon les integrations » et la note sous les
  * cartes.
  *
  * Les visages illustrent les equipes DU CLIENT, jamais celles de Deezy : ni

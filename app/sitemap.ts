@@ -18,7 +18,7 @@ import { PUBLIC_APP_URL } from '@/lib/public-url';
  *
  * La version precedente ne connaissait que les racines de langue. Ajouter la
  * page Enterprise aurait demande de recopier le bloc d'alternatives une
- * seconde fois — et la troisieme page aurait fini par etre oubliee. Toute
+ * seconde fois  et la troisieme page aurait fini par etre oubliee. Toute
  * nouvelle page publique s'ajoute desormais par une ligne ici.
  */
 const PATHS: { path: string; priority: number }[] = [

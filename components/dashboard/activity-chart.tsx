@@ -188,7 +188,7 @@ export function ActivityChart({
             viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
             className="w-full"
             role="img"
-            aria-label={`${t.aria} — ${points.length}`}
+            aria-label={`${t.aria}  ${points.length}`}
           >
             <defs>
               <linearGradient id={areaId} x1="0" y1="0" x2="0" y2="1">
@@ -197,7 +197,7 @@ export function ActivityChart({
               </linearGradient>
             </defs>
 
-            {/* Grille en traits pleins d'un cran sur le fond — jamais pointillée. */}
+            {/* Grille en traits pleins d'un cran sur le fond  jamais pointillée. */}
             {ticks.map((tick) => (
               <g key={tick}>
                 <line

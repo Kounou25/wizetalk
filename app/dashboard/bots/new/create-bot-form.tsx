@@ -83,7 +83,7 @@ export function CreateBotForm({ locale, dict }: { locale: Locale; dict: Dictiona
   /*
    * L'assistant vient d'etre cree : l'analyse enchaine sans rien demander.
    *
-   * C'est tout l'interet — la personne a donne son adresse, elle n'a aucune
+   * C'est tout l'interet  la personne a donne son adresse, elle n'a aucune
    * raison de devoir cliquer une seconde fois pour que le produit fasse ce
    * pour quoi elle est venue.
    */
@@ -199,8 +199,8 @@ export function CreateBotForm({ locale, dict }: { locale: Locale; dict: Dictiona
  *
  * Trois compteurs plutot qu'une barre de progression : on ne connait pas le
  * nombre de pages avant de les avoir trouvees, donc un pourcentage serait
- * invente. Des nombres qui montent disent la meme chose — il se passe quelque
- * chose — sans rien promettre de faux.
+ * invente. Des nombres qui montent disent la meme chose  il se passe quelque
+ * chose  sans rien promettre de faux.
  */
 function AnalysisPanel({
   t,

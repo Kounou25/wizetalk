@@ -3,7 +3,7 @@
  *
  * Trois choses a effacer, pas une : la ligne de `pages`, ses morceaux (qui
  * partent en cascade) et le fichier stocke. Aucune contrainte SQL ne va
- * jusqu'au stockage — sans cet appel explicite, les fichiers s'accumuleraient
+ * jusqu'au stockage  sans cet appel explicite, les fichiers s'accumuleraient
  * indefiniment et le client continuerait de payer pour eux.
  */
 

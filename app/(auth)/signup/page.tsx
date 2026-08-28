@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { negotiateLocale } from '@/lib/i18n';
 
-/** Redirection de compatibilite — voir app/(auth)/login/page.tsx. */
+/** Redirection de compatibilite  voir app/(auth)/login/page.tsx. */
 export default async function SignupRedirect({
   searchParams,
 }: {

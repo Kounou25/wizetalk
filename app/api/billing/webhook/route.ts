@@ -56,7 +56,7 @@ function snapshot(payload: Payload): SubscriptionSnapshot | null {
  *
  * `webhook-id` sert de cle de deduplication. Il est relu depuis l'en-tete
  * plutot que depuis le corps, car c'est lui que le prestataire garantit unique
- * par evenement — le corps peut etre identique d'une livraison a l'autre.
+ * par evenement  le corps peut etre identique d'une livraison a l'autre.
  */
 function handle(
   type: string,
@@ -132,7 +132,7 @@ function handlePayment(type: string, action: (notice: PaymentNotice) => Promise<
  *
  * `Webhooks()` refuse une cle vide en levant immediatement. Construit a
  * l'import, il faisait echouer `next build` sur toute machine ou
- * DODO_WEBHOOK_KEY n'est pas renseignee — un poste de developpement, ou une
+ * DODO_WEBHOOK_KEY n'est pas renseignee  un poste de developpement, ou une
  * chaine d'integration. Or un build ne doit jamais exiger un secret de
  * production : il compile du code, il ne se connecte a rien.
  */
@@ -174,7 +174,7 @@ const buildHandler = (webhookKey: string) =>
     }),
 
     // Changement de palier : nouvelle allocation, compteur remis a zero et
-    // periode redemarree — la regle retenue, y compris en descente de gamme.
+    // periode redemarree  la regle retenue, y compris en descente de gamme.
     onSubscriptionPlanChanged: handle('subscription.plan_changed', async (snap) => {
       await applyPlan(snap);
     }),

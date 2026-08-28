@@ -4,13 +4,13 @@ import type { EnterpriseDictionary } from './fr';
  * Offre Enterprise, en anglais.
  *
  * Typee contre le francais : une cle oubliee ne compile pas. Les memes regles
- * de redaction s'appliquent — voir l'en-tete de fr.ts. En particulier : aucune
+ * de redaction s'appliquent  voir l'en-tete de fr.ts. En particulier : aucune
  * certification, aucun gain chiffre, et les fonctionnalites non livrees
  * annoncees comme relevant de l'implementation.
  */
 export const enterpriseEn: EnterpriseDictionary = {
   meta: {
-    title: 'Deezy Enterprise — AI-powered customer assistance for organizations',
+    title: 'Deezy Enterprise  AI-powered customer assistance for organizations',
     description:
       'Deezy Enterprise gives your visitors instant answers drawn from your organization’s trusted information, 24/7 and in their language. Banking, insurance, telecom, education, healthcare.',
   },
@@ -29,7 +29,7 @@ export const enterpriseEn: EnterpriseDictionary = {
     badge: 'Deezy Enterprise',
     title: 'AI-powered customer assistance for your organization.',
     subtitle:
-      'Give your customers instant answers using your organization’s trusted information — 24/7, across every language and every visit.',
+      'Give your customers instant answers using your organization’s trusted information  24/7, across every language and every visit.',
     ctaPrimary: 'Book a demo',
     ctaSecondary: 'Talk to our team',
     reassurance: 'Built around your knowledge. Controlled by your team.',
@@ -40,7 +40,7 @@ export const enterpriseEn: EnterpriseDictionary = {
       answer:
         'A valid ID, proof of address issued within the last three months, and proof of income. You can submit your file in branch or online.',
       sourceLabel: 'From your page',
-      sourceName: 'Opening an account — required documents',
+      sourceName: 'Opening an account  required documents',
       placeholder: 'Write your message…',
       languages: 'EN · FR · AR',
     },
@@ -55,7 +55,7 @@ export const enterpriseEn: EnterpriseDictionary = {
       },
       {
         title: 'It stays quiet when it doesn’t know',
-        body: 'Without reliable information it says so and points the visitor onward — instead of improvising.',
+        body: 'Without reliable information it says so and points the visitor onward  instead of improvising.',
       },
       {
         title: 'Your teams stay in control',
@@ -67,7 +67,7 @@ export const enterpriseEn: EnterpriseDictionary = {
   problem: {
     eyebrow: 'Where it starts',
     title: 'Your customers already have questions.',
-    lead: 'The answers are already on your website. Your visitors have to go looking for them — and they don’t look for long.',
+    lead: 'The answers are already on your website. Your visitors have to go looking for them  and they don’t look for long.',
     steps: [
       'Browse several pages',
       'Open documents',
@@ -133,7 +133,7 @@ export const enterpriseEn: EnterpriseDictionary = {
   grounded: {
     eyebrow: 'Reliability',
     title: 'Answers grounded in your organization’s knowledge.',
-    lead: 'Deezy is designed to answer from the information you provide — and to recognise the limits of what it knows.',
+    lead: 'Deezy is designed to answer from the information you provide  and to recognise the limits of what it knows.',
     points: [
       {
         title: 'Sources you control',
@@ -266,7 +266,7 @@ export const enterpriseEn: EnterpriseDictionary = {
   multilingual: {
     eyebrow: 'Multilingual',
     title: 'Serve customers in their language.',
-    lead: 'Deezy answers in the language the visitor uses, from the same knowledge base — without duplicating your content.',
+    lead: 'Deezy answers in the language the visitor uses, from the same knowledge base  without duplicating your content.',
     payoff: 'One knowledge base. A multilingual customer experience.',
     audienceTitle: 'Particularly useful for',
     audience: [
@@ -330,7 +330,7 @@ export const enterpriseEn: EnterpriseDictionary = {
   value: {
     eyebrow: 'What changes',
     title: 'More than automation. Better customer experiences.',
-    lead: 'The point isn’t to take humans out of the loop — it’s to take out of their day what doesn’t need a human.',
+    lead: 'The point isn’t to take humans out of the loop  it’s to take out of their day what doesn’t need a human.',
     items: [
       {
         title: 'Reduce repetitive questions',

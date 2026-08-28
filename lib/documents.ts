@@ -1,7 +1,7 @@
 /**
  * Extraction du texte d'un document importe.
  *
- * Le resultat est un CleanPage — exactement la meme forme qu'une page de site.
+ * Le resultat est un CleanPage  exactement la meme forme qu'une page de site.
  * C'est ce qui permet au decoupage, aux embeddings et a la recherche de
  * fonctionner sans distinction entre les deux sources.
  */
@@ -28,7 +28,7 @@ export const MAX_FILE_BYTES = 10 * 1024 * 1024;
  * Plafond de texte retenu par document.
  *
  * Sans lui, un catalogue de 800 pages produirait des milliers de morceaux a
- * vectoriser — pour un cout sans rapport avec sa valeur, et un depassement du
+ * vectoriser  pour un cout sans rapport avec sa valeur, et un depassement du
  * delai de la fonction serverless.
  */
 export const MAX_EXTRACTED_CHARS = 200_000;

@@ -17,7 +17,7 @@ import { PLAN_PRICING, type PlanId } from '@/lib/plans';
  *
  *   FAQPage              rend les questions eligibles aux resultats enrichis.
  *                        Google exige que ces questions soient VISIBLES sur la
- *                        page — elles le sont, c'est la section FAQ.
+ *                        page  elles le sont, c'est la section FAQ.
  *
  * Le balisage doit toujours decrire ce que la page montre. Y declarer une note
  * moyenne ou un nombre d'avis qu'on n'a pas serait une fausse declaration, et

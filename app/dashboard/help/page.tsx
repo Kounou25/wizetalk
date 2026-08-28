@@ -76,7 +76,7 @@ export default async function HelpPage() {
                 le poste n'ouvre pas mailto: doit pouvoir la recopier. */}
             <a href={`mailto:${SUPPORT_EMAIL}`}>
               <Mail />
-              {t.contactCta} — {SUPPORT_EMAIL}
+              {t.contactCta}  {SUPPORT_EMAIL}
             </a>
           </Button>
 

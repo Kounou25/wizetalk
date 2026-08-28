@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 /**
  * Ossature affichee pendant qu'une page se rend cote serveur.
  *
- * Elle reprend la silhouette du contenu reel — memes hauteurs, memes colonnes,
+ * Elle reprend la silhouette du contenu reel  memes hauteurs, memes colonnes,
  * memes filets. Un squelette qui ne correspond pas a ce qui arrive produit un
  * sursaut de mise en page a l'affichage, ce qui est pire que l'attente.
  */

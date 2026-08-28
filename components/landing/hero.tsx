@@ -11,7 +11,7 @@ import { WidgetMockup } from './widget-preview';
  * Le hero doit repondre a quatre questions en cinq secondes : qu'est-ce que
  * c'est, pourquoi j'en ai besoin, qu'est-ce qui le distingue, pourquoi
  * maintenant. D'ou l'ordre : le manque a gagner dans le titre, le mecanisme
- * dans le sous-titre, l'action, puis la preuve — la maquette a droite, qui
+ * dans le sous-titre, l'action, puis la preuve  la maquette a droite, qui
  * montre une vraie reponse et sa source.
  */
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -73,12 +73,12 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
           </div>
 
           {/* Leve les freins juste sous l'appel a l'action, la ou l'hesitation
-              se produit — pas plus bas dans la page. */}
+              se produit  pas plus bas dans la page. */}
           <p className="text-muted-foreground mt-4 text-sm">{t.microcopy}</p>
         </Reveal>
 
         {/* Le produit, tout de suite : on ne fait pas defiler pour comprendre.
-            Une conversation reelle, avec sa source — pas une illustration de
+            Une conversation reelle, avec sa source  pas une illustration de
             robot, qui ne prouverait rien. */}
         <Reveal delay={150} className="relative">
           <TiltCard className="mx-auto w-full max-w-md">

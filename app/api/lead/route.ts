@@ -3,7 +3,7 @@
  *
  * Appelee anonymement, comme /api/chat : memes barrieres (bot actif, origine
  * declaree), plus un garde-fou anti-doublon. Aucun quota de messages consomme
- * ici — laisser une adresse ne doit jamais etre bloque par un quota epuise.
+ * ici  laisser une adresse ne doit jamais etre bloque par un quota epuise.
  */
 
 import { z } from 'zod';

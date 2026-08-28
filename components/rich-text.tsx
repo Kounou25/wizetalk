@@ -10,7 +10,7 @@ import { Fragment } from 'react';
  * ECRIT A LA MAIN, ET VOLONTAIREMENT INCOMPLET
  *
  * Une bibliotheque de markdown apporterait les titres, les tableaux, les blocs
- * de code, les images — tout ce qu'une bulle de discussion de 360 px ne peut
+ * de code, les images  tout ce qu'une bulle de discussion de 360 px ne peut
  * pas afficher correctement. On rend donc le vocabulaire exact que le modele
  * est autorise a employer (voir SYSTEM_INSTRUCTION dans lib/rag.ts), et rien
  * d'autre. Les deux listes doivent rester d'accord.
@@ -44,7 +44,7 @@ const NUMBERED = /^\s*\d+[.)]\s+(.+)$/;
  * La reponse arrive mot par mot : sans cela, le visiteur voit « Notre **offre »
  * pendant une fraction de seconde, puis les etoiles disparaissent. En retirant
  * le marqueur orphelin, le texte apparait sans decoration puis se met en gras
- * a la fermeture — il ne saute jamais.
+ * a la fermeture  il ne saute jamais.
  */
 function trimDangling(text: string): string {
   let out = text;

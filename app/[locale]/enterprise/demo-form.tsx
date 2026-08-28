@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils';
 import { submitDemoRequest, type DemoRequestState } from './actions';
 
 /**
- * Le formulaire commercial — la destination de tous les appels a l'action.
+ * Le formulaire commercial  la destination de tous les appels a l'action.
  *
  * #demo est portee par la section, #contact par un repere pose juste dessous.
  * Les deux amenent au meme endroit, mais le fragment d'URL pre-selectionne
@@ -43,13 +43,13 @@ export function EnterpriseDemoForm({
   const [intent, setIntent] = useState<'demo' | 'contact'>('demo');
 
   /*
-   * Horodatage de l'affichage, pose apres l'hydratation — le filtre anti-robot
+   * Horodatage de l'affichage, pose apres l'hydratation  le filtre anti-robot
    * du serveur ecarte les envois arrives en moins de trois secondes.
    *
    * NE PAS DEPLACER CE CALCUL DANS UN GESTIONNAIRE DE FOCUS : le point de
    * depart est le CHARGEMENT DE LA PAGE, ce qui rend le seuil sans danger.
    * Reparti depuis la premiere frappe, il ecarterait un formulaire rempli au
-   * remplissage automatique — et une demande ecartee est perdue en silence.
+   * remplissage automatique  et une demande ecartee est perdue en silence.
    */
   const [startedAt, setStartedAt] = useState(0);
   useEffect(() => setStartedAt(Date.now()), []);
@@ -140,7 +140,7 @@ export function EnterpriseDemoForm({
                   Invisible a l'ecran et retire de l'ordre de tabulation comme
                   de l'arbre d'accessibilite : un lecteur d'ecran ne l'annonce
                   pas, un robot qui remplit tout le formulaire le remplit.
-                  `sr-only` serait exactement le mauvais choix — il le rendrait
+                  `sr-only` serait exactement le mauvais choix  il le rendrait
                   audible.
                 */}
                 <div

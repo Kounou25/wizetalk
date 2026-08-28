@@ -11,15 +11,15 @@ type Db = SupabaseClient<any, any, any>;
 /**
  * Debite un message au compte proprietaire d'un assistant.
  *
- * Toute la logique — verrou de ligne, renouvellement de periode, verification
- * du solde — vit dans la fonction SQL `consume_message`. Un debit fait de
+ * Toute la logique  verrou de ligne, renouvellement de periode, verification
+ * du solde  vit dans la fonction SQL `consume_message`. Un debit fait de
  * plusieurs allers-retours depuis Node laisserait une fenetre entre la lecture
  * du solde et son ecriture, pendant laquelle deux visiteurs simultanes
  * consommeraient le meme message.
  *
  * Ne leve jamais : un incident sur le compteur ne doit pas faire tomber la
  * reponse au visiteur. En cas d'erreur on refuse le debit, ce qui declenche le
- * repli vers la capture d'e-mail — degrade, mais pas casse.
+ * repli vers la capture d'e-mail  degrade, mais pas casse.
  */
 export async function consumeMessage(
   db: Db,

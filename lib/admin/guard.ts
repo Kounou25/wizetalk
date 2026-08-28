@@ -63,7 +63,7 @@ export async function isAdmin(): Promise<boolean> {
 }
 
 /**
- * Client privilegie — accessible uniquement apres verification.
+ * Client privilegie  accessible uniquement apres verification.
  *
  * Rend aussi l'administrateur, que les actions doivent inscrire au journal.
  * Leve une exception plutot que de rendre un client degrade : un back-office

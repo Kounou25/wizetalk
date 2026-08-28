@@ -51,7 +51,7 @@ export interface StartedSubscription {
  * conformite restent a la charge du prestataire.
  *
  * L'abonnement est cree en statut `pending`. Il ne donne AUCUN droit tant que
- * le webhook `subscription.active` n'est pas arrive — la redirection de retour
+ * le webhook `subscription.active` n'est pas arrive  la redirection de retour
  * n'accorde rien, sinon il suffirait de visiter l'URL de succes pour s'offrir
  * un plan.
  */

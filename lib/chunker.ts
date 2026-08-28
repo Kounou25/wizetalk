@@ -4,7 +4,7 @@
  * Deux regles qui font l'essentiel de la qualite :
  *  1. on ne coupe jamais au milieu d'une section (un titre = une unite de sens) ;
  *  2. chaque chunk est prefixe de son fil d'Ariane, donc reste comprehensible
- *     hors contexte — pour le modele d'embedding comme pour le LLM.
+ *     hors contexte  pour le modele d'embedding comme pour le LLM.
  */
 
 import type { Chunk, CleanPage } from './types';

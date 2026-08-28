@@ -146,7 +146,7 @@ export default async function EnterprisePage({
 
       {/*
         Notre propre assistant, sur la page qui le vend.
-        C'est la preuve la plus courte de tout ce qui precede — a condition que
+        C'est la preuve la plus courte de tout ce qui precede  a condition que
         le bot de demonstration ait indexe cette page. Une resynchronisation
         apres chaque mise en ligne fait partie du deploiement, sinon il repond
         « je ne trouve pas cette information » aux questions sur l'offre

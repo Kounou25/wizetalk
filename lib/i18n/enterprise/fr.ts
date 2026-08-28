@@ -1,5 +1,5 @@
 /**
- * Offre Enterprise — dictionnaire de reference.
+ * Offre Enterprise  dictionnaire de reference.
  *
  * SEPARE DU DICTIONNAIRE PRINCIPAL, ET POURQUOI
  *
@@ -7,13 +7,13 @@
  * l'aurait rendu illisible, alors que les deux contenus ne bougent jamais
  * ensemble : la landing suit le produit en libre-service, celle-ci suit un
  * discours commercial. Le type continue de decouler du francais, donc rien
- * n'est perdu — l'anglais reste verifie contre lui a la compilation.
+ * n'est perdu  l'anglais reste verifie contre lui a la compilation.
  *
  * REGLE DE REDACTION, VALABLE POUR TOUTE MODIFICATION
  *
  * Cette page s'adresse a des organisations qui verifient. On n'y ecrit donc
  * que ce que le produit fait AUJOURD'HUI, et ce qui n'est pas livre est
- * annonce comme se decidant pendant l'implementation — jamais comme une case
+ * annonce comme se decidant pendant l'implementation  jamais comme une case
  * cochee. A ce jour :
  *
  *   livre        ingestion site + documents, reponses sourcees, refus quand
@@ -30,7 +30,7 @@
 
 export const enterpriseFr = {
   meta: {
-    title: 'Deezy Enterprise — assistant IA de relation client pour les organisations',
+    title: 'Deezy Enterprise  assistant IA de relation client pour les organisations',
     description:
       'Deezy Enterprise donne à vos visiteurs une réponse immédiate, tirée des informations officielles de votre organisation, 24 h/24 et dans leur langue. Banques, assurances, télécoms, universités, santé.',
   },
@@ -49,7 +49,7 @@ export const enterpriseFr = {
     badge: 'Deezy Enterprise',
     title: 'L’assistant IA de relation client de votre organisation.',
     subtitle:
-      'Donnez à vos clients une réponse immédiate, tirée des informations officielles de votre organisation — 24 h/24, dans leur langue, à chaque visite.',
+      'Donnez à vos clients une réponse immédiate, tirée des informations officielles de votre organisation  24 h/24, dans leur langue, à chaque visite.',
     ctaPrimary: 'Demander une démo',
     ctaSecondary: 'Parler à notre équipe',
     reassurance: 'Construit autour de vos connaissances. Piloté par vos équipes.',
@@ -60,7 +60,7 @@ export const enterpriseFr = {
       answer:
         'Une pièce d’identité en cours de validité, un justificatif de domicile de moins de trois mois et un justificatif de revenus. Le dossier se dépose en agence ou en ligne.',
       sourceLabel: 'D’après votre page',
-      sourceName: 'Ouverture de compte — pièces à fournir',
+      sourceName: 'Ouverture de compte  pièces à fournir',
       placeholder: 'Écrivez votre message…',
       languages: 'FR · EN · AR',
     },
@@ -77,7 +77,7 @@ export const enterpriseFr = {
       },
       {
         title: 'Il se tait quand il ne sait pas',
-        body: 'Sans information fiable, il le dit et oriente — plutôt que d’improviser une réponse.',
+        body: 'Sans information fiable, il le dit et oriente  plutôt que d’improviser une réponse.',
       },
       {
         title: 'Vos équipes gardent la main',
@@ -89,7 +89,7 @@ export const enterpriseFr = {
   problem: {
     eyebrow: 'Le point de départ',
     title: 'Vos clients ont déjà des questions.',
-    lead: 'Les réponses existent sur votre site. Le visiteur, lui, doit les chercher — et il ne cherche pas longtemps.',
+    lead: 'Les réponses existent sur votre site. Le visiteur, lui, doit les chercher  et il ne cherche pas longtemps.',
     steps: [
       'Parcourir plusieurs pages',
       'Ouvrir des documents',
@@ -118,7 +118,7 @@ export const enterpriseFr = {
     ],
     payoff:
       'Deezy donne au visiteur l’information dont il a besoin, sans lui demander de la chercher.',
-    /* Décrit une scène, jamais une identité — voir public/enterprise/SOURCES.md. */
+    /* Décrit une scène, jamais une identité  voir public/enterprise/SOURCES.md. */
     photoAlt: 'Une personne consulte son téléphone, à l’extérieur d’un bâtiment',
   },
 
@@ -247,7 +247,7 @@ export const enterpriseFr = {
     },
 
     /* Textes alternatifs : ils décrivent une scène, jamais une identité. Voir
-       public/enterprise/SOURCES.md — ces visages illustrent les équipes du
+       public/enterprise/SOURCES.md  ces visages illustrent les équipes du
        CLIENT, et ne peuvent ni être nommés ni se voir prêter une citation. */
     photoAlt:
       'Deux conseillers équipés d’un casque, en conversation depuis leur bureau',
@@ -295,7 +295,7 @@ export const enterpriseFr = {
   multilingual: {
     eyebrow: 'Multilingue',
     title: 'Servez vos clients dans leur langue.',
-    lead: 'Deezy répond dans la langue employée par le visiteur, à partir de la même base de connaissances — sans dupliquer vos contenus.',
+    lead: 'Deezy répond dans la langue employée par le visiteur, à partir de la même base de connaissances  sans dupliquer vos contenus.',
     payoff: 'Une seule base de connaissances. Une expérience client multilingue.',
     audienceTitle: 'Particulièrement utile pour',
     audience: [

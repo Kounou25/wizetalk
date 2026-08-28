@@ -1,7 +1,7 @@
 -- Capture de prospects sur refus, et rapport des questions sans reponse.
 --
 -- Quand l'assistant ne sait pas, il dit aujourd'hui « contactez l'entreprise »
--- et le visiteur s'en va — au moment precis ou son intention est la plus forte.
+-- et le visiteur s'en va  au moment precis ou son intention est la plus forte.
 -- Ces deux ajouts transforment ce cul-de-sac en boucle :
 --   le visiteur laisse son e-mail → le client voit le trou dans son contenu
 --   → il complete son site → il resynchronise.

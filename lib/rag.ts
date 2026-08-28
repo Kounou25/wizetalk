@@ -7,7 +7,7 @@
  *
  * Deux garde-fous contre l'hallucination, complementaires :
  *  1. un seuil de similarite qui court-circuite l'appel au LLM quand rien de
- *     pertinent n'a ete trouve — c'est le plus fiable, et il est gratuit ;
+ *     pertinent n'a ete trouve  c'est le plus fiable, et il est gratuit ;
  *  2. une consigne systeme stricte + temperature basse pour le reste.
  * L'instruction seule ne suffit jamais : sans le seuil, le modele bavarde a
  * partir de chunks hors-sujet.
@@ -96,7 +96,7 @@ const GENERATION_CONFIG = {
   maxOutputTokens: 600,
   // Restituer une reponse depuis un contexte court ne demande pas de
   // raisonnement etendu : LOW reduit latence et tokens factures.
-  // Gemini 3 remplace thinkingBudget par thinkingLevel — passer l'ancienne
+  // Gemini 3 remplace thinkingBudget par thinkingLevel  passer l'ancienne
   // forme fait echouer la requete ("invalid argument"), et poser thinkingLevel
   // a la racine de config le fait ignorer silencieusement.
   thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },

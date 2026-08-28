@@ -5,7 +5,7 @@ import { AdminSidebar } from '@/components/admin/sidebar';
 /*
  * Interdit d'indexation.
  *
- * Ces pages redirigent deja un visiteur anonyme, donc rien ne fuiterait — mais
+ * Ces pages redirigent deja un visiteur anonyme, donc rien ne fuiterait  mais
  * un robot qui les demande consomme du budget d'exploration pour recevoir une
  * redirection, budget pris sur les pages qu'on veut voir indexees. robots.txt
  * le dit deja ; cette balise le repete pour les robots qui l'ignorent.
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
  * Le back-office.
  *
  * Ce layout est la premiere barriere : sans droit d'administration, la section
- * entiere renvoie un 404 — et non une page « acces refuse », qui confirmerait
+ * entiere renvoie un 404  et non une page « acces refuse », qui confirmerait
  * l'existence de l'interface a qui la cherche.
  *
  * Il ne remplace pas les verifications individuelles : chaque page et chaque

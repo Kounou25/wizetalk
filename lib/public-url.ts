@@ -3,7 +3,7 @@
  *
  * C'est l'adresse que reçoivent vos clients : celle du script d'intégration
  * qu'ils collent sur leur site, et celle vers laquelle ce script rappelle
- * ensuite l'API. Une fois collé chez eux, on ne peut plus le changer — il doit
+ * ensuite l'API. Une fois collé chez eux, on ne peut plus le changer  il doit
  * donc désigner le domaine canonique, jamais l'URL par laquelle vous consultez
  * le tableau de bord (apex sans www, aperçu Vercel, IP de réseau local…).
  *
@@ -19,8 +19,8 @@ const CANONICAL = 'https://www.deezy.chat';
  * La barre finale est retiree, pas supposee absente.
  *
  * Cette valeur est toujours suivie d'un chemin commencant par « / ». Une
- * variable ecrite « https://www.deezy.chat/ » — ce qui n'a rien d'anormal,
- * beaucoup d'interfaces d'hebergement la completent ainsi — produisait alors
+ * variable ecrite « https://www.deezy.chat/ »  ce qui n'a rien d'anormal,
+ * beaucoup d'interfaces d'hebergement la completent ainsi  produisait alors
  * « https://www.deezy.chat//widget.js » dans l'extrait que le client copie sur
  * son site. Le serveur redirige, donc cela fonctionne ; mais chaque visiteur
  * paie un aller-retour de plus, et l'extrait a l'air fautif.
@@ -31,7 +31,7 @@ export const PUBLIC_APP_URL = (process.env.NEXT_PUBLIC_APP_URL ?? CANONICAL).rep
 );
 
 /**
- * Base des ressources destinées à quitter la machine — les images d'un e-mail,
+ * Base des ressources destinées à quitter la machine  les images d'un e-mail,
  * par exemple.
  *
  * Toujours le domaine canonique, y compris en développement : un message part

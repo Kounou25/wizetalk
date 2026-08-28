@@ -27,7 +27,7 @@ export async function setLocale(locale: string) {
    *
    * Le cookie suffit tant qu'on rend une page : la requete le porte. Mais un
    * message declenche par la capture d'un prospect ou par un webhook n'a aucun
-   * contexte de requete — et le visiteur qui declenche l'envoi n'est pas le
+   * contexte de requete  et le visiteur qui declenche l'envoi n'est pas le
    * destinataire. Sans cette ligne, ces messages partent tous en francais.
    */
   const supabase = await createClient();

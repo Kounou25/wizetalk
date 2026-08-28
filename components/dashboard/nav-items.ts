@@ -11,7 +11,7 @@ export interface NavItem {
 }
 
 /**
- * Sections principales du produit — celles ou l'on travaille.
+ * Sections principales du produit  celles ou l'on travaille.
  *
  * Definies ici plutot que dans la barre laterale : la barre superieure a
  * besoin de la meme liste pour nommer la page courante, et deux listes qui

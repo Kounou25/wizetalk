@@ -31,7 +31,7 @@ interface DashboardShellProps {
  * Coquille du produit connecte : barre laterale fixe, barre superieure
  * collante, zone de contenu.
  *
- * Elle ne fait que composer — la navigation vit dans `sidebar.tsx`, le compte
+ * Elle ne fait que composer  la navigation vit dans `sidebar.tsx`, le compte
  * et la langue dans `topbar.tsx`, la liste des sections dans `nav-items.ts`.
  */
 export function DashboardShell({
@@ -112,7 +112,7 @@ export function DashboardShell({
           onOpenMenu={() => setMobileOpen(true)}
         />
 
-        {/* 1280 px : au-dela, une grille de tableau de bord se delite — les
+        {/* 1280 px : au-dela, une grille de tableau de bord se delite  les
             lignes de liste deviennent des rubans et le regard perd la colonne. */}
         <main className="mx-auto max-w-[1280px] px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>

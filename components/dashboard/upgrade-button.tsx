@@ -11,7 +11,7 @@ import { UpgradeDialog, type UpgradeOffer } from './upgrade-dialog';
  *
  * Les ecrans verrouilles sont rendus sur le serveur ; il leur faut donc un
  * point d'entree client pour ouvrir la modale. Ce composant ne fait que
- * porter l'etat d'ouverture — la proposition, elle, est calculee sur le
+ * porter l'etat d'ouverture  la proposition, elle, est calculee sur le
  * serveur et transmise telle quelle.
  */
 export function UpgradeButton({

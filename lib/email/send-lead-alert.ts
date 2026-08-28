@@ -15,7 +15,7 @@ import { FROM } from './welcome';
  * Contrairement a la facture, ou l'echec doit remonter pour que le prestataire
  * rejoue, il n'y a ici personne pour rejouer : le visiteur a deja recu sa
  * confirmation et ne repassera pas. Une panne de messagerie ne doit surtout pas
- * faire echouer la capture elle-meme — le prospect est enregistre, c'est
+ * faire echouer la capture elle-meme  le prospect est enregistre, c'est
  * l'essentiel. L'alerte est un confort, la donnee est le produit.
  *
  * A appeler depuis `after()` : l'envoi part une fois la reponse rendue, donc le
@@ -48,7 +48,7 @@ export async function sendLeadAlert(botId: string, email: string, question: stri
      * La langue du PROPRIETAIRE, pas celle du visiteur.
      *
      * C'est lui qui recoit le message. Le visiteur qui declenche l'envoi peut
-     * naviguer dans une tout autre langue — s'en servir enverrait au client une
+     * naviguer dans une tout autre langue  s'en servir enverrait au client une
      * alerte qu'il ne lit pas.
      */
     const stored = profile?.locale;

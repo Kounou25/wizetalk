@@ -36,7 +36,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
  * Les photographies montrent des PERSONNES EN SITUATION, jamais un lieu
  * identifiable : une devanture de banque reelle sur cette page laisserait
  * entendre que cette banque est cliente. Toute photo portant une enseigne est
- * ecartee — voir public/enterprise/SOURCES.md.
+ * ecartee  voir public/enterprise/SOURCES.md.
  *
  * Les deux avertissements du bas sont des engagements, pas des mentions
  * decoratives : une banque qui lit « assistant IA » pense d'abord acces aux

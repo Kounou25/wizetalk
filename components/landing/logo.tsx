@@ -22,7 +22,7 @@ export type LogoVariant = keyof typeof VARIANTS;
  * Logo Deezy.
  *
  * Logotype : le nom fait partie de l'image. On ne lui accole donc JAMAIS un
- * texte « Deezy » — il apparaitrait deux fois.
+ * texte « Deezy »  il apparaitrait deux fois.
  *
  * Rapport ~3:1. La hauteur pilote l'affichage (`h-7 w-auto`) : c'est elle qui
  * doit s'aligner sur le texte voisin, pas la largeur.

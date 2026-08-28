@@ -11,7 +11,7 @@ import { DashboardShell } from '@/components/dashboard/shell';
 /*
  * Interdit d'indexation.
  *
- * Ces pages redirigent deja un visiteur anonyme, donc rien ne fuiterait — mais
+ * Ces pages redirigent deja un visiteur anonyme, donc rien ne fuiterait  mais
  * un robot qui les demande consomme du budget d'exploration pour recevoir une
  * redirection, budget pris sur les pages qu'on veut voir indexees. robots.txt
  * le dit deja ; cette balise le repete pour les robots qui l'ignorent.
@@ -70,7 +70,7 @@ export default async function DashboardLayout({
   /*
    * Quota epuise : on prepare la proposition de mise a niveau.
    *
-   * Calculee ici et pas systematiquement — c'est une lecture de plus, inutile
+   * Calculee ici et pas systematiquement  c'est une lecture de plus, inutile
    * tant que la jauge n'est pas au bout.
    */
   const messagesOffer =
@@ -80,7 +80,7 @@ export default async function DashboardLayout({
    * Provenance du compte, ecrite au premier passage dans le tableau de bord.
    *
    * Ici parce que c'est le seul endroit traverse par les deux chemins
-   * d'inscription — mot de passe et Google — et parce que le declencheur SQL
+   * d'inscription  mot de passe et Google  et parce que le declencheur SQL
    * qui cree la ligne `profiles` tourne dans Postgres, sans acces aux cookies.
    */
   const acq = decodeAcquisition((await cookies()).get(ACQ_COOKIE)?.value);

@@ -103,7 +103,7 @@ export default async function LandingPage({
         precedente vient de poser :
 
           Hero        ce que vous perdez, et la preuve qu'on peut l'eviter
-          Preuve      sur quoi reposent les reponses — faute de clients citables
+          Preuve      sur quoi reposent les reponses  faute de clients citables
           Probleme    -> « ca me parle, mais est-ce que ca me coute vraiment ? »
           Changement  -> « d'accord, mais qu'est-ce que ca fait, concretement ? »
           Fiabilite   -> « et si l'IA raconte n'importe quoi ? »   ★ le coeur

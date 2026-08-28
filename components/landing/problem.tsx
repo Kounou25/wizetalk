@@ -20,7 +20,7 @@ export function Problem({ locale, dict }: { locale: Locale; dict: Dictionary }) 
       {/*
         Le trajet du visiteur perdu, avant les quatre situations.
         Il pose la scene en une ligne : c'est la meme sequence que le lecteur
-        va reconnaitre chez lui. Le trajet inverse — celui ou Deezy rattrape —
+        va reconnaitre chez lui. Le trajet inverse  celui ou Deezy rattrape —
         appartient a la section « recovery » ; le montrer ici aussi affaiblirait
         les deux.
       */}

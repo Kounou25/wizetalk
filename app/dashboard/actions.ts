@@ -161,7 +161,7 @@ export async function updateBot(
    * enverrait le champ quand meme. La regle qui compte est celle-ci, cote
    * serveur : sans elle, l'option se contournerait avec une ligne de console.
    *
-   * Hors palier, la colonne n'est pas ecrite du tout — plutot que forcee a
+   * Hors palier, la colonne n'est pas ecrite du tout  plutot que forcee a
    * false. Le choix du client survit ainsi a un changement de plan et
    * redevient effectif s'il remonte, sans qu'il ait a le refaire.
    */

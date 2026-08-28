@@ -11,7 +11,7 @@ import { useFocusTrap } from './use-focus-trap';
  *
  * Ecrite a la main plutot qu'importee : le projet n'embarque qu'un seul
  * primitif Radix, et une modale correcte tient en une soixantaine de lignes.
- * Ce qui compte, c'est le contrat d'accessibilite — la raison pour laquelle une
+ * Ce qui compte, c'est le contrat d'accessibilite  la raison pour laquelle une
  * modale maison est habituellement ratee :
  *
  *   `aria-modal` accompagne d'un VRAI piege a focus, sinon la promesse est

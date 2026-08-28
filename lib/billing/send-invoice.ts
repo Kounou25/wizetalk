@@ -44,7 +44,7 @@ export interface PaymentNotice {
  *
  * Le PDF vient de Dodo et n'est pas regenere : c'est la piece comptable qui
  * fait foi. En produire une nous-memes garantirait qu'un jour les deux
- * divergent — sur un montant de taxe, un numero ou une mention legale — et
+ * divergent  sur un montant de taxe, un numero ou une mention legale  et
  * c'est nous qui aurions tort.
  *
  * Leve en cas d'echec, volontairement : l'appelant relaie l'erreur au
@@ -106,7 +106,7 @@ export async function sendInvoiceEmail(notice: PaymentNotice): Promise<void> {
  * Retrouve le plan facture, par trois chemins successifs.
  *
  * L'ordre vient de l'observation : sur un paiement d'abonnement, Dodo laisse
- * `product_cart` a null — l'identifiant de produit, qui semblait la voie
+ * `product_cart` a null  l'identifiant de produit, qui semblait la voie
  * evidente, n'est jamais renseigne. Les metadonnees de l'abonnement, elles,
  * sont bien repercutees sur le paiement.
  *

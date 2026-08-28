@@ -23,7 +23,7 @@ export const FROM = `Deezy <${SUPPORT_EMAIL}>`;
  *
  * La version « full » du logotype, la meme que sur la page de connexion : un
  * message de bienvenue ne doit pas presenter une marque que le destinataire ne
- * retrouvera pas en arrivant. Elle fait 648 px pour 28 Ko — largement au-dessus
+ * retrouvera pas en arrivant. Elle fait 648 px pour 28 Ko  largement au-dessus
  * de la taille d'affichage, donc nette sur ecran haute densite, et assez legere
  * pour etre telechargee a chaque ouverture.
  *
@@ -72,11 +72,11 @@ interface Copy {
 
 const COPY: Record<Locale, Copy> = {
   fr: {
-    subject: 'Bienvenue chez Deezy — créons votre assistant',
+    subject: 'Bienvenue chez Deezy  créons votre assistant',
     preheader: 'Trois étapes : votre site, vos documents, une ligne de code.',
     greeting: (name) => `Bienvenue, ${name}.`,
     intro:
-      'Votre compte est prêt. Dans quelques minutes, votre site pourra répondre seul aux questions de vos visiteurs — avec vos mots, vos tarifs, vos conditions.',
+      'Votre compte est prêt. Dans quelques minutes, votre site pourra répondre seul aux questions de vos visiteurs  avec vos mots, vos tarifs, vos conditions.',
     stepsLabel: 'Mise en route',
     steps: [
       {
@@ -85,7 +85,7 @@ const COPY: Record<Locale, Copy> = {
       },
       {
         title: 'Ajoutez vos documents',
-        detail: 'Tarifs, catalogue, conditions — en PDF, Word ou texte.',
+        detail: 'Tarifs, catalogue, conditions  en PDF, Word ou texte.',
       },
       {
         title: 'Collez une ligne de code',
@@ -101,15 +101,15 @@ const COPY: Record<Locale, Copy> = {
     helpTitle: 'Une question ?',
     help: 'Répondez simplement à ce message : une vraie personne le lira.',
     signature: 'L’équipe Deezy',
-    tagline: 'Deezy — l’assistant chatbot IA de votre site',
+    tagline: 'Deezy  l’assistant chatbot IA de votre site',
     reason: 'Vous recevez ce message parce qu’un compte Deezy vient d’être créé avec cette adresse.',
   },
   en: {
-    subject: 'Welcome to Deezy — let’s build your assistant',
+    subject: 'Welcome to Deezy  let’s build your assistant',
     preheader: 'Three steps: your website, your documents, one line of code.',
     greeting: (name) => `Welcome, ${name}.`,
     intro:
-      'Your account is ready. In a few minutes, your website will answer visitors on its own — in your words, with your prices and your terms.',
+      'Your account is ready. In a few minutes, your website will answer visitors on its own  in your words, with your prices and your terms.',
     stepsLabel: 'Getting started',
     steps: [
       {
@@ -118,7 +118,7 @@ const COPY: Record<Locale, Copy> = {
       },
       {
         title: 'Add your documents',
-        detail: 'Prices, catalogue, terms — as PDF, Word or plain text.',
+        detail: 'Prices, catalogue, terms  as PDF, Word or plain text.',
       },
       {
         title: 'Paste one line of code',
@@ -132,9 +132,9 @@ const COPY: Record<Locale, Copy> = {
     trial:
       'Seven days to try it on your own website. Cancel in one click, no questions asked.',
     helpTitle: 'Any questions?',
-    help: 'Just reply to this message — a real person will read it.',
+    help: 'Just reply to this message  a real person will read it.',
     signature: 'The Deezy team',
-    tagline: 'Deezy — the AI chatbot assistant for your website',
+    tagline: 'Deezy  the AI chatbot assistant for your website',
     reason: 'You are receiving this because a Deezy account was just created with this address.',
   },
 };
@@ -144,7 +144,7 @@ const COPY: Record<Locale, Copy> = {
  *
  * Le formulaire d'inscription demande desormais le nom, et Google le fournit
  * aussi. Reste le cas des comptes anterieurs : on retombe alors sur la partie
- * locale de l'adresse, nettoyee — mieux vaut « Bienvenue marie » qu'un
+ * locale de l'adresse, nettoyee  mieux vaut « Bienvenue marie » qu'un
  * « Bienvenue » sec ou, pire, un prenom invente.
  */
 export function firstNameFrom(email: string, fullName?: string | null): string {
@@ -304,12 +304,12 @@ export function buildWelcomeEmail(
     t.intro,
     '',
     t.stepsLabel.toUpperCase(),
-    ...t.steps.map((step, index) => `${index + 1}. ${step.title} — ${step.detail}`),
+    ...t.steps.map((step, index) => `${index + 1}. ${step.title}  ${step.detail}`),
     '',
     `${t.cta} : ${dashboardUrl}`,
     t.ctaHint,
     '',
-    `${t.trialTitle} — ${t.trial}`,
+    `${t.trialTitle}  ${t.trial}`,
     '',
     `${t.helpTitle} ${t.help}`,
     '',

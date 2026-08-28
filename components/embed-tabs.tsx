@@ -108,11 +108,11 @@ onMounted(() => {
       label: 'No-code',
       file: 'Wix · Shopify · Squarespace · Webflow · Framer',
       steps: [
-        'Wix — Paramètres → Code personnalisé → Ajouter du code, dans le corps de page',
-        'Shopify — Boutique en ligne → Thèmes → Modifier le code → theme.liquid',
-        'Squarespace — Paramètres → Avancé → Injection de code → Pied de page',
-        'Webflow — Paramètres du projet → Custom Code → Footer Code',
-        'Framer — Site Settings → General → Custom Code → End of <body>',
+        'Wix  Paramètres → Code personnalisé → Ajouter du code, dans le corps de page',
+        'Shopify  Boutique en ligne → Thèmes → Modifier le code → theme.liquid',
+        'Squarespace  Paramètres → Avancé → Injection de code → Pied de page',
+        'Webflow  Paramètres du projet → Custom Code → Footer Code',
+        'Framer  Site Settings → General → Custom Code → End of <body>',
       ],
       code: scriptTag,
     },
@@ -142,7 +142,7 @@ export function EmbedTabs({
   );
 
   /**
-   * En production, le domaine public fait autorite — jamais l'onglet courant.
+   * En production, le domaine public fait autorite  jamais l'onglet courant.
    * Vous pouvez consulter le tableau de bord depuis l'apex ou un apercu de
    * deploiement ; le script que vos clients collent chez eux, lui, doit
    * toujours designer le meme domaine.

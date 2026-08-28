@@ -1,5 +1,5 @@
 /**
- * Persistance locale (JSON) — uniquement pour le prototype.
+ * Persistance locale (JSON)  uniquement pour le prototype.
  *
  * Elle sera remplacee par Supabase + pgvector, mais la forme des donnees
  * (KnowledgeBase) est deja celle des futures tables `pages` et `chunks`.

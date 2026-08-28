@@ -12,11 +12,11 @@ import {
 } from '../section';
 
 /**
- * Fiabilite des reponses — la section decisive de la page.
+ * Fiabilite des reponses  la section decisive de la page.
  *
  * Aucune promesse d'exactitude, aucun « zero hallucination » : une garantie
  * pareille n'existe pas, et l'ecrire ferait douter du reste de la page. Ce qui
- * est affirme ici est livre et verifiable — sources choisies par le client,
+ * est affirme ici est livre et verifiable  sources choisies par le client,
  * provenance affichee, et refus de repondre sous le seuil de similarite (voir
  * `minCosine` dans lib/search.ts).
  */

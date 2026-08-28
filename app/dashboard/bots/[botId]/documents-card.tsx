@@ -79,7 +79,7 @@ export function DocumentsCard({
         continue;
       }
       if (file.size > MAX_BYTES) {
-        setError(`${file.name} — ${t.errorTooLarge}`);
+        setError(`${file.name}  ${t.errorTooLarge}`);
         continue;
       }
 
@@ -115,7 +115,7 @@ export function DocumentsCard({
 
         /*
          * Plafond atteint : on ouvre la proposition au lieu d'afficher un
-         * refus. Et on interrompt la boucle — insister sur les fichiers
+         * refus. Et on interrompt la boucle  insister sur les fichiers
          * suivants produirait le meme blocage autant de fois.
          */
         if (result.code === 'document_limit' && result.upgrade) {
@@ -125,9 +125,9 @@ export function DocumentsCard({
 
         if (!processed.ok) throw new Error(result.error ?? 'Lecture impossible.');
 
-        if (result.truncated) setNotice(`${file.name} — ${t.truncated}`);
+        if (result.truncated) setNotice(`${file.name}  ${t.truncated}`);
       } catch (cause) {
-        setError(`${file.name} — ${cause instanceof Error ? cause.message : 'Erreur.'}`);
+        setError(`${file.name}  ${cause instanceof Error ? cause.message : 'Erreur.'}`);
       } finally {
         setPending(null);
       }

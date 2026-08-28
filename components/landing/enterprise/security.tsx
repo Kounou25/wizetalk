@@ -11,7 +11,7 @@ import { Section, SectionHeading } from '../section';
  *
  * SOC 2, ISO 27001, RGPD, PCI DSS : la premiere organisation qui demande
  * l'attestation decouvrirait qu'elle n'existe pas, et l'affaire s'arreterait
- * la. Ce qui est affirme ici tient a l'architecture — l'assistant public ne
+ * la. Ce qui est affirme ici tient a l'architecture  l'assistant public ne
  * connait que les contenus indexes, le perimetre est decide par le client —
  * et se verifie dans le code.
  */

@@ -5,8 +5,8 @@ import { negotiateLocale } from '@/lib/i18n';
 /**
  * Redirection de compatibilite : la vraie page vit sous /fr/login et /en/login.
  *
- * Elle existe pour que tous les `redirect('/login')` du code serveur — proxy,
- * deconnexion, rappel OAuth — continuent de fonctionner sans avoir a connaitre
+ * Elle existe pour que tous les `redirect('/login')` du code serveur  proxy,
+ * deconnexion, rappel OAuth  continuent de fonctionner sans avoir a connaitre
  * la langue de l'utilisateur.
  */
 export default async function LoginRedirect({

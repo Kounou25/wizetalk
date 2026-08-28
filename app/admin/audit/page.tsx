@@ -30,7 +30,7 @@ export default async function AdminAuditPage() {
     <div className="flex flex-col gap-5">
       <PageHeader
         title="Journal"
-        description="Toute action d'administration porte sur les données d'un client. Ce journal est ce qui les rend imputables — il ne peut être ni modifié ni effacé depuis l'interface."
+        description="Toute action d'administration porte sur les données d'un client. Ce journal est ce qui les rend imputables  il ne peut être ni modifié ni effacé depuis l'interface."
       />
 
       {entries.length === 0 ? (

@@ -3,7 +3,7 @@
  *
  * Le principe tient en une phrase : on retient la PREMIERE visite, jamais la
  * derniere. Quelqu'un qui decouvre Deezy par une recherche, revient trois fois
- * en direct, puis s'inscrit, vient de la recherche — l'attribuer au « direct »
+ * en direct, puis s'inscrit, vient de la recherche  l'attribuer au « direct »
  * reviendrait a crediter le canal qui ne fait que le ramener, et a effacer
  * celui qui l'a trouve.
  */
@@ -45,7 +45,7 @@ function isInternal(host: string, selfHost: string): boolean {
  * Renvoie TOUJOURS une provenance, meme entierement vide.
  *
  * Une arrivee sans referent ni campagne n'est pas une absence d'information :
- * c'est l'acces direct, qui est un canal a part entiere — quelqu'un qui tape
+ * c'est l'acces direct, qui est un canal a part entiere  quelqu'un qui tape
  * l'adresse, la retrouve dans ses favoris, ou clique depuis une application.
  * Ne rien ecrire dans ce cas ferait tomber tout ce trafic dans « inconnu », au
  * milieu des comptes crees avant la mesure. Les deux seraient alors
@@ -181,7 +181,7 @@ export function channelOf(acq: {
  *
  * On n'ecrit que si la visite PRECEDE la creation du compte. Sans ce
  * controle, un client inscrit il y a six mois qui revient aujourd'hui depuis
- * LinkedIn se verrait attribuer LinkedIn — et le tableau raconterait que vos
+ * LinkedIn se verrait attribuer LinkedIn  et le tableau raconterait que vos
  * anciens clients viennent de la ou vos visiteurs passent maintenant.
  *
  * Les comptes crees avant cette mesure restent donc sans provenance. C'est le

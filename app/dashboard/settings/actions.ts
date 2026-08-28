@@ -69,7 +69,7 @@ export async function updatePassword(
    * Le mot de passe actuel est verifie avant tout changement.
    *
    * Supabase accepte updateUser({ password }) sur la seule foi de la session.
-   * Cela suffit tant que la session est sure — et cesse de suffire des qu'elle
+   * Cela suffit tant que la session est sure  et cesse de suffire des qu'elle
    * ne l'est plus : un poste laisse ouvert, un cookie recopie, et l'intrus
    * change le mot de passe puis verrouille le proprietaire dehors. La
    * verification transforme le vol de session en incident temporaire.

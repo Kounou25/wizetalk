@@ -63,7 +63,7 @@ export function buildDemoRequestEmail(details: DemoRequestDetails): DemoRequestC
     ? (INDUSTRY_LABEL[details.industry] ?? details.industry)
     : null;
 
-  const subject = `${intent} — ${details.company}`;
+  const subject = `${intent}  ${details.company}`;
 
   /* Les lignes vides ne sont pas rendues : un tableau a moitie vide de tirets
      donne l'impression d'un formulaire mal rempli, alors que ces champs sont

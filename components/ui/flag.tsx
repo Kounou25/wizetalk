@@ -6,11 +6,11 @@ import { cn } from '@/lib/utils';
  *
  * DESSINE EN SVG, PAS EN EMOJI
  *
- * Les emoji drapeaux sont des paires d'indicateurs regionaux — 🇫🇷 est
+ * Les emoji drapeaux sont des paires d'indicateurs regionaux  🇫🇷 est
  * techniquement « F » suivi de « R ». Windows n'embarque aucun glyphe pour ces
  * paires : le systeme affiche donc les deux lettres, « FR », au lieu du
  * drapeau. Sur un produit dont une partie des utilisateurs est sous Windows,
- * l'emoji casse pour eux seuls, ce qui est le pire cas — invisible en
+ * l'emoji casse pour eux seuls, ce qui est le pire cas  invisible en
  * developpement sur Mac, visible en production.
  *
  * Quinze lignes de SVG s'affichent partout, restent nettes a toute taille et
@@ -47,7 +47,7 @@ function FranceFlag() {
  * Union Jack simplifie.
  *
  * Les diagonales rouges d'un vrai Union Jack sont decalees dans leur bande
- * blanche — un detail heraldique qui demanderait un `clipPath`, donc un
+ * blanche  un detail heraldique qui demanderait un `clipPath`, donc un
  * identifiant unique par instance. A seize pixels de large, ce decalage est
  * invisible : les diagonales sont centrees, et le rendu est identique a l'oeil.
  *

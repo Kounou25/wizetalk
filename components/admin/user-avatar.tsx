@@ -31,7 +31,7 @@ function initialsOf(fullName: string | null, email: string): string {
  * Photo de profil d'un compte, dans le back-office.
  *
  * Deliberement distincte du composant `Avatar` du tableau de bord, qui ne
- * charge jamais d'image distante — c'est une propriete qu'on tient a garder
+ * charge jamais d'image distante  c'est une propriete qu'on tient a garder
  * cote client. Ici la contrainte ne s'applique pas : le back-office ne
  * s'affiche que pour l'equipe, et reconnaitre un compte a son visage vaut bien
  * une requete vers le CDN de Google.

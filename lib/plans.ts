@@ -5,7 +5,7 @@
  *
  * Le credit couvrait tout ce qui coutait : repondre, explorer une page,
  * traiter un document. C'etait juste economiquement, et opaque
- * commercialement — « 5 000 credits » oblige l'acheteur a apprendre une unite
+ * commercialement  « 5 000 credits » oblige l'acheteur a apprendre une unite
  * maison avant de pouvoir juger le prix.
  *
  * Le message se comprend sans explication. Ce que le credit bornait du cote de

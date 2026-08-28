@@ -14,7 +14,7 @@ const SIZES = {
  *
  * ELLE VIENT DU SITE DU CLIENT, PAS D'UN SERVICE TIERS
  *
- * Les services d'icones — celui de Google, celui de DuckDuckGo — evitent tout
+ * Les services d'icones  celui de Google, celui de DuckDuckGo  evitent tout
  * ce travail en une ligne. Mais ils recevraient, a chaque affichage du tableau
  * de bord, la liste des domaines de nos clients. Ce n'est pas une information a
  * confier a un tiers pour economiser quelques lignes.
@@ -23,7 +23,7 @@ const SIZES = {
  *
  *   1. l'adresse relevee a l'exploration, dans le HTML du site ;
  *   2. `/favicon.ico` a la racine, que la plupart des serveurs servent encore
- *      — c'est ce qui fait marcher les assistants indexes avant cette
+ *       c'est ce qui fait marcher les assistants indexes avant cette
  *      fonctionnalite, sans attendre une resynchronisation ;
  *   3. l'initiale, quand il n'y a rien a afficher.
  *
@@ -67,7 +67,7 @@ export function SiteFavicon({
     <span className={cn(shell, 'bg-surface border-border border p-1')}>
       {/* Balise `img` et non `next/image` : l'optimiseur ferait telecharger
           l'icone par notre serveur, et imposerait de declarer le domaine de
-          chaque client dans next.config — ce qui est impossible, ils sont
+          chaque client dans next.config  ce qui est impossible, ils sont
           arbitraires. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

@@ -3,7 +3,7 @@
  *
  * Choix assume pour le MVP : la cible (sites vitrines d'entreprise) est
  * quasi toujours rendue cote serveur. Un fetch coute ~50 ms la ou Playwright
- * coute ~3 s et 300 Mo de binaire — incompatible avec le serverless.
+ * coute ~3 s et 300 Mo de binaire  incompatible avec le serverless.
  * Un fallback Playwright pourra etre ajoute pour les SPA (voir needsJavaScript).
  */
 

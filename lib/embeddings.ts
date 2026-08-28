@@ -66,7 +66,7 @@ async function embedChunkOfTexts(texts: string[], taskType: TaskType): Promise<n
     batchingSupported = false;
     console.warn(
       `\n  ⚠ ${EMBEDDING_MODEL} ne traite pas les lots (${vectors.length} vecteurs pour ` +
-        `${texts.length} textes) — bascule sur des appels unitaires, indexation plus lente.`,
+        `${texts.length} textes)  bascule sur des appels unitaires, indexation plus lente.`,
     );
   }
 

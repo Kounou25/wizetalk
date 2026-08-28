@@ -4,7 +4,7 @@
  *   npm run db:check
  *
  * Controle les tables, la fonction de recherche hybride, et surtout que le RLS
- * isole reellement les donnees — c'est la garantie multi-tenant du produit.
+ * isole reellement les donnees  c'est la garantie multi-tenant du produit.
  */
 
 import 'dotenv/config';
@@ -63,12 +63,12 @@ async function main() {
 
   // --- Tables -------------------------------------------------------------
   // Lecture reelle, et non requete HEAD : PostgREST ne renvoie pas d'erreur
-  // exploitable sur un HEAD vers une table inexistante — le controle passait
+  // exploitable sur un HEAD vers une table inexistante  le controle passait
   // au vert pour une table absente.
   for (const [table, migration] of TABLES) {
     const { error } = await admin.from(table).select('*').limit(1);
     if (error) {
-      console.log(`${KO} table ${table} manquante — migration ${migration} non appliquée`);
+      console.log(`${KO} table ${table} manquante  migration ${migration} non appliquée`);
       failed = true;
     } else {
       console.log(`${OK} table ${table}`);
@@ -79,7 +79,7 @@ async function main() {
   for (const [table, column, migration] of COLUMNS) {
     const { error } = await admin.from(table).select(column).limit(1);
     if (error) {
-      console.log(`${KO} ${table}.${column} manquante — migration ${migration} non appliquée`);
+      console.log(`${KO} ${table}.${column} manquante  migration ${migration} non appliquée`);
       failed = true;
     } else {
       console.log(`${OK} colonne ${table}.${column}`);

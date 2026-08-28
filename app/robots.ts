@@ -7,7 +7,7 @@ import { PUBLIC_APP_URL } from '@/lib/public-url';
  *
  * Tout ce qui est derriere une authentification est explicitement interdit.
  * Ces pages redirigent deja un visiteur anonyme vers la connexion, donc rien
- * ne fuiterait — mais un robot qui les demande consomme du budget
+ * ne fuiterait  mais un robot qui les demande consomme du budget
  * d'exploration pour recevoir une redirection, budget pris sur les pages qu'on
  * veut reellement voir indexees.
  *

@@ -6,12 +6,12 @@ import { cn } from '@/lib/utils';
 import { pairGrid, Section, SectionHeading } from '../section';
 
 /**
- * Gouvernance — ce que l'organisation garde en main.
+ * Gouvernance  ce que l'organisation garde en main.
  *
  * DEUX COLONNES, ET C'EST L'ENJEU
  *
  * La premiere moitie des reglages se pilote depuis le tableau de bord ; la
- * seconde n'existe pas encore comme reglage produit — le prompt systeme est
+ * seconde n'existe pas encore comme reglage produit  le prompt systeme est
  * fixe dans lib/rag.ts, et la table `bots` ne porte ni ton, ni sujets, ni
  * regles d'escalade. Les melanger produirait une liste dont la moitie
  * tomberait au premier essai.

@@ -12,8 +12,8 @@ import { Section, SectionHeading } from './section';
  *
  * Le refus de repondre et la capture du prospect sont la meme scene vue de
  * deux cotes. Traites en deux sections separees, ils se repetaient : le
- * lecteur croyait avoir deja lu la seconde. Reunis — la conversation a gauche,
- * ce qu'elle declenche a droite — ils forment l'argument le plus fort de la
+ * lecteur croyait avoir deja lu la seconde. Reunis  la conversation a gauche,
+ * ce qu'elle declenche a droite  ils forment l'argument le plus fort de la
  * page, et ne frappent qu'une fois.
  */
 export function Recovery({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -54,7 +54,7 @@ export function Recovery({ locale, dict }: { locale: Locale; dict: Dictionary })
 /**
  * La scene : Deezy refuse, puis propose de recuperer l'adresse.
  *
- * Volontairement inerte — aucun appel reseau depuis la landing. Le champ
+ * Volontairement inerte  aucun appel reseau depuis la landing. Le champ
  * e-mail est une maquette : le rendre saisissable ferait croire a un vrai
  * formulaire et produirait un envoi qui n'arriverait nulle part.
  */

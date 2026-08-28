@@ -11,7 +11,7 @@ import { enterpriseFr } from './enterprise/fr';
  */
 export const fr = {
   meta: {
-    title: 'Deezy — le chatbot IA qui répond à vos clients 24 h/24',
+    title: 'Deezy  le chatbot IA qui répond à vos clients 24 h/24',
     description:
       "Transformez votre site en assistant IA : il répond à vos visiteurs 24 h/24, récupère leurs coordonnées quand il n'a pas la réponse, et vous montre ce qui manque à votre site. 100 messages offerts pour essayer.",
   },
@@ -34,7 +34,7 @@ export const fr = {
     titleStart: 'Ne perdez plus un client',
     titleHighlight: 'faute de réponse',
     subtitle:
-      "Deezy transforme votre site et vos documents en un assistant qui répond à vos visiteurs 24 h/24 — et récupère leur adresse quand il n'a pas la réponse.",
+      "Deezy transforme votre site et vos documents en un assistant qui répond à vos visiteurs 24 h/24  et récupère leur adresse quand il n'a pas la réponse.",
     ctaPrimary: 'Essayer Deezy gratuitement',
     ctaSecondary: 'Voir comment ça marche',
     microcopy: '100 messages offerts · En ligne en 2 minutes · Sans engagement',
@@ -80,7 +80,7 @@ export const fr = {
   problem: {
     eyebrow: 'Le vrai coût',
     title: 'Chaque question sans réponse est un client qui peut vous échapper.',
-    lead: "Votre site contient déjà les réponses. Vos visiteurs, eux, ne les trouvent pas — et personne ne vous prévient quand ils s'en vont.",
+    lead: "Votre site contient déjà les réponses. Vos visiteurs, eux, ne les trouvent pas  et personne ne vous prévient quand ils s'en vont.",
     items: [
       {
         step: '01',
@@ -103,8 +103,8 @@ export const fr = {
         body: 'Aucun compteur ne mesure les visiteurs partis faute d’avoir trouvé leur réponse.',
       },
     ],
-    /* Le trajet du visiteur perdu. Le trajet inverse — celui ou Deezy
-       rattrape — appartient a la section « recovery » : le montrer deux fois
+    /* Le trajet du visiteur perdu. Le trajet inverse  celui ou Deezy
+       rattrape  appartient a la section « recovery » : le montrer deux fois
        affaiblirait les deux. */
     flow: {
       label: 'Aujourd’hui, sur votre site',
@@ -124,7 +124,7 @@ export const fr = {
       },
       {
         title: 'Il lit vos documents',
-        body: 'Tarifs, catalogue, conditions — tout ce que votre site ne dit pas encore.',
+        body: 'Tarifs, catalogue, conditions  tout ce que votre site ne dit pas encore.',
       },
       {
         title: 'Il répond immédiatement',
@@ -159,7 +159,7 @@ export const fr = {
   recovery: {
     eyebrow: 'La différence',
     title: 'Une IA qui sait quand elle ne sait pas.',
-    lead: "Deezy répond à partir de votre contenu. Il n'invente ni un prix, ni un délai, ni une condition de vente — parce que c'est vous qui devriez ensuite les assumer.",
+    lead: "Deezy répond à partir de votre contenu. Il n'invente ni un prix, ni un délai, ni une condition de vente  parce que c'est vous qui devriez ensuite les assumer.",
     conversation: {
       question: 'Quel est le tarif du pack Pro ?',
       refusal: 'Je ne trouve pas cette information dans ce que j’ai lu de votre site.',
@@ -241,7 +241,7 @@ export const fr = {
       },
       {
         title: 'Il ne devine jamais',
-        body: 'Quand l’information manque, il le dit — au lieu d’inventer une réponse plausible.',
+        body: 'Quand l’information manque, il le dit  au lieu d’inventer une réponse plausible.',
       },
       {
         title: 'Il rattrape les prospects perdus',
@@ -499,7 +499,7 @@ export const fr = {
       {
         question: 'Deezy peut-il inventer une information ?',
         answer:
-          "Il est construit pour ne pas le faire : quand rien dans votre contenu ne répond, il refuse plutôt que de deviner. Un prix ou un délai imaginé vous engagerait auprès de votre client — nous préférons une réponse prudente.",
+          "Il est construit pour ne pas le faire : quand rien dans votre contenu ne répond, il refuse plutôt que de deviner. Un prix ou un délai imaginé vous engagerait auprès de votre client  nous préférons une réponse prudente.",
       },
       {
         question: 'Qu’est-ce qui compte comme un message ?',
@@ -683,7 +683,7 @@ export const fr = {
       noneBody:
         'Écrivez-nous : on regarde votre besoin et on ajuste votre plan.',
       /* Plafond de pages atteint : on constate un fait (le crawl s'est arrete
-         au plafond du palier) sans affirmer que des pages manquent — on ne le
+         au plafond du palier) sans affirmer que des pages manquent  on ne le
          sait pas. */
       capNotice:
         'L’indexation a atteint le plafond de {limit} pages de votre plan. Si votre site en compte davantage, les pages suivantes ne sont pas prises en compte.',
@@ -699,7 +699,7 @@ export const fr = {
       trialNote: 'Messages offerts, non renouvelés.',
       exhausted: 'Quota atteint',
       /* Ce que le client doit lire en priorite quand il atteint son quota : le
-         service n'est pas mort, il est degrade — et il rapporte encore. */
+         service n'est pas mort, il est degrade  et il rapporte encore. */
       exhaustedHint:
         'Votre assistant ne répond plus, mais il continue de récupérer les e-mails de vos visiteurs.',
       limitsTitle: 'Ce que votre plan inclut',
@@ -858,7 +858,7 @@ export const fr = {
       openBot: 'Ouvrir l’assistant',
       /* Le nom se deduit du domaine : un champ pre-rempli se corrige, un champ
          vide se subit. */
-      nameFromUrl: 'Déduit de votre adresse — modifiable.',
+      nameFromUrl: 'Déduit de votre adresse  modifiable.',
       steps: [
         'Nous explorons votre site et en extrayons le contenu utile.',
         'Vous testez votre assistant directement depuis le tableau de bord.',
@@ -879,7 +879,7 @@ export const fr = {
       gapsLocked: 'Inclus à partir du plan Croissance',
       gapsLockedTitle: 'Le rapport des questions sans réponse',
       gapsLockedBody:
-        'Il regroupe les questions auxquelles votre assistant n’a pas su répondre, les plus fréquentes en tête. C’est la liste exacte de ce qui manque à votre site — et de ce qui vous coûte des ventes.',
+        'Il regroupe les questions auxquelles votre assistant n’a pas su répondre, les plus fréquentes en tête. C’est la liste exacte de ce qui manque à votre site  et de ce qui vous coûte des ventes.',
       gapsLockedCta: 'Voir les plans',
       conversationsDesc: 'Historique des échanges',
       tabOverview: 'Vue d’ensemble',
@@ -904,7 +904,7 @@ export const fr = {
       lead: "Tout ce que votre site ne dit pas : tarifs, catalogue, conditions. L'assistant s'en servira pour répondre.",
       drop: 'Glissez vos fichiers ici',
       browse: 'ou parcourez votre ordinateur',
-      accepted: 'PDF, Word ou texte — 10 Mo maximum par fichier',
+      accepted: 'PDF, Word ou texte  10 Mo maximum par fichier',
       uploading: 'Envoi…',
       reading: 'Lecture du document…',
       empty: 'Aucun document pour l’instant.',
@@ -1040,7 +1040,7 @@ export const fr = {
 
     gaps: {
       title: 'Questions sans réponse',
-      lead: 'Ce que vos visiteurs demandent et que votre site ne dit pas. Les plus fréquentes en premier — ce sont celles qui méritent une page, ou un paragraphe de plus.',
+      lead: 'Ce que vos visiteurs demandent et que votre site ne dit pas. Les plus fréquentes en premier  ce sont celles qui méritent une page, ou un paragraphe de plus.',
       emptyTitle: 'Votre site répond à tout',
       emptyBody:
         "Aucune question n'est restée sans réponse sur les 200 dernières conversations. C'est bon signe.",

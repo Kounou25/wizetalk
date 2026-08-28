@@ -38,8 +38,8 @@ export interface TrendLabels {
  * Courbe multi-series, generique.
  *
  * Les libelles ET les series arrivent en parametre : c'est ce qui permet au
- * meme composant de servir le tableau de bord client — traduit, une courbe par
- * assistant — et le back-office, en francais. Une seconde implementation
+ * meme composant de servir le tableau de bord client  traduit, une courbe par
+ * assistant  et le back-office, en francais. Une seconde implementation
  * aurait diverge des la premiere retouche.
  */
 export function TrendChart<T extends string>({
@@ -172,7 +172,7 @@ export function TrendChart<T extends string>({
             viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
             className="w-full"
             role="img"
-            aria-label={`${title} — ${data.length}`}
+            aria-label={`${title}  ${data.length}`}
           >
             <defs>
               <linearGradient id={areaId} x1="0" y1="0" x2="0" y2="1">

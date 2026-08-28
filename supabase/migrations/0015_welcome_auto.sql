@@ -5,7 +5,7 @@
 -- La colonne portait un defaut francais, ecrit par nous : « Bonjour ! Comment
 -- puis-je vous aider ? ». Chaque assistant naissait donc avec une phrase
 -- francaise en base, indistinguable d'une phrase choisie par son proprietaire.
--- Sur la version anglaise d'un site, la fenetre saluait en francais — et rien,
+-- Sur la version anglaise d'un site, la fenetre saluait en francais  et rien,
 -- dans la donnee, ne permettait de savoir qu'on pouvait la traduire.
 --
 -- LA CORRECTION
@@ -18,7 +18,7 @@
 --
 -- Il ne vide que les lignes dont le texte est EXACTEMENT le defaut d'origine,
 -- caractere pour caractere. Une phrase ecrite par un proprietaire n'est jamais
--- touchee — et si quelqu'un avait retape ce texte a l'identique, le resultat
+-- touchee  et si quelqu'un avait retape ce texte a l'identique, le resultat
 -- affiche reste le meme, simplement traduit pour les visiteurs anglophones.
 --
 -- Au moment de la migration, les 7 assistants existants portaient tous ce

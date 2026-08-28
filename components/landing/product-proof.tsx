@@ -9,7 +9,7 @@ import type { Dictionary } from '@/lib/i18n';
  * Cet emplacement affichait un bandeau de huit marques inventees. Un mur de
  * logos se lit comme un mur de clients : le laisser en ligne revient a
  * fabriquer une preuve sociale. Tant qu'il n'y a pas d'entreprises citables,
- * la seule preuve honnete est le fonctionnement du produit lui-meme — et elle
+ * la seule preuve honnete est le fonctionnement du produit lui-meme  et elle
  * a l'avantage d'etre verifiable.
  */
 const ICONS = [FileSearch, ShieldCheck, Lock];

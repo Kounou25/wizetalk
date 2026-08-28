@@ -19,7 +19,7 @@ const PAID: Exclude<PlanId, 'trial'>[] = ['essential', 'growth', 'business'];
 /**
  * Abonnement : etat courant et choix d'un plan.
  *
- * Le bouton de paiement n'accorde rien par lui-meme — il ouvre la page de Dodo.
+ * Le bouton de paiement n'accorde rien par lui-meme  il ouvre la page de Dodo.
  * Le plan ne prend effet qu'a la reception du webhook d'activation, ce qui
  * explique le message d'attente affiche au retour de paiement.
  */

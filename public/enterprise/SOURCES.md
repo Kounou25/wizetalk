@@ -12,16 +12,16 @@ usage commercial autorisé, aucune attribution requise, aucune redevance.
 | Fichier | Photo Pexels | Dimensions | Cadrage | Où |
 |---|---|---|---|---|
 | `customer-question.jpg` | [10225663](https://www.pexels.com/photo/10225663/) | 1400 × 560 | `fit=crop` | Section « Vos clients ont déjà des questions » |
-| `support-team.jpg` | [5467606](https://www.pexels.com/photo/5467606/) | 1200 × 750 | `fit=crop` | Relais humain — carte « Demande complexe » |
-| `agent-1.jpg` | [5467593](https://www.pexels.com/photo/5467593/) | 200 × 200 | `fit=crop&crop=top` | Relais humain — pile de portraits |
-| `agent-2.jpg` | [5453819](https://www.pexels.com/photo/5453819/) | 200 × 200 | `fit=crop&crop=center` | Relais humain — pile de portraits |
+| `support-team.jpg` | [5467606](https://www.pexels.com/photo/5467606/) | 1200 × 750 | `fit=crop` | Relais humain  carte « Demande complexe » |
+| `agent-1.jpg` | [5467593](https://www.pexels.com/photo/5467593/) | 200 × 200 | `fit=crop&crop=top` | Relais humain  pile de portraits |
+| `agent-2.jpg` | [5453819](https://www.pexels.com/photo/5453819/) | 200 × 200 | `fit=crop&crop=center` | Relais humain  pile de portraits |
 | `working-session.jpg` | [2977547](https://www.pexels.com/photo/2977547/) | 900 × 1100 | `fit=crop` | Section « Un déploiement en cinq étapes » |
-| `sector-banking.jpg` | [15049146](https://www.pexels.com/photo/15049146/) | 640 × 400 | `fit=crop` | Carte secteur — Banque |
-| `sector-insurance.jpg` | [10375960](https://www.pexels.com/photo/10375960/) | 640 × 400 | `fit=crop` | Carte secteur — Assurance |
-| `sector-telecom.jpg` | [12179674](https://www.pexels.com/photo/12179674/) | 640 × 400 | `fit=crop` | Carte secteur — Télécoms |
-| `sector-education.jpg` | [19344119](https://www.pexels.com/photo/19344119/) | 640 × 400 | `fit=crop` | Carte secteur — Éducation |
-| `sector-healthcare.jpg` | [19131211](https://www.pexels.com/photo/19131211/) | 640 × 400 | `fit=crop&crop=top` | Carte secteur — Santé |
-| `sector-enterprise.jpg` | [10376240](https://www.pexels.com/photo/10376240/) | 640 × 400 | `fit=crop` | Carte secteur — Grandes entreprises |
+| `sector-banking.jpg` | [15049146](https://www.pexels.com/photo/15049146/) | 640 × 400 | `fit=crop` | Carte secteur  Banque |
+| `sector-insurance.jpg` | [10375960](https://www.pexels.com/photo/10375960/) | 640 × 400 | `fit=crop` | Carte secteur  Assurance |
+| `sector-telecom.jpg` | [12179674](https://www.pexels.com/photo/12179674/) | 640 × 400 | `fit=crop` | Carte secteur  Télécoms |
+| `sector-education.jpg` | [19344119](https://www.pexels.com/photo/19344119/) | 640 × 400 | `fit=crop` | Carte secteur  Éducation |
+| `sector-healthcare.jpg` | [19131211](https://www.pexels.com/photo/19131211/) | 640 × 400 | `fit=crop&crop=top` | Carte secteur  Santé |
+| `sector-enterprise.jpg` | [10376240](https://www.pexels.com/photo/10376240/) | 640 × 400 | `fit=crop` | Carte secteur  Grandes entreprises |
 
 Les cadrages ont été choisis après avoir regardé chaque résultat : `crop=faces`,
 pourtant prévu pour cela, décentrait les visages sur les portraits.
@@ -32,13 +32,13 @@ Une première recherche avait échoué. Les photographies de banque, de téléco
 d'université disponibles montrent presque toutes une **enseigne réelle** :
 HSBC, ING, Cajamar, Ecobank, BBVA et Leeds Beckett University ont toutes été
 rejetées. Sur une page qui s'adresse aux banques, une devanture HSBC laisserait
-entendre que HSBC est cliente de Deezy — la même faute que d'inventer un
+entendre que HSBC est cliente de Deezy  la même faute que d'inventer un
 témoignage. Le reste des résultats était hors sujet : téléphones à cadran,
 graphiques boursiers, panneaux « FOR SALE », scènes de marché, distributions
 humanitaires photographiées devant le logo d'une ONG.
 
 Les six retenues montrent donc des **personnes en situation**, jamais un lieu
-identifiable, et cinq des six ont des sujets africains — la cible principale de
+identifiable, et cinq des six ont des sujets africains  la cible principale de
 l'offre. La banque fait exception : aucune scène de service bancaire propre
 n'est ressortie, la carte porte donc des pièces est-africaines. C'est la seule
 des six sans visage, et c'est un compromis assumé, pas un oubli.
@@ -50,7 +50,7 @@ que six photographies d'origines différentes n'auraient pas produite seules.
 ## Marques incidentes
 
 `customer-question.jpg` laisse voir une monture de lunettes de marque. C'est du
-placement incident, sans rapport avec le propos de la page — à la différence
+placement incident, sans rapport avec le propos de la page  à la différence
 d'une enseigne d'entreprise, qui affirmerait une relation commerciale. Toléré,
 mais signalé ici pour que la distinction reste explicite.
 
@@ -62,11 +62,11 @@ découlent, qui valent pour toute réutilisation :
 
 1. **Elles illustrent l'équipe support DU CLIENT**, jamais l'équipe de Deezy.
    La section où elles apparaissent parle du moment où « vos équipes reprennent
-   la main » — le possessif s'adresse à l'organisation qui lit la page.
+   la main »  le possessif s'adresse à l'organisation qui lit la page.
 
 2. **Aucun nom, aucune fonction, aucune citation.** Prêter un prénom et un
    témoignage à un visage acheté sur une banque d'images fabriquerait un faux
-   client — exactement ce que le reste de la page se refuse à faire.
+   client  exactement ce que le reste de la page se refuse à faire.
 
 3. **Jamais à côté du formulaire de contact.** Un visage posé sous « notre
    équipe vous répond » désignerait un employé de Deezy qui n'existe pas.

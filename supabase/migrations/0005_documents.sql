@@ -2,7 +2,7 @@
 --
 -- CHOIX CENTRAL : un document est stocke comme une PAGE.
 --
--- Un document a exactement la meme forme qu'une page de site — un titre, des
+-- Un document a exactement la meme forme qu'une page de site  un titre, des
 -- sections, du texte, une empreinte. En le rangeant dans `pages`, le
 -- decoupage, les embeddings, la recherche hybride, match_chunks et l'isolation
 -- RLS continuent de fonctionner sans une seule ligne de changement.
@@ -27,7 +27,7 @@ create index pages_source_idx on pages (bot_id, source);
  * `url` reste la cle unique par assistant.
  *
  * Pour un document elle porte son chemin de stockage, ce qui empeche
- * d'importer deux fois le meme fichier sous le meme assistant — la contrainte
+ * d'importer deux fois le meme fichier sous le meme assistant  la contrainte
  * unique (bot_id, url) s'en charge, sans code supplementaire.
  */
 

@@ -13,7 +13,7 @@ import { getRequestLocale } from '@/lib/i18n/server';
  *
  * Dodo exige un pays a la creation de l'abonnement, alors que nous n'en
  * demandons jamais a l'inscription. On propose celui que suggere la langue, et
- * le client le corrige sur la page de paiement — c'est elle qui collecte
+ * le client le corrige sur la page de paiement  c'est elle qui collecte
  * l'adresse de facturation reelle, et elle seule qui fait foi pour la taxe.
  */
 const DEFAULT_COUNTRY: Record<string, string> = { fr: 'FR', en: 'US' };

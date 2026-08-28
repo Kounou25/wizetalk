@@ -14,7 +14,7 @@ import {
  * Reglage du quota de messages d'un compte.
  *
  * Separe du droit d'administration : ce sont deux gestes de nature differente
- * — l'un commercial, l'autre securitaire — et les melanger dans un meme groupe
+ *  l'un commercial, l'autre securitaire  et les melanger dans un meme groupe
  * de boutons invite a la fausse manoeuvre.
  */
 export function QuotaActions({

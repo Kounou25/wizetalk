@@ -4,7 +4,7 @@ import { PUBLIC_APP_URL } from '@/lib/public-url';
 /**
  * Donnees structurees de la page Enterprise.
  *
- * AUCUN BLOC `offers` — la page annonce qu'il n'y a pas de grille publique, et
+ * AUCUN BLOC `offers`  la page annonce qu'il n'y a pas de grille publique, et
  * y declarer un prix serait une fausse declaration.
  *
  * L'organisation est declaree par la page d'accueil : on la reference, on ne

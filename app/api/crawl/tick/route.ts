@@ -2,7 +2,7 @@
  * Avance une analyse d'un cran.
  *
  * Le dashboard rappelle cette route tant que `done` est faux. L'onglet du
- * navigateur joue donc le role d'ordonnanceur — la solution la plus simple qui
+ * navigateur joue donc le role d'ordonnanceur  la solution la plus simple qui
  * fonctionne en serverless, sans file d'attente ni service tiers.
  *
  * Si l'onglet est ferme en cours de route, rien n'est perdu : l'etat vit en

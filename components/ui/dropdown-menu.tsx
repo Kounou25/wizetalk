@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 /** Classe partagee des entrees, exportee pour les cas qui doivent rendre un
- *  element particulier — un bouton d'envoi dans un <form>, par exemple. */
+ *  element particulier  un bouton d'envoi dans un <form>, par exemple. */
 export const dropdownItemClass =
   'focus-ring hover:bg-surface-subtle flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm font-medium transition-colors outline-none focus-visible:bg-surface-subtle';
 
@@ -33,7 +33,7 @@ export function useDropdownClose(): () => void {
  *
  * Ecrit a la main plutot qu'importe : le projet n'embarque qu'un seul
  * primitif Radix, et un menu correct tient en une centaine de lignes. Ce qu'il
- * faut respecter, c'est le contrat clavier — c'est la seule raison pour
+ * faut respecter, c'est le contrat clavier  c'est la seule raison pour
  * laquelle un menu maison est habituellement rate :
  *   Entree/Espace/Fleche bas ouvrent et posent le focus sur la premiere entree,
  *   les fleches circulent, Debut/Fin vont aux extremites,

@@ -77,7 +77,7 @@ on conflict (user_id) do nothing;
  * Debite le compte proprietaire d'un assistant.
  *
  * Retourne `allowed = false` sans rien debiter si le solde est insuffisant :
- * l'appelant decide alors quoi faire — dans notre cas, se replier sur la
+ * l'appelant decide alors quoi faire  dans notre cas, se replier sur la
  * capture d'e-mail plutot que de couper le service.
  *
  * `for update` verrouille la ligne le temps de la transaction. Sans ce verrou,

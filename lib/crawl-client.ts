@@ -6,8 +6,8 @@
  * permet de tenir dans les limites de duree du serverless sans file d'attente
  * ni processus de fond.
  *
- * Extrait ici parce que deux ecrans le declenchent — la creation d'un
- * assistant et la resynchronisation depuis sa fiche — et que cette boucle
+ * Extrait ici parce que deux ecrans le declenchent  la creation d'un
+ * assistant et la resynchronisation depuis sa fiche  et que cette boucle
  * porte des details qu'on ne veut pas voir diverger : la reprise d'un job deja
  * ouvert, et le garde-fou sur les reponses non-JSON.
  */
@@ -27,7 +27,7 @@ export interface CrawlProgress {
  * Leve une exception plutot que de renvoyer un etat d'erreur : l'appelant sait
  * mieux que cette fonction s'il faut afficher un encart rouge ou une page
  * entiere. Les erreurs METIER remontees par le serveur, elles, passent par
- * `progress.error` — ce ne sont pas des pannes, mais des resultats.
+ * `progress.error`  ce ne sont pas des pannes, mais des resultats.
  */
 export async function runCrawl(
   botId: string,

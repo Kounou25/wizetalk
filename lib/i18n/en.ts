@@ -4,7 +4,7 @@ import type { Dictionary } from './fr';
 /** Typee contre le francais : une cle oubliee ne compile pas. */
 export const en: Dictionary = {
   meta: {
-    title: 'Deezy — AI Chatbot for Your Website That Answers Customers 24/7',
+    title: 'Deezy  AI Chatbot for Your Website That Answers Customers 24/7',
     description:
       'Turn your website into an AI assistant that answers customers 24/7, captures leads and learns from unanswered questions. Start with 100 free messages.',
   },
@@ -25,7 +25,7 @@ export const en: Dictionary = {
     titleStart: 'Stop losing customers because',
     titleHighlight: 'your website can’t answer them',
     subtitle:
-      'Deezy turns your website and documents into an AI assistant that answers visitors 24/7 — and captures their contact when it doesn’t know the answer.',
+      'Deezy turns your website and documents into an AI assistant that answers visitors 24/7  and captures their contact when it doesn’t know the answer.',
     ctaPrimary: 'Try Deezy free',
     ctaSecondary: 'See how it works',
     microcopy: '100 free messages · Live in 2 minutes · No commitment',
@@ -48,7 +48,7 @@ export const en: Dictionary = {
     items: [
       {
         title: 'It answers with your information',
-        body: 'Your pages and your documents — never generic knowledge picked up elsewhere.',
+        body: 'Your pages and your documents  never generic knowledge picked up elsewhere.',
       },
       {
         title: 'It says when it doesn’t know',
@@ -64,7 +64,7 @@ export const en: Dictionary = {
   problem: {
     eyebrow: 'The real cost',
     title: 'Every unanswered question is a potential lost customer.',
-    lead: 'Your website already holds the answers. Your visitors just can’t find them — and nobody tells you when they leave.',
+    lead: 'Your website already holds the answers. Your visitors just can’t find them  and nobody tells you when they leave.',
     items: [
       {
         step: '01',
@@ -105,7 +105,7 @@ export const en: Dictionary = {
       },
       {
         title: 'It reads your documents',
-        body: 'Pricing, catalogue, policies — everything your website doesn’t say yet.',
+        body: 'Pricing, catalogue, policies  everything your website doesn’t say yet.',
       },
       {
         title: 'It answers instantly',
@@ -133,7 +133,7 @@ export const en: Dictionary = {
   recovery: {
     eyebrow: 'The difference',
     title: 'AI that knows when it doesn’t know.',
-    lead: 'Deezy answers from your content. It doesn’t invent prices, delivery times or company policies — because you would be the one honouring them.',
+    lead: 'Deezy answers from your content. It doesn’t invent prices, delivery times or company policies  because you would be the one honouring them.',
     conversation: {
       question: 'How much is your Pro plan?',
       refusal: 'I couldn’t find that information in what I’ve read from your website.',
@@ -445,7 +445,7 @@ export const en: Dictionary = {
       {
         question: 'Can Deezy invent information?',
         answer:
-          'It is built not to: when nothing in your content answers, it declines rather than guessing. An imagined price or delivery time would commit you to your customer — we prefer a cautious answer.',
+          'It is built not to: when nothing in your content answers, it declines rather than guessing. An imagined price or delivery time would commit you to your customer  we prefer a cautious answer.',
       },
       {
         question: 'What counts as a message?',
@@ -784,7 +784,7 @@ export const en: Dictionary = {
       analysisFailed: 'The analysis did not complete',
       retry: 'Try again',
       openBot: 'Open the assistant',
-      nameFromUrl: 'Derived from your address — you can change it.',
+      nameFromUrl: 'Derived from your address  you can change it.',
       steps: [
         'We crawl your site and extract the useful content.',
         'You test your assistant straight from the dashboard.',
@@ -805,7 +805,7 @@ export const en: Dictionary = {
       gapsLocked: 'Included from the Growth plan',
       gapsLockedTitle: 'The unanswered questions report',
       gapsLockedBody:
-        'It groups the questions your assistant couldn’t answer, most frequent first. It is the exact list of what your site is missing — and of what is costing you sales.',
+        'It groups the questions your assistant couldn’t answer, most frequent first. It is the exact list of what your site is missing  and of what is costing you sales.',
       gapsLockedCta: 'See the plans',
       conversationsDesc: 'Chat history',
       tabOverview: 'Overview',
@@ -830,7 +830,7 @@ export const en: Dictionary = {
       lead: 'Everything your site does not say: prices, catalogue, terms. The assistant will use them to answer.',
       drop: 'Drop your files here',
       browse: 'or browse your computer',
-      accepted: 'PDF, Word or text — 10 MB per file maximum',
+      accepted: 'PDF, Word or text  10 MB per file maximum',
       uploading: 'Uploading…',
       reading: 'Reading the document…',
       empty: 'No documents yet.',
@@ -885,7 +885,7 @@ export const en: Dictionary = {
       inactiveTitle: 'Assistant disabled',
       activeBody: 'It is answering visitors on your site.',
       inactiveBody:
-        'The widget no longer appears on your site. No need to remove the script — just switch it back on here.',
+        'The widget no longer appears on your site. No need to remove the script  just switch it back on here.',
       title: 'Customisation',
       lead: 'The preview updates as you type.',
       nameLabel: 'Assistant name',
@@ -959,7 +959,7 @@ export const en: Dictionary = {
 
     gaps: {
       title: 'Unanswered questions',
-      lead: 'What your visitors ask that your site does not say. Most frequent first — those are the ones worth a page, or one more paragraph.',
+      lead: 'What your visitors ask that your site does not say. Most frequent first  those are the ones worth a page, or one more paragraph.',
       emptyTitle: 'Your site answers everything',
       emptyBody:
         'No question went unanswered across the last 200 conversations. That is a good sign.',

@@ -70,7 +70,7 @@ export function PageHeader({
   action?: React.ReactNode;
   /** Compteur, etiquette d'etat… pose a cote du titre. */
   meta?: React.ReactNode;
-  /** Vignette a gauche du titre — icone du site, logo… */
+  /** Vignette a gauche du titre  icone du site, logo… */
   icon?: React.ReactNode;
 }) {
   return (

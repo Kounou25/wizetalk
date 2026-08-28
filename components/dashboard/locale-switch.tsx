@@ -30,7 +30,7 @@ export function LocaleSwitch({ locale }: { locale: Locale }) {
         >
           {/* Le drapeau porte seul l'information : d'ou `aria-label`, sans
               lequel le bouton n'aurait aucun libelle, et l'opacite qui
-              distingue la langue active — la couleur ne suffirait pas. */}
+              distingue la langue active  la couleur ne suffirait pas. */}
           <Flag locale={target} />
         </button>
       ))}

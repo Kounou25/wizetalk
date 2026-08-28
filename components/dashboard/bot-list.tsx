@@ -11,7 +11,7 @@ import { Panel, PanelHeader, panelLinkClass } from './panel';
  * Liste dense des assistants, pour la vue d'ensemble.
  *
  * Une liste et non une grille de cartes : sur une page de synthese, les
- * assistants sont une colonne a parcourir — nom, etat, derniere analyse
+ * assistants sont une colonne a parcourir  nom, etat, derniere analyse
  * s'alignent verticalement et se comparent. La grille de cartes reste sur
  * `/dashboard/bots`, ou l'assistant est l'objet principal de la page.
  */

@@ -20,7 +20,7 @@ export function isPaidPlan(value: string): value is PaidPlanId {
  *
  * `ENTREPRISE` et non `BUSINESS` : c'est le nom choisi dans le .env du projet.
  * Le faire coller ici plutot que de renommer la variable evite de casser un
- * environnement deja rempli — y compris celui de production.
+ * environnement deja rempli  y compris celui de production.
  */
 const ENV_KEYS: Record<PaidPlanId, Record<BillingPeriod, string>> = {
   essential: {
@@ -62,7 +62,7 @@ export function productIdFor(plan: PaidPlanId, period: BillingPeriod): string {
 /**
  * Chemin inverse : de l'identifiant de produit recu par webhook vers le plan.
  *
- * Indispensable au traitement des webhooks — Dodo ne renvoie que le
+ * Indispensable au traitement des webhooks  Dodo ne renvoie que le
  * `product_id`, jamais notre nom de plan. Retourne `null` sur un produit
  * inconnu plutot que de lever : un produit cree a la main dans le tableau de
  * bord Dodo ne doit pas faire echouer la reception de l'evenement.

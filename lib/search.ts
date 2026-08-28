@@ -2,13 +2,13 @@
  * Recherche hybride : vectoriel + lexical, fusionnes en RRF.
  *
  * Pourquoi ne pas se contenter du vectoriel : les embeddings sont mauvais sur
- * les termes exacts — references produit, prix, noms propres, sigles. Or c'est
+ * les termes exacts  references produit, prix, noms propres, sigles. Or c'est
  * exactement ce que demandent les visiteurs ("le tarif du pack Pro ?").
  * Le lexical rattrape ces cas pour un cout de calcul negligeable.
  *
  * Cette implementation travaille en memoire (prototype). En production, le
  * vectoriel devient un `ORDER BY embedding <=> $1` pgvector et le lexical un
- * `ts_rank` sur tsvector — la fusion RRF, elle, reste identique.
+ * `ts_rank` sur tsvector  la fusion RRF, elle, reste identique.
  */
 
 import { embedQuery } from './embeddings';
@@ -107,7 +107,7 @@ export interface SearchOptions {
 /**
  * minCosine mesure sur un premier jeu de tests : une question pertinente
  * remonte vers 0.71, une question hors-sujet vers 0.55. 0.60 se place entre
- * les deux — valeur provisoire, a recalibrer sur de vraies questions
+ * les deux  valeur provisoire, a recalibrer sur de vraies questions
  * clients : trop haut le bot refuse alors qu'il sait, trop bas il brode.
  */
 export const DEFAULT_SEARCH_OPTIONS: SearchOptions = {

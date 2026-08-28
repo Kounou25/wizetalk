@@ -6,7 +6,7 @@ import { EnterpriseCta } from './cta';
  * Dernier appel a l'action, juste avant le formulaire.
  *
  * Deux boutons, alors que la landing n'en garde qu'un : ils menent au meme
- * formulaire dix centimetres plus bas, donc ils ne dispersent rien — ils
+ * formulaire dix centimetres plus bas, donc ils ne dispersent rien  ils
  * laissent le lecteur nommer sa demande.
  */
 export function EnterpriseFinalCta({ dict }: { dict: Dictionary }) {

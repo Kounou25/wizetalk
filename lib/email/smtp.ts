@@ -31,7 +31,7 @@ export function readSmtpConfig(): SmtpConfig | null {
 
   /*
    * 587 par defaut : c'est le port de soumission moderne (STARTTLS).
-   * Le 465 utilise un TLS implicite — d'ou `secure` deduit du port, sauf
+   * Le 465 utilise un TLS implicite  d'ou `secure` deduit du port, sauf
    * mention contraire explicite. Le 25 est presque toujours bloque en sortie
    * chez les hebergeurs, il ne faut pas s'en servir.
    */

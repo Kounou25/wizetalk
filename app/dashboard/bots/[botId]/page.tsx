@@ -28,7 +28,7 @@ import { buildUpgradeOffer } from '@/lib/upgrade';
  * Le regroupement suit la frequence d'usage, pas la structure technique :
  * l'installation ne se consulte qu'une fois, les connaissances se relancent
  * regulierement, et la suppression definitive est reléguee dans le dernier
- * onglet — a l'ecart des reglages courants, plutot qu'a un defilement d'eux.
+ * onglet  a l'ecart des reglages courants, plutot qu'a un defilement d'eux.
  */
 const TABS = ['apercu', 'connaissances', 'installation', 'parametres'] as const;
 type Tab = (typeof TABS)[number];
@@ -111,7 +111,7 @@ export default async function BotPage({
    *
    * Dit dans le sens qui interesse le proprietaire : il veut savoir ce que son
    * assistant sait faire, pas ce qu'il rate. Le back-office garde le taux de
-   * refus — c'est un indicateur de sante produit, pas un argument client.
+   * refus  c'est un indicateur de sante produit, pas un argument client.
    *
    * `null` quand aucun message n'a encore ete echange : afficher « 0 % » sur
    * un assistant qui n'a jamais servi serait un reproche injustifie.
@@ -201,8 +201,8 @@ export default async function BotPage({
       {/*
         Plafond de pages atteint.
 
-        On enonce un fait verifiable — l'indexation s'est arretee au plafond du
-        palier — sans affirmer que des pages ont ete laissees de cote : le
+        On enonce un fait verifiable  l'indexation s'est arretee au plafond du
+        palier  sans affirmer que des pages ont ete laissees de cote : le
         robot ne remonte pas cette information, et l'inventer serait vendre sur
         une crainte fabriquee.
       */}

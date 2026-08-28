@@ -22,7 +22,7 @@ async function main() {
   // --- Cle API ------------------------------------------------------------
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
-    console.log(`${KO} GEMINI_API_KEY absente — copiez .env.example vers .env`);
+    console.log(`${KO} GEMINI_API_KEY absente  copiez .env.example vers .env`);
     process.exit(1);
   }
   console.log(`${OK} GEMINI_API_KEY présente (${key.slice(0, 6)}…, ${key.length} caractères)`);
@@ -42,7 +42,7 @@ async function main() {
       // Une norme differente de 1 signifie que la re-normalisation n'a pas eu lieu :
       // toutes les similarites cosinus seraient alors fausses.
       if (Math.abs(norm - 1) > 0.01) {
-        console.log(`${KO} vecteur non normalisé — les scores de similarité seraient faussés`);
+        console.log(`${KO} vecteur non normalisé  les scores de similarité seraient faussés`);
         failed = true;
       }
     }

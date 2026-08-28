@@ -40,7 +40,7 @@ export async function claimEvent(
  * Libere un evenement dont le traitement a echoue.
  *
  * Sans cela, la reservation devient un piege : l'evenement est marque comme vu,
- * l'action a echoue, et le rejeu du prestataire est ignore — l'evenement est
+ * l'action a echoue, et le rejeu du prestataire est ignore  l'evenement est
  * perdu pour de bon. En retirant la ligne, on rend le rejeu possible.
  *
  * L'ordre reserve-puis-agis reste le bon : il ferme la fenetre pendant laquelle
@@ -110,7 +110,7 @@ export interface SubscriptionSnapshot {
 /**
  * Ouvre ou change un plan : allocation, remise a zero, redemarrage de periode.
  *
- * Retourne `false` si le produit ne correspond a aucun plan connu — un produit
+ * Retourne `false` si le produit ne correspond a aucun plan connu  un produit
  * cree a la main dans le tableau de bord Dodo, par exemple. On ne leve pas :
  * un evenement qu'on ne sait pas interpreter ne doit pas empecher d'accuser
  * reception, sinon le prestataire le rejoue indefiniment.
@@ -149,7 +149,7 @@ export async function applyPlan(snapshot: SubscriptionSnapshot): Promise<boolean
  *
  * Utilise pour le renouvellement, la mise en attente et l'annulation
  * programmee. Le rythme mensuel des credits reste pilote par `consume_credits`
- * — c'est ce qui permet a un abonnement annuel, qui ne se renouvelle qu'une
+ *  c'est ce qui permet a un abonnement annuel, qui ne se renouvelle qu'une
  * fois par an, de recharger quand meme ses credits tous les mois.
  */
 export async function touchSubscription(snapshot: SubscriptionSnapshot): Promise<void> {

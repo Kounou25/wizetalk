@@ -1,5 +1,5 @@
 /**
- * Widget Deezy — script d'integration.
+ * Widget Deezy  script d'integration.
  *
  *   <script src="https://www.deezy.chat/widget.js" data-bot="BOT_ID"></script>
  *
@@ -43,7 +43,7 @@
   /*
    * Encombrement du widget chez le client.
    *
-   * Regroupe ici parce que ces nombres etaient ecrits deux fois — dans le
+   * Regroupe ici parce que ces nombres etaient ecrits deux fois  dans le
    * style initial de l'iframe et dans applyViewport. Deux copies d'une meme
    * mesure finissent toujours par diverger, et la divergence ne se voit qu'au
    * redimensionnement de la fenetre, c'est-a-dire presque jamais pendant les
@@ -88,7 +88,7 @@
    *
    * La page passe avant le navigateur, et c'est le point important. Sur un
    * site bilingue, quelqu'un qui lit la version anglaise a fait un choix
-   * explicite — il a cliqué sur « EN » — et ce choix doit l'emporter sur le
+   * explicite  il a cliqué sur « EN »  et ce choix doit l'emporter sur le
    * reglage de son navigateur, qui n'est souvent que celui d'usine. Sans cette
    * regle, la version anglaise d'un site affiche un widget francais a tous les
    * visiteurs dont le navigateur est reste en francais.
@@ -153,7 +153,7 @@
        *
        * Ce reglage est souvent active par des personnes sujettes au vertige ou
        * a la migraine. Une bulle qui jaillit d'un coin est exactement ce
-       * qu'elles ont demande a ne plus voir — mais les faire disparaitre
+       * qu'elles ont demande a ne plus voir  mais les faire disparaitre
        * entierement leur retirerait l'invitation, ce qui n'est pas ce qu'elles
        * ont demande non plus.
        */
@@ -171,7 +171,7 @@
     /*
      * Le reglage du proprietaire l'emporte sur la deduction.
      *
-     * Il n'existe que pour corriger les cas ou la deduction se trompe — un
+     * Il n'existe que pour corriger les cas ou la deduction se trompe  un
      * site dont le <html lang> ment. Tant qu'il vaut « auto », rien ne change.
      */
     var lang = STRINGS[config.locale] ? config.locale : detectLang();

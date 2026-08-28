@@ -12,7 +12,7 @@
  *
  * ARBITRAGE : le filtrage opere sur des sections entieres, pas sur des lignes.
  * Une granularite plus fine attraperait davantage de bruit, mais supprimerait
- * aussi l'adresse, le telephone et les horaires — repetes en pied de page sur
+ * aussi l'adresse, le telephone et les horaires  repetes en pied de page sur
  * tout le site, et precisement ce que les visiteurs demandent le plus. On
  * prefere donc laisser passer un peu de bruit que perdre ces informations.
  */

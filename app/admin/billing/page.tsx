@@ -128,8 +128,8 @@ export default async function AdminBillingPage() {
         Le journal des webhooks.
 
         C'est la premiere chose a regarder quand un client dit « j'ai paye et
-        rien ne se passe » : soit l'evenement n'est jamais arrive — la
-        declaration chez le prestataire est en cause — soit il est la, et le
+        rien ne se passe » : soit l'evenement n'est jamais arrive  la
+        declaration chez le prestataire est en cause  soit il est la, et le
         probleme est chez nous.
       */}
       <section className="panel flex flex-col">

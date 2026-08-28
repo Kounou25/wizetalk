@@ -155,7 +155,7 @@ async function main() {
       );
     } else {
       console.log(
-        `${DIM}  ⚠ pas de refus par seuil (cosinus ${refusal.topCosine.toFixed(3)}) — la consigne système a pris le relais${RESET}`,
+        `${DIM}  ⚠ pas de refus par seuil (cosinus ${refusal.topCosine.toFixed(3)})  la consigne système a pris le relais${RESET}`,
       );
       console.log(`   ${refusal.answer.replace(/\s+/g, ' ').slice(0, 160)}…`);
     }

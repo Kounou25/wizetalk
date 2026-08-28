@@ -10,7 +10,7 @@ import { PlanForm } from './plan-form';
  * Prix reellement factures, lus chez le prestataire.
  *
  * Sert de confrontation, pas de source : c'est ce que le client paiera, quoi
- * que la page de tarifs annonce. Un echec de lecture n'est pas bloquant — la
+ * que la page de tarifs annonce. Un echec de lecture n'est pas bloquant  la
  * page reste utilisable, la colonne affiche simplement un tiret.
  */
 async function dodoPrices(): Promise<Partial<Record<PlanId, number>>> {

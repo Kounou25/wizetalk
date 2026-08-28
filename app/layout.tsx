@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(PUBLIC_APP_URL),
 
   title: {
-    default: 'Deezy — le chatbot IA qui connaît votre site par cœur',
+    default: 'Deezy  le chatbot IA qui connaît votre site par cœur',
     // Les pages qui posent un titre le voient complete de la marque : une
     // page de resultat sans nom d'editeur se clique moins.
     template: '%s · Deezy',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   /*
    * Mots-cles : Google les ignore depuis 2009, d'autres moteurs les lisent
    * encore. Ils sont surtout ici comme reference explicite du positionnement
-   * — le vrai referencement se joue dans le titre, la description et le
+   *  le vrai referencement se joue dans le titre, la description et le
    * contenu, pas dans cette balise.
    */
   keywords: [
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'Deezy',
-    title: 'Deezy — le chatbot IA qui connaît votre site par cœur',
+    title: 'Deezy  le chatbot IA qui connaît votre site par cœur',
     description:
       'Un assistant qui répond à vos visiteurs 24 h/24 avec vos vraies informations, et récupère leur e-mail quand il ne sait pas.',
   },
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     // `summary_large_image` affiche l'image en pleine largeur ; `summary` la
     // reduit a une vignette carree, ce qui gaspille une image 1200×630.
     card: 'summary_large_image',
-    title: 'Deezy — le chatbot IA qui connaît votre site par cœur',
+    title: 'Deezy  le chatbot IA qui connaît votre site par cœur',
     description:
       'Un assistant qui répond à vos visiteurs 24 h/24 avec vos vraies informations, et récupère leur e-mail quand il ne sait pas.',
   },

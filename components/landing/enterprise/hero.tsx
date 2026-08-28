@@ -10,7 +10,7 @@ import { EnterpriseCta } from './cta';
  *
  * Plus sobre que celui de la landing : le lecteur va comparer des prestataires
  * et faire relire la page par sa direction juridique. Le degrade anime et le
- * badge qui pulse de Deezy Business le rendraient mefiant — le titre reste
+ * badge qui pulse de Deezy Business le rendraient mefiant  le titre reste
  * noir, la promesse porte seule.
  */
 export function EnterpriseHero({ dict }: { dict: Dictionary }) {

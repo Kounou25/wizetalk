@@ -2,7 +2,7 @@
  * Traite un document deja televerse : extraction, decoupage, vectorisation.
  *
  * Un fichier par requete, volontairement. Un PDF de 50 pages donne une
- * centaine de morceaux, soit deux appels d'embedding groupes — largement sous
+ * centaine de morceaux, soit deux appels d'embedding groupes  largement sous
  * les 60 secondes d'une fonction serverless. Inutile d'ajouter une machinerie
  * de file d'attente : le navigateur boucle sur les fichiers, comme il le fait
  * deja pour l'analyse du site.
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
      *
      * Verifie une fois le fichier valide mais avant de l'envoyer au modele :
      * un compte au plafond ne declenche aucun appel facturable. Le plafond
-     * remplace le debit qui existait ici — il borne le meme cout, et se lit
+     * remplace le debit qui existait ici  il borne le meme cout, et se lit
      * comme un avantage sur la page de tarifs plutot que comme un compteur.
      */
     const room = await canAddDocument(admin, user.id, botId);

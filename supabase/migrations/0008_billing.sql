@@ -135,7 +135,7 @@ $$;
  * Sert aux evenements qui ne changent pas ce que le client a droit de
  * consommer : renouvellement, mise en attente, annulation programmee. Separer
  * les deux fonctions evite qu'un `renewed` remette par megarde le compteur a
- * zero — ce qui priverait un client annuel de sa consommation du mois.
+ * zero  ce qui priverait un client annuel de sa consommation du mois.
  */
 create or replace function update_subscription_status(
   p_subscription_id text,
@@ -161,7 +161,7 @@ $$;
  * Appelee a l'expiration, jamais a l'annulation. Un client qui resilie a paye
  * sa periode : la lui retirer le jour de sa demande produit des litiges, et
  * n'avance a rien. `plan` repasse a 'trial' pour que le renouvellement
- * mensuel cesse, mais l'allocation reste nulle — les credits de depart ne se
+ * mensuel cesse, mais l'allocation reste nulle  les credits de depart ne se
  * redonnent pas, sinon la resiliation deviendrait un essai gratuit renouvelable.
  */
 create or replace function end_subscription(p_subscription_id text)

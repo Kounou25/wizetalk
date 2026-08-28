@@ -4,7 +4,7 @@
 --
 -- Uniquement l'origine de la visite qui a mene a l'inscription : le DOMAINE
 -- referent, et les parametres de campagne que la personne portait dans son
--- adresse. Pas l'URL complete du referent — elle contient parfois la requete
+-- adresse. Pas l'URL complete du referent  elle contient parfois la requete
 -- tapee dans un moteur, ou le fil de discussion d'ou vient le clic, et cela ne
 -- sert a rien pour repondre a « quel canal m'amene des clients ».
 --
@@ -14,8 +14,8 @@
 -- POURQUOI DES VALEURS BRUTES PLUTOT QU'UN CANAL DEJA CALCULE
 --
 -- « google.com » devient « Google (organique) » a l'affichage, pas ici. Le
--- classement des referents en canaux va s'affiner — un nouveau partenaire, un
--- domaine mal reconnu — et le recalculer a la lecture permet de corriger tout
+-- classement des referents en canaux va s'affiner  un nouveau partenaire, un
+-- domaine mal reconnu  et le recalculer a la lecture permet de corriger tout
 -- l'historique d'un coup. Un canal fige a l'ecriture aurait laisse pour
 -- toujours les anciennes lignes dans l'ancien classement.
 --

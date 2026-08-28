@@ -9,8 +9,8 @@ import { getDictionary, isLocale } from '@/lib/i18n';
  *
  * A la racine, elle etait bien compilee mais n'apparaissait pas dans le HTML
  * de /fr : la page y declare son propre bloc `openGraph`, et l'heritage ne se
- * faisait pas. Ici, l'image appartient au meme segment que la page — plus
- * d'ambiguite — et elle gagne au passage de pouvoir etre traduite.
+ * faisait pas. Ici, l'image appartient au meme segment que la page  plus
+ * d'ambiguite  et elle gagne au passage de pouvoir etre traduite.
  *
  * 1200 × 630 est le format attendu par Facebook, LinkedIn, WhatsApp et X. Une
  * image plus petite est recadree ou ignoree selon les plateformes.

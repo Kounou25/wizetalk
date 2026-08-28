@@ -6,7 +6,7 @@
 -- applique, et les dictionnaires, que la page de tarifs annonce. Elles
 -- concordaient parce qu'on les synchronisait a la main. Une seule table les
 -- rassemble, et la page de tarifs lit desormais ce que le produit applique
--- reellement — elle ne peut plus promettre autre chose.
+-- reellement  elle ne peut plus promettre autre chose.
 --
 -- CE QUI N'ENTRE PAS DANS CETTE TABLE : LE PRIX
 --

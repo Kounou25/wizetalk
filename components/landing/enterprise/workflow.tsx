@@ -17,14 +17,14 @@ import { EnterpriseCta } from './cta';
  *
  * C'est la section qui vend l'offre Enterprise : un acheteur de banque ou
  * d'assurance n'achete pas une fonctionnalite, il achete un risque maitrise.
- * L'etape 03 — le pilote sur perimetre controle — est la reponse a « ou est-ce
+ * L'etape 03  le pilote sur perimetre controle  est la reponse a « ou est-ce
  * que ca s'arrete si les resultats ne suivent pas ». C'est aussi pourquoi la
  * page ne promet aucun chiffre ailleurs : le pilote est l'endroit ou le
  * chiffre se mesure, chez le client.
  *
  * L'image est `sticky` sur grand ecran : elle reste en vis-a-vis pendant que
  * les etapes defilent. Elle illustre une seance de travail, sans legende ni
- * nom — voir public/enterprise/SOURCES.md.
+ * nom  voir public/enterprise/SOURCES.md.
  */
 export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.workflow;

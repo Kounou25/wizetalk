@@ -10,7 +10,7 @@ export interface SegmentedOption<T extends string> {
 }
 
 /**
- * Selecteur a segments — une valeur parmi trois ou quatre, toutes visibles.
+ * Selecteur a segments  une valeur parmi trois ou quatre, toutes visibles.
  *
  * Semantique de groupe de boutons radio plutot que de simples boutons : c'est
  * un choix exclusif, pas une serie d'actions. Le focus est roulant (un seul

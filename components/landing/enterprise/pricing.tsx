@@ -6,7 +6,7 @@ import type { Dictionary } from '@/lib/i18n';
 import { Section, SectionHeading } from '../section';
 
 /**
- * Tarification Enterprise — sans tarif.
+ * Tarification Enterprise  sans tarif.
  *
  * Un « a partir de 999 $ » ecarterait les organisations dont le perimetre
  * justifie davantage, et ancrerait un prix plancher dans toutes les

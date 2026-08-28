@@ -4,7 +4,7 @@
 --
 -- Le credit (0007) couvrait tout ce qui coute : repondre, explorer une page,
 -- traiter un document. C'etait juste economiquement, et opaque
--- commercialement — « 5 000 credits » oblige l'acheteur a apprendre une unite
+-- commercialement  « 5 000 credits » oblige l'acheteur a apprendre une unite
 -- maison avant de pouvoir juger le prix.
 --
 -- Le message se comprend sans explication. Ce que le credit bornait du cote de
@@ -13,7 +13,7 @@
 -- se lisent comme un avantage plutot que comme un compteur.
 --
 -- Les colonnes sont RENOMMEES, pas recreees : les valeurs deja consommees
--- gardent leur sens — un credit depense sur une reponse etait deja un message.
+-- gardent leur sens  un credit depense sur une reponse etait deja un message.
 -- Ce qui disparait, c'est la part consommee par l'indexation, ce qui joue en
 -- faveur du client.
 

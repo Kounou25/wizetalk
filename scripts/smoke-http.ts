@@ -6,7 +6,7 @@
  *
  * Cree un bot jetable deja indexe, puis interroge les routes exactement comme
  * le fera le navigateur d'un visiteur : widget.js, configuration publique,
- * page iframe, et flux SSE de /api/chat — y compris le controle d'Origin.
+ * page iframe, et flux SSE de /api/chat  y compris le controle d'Origin.
  */
 
 import 'dotenv/config';
@@ -117,7 +117,7 @@ async function main() {
      *
      * C'est le chat de test du dashboard : l'origine n'est pas un domaine
      * declare du bot, mais celui de l'application. Ce cas echouait en
-     * production quand NEXT_PUBLIC_APP_URL n'etait pas definie — l'appli ne se
+     * production quand NEXT_PUBLIC_APP_URL n'etait pas definie  l'appli ne se
      * reconnaissait plus elle-meme et se repondait 403.
      */
     const ownOrigin = await fetch(`${BASE}/api/chat`, {

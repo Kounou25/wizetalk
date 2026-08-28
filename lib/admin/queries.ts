@@ -7,7 +7,7 @@ import { channelOf } from '@/lib/acquisition';
 /**
  * Lectures du back-office.
  *
- * Chaque fonction recoit le client privilegie rendu par requireAdmin() — elle
+ * Chaque fonction recoit le client privilegie rendu par requireAdmin()  elle
  * ne le fabrique jamais elle-meme. C'est ce qui garantit qu'aucune de ces
  * requetes ne peut s'executer sans controle prealable.
  */
@@ -324,8 +324,8 @@ export interface BillingEventRow {
  * Derniers webhooks recus.
  *
  * C'est la premiere chose a regarder quand un client dit « j'ai paye et il ne
- * se passe rien » : soit l'evenement n'est jamais arrive — probleme de
- * declaration chez le prestataire — soit il est la, et le probleme est chez
+ * se passe rien » : soit l'evenement n'est jamais arrive  probleme de
+ * declaration chez le prestataire  soit il est la, et le probleme est chez
  * nous.
  */
 export async function listBillingEvents(db: Db, limit = 30): Promise<BillingEventRow[]> {
@@ -376,7 +376,7 @@ export function computeBillingStats(rows: SubscriptionRow[]): BillingStats {
      *
      * `pending` n'a pas encore paye, `on_hold` a echoue : les inclure
      * gonflerait le chiffre d'un revenu qui n'est jamais entre. Un abonnement
-     * resilie mais non echu compte encore — il est paye jusqu'au bout.
+     * resilie mais non echu compte encore  il est paye jusqu'au bout.
      */
     if (row.status !== 'active') continue;
 
@@ -420,7 +420,7 @@ export interface PlatformPoint {
  * volume qui tient encore largement en memoire.
  *
  * La borne a 90 jours est ce qui rend le procede tenable. Le jour ou ces
- * lectures deviennent lourdes, le signal sera net — et la reponse sera une vue
+ * lectures deviennent lourdes, le signal sera net  et la reponse sera une vue
  * materialisee, pas une pagination.
  */
 export async function getPlatformSeries(db: Db, days = 90): Promise<PlatformPoint[]> {

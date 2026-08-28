@@ -37,7 +37,7 @@ function nextRenewal(periodStartedAt: string): Date {
  *
  * Un compte cree par Google n'en a pas : lui proposer un formulaire de
  * changement ne menerait qu'a un echec incomprehensible. `identities` liste
- * tous les moyens de connexion rattachés — un meme compte peut en cumuler
+ * tous les moyens de connexion rattachés  un meme compte peut en cumuler
  * plusieurs. On retombe sur `app_metadata` quand la liste n'est pas fournie.
  */
 function hasPasswordIdentity(user: {

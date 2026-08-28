@@ -45,8 +45,8 @@ function LogoutItem({ label }: { label: string }) {
 /**
  * Barre superieure du produit.
  *
- * Elle porte ce qui vaut pour toutes les pages — ou l'on se trouve, la langue,
- * le compte — et libere la barre laterale, qui n'a plus a servir de fourre-tout.
+ * Elle porte ce qui vaut pour toutes les pages  ou l'on se trouve, la langue,
+ * le compte  et libere la barre laterale, qui n'a plus a servir de fourre-tout.
  * Le titre de section vient de la meme liste que la navigation : il ne peut pas
  * contredire l'entree allumee a gauche.
  */

@@ -11,7 +11,7 @@
 -- CE QU'ON DEMANDE, ET CE QU'ON NE DEMANDE PAS
 --
 -- Six champs, dont trois obligatoires. Le poste, l'effectif, le budget et le
--- calendrier sont ce qu'un formulaire de qualification demanderait — et ce qui
+-- calendrier sont ce qu'un formulaire de qualification demanderait  et ce qui
 -- fait abandonner un directeur qui voulait juste ouvrir une conversation. Ils
 -- se demandent pendant l'echange, ou ils ne coutent rien.
 --
@@ -19,7 +19,7 @@
 --
 -- La page affiche deux libelles menant au meme formulaire : « demander une
 -- demo » et « parler a notre equipe ». Enregistrer lequel a ete clique est le
--- seul moyen de savoir lequel amene des rendez-vous — et de reordonner les
+-- seul moyen de savoir lequel amene des rendez-vous  et de reordonner les
 -- boutons sur une donnee plutot que sur une intuition.
 
 create table demo_requests (
@@ -73,7 +73,7 @@ create index demo_requests_email_idx on demo_requests (email, created_at desc);
 --
 -- Sous RLS, l'absence de politique signifie « personne ». Ni la cle anonyme ni
 -- un utilisateur connecte ne peuvent lire, ecrire ou modifier cette table :
--- seul `service_role`, qui contourne RLS, y accede — c'est-a-dire l'action
+-- seul `service_role`, qui contourne RLS, y accede  c'est-a-dire l'action
 -- serveur qui enregistre la demande, et le back-office qui la relit apres
 -- requireAdmin().
 --

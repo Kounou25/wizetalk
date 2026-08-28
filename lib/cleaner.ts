@@ -4,7 +4,7 @@
  * Uniquement cheerio, deliberement : jsdom + Readability ont ete retires.
  *
  *  - Readability tirait `require()` sur un module ES via html-encoding-sniffer,
- *    ce que le runtime serverless refuse — le code marchait en local et cassait
+ *    ce que le runtime serverless refuse  le code marchait en local et cassait
  *    en production.
  *  - Mesure faite sur python.org : cette extraction rend 125 % du texte que
  *    produisait Readability, page par page. On ne perd donc rien.
@@ -20,7 +20,7 @@ import type { CleanPage, Section } from './types';
  *
  * ATTENTION : ne jamais ajouter ici un nom de classe generique. `.menu`,
  * `.content`, `.social` ou `.share` designent du vrai contenu sur quantite de
- * sites — le menu d'un restaurant, une rubrique sociale. Un `.menu` trop
+ * sites  le menu d'un restaurant, une rubrique sociale. Un `.menu` trop
  * gourmand a deja vide 7 491 caracteres de la page /jobs de python.org, soit
  * la page entiere. Le repetitif se traite dans boilerplate.ts, sur preuve
  * (ce qui revient d'une page a l'autre) et non sur un nom.

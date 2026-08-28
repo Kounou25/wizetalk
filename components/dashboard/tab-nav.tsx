@@ -17,7 +17,7 @@ export interface TabItem {
  * Le motif ARIA des onglets suppose que les panneaux coexistent dans le meme
  * document et qu'on bascule entre eux sans navigation : il impose alors
  * `aria-controls`, la gestion des fleches et un focus roulant. Ici, chaque
- * onglet est une vraie URL qui recharge son contenu cote serveur — ce sont des
+ * onglet est une vraie URL qui recharge son contenu cote serveur  ce sont des
  * liens de navigation, pas des onglets au sens ARIA. Les annoncer comme tels
  * promettrait un comportement clavier que la page n'a pas.
  *

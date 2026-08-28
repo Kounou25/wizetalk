@@ -148,7 +148,7 @@
   }
   /* Sora est une geometrique large : sans resserrement, un titre s'etale et
      perd sa force. L'ancien reglage appelait `ss01`, un jeu stylistique propre
-     a Plus Jakarta Sans que Sora n'expose pas — il est retire plutot que laisse
+     a Plus Jakarta Sans que Sora n'expose pas  il est retire plutot que laisse
      sans effet. */
   h1,
   h2,
@@ -175,8 +175,8 @@
  * relancer le validateur : l'ecart entre les series est mesure, pas estime.
  */
 .viz-root {
-  --series-1: #2563eb; /* bleu de marque — conversations */
-  --series-2: #eb6834; /* orange — messages */
+  --series-1: #2563eb; /* bleu de marque  conversations */
+  --series-2: #eb6834; /* orange  messages */
 
   /*
    * Deux roles supplementaires, pour les graphiques du back-office.
@@ -187,8 +187,8 @@
    * premieres, elles s'appuient sur une palette de reference. A repasser au
    * validateur le jour ou il est ajoute.
    */
-  --series-3: #009e73; /* vert bleute — inscriptions */
-  --series-4: #cc79a7; /* mauve — assistants crees */
+  --series-3: #009e73; /* vert bleute  inscriptions */
+  --series-4: #cc79a7; /* mauve  assistants crees */
 }
 
 .dark .viz-root {
@@ -336,7 +336,7 @@
 
 @layer components {
   /*
-   * Ces classes vivent dans la couche `components` — jamais hors couche.
+   * Ces classes vivent dans la couche `components`  jamais hors couche.
    *
    * Tailwind ordonne ses couches theme < base < components < utilities. Une
    * regle ecrite hors couche l'emporterait sur TOUS les utilitaires, et
@@ -354,7 +354,7 @@
   }
 
   /* Panneau cliquable : la bordure se renforce, l'ombre monte d'un cran. Aucun
-     deplacement — une ligne de liste qui bouge au survol fatigue vite. */
+     deplacement  une ligne de liste qui bouge au survol fatigue vite. */
   .panel-interactive {
     transition:
       border-color var(--motion-fast) var(--ease-out),

@@ -52,7 +52,7 @@ lib/          pipeline partagé entre le prototype CLI et le serveur
   crawler · cleaner · boilerplate · chunker · embeddings
   search      recherche en mémoire (CLI)
   database    recherche pgvector (serveur)
-  rag         orchestration, garde-fous — reçoit un Retriever
+  rag         orchestration, garde-fous  reçoit un Retriever
   indexer     indexation par tranches (contrainte serverless)
 app/          dashboard, routes API, page iframe du widget
 public/       widget.js
@@ -63,7 +63,7 @@ supabase/     migrations SQL
 
 **Pas de Playwright.** Le binaire Chromium dépasse la limite d'une fonction
 serverless, et un crawl de 50 pages dépasse le délai maximum d'exécution. La
-cible — les sites vitrines d'entreprise — est rendue côté serveur.
+cible  les sites vitrines d'entreprise  est rendue côté serveur.
 `needsJavaScript()` signale les sites qui exigeraient un rendu JS ; le repli
 Playwright sera ajouté seulement pour ceux-là.
 
@@ -88,7 +88,7 @@ traite pas les lots : il renvoie **un vecteur pour 50 textes, sans erreur**.
 
 **Recherche hybride en OU, pas en ET.** `websearch_to_tsquery` combine les
 termes en ET : une question naturelle n'aurait alors presque jamais de
-correspondance lexicale, et la recherche serait purement vectorielle — donc
+correspondance lexicale, et la recherche serait purement vectorielle  donc
 aveugle aux prix, références et sigles. La migration 0002 transforme la requête
 en OU.
 
@@ -103,7 +103,7 @@ coûte rien. La consigne système ne vient qu'en second rideau.
 - `gemini-3.6-flash` est plafonné à **20 requêtes par jour** en palier gratuit.
   Défaut retenu : `gemini-3.5-flash-lite`.
 - Gemini 3 rejette `thinkingBudget`. Le remplaçant est `thinkingLevel`, à
-  imbriquer dans `thinkingConfig` — placé à la racine, il est accepté par
+  imbriquer dans `thinkingConfig`  placé à la racine, il est accepté par
   TypeScript mais **silencieusement ignoré**.
 
 ## Réglages

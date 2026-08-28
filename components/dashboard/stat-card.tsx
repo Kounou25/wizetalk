@@ -22,7 +22,7 @@ const COLUMNS = {
  * separees par du vide : les chiffres se lisent alors comme un ensemble, et
  * l'oeil compare au lieu de sauter d'un bloc a l'autre.
  *
- * Les filets viennent de `gap-px` sur un fond couleur bordure — ils suivent
+ * Les filets viennent de `gap-px` sur un fond couleur bordure  ils suivent
  * donc le passage a la ligne, ce qu'une bordure par cellule ne fait pas.
  */
 export function StatGroup({

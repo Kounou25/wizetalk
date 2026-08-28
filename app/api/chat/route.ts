@@ -15,7 +15,7 @@
  * A ZERO CREDIT, ON NE COUPE PAS.
  *
  * Renvoyer une erreur ferait apparaitre un assistant casse sur le site en
- * production du client, et arreterait la capture de prospects — la seule
+ * production du client, et arreterait la capture de prospects  la seule
  * chose qui pourrait encore lui rapporter, et le meilleur argument pour qu'il
  * recharge. L'assistant se replie donc sur le formulaire de contact : il
  * n'appelle plus le modele, mais il recupere toujours les adresses.
@@ -68,7 +68,7 @@ function corsHeaders(origin: string | null): Record<string, string> {
  * Adresse de machine locale ou de reseau prive (RFC 1918).
  *
  * Sert uniquement a autoriser le developpement depuis un autre appareil du
- * meme reseau — un telephone, une seconde machine. Ces plages ne sont pas
+ * meme reseau  un telephone, une seconde machine. Ces plages ne sont pas
  * routables sur Internet : elles n'ouvrent donc rien vers l'exterieur, mais on
  * les restreint quand meme au mode developpement par principe.
  */
@@ -194,7 +194,7 @@ export async function POST(request: Request) {
          * canal que le modele, mot par mot, pour que le widget n'ait rien de
          * particulier a savoir. `refused: true` est ce qui declenche le
          * formulaire cote widget, et ce qui fait remonter la question dans le
-         * rapport des questions sans reponse — le client voit donc ce qu'il
+         * rapport des questions sans reponse  le client voit donc ce qu'il
          * rate pendant qu'il est a sec.
          */
         if (!hasCredits) {

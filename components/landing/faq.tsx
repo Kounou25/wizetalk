@@ -4,7 +4,7 @@ import { Reveal } from '@/components/reveal';
  * Accordeon en <details>/<summary> natif : ouverture au clavier, accessible
  * par defaut, aucune dependance.
  *
- * Il recoit ce qu'il affiche plutot que le dictionnaire entier — les deux
+ * Il recoit ce qu'il affiche plutot que le dictionnaire entier  les deux
  * pages ont leur propre liste de questions sous des cles differentes.
  */
 export function Faq({

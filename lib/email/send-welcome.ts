@@ -8,7 +8,7 @@ import { getTransport, readSmtpConfig } from './smtp';
 /**
  * Envoie le message de bienvenue, une fois et une seule.
  *
- * Appelee a chaque arrivee sur le tableau de bord — c'est le seul point par
+ * Appelee a chaque arrivee sur le tableau de bord  c'est le seul point par
  * lequel passent TOUS les chemins d'inscription (mot de passe, Google, et
  * ceux qu'on ajoutera). Le marqueur en base fait le tri.
  *

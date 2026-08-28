@@ -2,7 +2,7 @@
 --
 -- POURQUOI UNE TABLE PLUTOT QU'UN ENVOI A L'INSCRIPTION
 --
--- Il existe deux chemins d'inscription — mot de passe et Google OAuth — qui ne
+-- Il existe deux chemins d'inscription  mot de passe et Google OAuth  qui ne
 -- passent pas par le meme code. Brancher l'envoi sur l'un des deux revient a
 -- l'oublier pour l'autre, et un futur fournisseur creerait un troisieme trou.
 --

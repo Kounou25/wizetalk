@@ -10,7 +10,7 @@
  * robots.txt, sitemap.xml et l'image de partage en sont exclus pour une autre
  * raison : ce proxy appelle Supabase a chaque requete qu'il intercepte. Un
  * robot d'indexation qui vient lire robots.txt declencherait une revalidation
- * de session — un aller-retour reseau pour un fichier qui ne depend d'aucun
+ * de session  un aller-retour reseau pour un fichier qui ne depend d'aucun
  * utilisateur.
  */
 

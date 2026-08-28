@@ -49,7 +49,7 @@ const COPY: Record<Locale, Copy> = {
     /* L'incitation qui compte : repondre depuis sa boite est plus rapide que
        d'ouvrir le tableau de bord, et c'est la vitesse qui convertit. */
     replyHint:
-      'Vous pouvez répondre directement à cette adresse — c’est souvent le plus rapide.',
+      'Vous pouvez répondre directement à cette adresse  c’est souvent le plus rapide.',
     why: 'Vous recevez ce message parce que la collecte de prospects est active sur cet assistant. Elle se désactive depuis ses paramètres.',
   },
   en: {
@@ -61,7 +61,7 @@ const COPY: Record<Locale, Copy> = {
     emailLabel: 'Their address',
     questionLabel: 'Their question',
     cta: 'Open my account',
-    replyHint: 'You can reply straight to that address — it’s usually the fastest.',
+    replyHint: 'You can reply straight to that address  it’s usually the fastest.',
     why: 'You are receiving this because lead capture is enabled on this assistant. It can be turned off from its settings.',
   },
 };

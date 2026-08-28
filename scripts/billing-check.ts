@@ -35,11 +35,11 @@ const fail = (message: string) => {
 };
 
 /**
- * Prix attendus, repris de lib/credits.ts — la source de la page de tarifs.
+ * Prix attendus, repris de lib/credits.ts  la source de la page de tarifs.
  *
  * `months` est la periodicite exprimee en mois : 1 pour un plan mensuel, 12
  * pour un plan annuel. Dodo n'encode pas l'annuel en `interval: 'Year'` mais
- * en `payment_frequency_count: 12` sur un intervalle mensuel — comparer le
+ * en `payment_frequency_count: 12` sur un intervalle mensuel  comparer le
  * seul intervalle ferait passer un produit annuel correct pour une erreur.
  */
 const EXPECTED: Record<string, { label: string; cents: number; months: number }> = {
@@ -197,14 +197,14 @@ async function checkProducts(): Promise<void> {
         console.log(
           `  ${WARN} ${expected.label} ${DIM}Dodo : ${
             cents != null ? cents / 100 : '?'
-          } ${currency} ${describe(months)} — page de tarifs : ${
+          } ${currency} ${describe(months)}  page de tarifs : ${
             expected.cents / 100
           } $ ${describe(expected.months)}${RESET}`,
         );
       }
     } catch (cause) {
       fail(
-        `${expected.label} introuvable ${DIM}${id} — ${
+        `${expected.label} introuvable ${DIM}${id}  ${
           cause instanceof Error ? cause.message : String(cause)
         }${RESET}`,
       );

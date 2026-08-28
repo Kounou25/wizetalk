@@ -70,7 +70,7 @@ async function ask(retriever: Retriever, question: string, debug: boolean) {
 
   const final = result.value;
   if (final.refused) {
-    console.log(`${DIM}  (aucun contenu pertinent — cosinus max ${final.topCosine.toFixed(3)})${RESET}`);
+    console.log(`${DIM}  (aucun contenu pertinent  cosinus max ${final.topCosine.toFixed(3)})${RESET}`);
   } else if (final.sources.length > 0) {
     console.log(`${DIM}  Sources :${RESET}`);
     for (const source of final.sources) console.log(`${DIM}   • ${source.url}${RESET}`);
@@ -83,7 +83,7 @@ async function main() {
   const kb = await resolveBot(botId);
   const retriever = createMemoryRetriever(kb.chunks);
 
-  console.log(`\n${kb.botId}  ${DIM}${kb.websiteUrl} — ${kb.pages.length} pages, ${kb.chunks.length} sections${RESET}`);
+  console.log(`\n${kb.botId}  ${DIM}${kb.websiteUrl}  ${kb.pages.length} pages, ${kb.chunks.length} sections${RESET}`);
 
   if (question) {
     await ask(retriever, question, debug);

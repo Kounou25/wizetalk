@@ -66,7 +66,7 @@ function NavLink({
  *
  * A zero, elle ne se contente pas d'afficher un compteur vide : elle dit ce
  * que l'assistant fait encore. Un client qui voit « epuise » sans autre
- * precision suppose que son widget est mort sur son site — alors qu'il
+ * precision suppose que son widget est mort sur son site  alors qu'il
  * continue de recuperer des adresses.
  */
 function CreditMeter({

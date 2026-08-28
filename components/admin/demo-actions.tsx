@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
  * en est chaque demande vaut plus que de gagner quelques pixels. Un menu
  * obligerait a ouvrir chaque ligne pour lire son etat suivant.
  *
- * L'etat courant reste affiche par l'etiquette a cote — ces boutons ne le
+ * L'etat courant reste affiche par l'etiquette a cote  ces boutons ne le
  * repetent pas, ils proposent la suite.
  */
 const FLOW: { value: string; label: string }[] = [
