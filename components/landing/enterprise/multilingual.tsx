@@ -38,7 +38,7 @@ export function EnterpriseMultilingual({ dict }: { dict: Dictionary }) {
   ];
 
   return (
-    <Section>
+    <Section tone="muted">
       <div className={cn(splitGrid, 'items-center')}>
         <div className={splitMain}>
           <SectionHeading

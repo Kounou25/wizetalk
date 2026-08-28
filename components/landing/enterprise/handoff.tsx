@@ -77,19 +77,12 @@ export function EnterpriseHandoff({ dict }: { dict: Dictionary }) {
         />
       </div>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {t.points.map((point, index) => (
-          <Reveal key={point.title} delay={index * 70}>
-            <div className="border-brand/30 h-full border-l-2 pl-4">
-              <p className="text-sm font-semibold">{point.title}</p>
-              <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed text-pretty">
-                {point.body}
-              </p>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
+      {/*
+        Les quatre puces « orienter / proposer un contact / collecter /
+        transferer » ont ete retirees : les deux trajets au-dessus les montrent
+        deja, etape par etape. Ce qui restait d'utile — la reserve sur le
+        transfert vers un agent en direct — est dans la note ci-dessous.
+      */}
       <Reveal delay={200}>
         <p className="text-muted-foreground mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-pretty">
           {t.note}

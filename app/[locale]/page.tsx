@@ -11,14 +11,8 @@ import { ProductProof } from '@/components/landing/product-proof';
 import { Problem } from '@/components/landing/problem';
 import { Change } from '@/components/landing/change';
 import { Recovery } from '@/components/landing/recovery';
-import { Insight } from '@/components/landing/insight';
-import { BeforeAfter } from '@/components/landing/before-after';
 import { WhyDeezy } from '@/components/landing/why-deezy';
-import { Comparison } from '@/components/landing/comparison';
 import { Install } from '@/components/landing/install';
-import { Platforms } from '@/components/landing/platforms';
-import { Benefits } from '@/components/landing/benefits';
-import { Results } from '@/components/landing/results';
 import { Pricing } from '@/components/landing/pricing';
 import { Faq } from '@/components/landing/faq';
 import { FinalCta } from '@/components/landing/final-cta';
@@ -113,14 +107,8 @@ export default async function LandingPage({
           Probleme    -> « ca me parle, mais est-ce que ca me coute vraiment ? »
           Changement  -> « d'accord, mais qu'est-ce que ca fait, concretement ? »
           Fiabilite   -> « et si l'IA raconte n'importe quoi ? »   ★ le coeur
-          Insight     -> « qu'est-ce que j'y gagne au-dela des reponses ? »
-          Avant/Apres -> « montrez-moi la difference »
           Pourquoi    -> « en quoi c'est different des autres ? »
-          Comparaison -> « j'ai deja essaye autre chose »
           Installation-> « ca va me prendre combien de temps ? »
-          Plateformes -> « est-ce que ca marche chez moi ? »
-          Benefices   -> « et au quotidien, ca donne quoi ? »
-          Resultats   -> « qu'est-ce que vous promettez vraiment ? »
           Tarifs      -> « combien, et est-ce que ca vaut le coup ? »
           FAQ         -> les derniers doutes, dans l'ordre ou ils arrivent
           CTA final   -> la seule chose qu'il reste a faire
@@ -128,6 +116,25 @@ export default async function LandingPage({
         Fiabilite est le pivot : le refus de repondre et la recuperation du
         prospect y sont traites ensemble. Les separer les faisait se repeter,
         et le lecteur croyait avoir deja lu la seconde section.
+
+        SEPT SECTIONS ONT ETE RETIREES, ET POURQUOI
+
+        La page comptait seize blocs et douze minutes de lecture : le lecteur
+        decrochait avant les tarifs. Le defaut n'etait pas la longueur en soi,
+        c'etait la REPETITION — cinq sections d'affilee redisaient « vous
+        perdez des clients, Deezy les recupere », et deux paires faisaient
+        doublon.
+
+          Avant/Apres  redisait Probleme + Fiabilite en images
+          Comparaison  redisait Pourquoi, du point de vue des concurrents
+          Plateformes  etait un paragraphe d'Installation
+          Benefices    redisait Changement au futur
+          Resultats    redisait Benefices en promesses
+          Insight      un bonus produit, pas une etape du raisonnement
+
+        Chaque question ci-dessus n'est desormais posee qu'une fois. Les
+        composants sont supprimes, leurs textes restent dans le dictionnaire :
+        c'est du contenu ecrit et traduit, il resservira ailleurs.
       */}
       <main>
         <Hero locale={typed} dict={dict} />
@@ -135,19 +142,10 @@ export default async function LandingPage({
 
         <Problem locale={typed} dict={dict} />
         <Change dict={dict} />
-
         <Recovery locale={typed} dict={dict} />
-        <Insight dict={dict} />
-        <BeforeAfter dict={dict} />
 
         <WhyDeezy dict={dict} />
-        <Comparison dict={dict} />
-
         <Install locale={typed} dict={dict} />
-        <Platforms dict={dict} />
-
-        <Benefits dict={dict} />
-        <Results dict={dict} />
 
         <Pricing locale={typed} pricing={dict.pricing} limits={limits} />
         <Faq {...dict.faq} />

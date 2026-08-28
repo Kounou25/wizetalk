@@ -11,22 +11,16 @@ import { Faq } from '@/components/landing/faq';
 import { DeezyWidget } from '@/components/landing/deezy-widget';
 import { EnterpriseStructuredData } from '@/components/landing/enterprise/structured-data';
 import { EnterpriseHero } from '@/components/landing/enterprise/hero';
-import { EnterprisePositioning } from '@/components/landing/enterprise/positioning';
 import { EnterpriseProblem } from '@/components/landing/enterprise/problem';
 import { EnterpriseSolution } from '@/components/landing/enterprise/solution';
 import { EnterpriseGrounded } from '@/components/landing/enterprise/grounded';
 import { EnterpriseControl } from '@/components/landing/enterprise/control';
 import { EnterpriseHandoff } from '@/components/landing/enterprise/handoff';
-import { EnterpriseAnalytics } from '@/components/landing/enterprise/analytics';
 import { EnterpriseMultilingual } from '@/components/landing/enterprise/multilingual';
 import { EnterpriseUseCases } from '@/components/landing/enterprise/use-cases';
-import { EnterpriseValue } from '@/components/landing/enterprise/value';
-import { EnterpriseIntegrations } from '@/components/landing/enterprise/integrations';
 import { EnterpriseSecurity } from '@/components/landing/enterprise/security';
-import { EnterpriseScale } from '@/components/landing/enterprise/scale';
 import { EnterpriseWorkflow } from '@/components/landing/enterprise/workflow';
 import { EnterprisePricing } from '@/components/landing/enterprise/pricing';
-import { EnterpriseEditions } from '@/components/landing/enterprise/editions';
 import { EnterpriseFinalCta } from '@/components/landing/enterprise/final-cta';
 import { EnterpriseDemoForm } from './demo-form';
 
@@ -103,32 +97,48 @@ export default async function EnterprisePage({
         vient de faire naitre :
 
           Heros         ce que c'est, pour qui, et quoi faire
-          Positionnement-> « en quoi est-ce different d'un chatbot ? »
           Probleme      -> « est-ce que ca nous coute vraiment quelque chose ? »
           Solution      -> « concretement, comment ca marche ? »
           Fiabilite     -> « et si l'assistant raconte n'importe quoi ? »  ★
           Controle      -> « qui decide de ce qu'il dit ? »
           Relais humain -> « et quand il ne faut pas repondre ? »
-          Analyse       -> « qu'est-ce qu'on en retire au-dela des reponses ? »
           Multilingue   -> « nos clients ne parlent pas tous la meme langue »
           Secteurs      -> « est-ce que ca marche dans NOTRE metier ? »
-          Valeur        -> « qu'est-ce que ca change pour l'organisation ? »
-          Integrations  -> « ca se branche a quoi ? »
           Securite      -> « et nos donnees ? »                            ★
-          Echelle       -> « est-ce que ca tient nos volumes ? »
           Methode       -> « comment se passe un deploiement ? »
           Tarifs        -> « combien, et comment c'est construit ? »
-          Business/Ent. -> « suis-je au bon endroit ? »
           FAQ           -> les derniers doutes
           CTA + form    -> la seule chose qu'il reste a faire
 
         Fiabilite et Securite sont les deux pivots : ce sont les seules
         sections qu'un comite relira mot a mot, et les seules ou reconnaitre
         une limite rapporte davantage que la masquer.
+
+        SIX SECTIONS ONT ETE RETIREES, ET POURQUOI
+
+        La page comptait vingt blocs et douze minutes de lecture. Un dossier
+        d'appel d'offres peut se permettre cette longueur ; une page qui doit
+        declencher une prise de contact, non — le lecteur se perd avant les
+        tarifs, et un lecteur perdu ne remplit pas de formulaire.
+
+          Positionnement  redisait le heros et Fiabilite en trois puces
+          Valeur          redisait Probleme, retourne en positif
+          Integrations    n'annoncait presque que « selon votre deploiement »
+          Analyse         un differenciateur, pas une etape du raisonnement
+          Echelle         six mots, repris dans Methode ou ils ont un sens
+          Editions        orientait vers l'offre libre-service depuis une page
+                          dont le but est exactement l'inverse
+
+        Deux sections ont ete gardees CONTRE cette logique, sur demande :
+        Relais humain (elle porte les photographies et repond a « l'IA va-t-elle
+        remplacer mes equipes ») et Multilingue (decisive pour une banque ou un
+        operateur presents dans plusieurs pays).
+
+        Les composants sont supprimes, leurs textes restent dans le
+        dictionnaire : c'est du contenu ecrit et traduit, il resservira.
       */}
       <main>
         <EnterpriseHero dict={dict} />
-        <EnterprisePositioning dict={dict} />
 
         <EnterpriseProblem dict={dict} />
         <EnterpriseSolution dict={dict} />
@@ -137,19 +147,12 @@ export default async function EnterprisePage({
         <EnterpriseControl dict={dict} />
         <EnterpriseHandoff dict={dict} />
 
-        <EnterpriseAnalytics dict={dict} />
         <EnterpriseMultilingual dict={dict} />
-
         <EnterpriseUseCases dict={dict} />
-        <EnterpriseValue dict={dict} />
-
-        <EnterpriseIntegrations dict={dict} />
         <EnterpriseSecurity dict={dict} />
-        <EnterpriseScale dict={dict} />
 
         <EnterpriseWorkflow dict={dict} />
         <EnterprisePricing dict={dict} />
-        <EnterpriseEditions locale={typed} dict={dict} />
 
         <Faq
           id="faq-enterprise"

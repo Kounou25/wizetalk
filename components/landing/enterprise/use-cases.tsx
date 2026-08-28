@@ -44,7 +44,7 @@ export function EnterpriseUseCases({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.useCases;
 
   return (
-    <Section id="cas-usage" tone="muted">
+    <Section id="cas-usage">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

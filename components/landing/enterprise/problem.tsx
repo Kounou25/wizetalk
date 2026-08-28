@@ -73,25 +73,14 @@ export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
         </ol>
       </Reveal>
 
-      <Reveal delay={120}>
-        <p className="text-muted-foreground mt-12 text-center text-sm font-semibold tracking-widest uppercase">
-          {t.costsTitle}
-        </p>
-      </Reveal>
-
-      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {t.costs.map((cost, index) => (
-          <Reveal key={cost.title} delay={140 + index * 70}>
-            <div className="bg-card h-full rounded-xl border p-5">
-              <p className="font-semibold">{cost.title}</p>
-              <p className="text-muted-foreground mt-2 text-sm leading-relaxed text-pretty">
-                {cost.body}
-              </p>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
+      {/*
+        Les quatre cartes « ce que cela produit » ont ete retirees : elles
+        redisaient la chaine ci-dessus en la commentant. Frustration, abandon,
+        demandes repetitives et opportunites perdues sont ce que le lecteur
+        DEDUIT en lisant les cinq etapes — le lui expliquer ensuite le prenait
+        pour un lecteur distrait, et ajoutait une rangee de blocs a une page
+        deja trop longue. Les textes restent dans le dictionnaire.
+      */}
       <Reveal delay={200}>
         <p className="mx-auto mt-12 flex max-w-2xl items-start justify-center gap-2.5 text-center text-lg font-medium text-balance">
           <ArrowRight className="text-brand mt-1.5 size-5 shrink-0" aria-hidden />

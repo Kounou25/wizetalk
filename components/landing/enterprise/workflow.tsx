@@ -88,6 +88,31 @@ export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
         </ol>
       </div>
 
+      {/*
+        « Passage a l'echelle » etait une section a elle seule : six mots et une
+        phrase. Isolee, elle faisait une station de plus dans une page qui en
+        comptait deja vingt. Ramenee ici, elle repond a la question que la
+        methode vient de poser — « et apres le pilote, ca va jusqu'ou ? » —
+        au lieu de la poser une seconde fois ailleurs.
+      */}
+      <Reveal delay={180}>
+        <div className="mt-14 border-t pt-10">
+          <p className="text-center text-lg font-medium text-balance">
+            {dict.enterprise.scale.payoff}
+          </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-2">
+            {dict.enterprise.scale.items.map((item) => (
+              <span
+                key={item}
+                className="bg-card text-muted-foreground rounded-full border px-3 py-1.5 text-xs"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal delay={200}>
         <div className="mt-12 flex justify-center">
           {/* Apres le workflow, c'est l'echange commercial qui prime : le
