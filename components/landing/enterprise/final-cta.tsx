@@ -5,14 +5,9 @@ import { EnterpriseCta } from './cta';
 /**
  * Dernier appel a l'action, juste avant le formulaire.
  *
- * DEUX BOUTONS ICI, ALORS QUE LA LANDING N'EN GARDE QU'UN
- *
- * Sur la page de presentation, un second bouton offrirait une porte de sortie
- * a quelqu'un qui n'a plus qu'un geste a faire. Ici, les deux boutons menent
- * au meme formulaire, dix centimetres plus bas : ils ne dispersent rien, ils
- * laissent seulement le lecteur nommer sa demande. Quelqu'un qui n'est pas
- * pret pour une demonstration mais veut poser trois questions doit trouver la
- * formule qui lui correspond, sinon il ne clique sur aucune des deux.
+ * Deux boutons, alors que la landing n'en garde qu'un : ils menent au meme
+ * formulaire dix centimetres plus bas, donc ils ne dispersent rien — ils
+ * laissent le lecteur nommer sa demande.
  */
 export function EnterpriseFinalCta({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.finalCta;

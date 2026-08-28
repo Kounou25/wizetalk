@@ -14,20 +14,11 @@ import {
 /**
  * Fiabilite des reponses — la section decisive de la page.
  *
- * CE QU'ELLE NE DIT PAS, ET POURQUOI
- *
- * Aucune promesse d'exactitude, aucun « zero hallucination ». Une organisation
- * qui evalue serieusement un assistant sait qu'une telle garantie n'existe
- * pas ; l'ecrire ferait douter de tout le reste de la page.
- *
- * Ce qui est affirme ici est verifiable et deja livre : les sources sont
- * choisies par le client, la reponse affiche sa provenance, et sous le seuil
- * de similarite l'assistant refuse de repondre au lieu d'improviser (voir
- * `minCosine` dans lib/search.ts et le refus dans lib/rag.ts).
- *
- * La note finale assume la limite a voix haute. C'est le passage que relira un
- * responsable conformite, et le seul endroit de la page ou reconnaitre une
- * limite rapporte plus que la masquer.
+ * Aucune promesse d'exactitude, aucun « zero hallucination » : une garantie
+ * pareille n'existe pas, et l'ecrire ferait douter du reste de la page. Ce qui
+ * est affirme ici est livre et verifiable — sources choisies par le client,
+ * provenance affichee, et refus de repondre sous le seuil de similarite (voir
+ * `minCosine` dans lib/search.ts).
  */
 export function EnterpriseGrounded({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.grounded;

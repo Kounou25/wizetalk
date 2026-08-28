@@ -8,10 +8,8 @@ import { Section, SectionHeading } from '../section';
 /**
  * Le fonctionnement, en trois etapes puis en un schema.
  *
- * Le schema n'illustre pas les etapes, il les resume : quelqu'un qui saute le
- * texte doit pouvoir comprendre le produit rien qu'en le regardant. C'est
- * aussi le seul endroit de la page ou l'on montre que la source de la reponse
- * et la reponse elle-meme sont deux choses distinctes.
+ * Le schema resume les etapes plutot qu'il ne les illustre : quelqu'un qui
+ * saute le texte doit comprendre le produit rien qu'en le regardant.
  */
 export function EnterpriseSolution({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.solution;
@@ -44,9 +42,8 @@ export function EnterpriseSolution({ dict }: { dict: Dictionary }) {
 /**
  * Vos sources → Deezy → votre visiteur.
  *
- * Horizontal au-dela de `md`, empile en dessous : une fleche vers la droite
- * sur un telephone pointerait hors de l'ecran. Les fleches changent donc de
- * direction avec la mise en page, ce qui demande les deux jeux d'icones.
+ * Les fleches changent de direction avec la mise en page : vers la droite en
+ * ligne, vers le bas une fois empilees.
  */
 function Flow({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.solution.flow;
@@ -56,8 +53,6 @@ function Flow({ dict }: { dict: Dictionary }) {
   return (
     <div className="bg-card mt-14 rounded-2xl border p-6 md:p-8">
       <div className="flex flex-col items-stretch gap-4 md:flex-row md:items-center md:gap-6">
-        {/* Les sources : la seule case qui contient plusieurs elements, parce
-            que c'est la seule ou l'organisation apporte quelque chose. */}
         <div className="flex-1">
           <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
             {t.sourceTitle}

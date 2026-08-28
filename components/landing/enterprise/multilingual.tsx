@@ -14,17 +14,13 @@ import {
 /**
  * Multilingue.
  *
- * CE QUI EST MONTRE : la meme question, posee dans trois langues, obtenant
- * trois reponses depuis une seule base de connaissances. C'est exactement ce
- * que fait le produit — la consigne systeme de lib/rag.ts impose de repondre
- * dans la langue de la question, et la recherche vectorielle traverse les
- * langues.
+ * La consigne systeme de lib/rag.ts impose de repondre dans la langue de la
+ * question, et la recherche vectorielle traverse les langues.
  *
- * LA NOTE EN BAS N'EST PAS UNE PRECAUTION DE STYLE. La recherche lexicale est
- * configuree en `french` (to_tsvector('french', …), migration 0001), donc sur
- * un corpus dans une autre langue seul le bras vectoriel travaille vraiment.
- * Les reponses restent bonnes, leur precision suit celle de la source — c'est
- * ce que dit la note, sans entrer dans un detail qui n'interesse personne ici.
+ * La note en bas n'est pas une precaution de style : la recherche lexicale est
+ * configuree en `french` (migration 0001), donc sur un corpus dans une autre
+ * langue seul le bras vectoriel travaille vraiment. Les reponses restent
+ * bonnes, leur precision suit celle de la source.
  */
 export function EnterpriseMultilingual({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.multilingual;

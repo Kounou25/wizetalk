@@ -8,21 +8,10 @@ import { EnterpriseCta } from './cta';
 /**
  * Heros de l'offre Enterprise.
  *
- * PLUS SOBRE QUE CELUI DE LA LANDING, ET C'EST VOULU
- *
- * Le heros de la page de presentation joue sur un degrade anime, un badge qui
- * pulse et deux halos flottants : il s'adresse a un dirigeant de PME qui
- * decide en trois minutes. Ici, le lecteur est un responsable qui va comparer
- * des prestataires et faire relire la page par sa direction juridique. Le
- * meme dispositif visuel le rendrait mefiant.
- *
- * On garde donc le lavis et le quadrillage — la parente avec Deezy Business
- * est demandee — mais le titre reste noir, sans degrade anime, et la promesse
- * porte seule.
- *
- * La maquette montre une question bancaire reelle, avec sa source : c'est la
- * demonstration la plus courte de ce que la page passe ensuite dix-sept
- * sections a expliquer.
+ * Plus sobre que celui de la landing : le lecteur va comparer des prestataires
+ * et faire relire la page par sa direction juridique. Le degrade anime et le
+ * badge qui pulse de Deezy Business le rendraient mefiant — le titre reste
+ * noir, la promesse porte seule.
  */
 export function EnterpriseHero({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.hero;
@@ -38,13 +27,8 @@ export function EnterpriseHero({ dict }: { dict: Dictionary }) {
         className="bg-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[600px] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_0%,#000,transparent)]"
       />
 
-      {/*
-        Colonnes 1-6 pour le texte, 7-12 pour la maquette — la meme ligne que
-        toutes les sections qui suivent. L'ancien 1.05fr/1fr n'appartenait a
-        aucun systeme : il « tombait bien » ici et ne repondait a rien ailleurs.
-        La gouttiere verticale reste plus large que l'horizontale, parce
-        qu'empiles sur telephone les deux blocs ont besoin de se detacher.
-      */}
+      {/* La gouttiere verticale est plus large que l'horizontale : empiles sur
+          telephone, les deux blocs ont besoin de se detacher. */}
       <div className="mx-auto grid max-w-6xl items-center gap-x-6 gap-y-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
         <Reveal>
           <span className="border-brand/20 bg-brand-soft text-brand inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold tracking-wide uppercase">
@@ -83,12 +67,8 @@ export function EnterpriseHero({ dict }: { dict: Dictionary }) {
 }
 
 /**
- * Maquette du widget, version Enterprise.
- *
- * Inerte, comme celle de la landing : aucun appel reseau depuis une page de
- * vente. Distincte, en revanche, sur trois points qui portent l'argument —
- * une question de secteur reglemente, la source affichee sous la reponse, et
- * les langues servies par le meme assistant.
+ * Maquette du widget, version Enterprise. Inerte : aucun appel reseau depuis
+ * une page de vente.
  */
 function HeroMockup({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.hero.mockup;

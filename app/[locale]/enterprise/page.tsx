@@ -113,29 +113,6 @@ export default async function EnterprisePage({
         Fiabilite et Securite sont les deux pivots : ce sont les seules
         sections qu'un comite relira mot a mot, et les seules ou reconnaitre
         une limite rapporte davantage que la masquer.
-
-        SIX SECTIONS ONT ETE RETIREES, ET POURQUOI
-
-        La page comptait vingt blocs et douze minutes de lecture. Un dossier
-        d'appel d'offres peut se permettre cette longueur ; une page qui doit
-        declencher une prise de contact, non — le lecteur se perd avant les
-        tarifs, et un lecteur perdu ne remplit pas de formulaire.
-
-          Positionnement  redisait le heros et Fiabilite en trois puces
-          Valeur          redisait Probleme, retourne en positif
-          Integrations    n'annoncait presque que « selon votre deploiement »
-          Analyse         un differenciateur, pas une etape du raisonnement
-          Echelle         six mots, repris dans Methode ou ils ont un sens
-          Editions        orientait vers l'offre libre-service depuis une page
-                          dont le but est exactement l'inverse
-
-        Deux sections ont ete gardees CONTRE cette logique, sur demande :
-        Relais humain (elle porte les photographies et repond a « l'IA va-t-elle
-        remplacer mes equipes ») et Multilingue (decisive pour une banque ou un
-        operateur presents dans plusieurs pays).
-
-        Les composants sont supprimes, leurs textes restent dans le
-        dictionnaire : c'est du contenu ecrit et traduit, il resservira.
       */}
       <main>
         <EnterpriseHero dict={dict} />

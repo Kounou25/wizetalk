@@ -4,28 +4,12 @@ import { PUBLIC_APP_URL } from '@/lib/public-url';
 /**
  * Donnees structurees de la page Enterprise.
  *
- * AUCUN BLOC `offers`, ET C'EST LE POINT IMPORTANT
+ * AUCUN BLOC `offers` — la page annonce qu'il n'y a pas de grille publique, et
+ * y declarer un prix serait une fausse declaration.
  *
- * Le balisage de la page de presentation declare les tarifs de Deezy Business,
- * parce que la page les affiche. Ici, la page annonce explicitement qu'il n'y a
- * pas de grille publique : y declarer un prix, meme approximatif, serait une
- * fausse declaration — exactement ce qui se sanctionne le plus surement en
- * referencement, et exactement ce que le brief interdit.
- *
- * Trois blocs, chacun pour une raison precise :
- *
- *   Service    decrit l'offre et a qui elle s'adresse. `audience` porte les
- *              secteurs vises, qui sont deja les titres des cartes de la page.
- *
- *   WebPage    rattache la page a l'organisation deja declaree par la landing,
- *              plutot que de redeclarer une seconde entite du meme nom.
- *
- *   FAQPage    rend les questions eligibles aux resultats enrichis. Google
- *              exige qu'elles soient VISIBLES sur la page : elles le sont,
- *              c'est la section FAQ, et les deux listes viennent de la meme
- *              cle du dictionnaire — impossible qu'elles divergent.
- *
- * Le balisage doit toujours decrire ce que la page montre, jamais davantage.
+ * L'organisation est declaree par la page d'accueil : on la reference, on ne
+ * la recopie pas. Les questions du bloc FAQPage viennent de la meme cle du
+ * dictionnaire que la section FAQ, que Google exige visible sur la page.
  */
 export function EnterpriseStructuredData({
   locale,

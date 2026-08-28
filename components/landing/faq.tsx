@@ -2,18 +2,10 @@ import { Reveal } from '@/components/reveal';
 
 /**
  * Accordeon en <details>/<summary> natif : ouverture au clavier, accessible
- * par defaut, et aucune dependance supplementaire.
+ * par defaut, aucune dependance.
  *
- * PARAMETRE PLUTOT QUE LIE AU DICTIONNAIRE
- *
- * Il recevait `dict` entier et lisait `dict.faq`. La page Enterprise a sa
- * propre liste de questions, sous une autre cle : recopier le composant pour
- * changer un chemin d'acces aurait fait diverger deux accordeons identiques
- * des la premiere retouche. Il prend donc ce qu'il affiche, et rien d'autre.
- *
- * `id` est parametrable pour la meme raison : deux ancres #faq sur deux pages
- * differentes ne se genent pas, mais les libelles de navigation, eux, ne sont
- * pas les memes.
+ * Il recoit ce qu'il affiche plutot que le dictionnaire entier — les deux
+ * pages ont leur propre liste de questions sous des cles differentes.
  */
 export function Faq({
   id = 'faq',

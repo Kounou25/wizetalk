@@ -116,25 +116,6 @@ export default async function LandingPage({
         Fiabilite est le pivot : le refus de repondre et la recuperation du
         prospect y sont traites ensemble. Les separer les faisait se repeter,
         et le lecteur croyait avoir deja lu la seconde section.
-
-        SEPT SECTIONS ONT ETE RETIREES, ET POURQUOI
-
-        La page comptait seize blocs et douze minutes de lecture : le lecteur
-        decrochait avant les tarifs. Le defaut n'etait pas la longueur en soi,
-        c'etait la REPETITION — cinq sections d'affilee redisaient « vous
-        perdez des clients, Deezy les recupere », et deux paires faisaient
-        doublon.
-
-          Avant/Apres  redisait Probleme + Fiabilite en images
-          Comparaison  redisait Pourquoi, du point de vue des concurrents
-          Plateformes  etait un paragraphe d'Installation
-          Benefices    redisait Changement au futur
-          Resultats    redisait Benefices en promesses
-          Insight      un bonus produit, pas une etape du raisonnement
-
-        Chaque question ci-dessus n'est desormais posee qu'une fois. Les
-        composants sont supprimes, leurs textes restent dans le dictionnaire :
-        c'est du contenu ecrit et traduit, il resservira ailleurs.
       */}
       <main>
         <Hero locale={typed} dict={dict} />

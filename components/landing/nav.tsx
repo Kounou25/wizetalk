@@ -7,15 +7,10 @@ import { LanguageToggle } from './language-toggle';
 /**
  * Barre de navigation des pages publiques.
  *
- * DEUX VARIANTES, UNE SEULE BARRE
- *
- * La page de presentation et la page Enterprise n'ont ni les memes ancres ni
- * le meme appel a l'action — l'une envoie vers l'inscription, l'autre vers un
- * formulaire commercial. Elles partagent en revanche tout le reste : logo,
- * bascule de langue, connexion, comportement colle en haut.
- *
- * Une seconde barre recopiee aurait divergé au premier ajustement de hauteur.
- * D'ou ce parametre plutot qu'un composant jumeau.
+ * Deux variantes plutot que deux barres : la page de presentation et la page
+ * Enterprise n'ont ni les memes ancres ni le meme appel a l'action, mais
+ * partagent tout le reste. Une seconde barre recopiee aurait diverge au
+ * premier ajustement.
  *
  * `authenticated` change les actions de droite : inutile de proposer
  * "Se connecter" a quelqu'un qui a deja une session ouverte.
@@ -60,8 +55,6 @@ export function LandingNav({
           className="flex items-center gap-2"
         >
           <Logo />
-          {/* Le mot est necessaire : sans lui, rien ne distingue cette page de
-              la page de presentation, et le visiteur croit s'etre perdu. */}
           {enterprise && (
             <span className="text-muted-foreground border-border hidden border-l pl-2 text-sm font-medium sm:inline">
               Enterprise
@@ -80,8 +73,6 @@ export function LandingNav({
             </a>
           ))}
 
-          {/* Depuis la page de presentation seulement : sur la page Enterprise,
-              ce lien renverrait sur elle-meme. */}
           {!enterprise && (
             <Link
               href={`/${locale}/enterprise`}
@@ -105,11 +96,8 @@ export function LandingNav({
                 <Link href={`/${locale}/login`}>{dict.nav.login}</Link>
               </Button>
 
-              {/*
-                L'action principale suit la page, pas la marque.
-                « Essayer gratuitement » sur la page Enterprise contredirait
-                tout le reste : on y vend un cadrage, pas un essai en autonomie.
-              */}
+              {/* L'action principale suit la page : « Essayer gratuitement »
+                  sur la page Enterprise contredirait ce qu'on y vend. */}
               <Button
                 asChild
                 size="sm"

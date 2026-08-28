@@ -14,41 +14,18 @@ import { cn } from '@/lib/utils';
 import { submitDemoRequest, type DemoRequestState } from './actions';
 
 /**
- * Le formulaire commercial — la seule destination de tous les appels a
- * l'action de la page.
- *
- * DEUX ANCRES, UNE SEULE SECTION
+ * Le formulaire commercial — la destination de tous les appels a l'action.
  *
  * #demo est portee par la section, #contact par un repere pose juste dessous.
  * Les deux amenent au meme endroit, mais le fragment d'URL pre-selectionne
  * l'intention : quelqu'un qui a clique « parler a notre equipe » ne doit pas
- * trouver « demander une demo » coche a l'arrivee, sous peine de croire qu'il
- * s'est trompe de bouton. L'intention part en base avec la demande, ce qui
- * permettra de savoir lequel des deux libelles amene des rendez-vous.
+ * trouver « demander une demo » coche a l'arrivee. L'intention part en base
+ * avec la demande.
  *
- * CE QUI A CHANGE, ET POURQUOI
- *
- * Le formulaire etait une carte centree : six champs a la suite, un bouton, un
- * point final. Il fonctionnait, mais il ne repondait pas a la question qui
- * retient le doigt au-dessus du bouton — « qu'est-ce qui se passe si je
- * clique ». Trois corrections :
- *
- *   1. UNE COLONNE DE GAUCHE qui raconte la suite : qui lit, sous quel delai,
- *      ce qu'on prepare. Plus la phrase qui compte vraiment pour un acheteur
- *      sollicite dix fois par semaine — aucun compte cree, aucune sequence
- *      automatique, aucune revente.
- *   2. TROIS GROUPES DE CHAMPS (vous / votre organisation / votre besoin) au
- *      lieu d'une liste plate. Six champs d'affilee se lisent comme un
- *      questionnaire ; groupes, ils se lisent comme une conversation.
- *   3. DES ERREURS PAR CHAMP. Un message global obligeait le visiteur a
- *      relire les six champs pour deviner lequel coincait.
- *
- * AUCUN VISAGE DANS CETTE SECTION
- *
- * Les photographies de la page sont des banques d'images. Un visage pose sous
- * « notre equipe vous repond » designerait un employe de Deezy qui n'existe
- * pas. Les trois etapes sont donc portees par des pictogrammes.
- * Voir public/enterprise/SOURCES.md.
+ * AUCUN VISAGE DANS CETTE SECTION. Les photographies de la page viennent de
+ * banques d'images ; un visage sous « notre equipe vous repond » designerait
+ * un employe de Deezy qui n'existe pas. Les trois etapes sont donc portees par
+ * des pictogrammes. Voir public/enterprise/SOURCES.md.
  */
 export function EnterpriseDemoForm({
   locale,
@@ -66,21 +43,13 @@ export function EnterpriseDemoForm({
   const [intent, setIntent] = useState<'demo' | 'contact'>('demo');
 
   /*
-   * Horodatage de l'affichage, pose apres l'hydratation.
+   * Horodatage de l'affichage, pose apres l'hydratation — le filtre anti-robot
+   * du serveur ecarte les envois arrives en moins de trois secondes.
    *
-   * Il sert au filtre anti-robot du serveur : un envoi arrive moins de trois
-   * secondes apres est ecarte. Calcule ici plutot que rendu par le serveur,
-   * sinon une page mise en cache porterait un horodatage vieux de plusieurs
-   * heures et le filtre ne verrait plus jamais rien.
-   *
-   * NE PAS DEPLACER CE CALCUL DANS UN GESTIONNAIRE DE FOCUS.
-   *
-   * Le point de depart est le CHARGEMENT DE LA PAGE, pas le premier clic dans
-   * un champ. C'est ce qui rend le seuil sans danger : le visiteur a traverse
-   * la page avant d'arriver ici, il est a plusieurs minutes du depart. Reparti
-   * depuis la premiere frappe, le meme seuil ecarterait un formulaire rempli
-   * au remplissage automatique — et une demande commerciale ecartee est perdue
-   * en silence, ce qui coute infiniment plus cher qu'un message indesirable.
+   * NE PAS DEPLACER CE CALCUL DANS UN GESTIONNAIRE DE FOCUS : le point de
+   * depart est le CHARGEMENT DE LA PAGE, ce qui rend le seuil sans danger.
+   * Reparti depuis la premiere frappe, il ecarterait un formulaire rempli au
+   * remplissage automatique — et une demande ecartee est perdue en silence.
    */
   const [startedAt, setStartedAt] = useState(0);
   useEffect(() => setStartedAt(Date.now()), []);
@@ -106,7 +75,6 @@ export function EnterpriseDemoForm({
 
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
         <div className={splitGrid}>
-          {/* -------- Ce qui se passe ensuite -------- */}
           <Reveal className={splitMain}>
             <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
               {t.eyebrow}
@@ -142,13 +110,11 @@ export function EnterpriseDemoForm({
               })}
             </ol>
 
-            {/* La phrase que lit un acheteur sollicite dix fois par semaine. */}
             <p className="text-muted-foreground border-brand/30 mt-8 border-l-2 pl-4 text-sm leading-relaxed text-pretty">
               {t.noSpam}
             </p>
           </Reveal>
 
-          {/* -------- Le formulaire -------- */}
           <Reveal delay={120} className={splitAside}>
             {state.ok ? (
               <div className="bg-card flex flex-col items-center rounded-2xl border p-10 text-center shadow-sm">
@@ -191,9 +157,8 @@ export function EnterpriseDemoForm({
                   />
                 </div>
 
-                {/* L'intention, en premier : c'est la seule decision du
-                    formulaire, les six champs qui suivent n'en sont que la
-                    consequence. */}
+                {/* L'intention d'abord : c'est la seule decision du
+                    formulaire, les six champs n'en sont que la consequence. */}
                 <fieldset>
                   <legend className="sr-only">{t.intentLabel}</legend>
                   <div className="grid grid-cols-2 gap-3">
@@ -268,13 +233,9 @@ export function EnterpriseDemoForm({
                     hint={t.optional}
                     className="sm:col-span-2"
                   >
-                    {/*
-                      <select> natif plutot qu'un menu construit : il n'existe
-                      pas de composant de selection dans le depot, et un menu
-                      maison serait moins bon au clavier et sur telephone qu'un
-                      selecteur du systeme. Le chevron est dessine par-dessus,
-                      l'apparence native etant retiree.
-                    */}
+                    {/* <select> natif : un menu maison serait moins bon au
+                        clavier et sur telephone. Le chevron est dessine
+                        par-dessus, l'apparence native retiree. */}
                     <div className="relative">
                       <select
                         id="industry"
@@ -348,11 +309,8 @@ export function EnterpriseDemoForm({
 }
 
 /**
- * Une des deux intentions, presentee comme un choix et non comme un reglage.
- *
- * `role="radio"` plutot que deux boutons : c'est un choix exclusif, et un
- * lecteur d'ecran doit l'annoncer comme tel. La valeur retenue part dans un
- * champ cache du formulaire.
+ * Une des deux intentions. `role="radio"` plutot qu'un bouton : c'est un choix
+ * exclusif, un lecteur d'ecran doit l'annoncer comme tel.
  */
 function IntentCard({
   label,

@@ -8,22 +8,15 @@ import { pairGrid, Section, SectionHeading } from '../section';
 /**
  * Gouvernance — ce que l'organisation garde en main.
  *
- * DEUX COLONNES PLUTOT QU'UNE LISTE, ET C'EST TOUT L'ENJEU
+ * DEUX COLONNES, ET C'EST L'ENJEU
  *
- * Le brief demandait d'annoncer, dans une meme liste, les sources de
- * connaissance, le ton, les sujets autorises, les regles d'escalade et le
- * transfert humain. Or la premiere moitie se regle aujourd'hui depuis le
- * tableau de bord, et l'autre n'existe pas encore comme reglage produit : le
- * prompt systeme est fixe dans lib/rag.ts, et la table `bots` ne porte ni ton,
- * ni sujets, ni regles d'escalade.
+ * La premiere moitie des reglages se pilote depuis le tableau de bord ; la
+ * seconde n'existe pas encore comme reglage produit — le prompt systeme est
+ * fixe dans lib/rag.ts, et la table `bots` ne porte ni ton, ni sujets, ni
+ * regles d'escalade. Les melanger produirait une liste dont la moitie
+ * tomberait au premier essai.
  *
- * Les melanger aurait produit une liste dont la moitie serait tombee au
- * premier essai. Les separer transforme la meme information en methode de
- * travail : voila ce que vous reglez seul, voila ce que nous reglons ensemble.
- * C'est plus credible, et c'est vrai.
- *
- * A DEPLACER LE JOUR OU CE SERA LIVRE : une ligne passe de `setup` a `now`
- * quand le reglage correspondant existe dans le produit, pas avant.
+ * Une ligne passe de `setup` a `now` le jour ou le reglage existe, pas avant.
  */
 export function EnterpriseControl({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.control;

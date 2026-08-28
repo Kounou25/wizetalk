@@ -33,34 +33,16 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
 /**
  * Cartes sectorielles.
  *
- * POURQUOI CES PHOTOGRAPHIES ONT MIS DU TEMPS A EXISTER
+ * Les photographies montrent des PERSONNES EN SITUATION, jamais un lieu
+ * identifiable : une devanture de banque reelle sur cette page laisserait
+ * entendre que cette banque est cliente. Toute photo portant une enseigne est
+ * ecartee — voir public/enterprise/SOURCES.md.
  *
- * Une premiere recherche avait ete abandonnee : les photos de banque, de
- * telecom et d'universite disponibles montraient presque toutes une enseigne
- * reelle — HSBC, ING, Ecobank, BBVA, Leeds Beckett University. Sur une page
- * qui s'adresse aux banques, une devanture HSBC laisserait entendre que HSBC
- * est cliente de Deezy : exactement le genre d'affirmation que le reste de la
- * page se refuse a faire.
- *
- * Les six retenues montrent donc des PERSONNES EN SITUATION, jamais un lieu
- * identifiable : quelqu'un consulte un dossier, deux collegues regardent un
- * telephone, des eleves rejoignent leur etablissement. Aucune enseigne, aucun
- * logo, aucune legende qui pretendrait a une relation client.
- *
- * L'ICONE RESTE, SOUS LA PHOTO
- *
- * Elle survit a un fichier manquant, elle porte la couleur de marque, et elle
- * donne a la grille une regularite que six photographies d'origines
- * differentes n'auraient pas produite seules.
- *
- * LES DEUX AVERTISSEMENTS EN BAS SONT DES ENGAGEMENTS, PAS DES MENTIONS
- * LEGALES DECORATIVES
- *
- * Une banque qui lit « assistant IA » pense d'abord acces aux comptes ; un
- * etablissement de sante pense conseil medical. Les deux lignes repondent a
- * ces deux craintes a l'endroit exact ou elles naissent — sous les cartes qui
- * les provoquent — plutot que dans une FAQ que la moitie des lecteurs
- * n'atteindra pas.
+ * Les deux avertissements du bas sont des engagements, pas des mentions
+ * decoratives : une banque qui lit « assistant IA » pense d'abord acces aux
+ * comptes, un etablissement de sante pense conseil medical. Ils repondent a
+ * ces craintes sous les cartes qui les provoquent, plutot que dans une FAQ que
+ * la moitie des lecteurs n'atteindra pas.
  */
 export function EnterpriseUseCases({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.useCases;
@@ -77,17 +59,13 @@ export function EnterpriseUseCases({ dict }: { dict: Dictionary }) {
             <Reveal key={item.key} delay={index * 70}>
               <article className="bg-card panel-interactive flex h-full flex-col overflow-hidden rounded-xl border">
                 {/* Hauteur fixe : six cadrages differents aligneraient sinon
-                    leurs titres a six hauteurs differentes, et la grille
-                    perdrait la regularite qui la rend lisible d'un coup. */}
+                    les titres a six hauteurs differentes. */}
                 <div className="bg-muted relative h-40 shrink-0">
                   <Image
                     src={`/enterprise/sector-${item.key}.jpg`}
                     alt={item.photoAlt}
                     fill
                     className="object-cover"
-                    // Trois colonnes au-dela de lg, deux a partir de sm, une
-                    // seule en dessous : sans cette indication, le navigateur
-                    // telecharge la variante pleine largeur sur un telephone.
                     sizes="(min-width: 1024px) 352px, (min-width: 640px) 50vw, 100vw"
                   />
                 </div>

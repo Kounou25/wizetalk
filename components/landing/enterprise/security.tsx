@@ -7,24 +7,13 @@ import { Section, SectionHeading } from '../section';
 /**
  * Securite et confidentialite.
  *
- * AUCUN BADGE DE CONFORMITE, ET LA NOTE LE DIT
+ * NE PAS AJOUTER DE BADGE DE CONFORMITE SANS L'ATTESTATION EN MAIN.
  *
- * C'est la section ou la tentation d'aligner SOC 2, ISO 27001, RGPD et PCI DSS
- * est la plus forte, et ou le mensonge coute le plus cher : la premiere
- * organisation qui demande l'attestation decouvre qu'elle n'existe pas, et
- * l'affaire s'arrete la — avec un souvenir durable.
- *
- * Ce qui est affirme ici tient a l'architecture du produit, pas a un audit :
- * l'assistant public ne connait que les contenus indexes, il n'a aucun acces
- * aux systemes du client, et le perimetre indexe est decide par le client. Ces
- * trois faits sont verifiables dans le code et suffisent a repondre a la
- * crainte reelle du lecteur.
- *
- * La note transforme l'absence de certification en position : nous ne
- * revendiquons rien que nous n'ayons. C'est la seule phrase de la page qu'un
- * concurrent ne peut pas recopier sans risque.
- *
- * NE PAS AJOUTER DE BADGE ICI SANS L'ATTESTATION CORRESPONDANTE EN MAIN.
+ * SOC 2, ISO 27001, RGPD, PCI DSS : la premiere organisation qui demande
+ * l'attestation decouvrirait qu'elle n'existe pas, et l'affaire s'arreterait
+ * la. Ce qui est affirme ici tient a l'architecture — l'assistant public ne
+ * connait que les contenus indexes, le perimetre est decide par le client —
+ * et se verifie dans le code.
  */
 export function EnterpriseSecurity({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.security;

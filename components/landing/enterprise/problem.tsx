@@ -8,25 +8,11 @@ import { Section, SectionHeading } from '../section';
 /**
  * Le probleme, vu du visiteur puis vu de l'organisation.
  *
- * L'ordre compte. Le parcours que subit le visiteur est montre d'abord, sous
- * forme de chaine : c'est ce que le lecteur reconnait immediatement pour
- * l'avoir vecu ailleurs. Les consequences ne viennent qu'ensuite, parce
- * qu'elles ne coutent quelque chose que si l'on a d'abord accepte le parcours.
+ * Le parcours subi est montre en chaine : c'est ce que le lecteur reconnait
+ * pour l'avoir vecu ailleurs.
  *
  * Aucun chiffre. Un « 68 % des visiteurs abandonnent » non source serait la
- * ligne la plus attaquable de la page, et la premiere qu'un acheteur
- * demanderait a justifier.
- *
- * LA PHOTOGRAPHIE PORTE CE QUE LE TEXTE NE PEUT PAS DIRE
- *
- * Le reste de la section est une mecanique : une chaine d'etapes, quatre
- * consequences. Elle explique le probleme, elle ne le fait pas ressentir. La
- * bande photographique remet la personne au debut du raisonnement — c'est
- * quelqu'un qui cherche une reponse sur son telephone, pas un « visiteur ».
- *
- * Elle illustre un CLIENT du lecteur, jamais un client de Deezy : aucune
- * legende, aucun nom, aucune marque d'entreprise identifiable a l'image.
- * Voir public/enterprise/SOURCES.md.
+ * ligne la plus attaquable de la page.
  */
 export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.problem;
@@ -36,9 +22,6 @@ export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
       <Reveal delay={60}>
-        {/* Bande large plutot que vignette : a cette place, l'image ouvre la
-            section, elle ne la decore pas. Le degrade en pied fond la photo
-            dans la page au lieu de la poser dessus comme un autocollant. */}
         <div className="relative mt-12 h-48 overflow-hidden rounded-2xl sm:h-60 md:h-72">
           <Image
             src="/enterprise/customer-question.jpg"
@@ -73,14 +56,6 @@ export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
         </ol>
       </Reveal>
 
-      {/*
-        Les quatre cartes « ce que cela produit » ont ete retirees : elles
-        redisaient la chaine ci-dessus en la commentant. Frustration, abandon,
-        demandes repetitives et opportunites perdues sont ce que le lecteur
-        DEDUIT en lisant les cinq etapes — le lui expliquer ensuite le prenait
-        pour un lecteur distrait, et ajoutait une rangee de blocs a une page
-        deja trop longue. Les textes restent dans le dictionnaire.
-      */}
       <Reveal delay={200}>
         <p className="mx-auto mt-12 flex max-w-2xl items-start justify-center gap-2.5 text-center text-lg font-medium text-balance">
           <ArrowRight className="text-brand mt-1.5 size-5 shrink-0" aria-hidden />

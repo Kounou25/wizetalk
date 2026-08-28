@@ -4,26 +4,17 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 /**
- * Le couple d'appels a l'action de la page Enterprise.
+ * Le couple d'appels a l'action de la page.
  *
- * DEUX LIBELLES, DEUX ANCRES, UN SEUL FORMULAIRE
- *
- * « Demander une demo » pointe sur #demo, « Parler a notre equipe » sur
+ * « Demander une demo » pointe sur #demo, « parler a notre equipe » sur
  * #contact. Les deux ancres vivent dans la meme section : le formulaire lit le
- * fragment d'URL et pre-selectionne l'intention correspondante.
+ * fragment d'URL et pre-selectionne l'intention, qui part ensuite en base —
+ * c'est ainsi qu'on saura lequel des deux libelles amene des rendez-vous.
  *
- * L'interet n'est pas cosmetique. L'intention part en base avec la demande,
- * donc on saura lequel des deux libelles amene reellement des rendez-vous —
- * ce qu'un bouton unique, ou deux boutons menant a la meme page neutre,
- * rendrait impossible a mesurer.
- *
- * `lead` DIT LEQUEL EST MIS EN AVANT, PAS LEQUEL EST AFFICHE
- *
- * Le heros pousse la demo, la section benefices pousse le contact commercial.
- * Les deux boutons restent les memes, seule leur hierarchie change — et
- * surtout, l'ancre reste attachee au LIBELLE, jamais a la position. Sans cette
- * distinction, inverser l'ordre des boutons enverrait « Parler a notre
- * equipe » sur l'ancre de la demo, et l'intention enregistree serait fausse.
+ * `lead` change la hierarchie visuelle, jamais l'association ancre/libelle :
+ * sans cette distinction, inverser l'ordre des boutons enverrait « parler a
+ * notre equipe » sur l'ancre de la demo, et l'intention enregistree serait
+ * fausse.
  */
 export function EnterpriseCta({
   demoLabel,

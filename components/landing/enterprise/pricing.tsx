@@ -8,22 +8,14 @@ import { Section, SectionHeading } from '../section';
 /**
  * Tarification Enterprise — sans tarif.
  *
- * POURQUOI AUCUN MONTANT N'APPARAIT ICI
+ * Un « a partir de 999 $ » ecarterait les organisations dont le perimetre
+ * justifie davantage, et ancrerait un prix plancher dans toutes les
+ * negociations suivantes. La liste montre CE QUI DETERMINE le prix, ce qui
+ * permet au lecteur d'estimer son ordre de grandeur.
  *
- * Un « a partir de 999 $ » ferait deux degats a la fois : il ecarterait les
- * organisations dont le perimetre justifie davantage, et il ancrerait un prix
- * plancher dans toutes les negociations suivantes. La page de tarifs de Deezy
- * Business affiche des prix parce qu'ils sont fixes chez le prestataire de
- * paiement ; ici, rien n'est fixe avant le cadrage.
- *
- * La liste remplace la grille : elle montre CE QUI DETERMINE le prix, ce qui
- * permet au lecteur d'estimer seul son ordre de grandeur et de venir avec les
- * bonnes informations. C'est plus utile qu'un montant qu'il faudrait
- * renegocier des le premier appel.
- *
- * Consequence a ne pas oublier : le balisage schema.org de cette page ne
- * declare aucune `offers` chiffree. Annoncer un prix aux moteurs alors que la
- * page n'en montre pas serait une fausse declaration.
+ * Corollaire : le balisage schema.org de cette page ne declare aucune `offers`
+ * chiffree. Annoncer un prix aux moteurs quand la page n'en montre pas serait
+ * une fausse declaration.
  */
 export function EnterprisePricing({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.pricing;

@@ -15,30 +15,16 @@ import { EnterpriseCta } from './cta';
 /**
  * Le deroule d'un deploiement, en cinq etapes.
  *
- * C'est la section qui vend reellement l'offre Enterprise.
- *
- * Un acheteur de banque ou d'assurance n'achete pas une fonctionnalite, il
- * achete un risque maitrise : il doit pouvoir expliquer en comite comment le
- * projet se deroule, ou il s'arrete si les resultats ne suivent pas, et ce
- * qu'il aura vu avant de s'engager plus loin. L'etape 03 — le pilote sur
- * perimetre controle — est la reponse a cette question, et c'est la raison
- * pour laquelle la page ne promet aucun chiffre ailleurs : le pilote est
- * l'endroit ou le chiffre se mesure, chez lui.
- *
- * DEUX COLONNES, ET UNE PHOTOGRAPHIE PLUTOT QU'UN PICTOGRAMME
- *
- * Ces cinq etapes decrivent du travail fait par des gens : un cadrage, un
- * atelier, une revue de conversations. Une colonne de texte seule les faisait
- * lire comme les conditions generales d'un contrat. La photographie dit ce que
- * la liste ne dit pas — qu'il y a quelqu'un en face, et que le deploiement est
- * accompagne, ce qui est precisement ce qu'achete une grande organisation.
+ * C'est la section qui vend l'offre Enterprise : un acheteur de banque ou
+ * d'assurance n'achete pas une fonctionnalite, il achete un risque maitrise.
+ * L'etape 03 — le pilote sur perimetre controle — est la reponse a « ou est-ce
+ * que ca s'arrete si les resultats ne suivent pas ». C'est aussi pourquoi la
+ * page ne promet aucun chiffre ailleurs : le pilote est l'endroit ou le
+ * chiffre se mesure, chez le client.
  *
  * L'image est `sticky` sur grand ecran : elle reste en vis-a-vis pendant que
- * les etapes defilent, au lieu de disparaitre des la deuxieme.
- *
- * Elle illustre une seance de travail, sans legende ni nom : ce ne sont ni des
- * employes de Deezy ni des clients identifies. Voir
- * public/enterprise/SOURCES.md.
+ * les etapes defilent. Elle illustre une seance de travail, sans legende ni
+ * nom — voir public/enterprise/SOURCES.md.
  */
 export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
   const t = dict.enterprise.workflow;
@@ -61,7 +47,7 @@ export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
         </Reveal>
 
         <ol className={cn(splitAside, 'relative')}>
-          {/* Le fil : il s'arrete a la derniere pastille, sinon il pend sous la
+          {/* Le fil s'arrete a la derniere pastille, sinon il pend sous la
               liste comme une etape manquante. */}
           <span
             className="bg-border absolute top-5 bottom-5 left-[19px] w-px md:left-[23px]"
@@ -88,13 +74,6 @@ export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
         </ol>
       </div>
 
-      {/*
-        « Passage a l'echelle » etait une section a elle seule : six mots et une
-        phrase. Isolee, elle faisait une station de plus dans une page qui en
-        comptait deja vingt. Ramenee ici, elle repond a la question que la
-        methode vient de poser — « et apres le pilote, ca va jusqu'ou ? » —
-        au lieu de la poser une seconde fois ailleurs.
-      */}
       <Reveal delay={180}>
         <div className="mt-14 border-t pt-10">
           <p className="text-center text-lg font-medium text-balance">
