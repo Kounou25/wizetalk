@@ -286,31 +286,37 @@ export const enterpriseEn: EnterpriseDictionary = {
     items: [
       {
         key: 'banking',
+        photoAlt: 'East African coins',
         title: 'Banking',
         body: 'Help visitors understand products, procedures, fees and account-opening requirements.',
       },
       {
         key: 'insurance',
+        photoAlt: 'A woman reviewing a file on her laptop',
         title: 'Insurance',
         body: 'Make policies, products and procedures easier to understand.',
       },
       {
         key: 'telecom',
+        photoAlt: 'Two people looking at a phone screen together',
         title: 'Telecom',
         body: 'Help customers find plans, services, pricing and support information instantly.',
       },
       {
         key: 'education',
+        photoAlt: 'Students walking to their school',
         title: 'Education',
         body: 'Answer questions about admissions, programs, tuition and student services.',
       },
       {
         key: 'healthcare',
+        photoAlt: 'A healthcare professional reading a file',
         title: 'Healthcare',
         body: 'Help visitors find services, schedules and general information faster.',
       },
       {
         key: 'enterprise',
+        photoAlt: 'An employee on the phone in their office',
         title: 'Enterprise',
         body: 'Make complex websites easier to navigate and easier to understand.',
       },
@@ -576,6 +582,33 @@ export const enterpriseEn: EnterpriseDictionary = {
     messagePlaceholder:
       'How many visitors do you get? Which questions come up most often?',
     optional: 'optional',
+
+    groupYou: 'You',
+    groupOrg: 'Your organization',
+    groupNeed: 'Your needs',
+
+    nextTitle: 'What happens next',
+    nextSteps: [
+      {
+        title: 'We read your request',
+        body: 'A person on the team, not an automated routing rule.',
+      },
+      {
+        title: 'We get back to you within one business day',
+        body: 'At the work address you provide here.',
+      },
+      {
+        title: 'We prepare a demo on your own scope',
+        body: 'Built from your website and the questions your visitors ask most.',
+      },
+    ],
+    noSpam:
+      'No account is created, no automated email sequence is triggered, and your details are not passed on to anyone.',
+
+    errorName: 'Please enter your full name.',
+    errorEmail: 'This email address doesn’t look valid.',
+    errorCompany: 'Please enter your organization’s name.',
+
     submit: 'Send my request',
     submitting: 'Sending…',
     privacy:

@@ -6,7 +6,7 @@ faudra retirer le jour où quelqu'un le demande.
 
 ## Origine
 
-Les cinq viennent de **Pexels**, sous [licence Pexels](https://www.pexels.com/license/) :
+Les onze viennent de **Pexels**, sous [licence Pexels](https://www.pexels.com/license/) :
 usage commercial autorisé, aucune attribution requise, aucune redevance.
 
 | Fichier | Photo Pexels | Dimensions | Cadrage | Où |
@@ -16,24 +16,36 @@ usage commercial autorisé, aucune attribution requise, aucune redevance.
 | `agent-1.jpg` | [5467593](https://www.pexels.com/photo/5467593/) | 200 × 200 | `fit=crop&crop=top` | Relais humain — pile de portraits |
 | `agent-2.jpg` | [5453819](https://www.pexels.com/photo/5453819/) | 200 × 200 | `fit=crop&crop=center` | Relais humain — pile de portraits |
 | `working-session.jpg` | [2977547](https://www.pexels.com/photo/2977547/) | 900 × 1100 | `fit=crop` | Section « Un déploiement en cinq étapes » |
+| `sector-banking.jpg` | [15049146](https://www.pexels.com/photo/15049146/) | 640 × 400 | `fit=crop` | Carte secteur — Banque |
+| `sector-insurance.jpg` | [10375960](https://www.pexels.com/photo/10375960/) | 640 × 400 | `fit=crop` | Carte secteur — Assurance |
+| `sector-telecom.jpg` | [12179674](https://www.pexels.com/photo/12179674/) | 640 × 400 | `fit=crop` | Carte secteur — Télécoms |
+| `sector-education.jpg` | [19344119](https://www.pexels.com/photo/19344119/) | 640 × 400 | `fit=crop` | Carte secteur — Éducation |
+| `sector-healthcare.jpg` | [19131211](https://www.pexels.com/photo/19131211/) | 640 × 400 | `fit=crop&crop=top` | Carte secteur — Santé |
+| `sector-enterprise.jpg` | [10376240](https://www.pexels.com/photo/10376240/) | 640 × 400 | `fit=crop` | Carte secteur — Grandes entreprises |
 
 Les cadrages ont été choisis après avoir regardé chaque résultat : `crop=faces`,
 pourtant prévu pour cela, décentrait les visages sur les portraits.
 
-## Pourquoi il n'y a pas de photo sur les cartes sectorielles
+## Les cartes sectorielles : ce qui a été écarté avant d'arriver là
 
-C'est la section qui en profiterait le plus, et c'est celle où la recherche
-échoue. Les photographies de banque, de télécom et d'université disponibles
-montrent presque toutes une **enseigne réelle** — HSBC, ING, Cajamar,
-Leeds Beckett University ont été écartées pour cette raison. Sur une page qui
-s'adresse aux banques, une devanture HSBC laisserait entendre que HSBC est
-cliente de Deezy. Le reste des résultats était hors sujet : téléphones à cadran,
-graphiques boursiers, panneaux « FOR SALE ».
+Une première recherche avait échoué. Les photographies de banque, de télécom et
+d'université disponibles montrent presque toutes une **enseigne réelle** :
+HSBC, ING, Cajamar, Ecobank, BBVA et Leeds Beckett University ont toutes été
+rejetées. Sur une page qui s'adresse aux banques, une devanture HSBC laisserait
+entendre que HSBC est cliente de Deezy — la même faute que d'inventer un
+témoignage. Le reste des résultats était hors sujet : téléphones à cadran,
+graphiques boursiers, panneaux « FOR SALE », scènes de marché, distributions
+humanitaires photographiées devant le logo d'une ONG.
 
-Une grille où deux cartes sur six portent une photo se lit comme une grille
-cassée, pas comme une grille illustrée. Les six pictogrammes restent donc en
-place jusqu'à ce que six photographies propres existent — ou, mieux, des
-captures de vrais assistants déployés chez des clients.
+Les six retenues montrent donc des **personnes en situation**, jamais un lieu
+identifiable, et cinq des six ont des sujets africains — la cible principale de
+l'offre. La banque fait exception : aucune scène de service bancaire propre
+n'est ressortie, la carte porte donc des pièces est-africaines. C'est la seule
+des six sans visage, et c'est un compromis assumé, pas un oubli.
+
+Chaque carte garde son pictogramme sous la photo : il survit à un fichier
+manquant, il porte la couleur de marque, et il donne à la grille une régularité
+que six photographies d'origines différentes n'auraient pas produite seules.
 
 ## Marques incidentes
 

@@ -315,31 +315,37 @@ export const enterpriseFr = {
     items: [
       {
         key: 'banking',
+        photoAlt: 'Des pièces de monnaie est-africaines',
         title: 'Banque',
         body: 'Aidez vos visiteurs à comprendre vos produits, vos procédures, vos frais et les conditions d’ouverture de compte.',
       },
       {
         key: 'insurance',
+        photoAlt: 'Une femme consulte un dossier sur son ordinateur portable',
         title: 'Assurance',
         body: 'Rendez vos contrats, vos garanties et vos démarches plus faciles à comprendre.',
       },
       {
         key: 'telecom',
+        photoAlt: 'Deux personnes regardent ensemble l’écran d’un téléphone',
         title: 'Télécoms',
         body: 'Permettez à vos clients de trouver instantanément forfaits, services, tarifs et informations de support.',
       },
       {
         key: 'education',
+        photoAlt: 'Des élèves rejoignent leur établissement',
         title: 'Éducation',
         body: 'Répondez aux questions sur les admissions, les programmes, les frais de scolarité et la vie étudiante.',
       },
       {
         key: 'healthcare',
+        photoAlt: 'Une professionnelle de santé consulte un dossier',
         title: 'Santé',
         body: 'Aidez vos visiteurs à trouver plus vite vos services, vos horaires et vos informations générales.',
       },
       {
         key: 'enterprise',
+        photoAlt: 'Un collaborateur au téléphone dans son bureau',
         title: 'Grandes entreprises',
         body: 'Rendez un site complexe plus simple à parcourir, et vos informations plus simples à comprendre.',
       },
@@ -615,6 +621,40 @@ export const enterpriseFr = {
     messagePlaceholder:
       'Combien de visiteurs recevez-vous ? Quelles questions reviennent le plus souvent ?',
     optional: 'facultatif',
+
+    /* Intitules des trois groupes de champs. Un formulaire de six champs poses
+       a la suite se lit comme un questionnaire ; groupes, il se lit comme une
+       conversation qui avance. */
+    groupYou: 'Vous',
+    groupOrg: 'Votre organisation',
+    groupNeed: 'Votre besoin',
+
+    /* Colonne de gauche : elle repond a « qu'est-ce qui se passe si je clique »,
+       la question qui retient le doigt au-dessus du bouton. */
+    nextTitle: 'Ce qui se passe ensuite',
+    nextSteps: [
+      {
+        title: 'Nous lisons votre demande',
+        body: 'Une personne de l’équipe, pas un routage automatique.',
+      },
+      {
+        title: 'Nous revenons vers vous sous un jour ouvré',
+        body: 'À l’adresse professionnelle que vous indiquez ci-contre.',
+      },
+      {
+        title: 'Nous préparons une démonstration sur votre périmètre',
+        body: 'À partir de votre site et des questions que vos visiteurs posent le plus.',
+      },
+    ],
+    noSpam:
+      'Aucun compte n’est créé, aucune séquence d’e-mails automatique n’est déclenchée, et vos coordonnées ne sont transmises à personne.',
+
+    /* Messages d'erreur par champ. Un seul message global obligeait le
+       visiteur a relire les six champs pour trouver lequel coincait. */
+    errorName: 'Indiquez votre nom et prénom.',
+    errorEmail: 'Cette adresse e-mail ne semble pas valide.',
+    errorCompany: 'Indiquez le nom de votre organisation.',
+
     submit: 'Envoyer ma demande',
     submitting: 'Envoi…',
     privacy:

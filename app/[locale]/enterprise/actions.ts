@@ -31,7 +31,16 @@ import { createAdminClient } from '@/lib/supabase/admin';
 /** Ce que le formulaire rend au client. */
 export interface DemoRequestState {
   ok?: boolean;
+  /** Panne d'enregistrement : rien a corriger cote visiteur. */
   error?: string;
+  /**
+   * Erreurs de saisie, par nom de champ.
+   *
+   * Un message global obligeait le visiteur a relire les six champs pour
+   * deviner lequel coincait. Ici l'erreur s'affiche sous le champ fautif, et
+   * `aria-invalid` la rend audible pour un lecteur d'ecran.
+   */
+  fieldErrors?: Partial<Record<'fullName' | 'email' | 'company', string>>;
 }
 
 const INDUSTRIES = [
@@ -45,18 +54,31 @@ const INDUSTRIES = [
   'other',
 ] as const;
 
-const payload = z.object({
-  intent: z.enum(['demo', 'contact']).catch('demo'),
-  fullName: z.string().trim().min(2).max(120),
-  email: z.email().max(200),
-  company: z.string().trim().min(2).max(160),
-  /* Le site est facultatif, et volontairement pas contraint a une URL : on
-     recoit « banque-exemple.com » aussi souvent que l'adresse complete, et
-     refuser la premiere forme ferait perdre la demande pour un slash. */
-  website: z.string().trim().max(200).optional(),
-  industry: z.enum(INDUSTRIES).optional(),
-  message: z.string().trim().max(4000).optional(),
-});
+/**
+ * Le schema est construit par requete, pas au chargement du module.
+ *
+ * Les messages viennent du dictionnaire : ils doivent donc etre resolus dans
+ * la langue de la page, que seul l'appel connait. Un schema fige au niveau du
+ * module renverrait un message francais a un visiteur anglophone.
+ */
+function schemaFor(t: {
+  errorName: string;
+  errorEmail: string;
+  errorCompany: string;
+}) {
+  return z.object({
+    intent: z.enum(['demo', 'contact']).catch('demo'),
+    fullName: z.string().trim().min(2, t.errorName).max(120, t.errorName),
+    email: z.email(t.errorEmail).max(200, t.errorEmail),
+    company: z.string().trim().min(2, t.errorCompany).max(160, t.errorCompany),
+    /* Le site est facultatif, et volontairement pas contraint a une URL : on
+       recoit « banque-exemple.com » aussi souvent que l'adresse complete, et
+       refuser la premiere forme ferait perdre la demande pour un slash. */
+    website: z.string().trim().max(200).optional(),
+    industry: z.enum(INDUSTRIES).optional(),
+    message: z.string().trim().max(4000).optional(),
+  });
+}
 
 /**
  * Delai minimal entre l'affichage du formulaire et son envoi.
@@ -92,7 +114,7 @@ export async function submitDemoRequest(
     return { ok: true };
   }
 
-  const parsed = payload.safeParse({
+  const parsed = schemaFor(t).safeParse({
     intent: String(formData.get('intent') ?? 'demo'),
     fullName: String(formData.get('fullName') ?? ''),
     email: String(formData.get('email') ?? ''),
@@ -102,7 +124,22 @@ export async function submitDemoRequest(
     message: String(formData.get('message') ?? '') || undefined,
   });
 
-  if (!parsed.success) return { error: t.errorGeneric };
+  if (!parsed.success) {
+    // Une seule erreur par champ : la premiere suffit a corriger la saisie.
+    const fieldErrors: DemoRequestState['fieldErrors'] = {};
+    for (const issue of parsed.error.issues) {
+      const field = issue.path[0];
+      if (field === 'fullName' || field === 'email' || field === 'company') {
+        fieldErrors[field] ??= issue.message;
+      }
+    }
+
+    // Un echec qui ne porte sur aucun champ affichable (intent bricole, champ
+    // hors schema) n'a rien a montrer sous un libelle : il repart en global.
+    return Object.keys(fieldErrors).length > 0
+      ? { fieldErrors }
+      : { error: t.errorGeneric };
+  }
 
   const data = parsed.data;
   const db = createAdminClient();
