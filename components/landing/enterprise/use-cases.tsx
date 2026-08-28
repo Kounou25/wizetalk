@@ -47,7 +47,7 @@ export function EnterpriseUseCases({ dict }: { dict: Dictionary }) {
     <Section id="cas-usage" tone="muted">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {t.items.map((item, index) => {
           const Icon = ICONS[item.key] ?? Building2;
 

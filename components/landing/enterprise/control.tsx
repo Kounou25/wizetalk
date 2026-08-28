@@ -2,7 +2,8 @@ import { Check, SlidersHorizontal, Users } from 'lucide-react';
 
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import { pairGrid, Section, SectionHeading } from '../section';
 
 /**
  * Gouvernance — ce que l'organisation garde en main.
@@ -31,7 +32,7 @@ export function EnterpriseControl({ dict }: { dict: Dictionary }) {
     <Section tone="muted">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-2">
+      <div className={cn(pairGrid, 'mt-14')}>
         <Reveal>
           <div className="bg-card h-full rounded-2xl border p-6 md:p-7">
             <div className="flex items-center gap-2.5">

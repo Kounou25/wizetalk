@@ -2,7 +2,8 @@ import { FileText, Globe, Mail } from 'lucide-react';
 
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import { pairGrid, Section, SectionHeading } from '../section';
 
 const AVAILABLE_ICONS = [Globe, FileText, Mail];
 
@@ -33,7 +34,7 @@ export function EnterpriseIntegrations({ dict }: { dict: Dictionary }) {
     <Section tone="muted">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className={cn(pairGrid, 'mt-14')}>
         <Reveal>
           <div className="bg-card h-full rounded-2xl border p-6 md:p-7">
             <p className="text-brand text-xs font-semibold tracking-widest uppercase">

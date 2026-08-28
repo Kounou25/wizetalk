@@ -2,7 +2,14 @@ import { Check } from 'lucide-react';
 
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import {
+  Section,
+  SectionHeading,
+  splitAside,
+  splitGrid,
+  splitMain,
+} from '../section';
 
 /**
  * Fiabilite des reponses — la section decisive de la page.
@@ -27,8 +34,8 @@ export function EnterpriseGrounded({ dict }: { dict: Dictionary }) {
 
   return (
     <Section>
-      <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        <div>
+      <div className={splitGrid}>
+        <div className={splitMain}>
           <SectionHeading
             eyebrow={t.eyebrow}
             title={t.title}
@@ -43,7 +50,7 @@ export function EnterpriseGrounded({ dict }: { dict: Dictionary }) {
           </Reveal>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className={cn(splitAside, 'grid gap-6 sm:grid-cols-2')}>
           {t.points.map((point, index) => (
             <Reveal key={point.title} delay={index * 80}>
               <div className="bg-card h-full rounded-xl border p-5">

@@ -3,7 +3,14 @@ import { ArrowRight, Check } from 'lucide-react';
 import { Reveal } from '@/components/reveal';
 import { Badge } from '@/components/ui/badge';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import {
+  Section,
+  SectionHeading,
+  splitAside,
+  splitGrid,
+  splitMain,
+} from '../section';
 
 /**
  * L'analyse des conversations, presentee comme du renseignement plutot que
@@ -29,8 +36,8 @@ export function EnterpriseAnalytics({ dict }: { dict: Dictionary }) {
 
   return (
     <Section tone="muted">
-      <div className="grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
-        <div>
+      <div className={cn(splitGrid, 'items-start')}>
+        <div className={splitMain}>
           <SectionHeading
             eyebrow={t.eyebrow}
             title={t.title}
@@ -55,7 +62,7 @@ export function EnterpriseAnalytics({ dict }: { dict: Dictionary }) {
           </Reveal>
         </div>
 
-        <Reveal delay={150}>
+        <Reveal delay={150} className={splitAside}>
           <div className="bg-card overflow-hidden rounded-2xl border shadow-xl">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b px-5 py-3.5">
               <div className="flex items-center gap-2.5">

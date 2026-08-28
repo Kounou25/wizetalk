@@ -38,7 +38,14 @@ export function EnterpriseHero({ dict }: { dict: Dictionary }) {
         className="bg-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[600px] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_0%,#000,transparent)]"
       />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 py-20 lg:grid-cols-[1.05fr_1fr] lg:py-28">
+      {/*
+        Colonnes 1-6 pour le texte, 7-12 pour la maquette — la meme ligne que
+        toutes les sections qui suivent. L'ancien 1.05fr/1fr n'appartenait a
+        aucun systeme : il « tombait bien » ici et ne repondait a rien ailleurs.
+        La gouttiere verticale reste plus large que l'horizontale, parce
+        qu'empiles sur telephone les deux blocs ont besoin de se detacher.
+      */}
+      <div className="mx-auto grid max-w-6xl items-center gap-x-6 gap-y-12 px-6 py-20 lg:grid-cols-2 lg:py-28">
         <Reveal>
           <span className="border-brand/20 bg-brand-soft text-brand inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold tracking-wide uppercase">
             {t.badge}

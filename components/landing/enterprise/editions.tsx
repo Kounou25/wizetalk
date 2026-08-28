@@ -33,7 +33,7 @@ export function EnterpriseEditions({
     <Section tone="muted">
       <SectionHeading title={t.title} lead={t.lead} />
 
-      <div className="mx-auto mt-12 grid max-w-4xl gap-5 md:grid-cols-2">
+      <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
         <Reveal>
           <div className="bg-card flex h-full flex-col rounded-2xl border p-6 md:p-7">
             <span className="bg-muted text-muted-foreground flex size-10 items-center justify-center rounded-xl">

@@ -3,7 +3,8 @@ import { Headset, Link2, Sparkles } from 'lucide-react';
 
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import { pairGrid, Section, SectionHeading } from '../section';
 
 /**
  * Relais humain : les deux chemins d'une conversation.
@@ -45,7 +46,7 @@ export function EnterpriseHandoff({ dict }: { dict: Dictionary }) {
     <Section>
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
-      <div className="mt-14 grid items-stretch gap-6 lg:grid-cols-2">
+      <div className={cn(pairGrid, 'mt-14 items-stretch')}>
         <Path
           icon={<Sparkles className="size-4" aria-hidden />}
           label={t.simpleLabel}
@@ -76,7 +77,7 @@ export function EnterpriseHandoff({ dict }: { dict: Dictionary }) {
         />
       </div>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {t.points.map((point, index) => (
           <Reveal key={point.title} delay={index * 70}>
             <div className="border-brand/30 h-full border-l-2 pl-4">
@@ -128,7 +129,7 @@ function Path({
   return (
     <Reveal delay={delay} className="h-full">
       <div className="bg-card flex h-full flex-col overflow-hidden rounded-2xl border">
-        <div className="bg-muted relative h-48 shrink-0 sm:h-56">{media}</div>
+        <div className="bg-muted relative h-48 shrink-0 sm:h-60">{media}</div>
 
         <div className="flex flex-1 flex-col p-6 md:p-7">
           <span

@@ -2,7 +2,14 @@ import { Globe } from 'lucide-react';
 
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import {
+  Section,
+  SectionHeading,
+  splitAside,
+  splitGrid,
+  splitMain,
+} from '../section';
 
 /**
  * Multilingue.
@@ -32,8 +39,8 @@ export function EnterpriseMultilingual({ dict }: { dict: Dictionary }) {
 
   return (
     <Section>
-      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <div>
+      <div className={cn(splitGrid, 'items-center')}>
+        <div className={splitMain}>
           <SectionHeading
             eyebrow={t.eyebrow}
             title={t.title}
@@ -62,7 +69,7 @@ export function EnterpriseMultilingual({ dict }: { dict: Dictionary }) {
           </Reveal>
         </div>
 
-        <Reveal delay={150}>
+        <Reveal delay={150} className={splitAside}>
           <div className="bg-card rounded-2xl border p-6 shadow-xl md:p-7">
             <div className="flex flex-col gap-3">
               {samples.map((sample) => (

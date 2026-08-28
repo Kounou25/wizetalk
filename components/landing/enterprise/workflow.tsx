@@ -2,7 +2,14 @@ import Image from 'next/image';
 
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import {
+  Section,
+  SectionHeading,
+  splitAside,
+  splitGrid,
+  splitMain,
+} from '../section';
 import { EnterpriseCta } from './cta';
 
 /**
@@ -40,20 +47,20 @@ export function EnterpriseWorkflow({ dict }: { dict: Dictionary }) {
     <Section tone="muted">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
-      <div className="mt-14 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
-        <Reveal>
+      <div className={cn(splitGrid, 'mt-14')}>
+        <Reveal className={splitMain}>
           <div className="relative h-72 overflow-hidden rounded-2xl sm:h-96 lg:sticky lg:top-28 lg:h-[30rem]">
             <Image
               src="/enterprise/working-session.jpg"
               alt={t.photoAlt}
               fill
               className="object-cover"
-              sizes="(min-width: 1024px) 40vw, 100vw"
+              sizes="(min-width: 1152px) 440px, (min-width: 1024px) 40vw, 100vw"
             />
           </div>
         </Reveal>
 
-        <ol className="relative">
+        <ol className={cn(splitAside, 'relative')}>
           {/* Le fil : il s'arrete a la derniere pastille, sinon il pend sous la
               liste comme une etape manquante. */}
           <span

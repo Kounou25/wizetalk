@@ -33,7 +33,7 @@ export function EnterpriseSecurity({ dict }: { dict: Dictionary }) {
     <Section id="securite" tone="dark">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} tone="dark" />
 
-      <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {t.points.map((point, index) => (
           <Reveal key={point.title} delay={index * 70}>
             <div className="h-full rounded-xl border border-white/10 bg-white/5 p-5">

@@ -28,7 +28,7 @@ export function EnterpriseValue({ dict }: { dict: Dictionary }) {
     <Section>
       <SectionHeading eyebrow={t.eyebrow} title={t.title} lead={t.lead} />
 
-      <div className="mt-14 grid gap-5 sm:grid-cols-2">
+      <div className="mt-14 grid gap-6 sm:grid-cols-2">
         {t.items.map((item, index) => (
           <Reveal key={item.title} delay={index * 80}>
             <div className="bg-card flex h-full gap-4 rounded-xl border p-6">

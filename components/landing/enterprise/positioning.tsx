@@ -26,7 +26,7 @@ export function EnterprisePositioning({ dict }: { dict: Dictionary }) {
           </h2>
         </Reveal>
 
-        <div className="mt-8 grid gap-x-10 gap-y-7 md:grid-cols-3">
+        <div className="mt-8 grid gap-x-6 gap-y-8 md:grid-cols-3">
           {t.items.map((item, index) => (
             <Reveal key={item.title} delay={index * 80}>
               {/* Le filet a gauche remplace la carte : trois panneaux poses ici

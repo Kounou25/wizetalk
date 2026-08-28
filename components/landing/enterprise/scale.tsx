@@ -2,7 +2,14 @@ import { Layers } from 'lucide-react';
 
 import { Reveal } from '@/components/reveal';
 import type { Dictionary } from '@/lib/i18n';
-import { Section, SectionHeading } from '../section';
+import { cn } from '@/lib/utils';
+import {
+  Section,
+  SectionHeading,
+  splitAside,
+  splitGrid,
+  splitMain,
+} from '../section';
 
 /**
  * Passage a l'echelle.
@@ -25,8 +32,8 @@ export function EnterpriseScale({ dict }: { dict: Dictionary }) {
 
   return (
     <Section>
-      <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <div>
+      <div className={cn(splitGrid, 'items-center')}>
+        <div className={splitMain}>
           <SectionHeading
             eyebrow={t.eyebrow}
             title={t.title}
@@ -39,7 +46,7 @@ export function EnterpriseScale({ dict }: { dict: Dictionary }) {
           </Reveal>
         </div>
 
-        <Reveal delay={150}>
+        <Reveal delay={150} className={splitAside}>
           <div className="bg-card rounded-2xl border p-6 md:p-8">
             <span className="bg-brand-soft text-brand flex size-10 items-center justify-center rounded-xl">
               <Layers className="size-5" aria-hidden />

@@ -39,13 +39,13 @@ export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
         {/* Bande large plutot que vignette : a cette place, l'image ouvre la
             section, elle ne la decore pas. Le degrade en pied fond la photo
             dans la page au lieu de la poser dessus comme un autocollant. */}
-        <div className="relative mt-12 h-52 overflow-hidden rounded-2xl sm:h-64 md:h-72">
+        <div className="relative mt-12 h-48 overflow-hidden rounded-2xl sm:h-60 md:h-72">
           <Image
             src="/enterprise/customer-question.jpg"
             alt={t.photoAlt}
             fill
             className="object-cover"
-            sizes="(min-width: 1152px) 1088px, 100vw"
+            sizes="(min-width: 1152px) 1104px, 100vw"
           />
           <div
             aria-hidden
@@ -79,7 +79,7 @@ export function EnterpriseProblem({ dict }: { dict: Dictionary }) {
         </p>
       </Reveal>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {t.costs.map((cost, index) => (
           <Reveal key={cost.title} delay={140 + index * 70}>
             <div className="bg-card h-full rounded-xl border p-5">
