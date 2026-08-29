@@ -17,6 +17,8 @@ interface WidgetChatProps {
   name: string;
   welcomeMessage: string;
   primaryColor: string;
+  /** Logo televerse par le proprietaire. `null` = pastille d'initiale. */
+  logoUrl: string | null;
   /** Faux quand le palier du proprietaire retire la mention Deezy. */
   showBranding: boolean;
   appUrl: string;
@@ -46,6 +48,7 @@ export function WidgetChat({
   name,
   welcomeMessage,
   primaryColor,
+  logoUrl,
   showBranding,
   appUrl,
   t,
@@ -209,9 +212,30 @@ export function WidgetChat({
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/15 to-transparent"
         />
 
-        <span className="relative flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/20 text-sm font-bold">
-          {initial}
-        </span>
+        {/*
+          Le logo prend la place de l'initiale quand il existe.
+
+          Fond blanc et `object-contain` : un logo est dessine pour du blanc,
+          et le poser sur la couleur de marque du client le rendrait souvent
+          illisible — un logo bleu sur un en-tete bleu disparait. `contain`
+          plutot que `cover` parce qu'un logo se recadre mal : on prefere des
+          marges au rognage d'un mot.
+
+          `alt=""` : le nom de l'assistant est juste a cote, en texte. Le
+          repeter ferait entendre deux fois la meme chose a un lecteur d'ecran.
+        */}
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={logoUrl}
+            alt=""
+            className="relative size-9 shrink-0 rounded-xl bg-white object-contain p-1"
+          />
+        ) : (
+          <span className="relative flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/20 text-sm font-bold">
+            {initial}
+          </span>
+        )}
 
         <div className="relative min-w-0 flex-1">
           <p className="truncate text-sm font-semibold">{name}</p>

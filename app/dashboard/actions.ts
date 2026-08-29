@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import { canCreateBot, getPlan } from '@/lib/quotas';
 import { getLimitsFor } from '@/lib/plans-db';
 import { buildUpgradeOffer, type UpgradeOffer } from '@/lib/upgrade';
+import { LOGO_BUCKET } from '@/lib/bot-logo';
 
 const botInput = z.object({
   name: z.string().trim().min(2, 'Donnez un nom à votre assistant.').max(60),
@@ -222,4 +223,89 @@ export async function deleteBot(botId: string) {
   revalidatePath('/dashboard');
   revalidatePath('/dashboard/bots');
   redirect('/dashboard/bots');
+}
+
+/**
+ * Enregistre le logo qui vient d'etre televerse, et supprime le precedent.
+ *
+ * L'ORDRE COMPTE
+ *
+ * On ecrit la nouvelle ligne AVANT de supprimer l'ancien fichier. Dans l'ordre
+ * inverse, un echec d'ecriture laisserait un assistant pointant vers un fichier
+ * qui n'existe plus — donc un logo casse chez tous les visiteurs du client.
+ * Ici, le pire cas est un fichier orphelin dans le seau : invisible, et sans
+ * consequence pour personne.
+ *
+ * Le chemin recu n'est pas fait confiance : on verifie qu'il commence bien par
+ * l'identifiant de l'assistant. Sans ce controle, un chemin forge ferait
+ * pointer un assistant vers le logo d'un autre — la politique de stockage
+ * empeche d'ECRIRE ailleurs, pas de DESIGNER ailleurs.
+ */
+export async function setBotLogo(botId: string, path: string) {
+  if (!path.startsWith(`${botId}/`)) {
+    throw new Error('Chemin de logo invalide.');
+  }
+
+  const supabase = await createClient();
+
+  // Le RLS verifie l'appartenance : un botId etranger ne touche aucune ligne,
+  // et `select` nous dit si l'ecriture a vraiment eu lieu.
+  const { data: updated } = await supabase
+    .from('bots')
+    .update({ logo_path: path })
+    .eq('id', botId)
+    .select('id')
+    .maybeSingle();
+
+  if (!updated) return;
+
+  await removeStoredLogo(botId, path);
+
+  revalidatePath(`/dashboard/bots/${botId}`);
+}
+
+/** Retire le logo : la pastille d'initiale reprend sa place. */
+export async function removeBotLogo(botId: string) {
+  const supabase = await createClient();
+
+  const { data: updated } = await supabase
+    .from('bots')
+    .update({ logo_path: null })
+    .eq('id', botId)
+    .select('id')
+    .maybeSingle();
+
+  if (!updated) return;
+
+  await removeStoredLogo(botId, null);
+
+  revalidatePath(`/dashboard/bots/${botId}`);
+}
+
+/**
+ * Vide le dossier de logos d'un assistant, sauf le fichier a conserver.
+ *
+ * Balayer le dossier plutot que retenir le chemin precedent : c'est ce qui
+ * rattrape aussi les fichiers laisses par un envoi interrompu entre le
+ * televersement et l'enregistrement. Sans cela, chaque changement de logo
+ * abandonnerait un fichier de plus dans le seau.
+ *
+ * NE LEVE JAMAIS : le logo est deja enregistre a ce stade. Un menage rate est
+ * quelques kilo-octets perdus, pas une fonctionnalite cassee.
+ */
+async function removeStoredLogo(botId: string, keep: string | null) {
+  try {
+    const supabase = await createClient();
+
+    const { data: files } = await supabase.storage.from(LOGO_BUCKET).list(botId);
+    if (!files?.length) return;
+
+    const stale = files
+      .map((file) => `${botId}/${file.name}`)
+      .filter((path) => path !== keep);
+
+    if (stale.length) await supabase.storage.from(LOGO_BUCKET).remove(stale);
+  } catch (cause) {
+    console.error('[logo] menage impossible', botId, cause);
+  }
 }

@@ -12,6 +12,7 @@ import { BotStatusBadge } from '@/components/dashboard/bot-status';
 import { BackLink, PageHeader } from '@/components/dashboard/panel';
 import { SiteFavicon } from '@/components/dashboard/site-favicon';
 import { getLimitsFor } from '@/lib/plans-db';
+import { logoPublicUrl } from '@/lib/bot-logo';
 import { getPlan } from '@/lib/quotas';
 import { TabNav, type TabItem } from '@/components/dashboard/tab-nav';
 import { TrendChart } from '@/components/dashboard/trend-chart';
@@ -62,7 +63,7 @@ export default async function BotPage({
   const { data: bot } = await supabase
     .from('bots')
     .select(
-      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, notify_leads, hide_branding, widget_locale, favicon_url, user_id',
+      'id, name, website_url, status, last_synced_at, welcome_message, primary_color, position, is_active, lead_capture, notify_leads, hide_branding, widget_locale, favicon_url, logo_path, user_id',
     )
     .eq('id', botId)
     .maybeSingle();
@@ -326,6 +327,7 @@ export default async function BotPage({
           name={bot.name}
           welcomeMessage={bot.welcome_message ?? ''}
           primaryColor={bot.primary_color}
+          logoUrl={logoPublicUrl(bot.logo_path as string | null)}
           position={bot.position}
           isActive={bot.is_active}
           leadCapture={bot.lead_capture}

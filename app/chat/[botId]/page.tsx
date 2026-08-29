@@ -7,6 +7,7 @@ import { WidgetChat } from './widget-chat';
 import { getLimitsFor } from '@/lib/plans-db';
 import { getPlan } from '@/lib/quotas';
 import { PUBLIC_APP_URL } from '@/lib/public-url';
+import { logoPublicUrl } from '@/lib/bot-logo';
 
 /**
  * Interieur de l'iframe du widget.
@@ -25,11 +26,31 @@ export default async function ChatPage({
 
   const db = createAdminClient();
 
-  const { data: bot } = await db
+  /*
+   * Le logo est demande a part du reste, et son absence ne fait pas echouer.
+   *
+   * `logo_path` est arrive avec la migration 0018. Si le code part en
+   * production avant qu'elle soit passee, PostgREST rejette la requete
+   * entiere — et cette page rend un 404, donc TOUS les widgets installes chez
+   * les clients deviennent noirs. Le repli sans la colonne transforme cet
+   * incident en simple absence de logo, le temps que la migration passe.
+   *
+   * La liste des champs est une constante : ecrite deux fois, elle divergerait
+   * a la premiere colonne ajoutee, et le repli servirait alors des donnees
+   * incompletes sans que personne ne le remarque.
+   */
+  const FIELDS =
+    'id, name, welcome_message, primary_color, is_active, hide_branding, widget_locale, user_id';
+
+  let { data: bot } = await db
     .from('bots')
-    .select('id, name, welcome_message, primary_color, is_active, hide_branding, widget_locale, user_id')
+    .select(`${FIELDS}, logo_path`)
     .eq('id', botId)
     .maybeSingle();
+
+  if (!bot) {
+    ({ data: bot } = await db.from('bots').select(FIELDS).eq('id', botId).maybeSingle());
+  }
 
   if (!bot || !bot.is_active) notFound();
 
@@ -78,6 +99,7 @@ export default async function ChatPage({
       // resolue plus haut.
       welcomeMessage={bot.welcome_message ?? dict.widget.welcomeDefault}
       primaryColor={bot.primary_color}
+      logoUrl={logoPublicUrl((bot as { logo_path?: string | null }).logo_path)}
       showBranding={!(limits.removeBranding && bot.hide_branding)}
       appUrl={PUBLIC_APP_URL}
       t={dict.widget}

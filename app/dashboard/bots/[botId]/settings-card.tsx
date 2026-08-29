@@ -19,6 +19,7 @@ import {
   updateBot,
   type BotFormState,
 } from '@/app/dashboard/actions';
+import { LogoField } from './logo-field';
 
 /** Teintes lisibles en blanc : le texte du widget est toujours clair dessus. */
 /** Domaine du reglage de langue, aligne sur la contrainte en base. */
@@ -41,6 +42,8 @@ interface SettingsCardProps {
   name: string;
   welcomeMessage: string;
   primaryColor: string;
+  /** Adresse publique du logo, deja resolue par la page. `null` = pastille d'initiale. */
+  logoUrl: string | null;
   position: string;
   isActive: boolean;
   leadCapture: boolean;
@@ -60,6 +63,7 @@ export function SettingsCard({
   name: initialName,
   welcomeMessage: initialWelcome,
   primaryColor: initialColor,
+  logoUrl,
   position: initialPosition,
   isActive: initialActive,
   leadCapture: initialLeadCapture,
@@ -158,6 +162,8 @@ export function SettingsCard({
                 </label>
               </div>
             </div>
+
+            <LogoField botId={botId} logoUrl={logoUrl} dict={dict} />
 
             <div className="flex flex-col gap-2">
               <Label>{t.positionLabel}</Label>
@@ -344,6 +350,7 @@ export function SettingsCard({
             name={name}
             welcome={welcome}
             color={color}
+            logoUrl={logoUrl}
             position={position}
             t={t}
           />
@@ -460,12 +467,14 @@ function WidgetPreview({
   name,
   welcome,
   color,
+  logoUrl,
   position,
   t,
 }: {
   name: string;
   welcome: string;
   color: string;
+  logoUrl: string | null;
   position: string;
   t: SettingsText;
 }) {
@@ -494,7 +503,16 @@ function WidgetPreview({
               className="flex items-center gap-2 px-3 py-2.5"
               style={{ backgroundColor: color }}
             >
-              <ChatGlyph className="size-5" />
+              {logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoUrl}
+                  alt=""
+                  className="size-5 shrink-0 rounded bg-white object-contain p-0.5"
+                />
+              ) : (
+                <ChatGlyph className="size-5" />
+              )}
               <span className="truncate text-xs font-semibold text-white">
                 {name || 'Assistant'}
               </span>
